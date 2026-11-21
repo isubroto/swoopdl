@@ -331,13 +331,20 @@ const ok = (what) => {
 {
   const { api, calls, listeners } = fakeApi({ firefox: false });
   load(api, false);
-  let suggested = false;
-  listeners.determining(
+  const suggestions = [];
+  const pending = listeners.determining(
     { id: 3, url: "https://x/redirect", finalUrl: "https://cdn/x.msi", filename: "x.msi", incognito: true },
-    () => (suggested = true),
+    (...args) => {
+      suggestions.push(args);
+      calls.push(["suggest"]);
+    },
   );
+  assert.equal(pending, true, "Chrome waits for the asynchronous filename callback");
+  assert.equal(suggestions.length, 0, "the filename wait is held while the app decides");
   await settle();
-  assert.ok(!suggested, "a download the app took is never named: Chrome wrote none of it");
+  assert.deepEqual(suggestions, [[]], "Chrome's callback is completed exactly once without overriding the filename");
+  assert.ok(calls.findIndex((c) => c[0] === "cancel") < calls.findIndex((c) => c[0] === "suggest"),
+    "an accepted download is cancelled before its filename wait is released");
   const cookies = calls.find((c) => c[0] === "cookies");
   assert.deepEqual(cookies[1], { url: "https://x/redirect", storeId: "1" });
   const [m] = natives(calls);
@@ -418,15 +425,17 @@ const ok = (what) => {
 }
 
 // The extension installed without the app: the help page opens at its section.
+// Local setup keeps installation quiet; connection status and menus remain available.
 {
   const { api, calls, listeners } = fakeApi({ firefox: false, host: false });
   load(api, false);
   await listeners.installed({ reason: "install" });
   await settle();
-  assert.ok(calls.some((c) => c[0] === "openTab" && c[1].endsWith("#not-installed")));
+  assert.ok(!calls.some((c) => c[0] === "openTab"), "local installation never opens a tab automatically");
+  assert.ok(calls.some((c) => c[0] === "badge" && c[1] === "!"), "missing host remains visible in the toolbar");
   const items = calls.filter((c) => c[0] === "menu-item").map((c) => c[1].id);
   assert.deepEqual(items, ["sdl-link", "sdl-selected", "sdl-all"]);
-  ok("installed without the app: the help page, the menus");
+  ok("installed without the app: no automatic tab, connection status and menus");
 }
 
 // A form's download: posted again by the app with the same body (it can't be a GET).

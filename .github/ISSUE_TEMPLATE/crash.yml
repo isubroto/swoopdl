@@ -1,0 +1,70 @@
+# The crash report window uses crash.yml and the field IDs in crates/app/src/crashui.rs
+# and crates/crash/src/github.rs. Keep prefilled fields as text inputs or textareas.
+name: Crash report
+description: Submit a generated report for a Swoopdl crash, freeze, or unexpected exit.
+title: "[Crash]: "
+labels: [bug, crash]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## Report a crash or freeze
+        If you opened this form from Swoopdl's crash report window, keep the generated signature and system details.
+        Search existing issues for the same signature before opening a new report.
+        Without a generated report, use **Bug report** and describe the crash there.
+
+        **Review the report before publishing.** Remove private URLs, tokens, usernames, and personal file paths.
+        Memory dumps (`.dmp`) may contain sensitive memory contents. Do not attach them to a public issue.
+        Report security vulnerabilities through **Security → Report a vulnerability**, if available; otherwise contact a maintainer privately.
+  - type: input
+    id: signature
+    attributes:
+      label: Crash signature
+      description: Copy the signature exactly from the crash report window. It groups reports of the same failure.
+      placeholder: The generated signature, unchanged
+    validations:
+      required: true
+  - type: input
+    id: kind
+    attributes:
+      label: Failure type
+      description: Keep the generated value, such as crash, panic, freeze, or exit.
+  - type: input
+    id: version
+    attributes:
+      label: Swoopdl version
+      description: Include the commit hash if the report provides one.
+    validations:
+      required: true
+  - type: input
+    id: os
+    attributes:
+      label: Operating system and architecture
+  - type: input
+    id: os-version
+    attributes:
+      label: Operating system version
+  - type: input
+    id: install
+    attributes:
+      label: Installation method
+  - type: textarea
+    id: what
+    attributes:
+      label: What were you doing before the failure?
+      description: Include steps, relevant settings, and whether the failure happens again. Leave blank if unknown.
+      placeholder: Describe your last action before the crash or freeze.
+  - type: textarea
+    id: report
+    attributes:
+      label: Crash report
+      description: Keep the generated report after reviewing it for private data. If truncated, attach a reviewed .txt report in Additional context below.
+      render: text
+    validations:
+      required: true
+  - type: textarea
+    id: context
+    attributes:
+      label: Additional context or attachments
+      description: Attach a reviewed .txt report or screenshots here. Do not attach memory dumps or secrets.
+      placeholder: Note any recent changes, repeated failures, or workaround.

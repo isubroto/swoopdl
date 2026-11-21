@@ -1,0 +1,39 @@
+Swoopdl browser extension: local setup
+
+The extension files are included with Swoopdl. Setup never downloads the
+extension from a website or browser store. Browser approval is required.
+
+Windows
+Select browser integration in the installer, then run the optional local
+setup on its final page. You can also run install-local.ps1 from this folder.
+
+Linux
+Choose "Swoopdl Browser Setup" from the applications menu for .deb/.rpm
+installations, or run: sh /path/to/extension/install-local.sh
+For an AppImage, extract it to a permanent location first:
+  ./Swoopdl.AppImage --appimage-extract
+  sh squashfs-root/usr/share/swoopdl/extension/install-local.sh
+Keep that extracted folder in place after setup.
+
+macOS
+Copy Swoopdl.app to Applications, then double-click "Set up browser
+extension.command" in the disk image. The same launcher is also bundled at:
+  Swoopdl.app/Contents/Resources/extension/
+Safari integration is not included in this Chromium/Firefox setup.
+
+Chromium browsers (Chrome, Edge, Brave, Chromium)
+Open the browser's extensions page, enable Developer mode, select
+"Load unpacked", and choose the chromium folder beside this file.
+Keep the installation folder in place. Do not select a ZIP file.
+
+Firefox
+The build produces an unsigned development XPI. Open about:debugging,
+choose "This Firefox", then "Load Temporary Add-on", and select sdl-firefox.xpi.
+This temporary installation lasts only until Firefox restarts.
+Permanent installation in standard Firefox requires a Mozilla-signed XPI.
+A signed XPI can be distributed inside this installer without a store listing.
+
+The setup helpers register the bundled native messaging host for your user.
+They do not change browser profiles or enterprise policies.
+For manual host registration, run the installed swoopdl-nmhost with --register.
+Portable Windows archives do not register anything automatically.

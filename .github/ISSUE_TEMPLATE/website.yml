@@ -1,0 +1,64 @@
+# Keep website.yml and page: tools/website/build.py prefills page from its report links.
+name: Website or documentation issue
+description: Report incorrect instructions, broken links, missing information, or website display problems.
+title: "[Docs]: "
+labels: [website]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## Improve the website or documentation
+        Use this form for Swoopdl website pages, user guides, and repository documentation.
+        For a problem with the application itself, use **Bug report**.
+        Search existing issues first and remove private information from links and screenshots.
+  - type: input
+    id: page
+    attributes:
+      label: Affected page or documentation file
+      description: Paste the page URL or repository file path. Include a section heading if relevant.
+      placeholder: docs/getting-started.md, README.md, or a public page URL
+    validations:
+      required: true
+  - type: dropdown
+    id: category
+    attributes:
+      label: Type of issue
+      options:
+        - Incorrect or outdated information
+        - Missing or unclear instructions
+        - Broken link or download link
+        - Layout, readability, or accessibility
+        - Typo or translation
+        - Other
+    validations:
+      required: true
+  - type: textarea
+    id: problem
+    attributes:
+      label: What is wrong or missing?
+      description: Quote the relevant text, identify the broken link, or explain how to reproduce the display problem.
+      placeholder: Describe what the page says or does and why it causes a problem.
+    validations:
+      required: true
+  - type: textarea
+    id: suggestion
+    attributes:
+      label: Suggested correction
+      description: Explain what the page should say or do. Leave blank if unsure.
+  - type: input
+    id: browser
+    attributes:
+      label: Browser and device
+      description: For display or interaction problems, include browser version, operating system, and screen size if known.
+      placeholder: Firefox on Linux, or Safari on iPhone
+  - type: input
+    id: language
+    attributes:
+      label: Page language
+      description: For translation problems, include the original text and your suggested translation above.
+      placeholder: English (en)
+  - type: textarea
+    id: screenshots
+    attributes:
+      label: Screenshots or additional context
+      description: Attach screenshots or details that help locate the problem. Remove private data first.

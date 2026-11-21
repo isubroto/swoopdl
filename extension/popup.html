@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light dark">
+  <title>Swoopdl</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <div class="app-shell">
+    <header class="app-header">
+      <div class="brand">
+        <span class="brand-icon"><img src="icons/icon-32.png" width="28" height="28" alt=""></span>
+        <span class="brand-copy"><strong>Swoopdl</strong><small>Download companion</small></span>
+      </div>
+      <span class="version" id="version" aria-label="Extension version"></span>
+    </header>
+
+    <main>
+      <section id="status" class="status" role="status" aria-live="polite">
+        <div class="status-top">
+          <span class="status-kicker">CONNECTION STATUS</span>
+          <span class="status-pill" id="status-label">Checking</span>
+        </div>
+        <div class="status-main"><span class="dot" aria-hidden="true"></span><span id="status-text">Checking Swoopdl…</span></div>
+        <a id="fix" class="setup-link" href="help.html" hidden data-i18n="popup_fix" target="_blank" rel="noopener noreferrer"></a>
+      </section>
+
+      <p id="declined" class="declined" hidden><span id="declined-what"></span><span id="declined-why"></span></p>
+
+      <section class="panel controls" aria-label="Download controls">
+        <div class="section-heading"><h2>Capture</h2><span>Browser downloads</span></div>
+        <label class="setting-row" for="take">
+          <span class="setting-copy"><span class="setting-name" data-i18n="popup_take"></span><span class="setting-desc">Send supported files to Swoopdl</span></span>
+          <span class="switch-wrap"><input id="take" type="checkbox" role="switch"><span class="toggle" aria-hidden="true"></span></span>
+        </label>
+        <label class="setting-row" id="proxy-row" for="proxy" hidden>
+          <span class="setting-copy"><span class="setting-name" data-i18n="popup_proxy"></span><span class="setting-desc">Only when you enable it</span></span>
+          <span class="switch-wrap"><input id="proxy" type="checkbox" role="switch"><span class="toggle" aria-hidden="true"></span></span>
+        </label>
+      </section>
+
+      <section id="send" class="panel send">
+        <div class="section-heading"><h2 data-i18n="popup_send_to"></h2><span>Choose a destination</span></div>
+        <div class="destinations" role="group" aria-label="Download destination">
+          <label class="choice"><input type="radio" name="to" id="to-here"><span class="choice-radio" aria-hidden="true"></span><span class="choice-label" data-i18n="popup_send_here"></span></label>
+          <label class="choice"><input type="radio" name="to" id="to-remote"><span class="choice-radio" aria-hidden="true"></span><span class="choice-label" data-i18n="popup_send_remote"></span></label>
+        </div>
+        <div id="remote-form" class="remote-form" hidden>
+          <label class="input-label" for="remote-url">Secure device address</label>
+          <input id="remote-url" type="url" dir="ltr" inputmode="url" autocomplete="url" placeholder="Your paired device address">
+          <label class="input-label" for="remote-code">Pairing code</label>
+          <input id="remote-code" type="text" inputmode="numeric" autocomplete="one-time-code" maxlength="9" dir="ltr" data-i18n-placeholder="popup_remote_code">
+          <button id="remote-pair" class="btn primary wide" data-i18n="popup_remote_pair"></button>
+          <p class="note" data-i18n="popup_remote_help"></p>
+          <p id="remote-said" class="note bad" role="status" hidden></p>
+        </div>
+      </section>
+
+      <div class="site-tools"><button id="exclude" class="btn subtle wide" hidden></button><p id="excluded" class="note" hidden></p></div>
+      <div class="actions">
+        <button id="open" class="btn primary" data-i18n="popup_open"></button>
+        <button id="options" class="btn secondary" data-i18n="popup_options"></button>
+      </div>
+
+      <section id="media" class="panel media" hidden>
+        <div class="section-heading"><h2 data-i18n="popup_media"></h2><span>Detected in this tab</span></div>
+        <label class="setting-row compact" for="media-title-name">
+          <span class="setting-copy"><span class="setting-name" data-i18n="popup_media_title_name"></span></span>
+          <span class="switch-wrap"><input id="media-title-name" type="checkbox" role="switch"><span class="toggle" aria-hidden="true"></span></span>
+        </label>
+        <ul id="media-list"></ul>
+        <p id="media-none" class="note" data-i18n="popup_media_none" hidden></p>
+        <p id="media-said" class="note" role="status" hidden></p>
+      </section>
+    </main>
+
+    <footer>
+      <a id="help" href="help.html" class="help-link" data-i18n="popup_help" target="_blank" rel="noopener noreferrer"></a>
+      <span class="footer-local"><span class="footer-dot" aria-hidden="true"></span> Local-only links</span>
+    </footer>
+    <p class="keyboard-tip" data-i18n="popup_alt"></p>
+  </div>
+  <script src="popup.js"></script>
+</body>
+</html>

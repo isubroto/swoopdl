@@ -1,0 +1,55 @@
+name: Feature request
+description: Suggest a focused improvement to Swoopdl and explain the problem it solves.
+title: "[Feature]: "
+labels: [enhancement]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## Suggest an improvement
+        Submit one idea per request. Search open and closed issues first; add your use case to an existing request when possible.
+        Use **Bug report** for broken behavior or **Website or documentation issue** for documentation corrections.
+  - type: textarea
+    id: why
+    attributes:
+      label: Problem or use case
+      description: What are you trying to accomplish, and what gets in your way today?
+      placeholder: Describe a concrete task that is difficult or impossible in Swoopdl.
+    validations:
+      required: true
+  - type: textarea
+    id: idea
+    attributes:
+      label: Proposed improvement
+      description: Describe the behavior you would like and how it would solve the problem.
+      placeholder: Explain how someone would use the feature and what the result would be.
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives or workarounds
+      description: Describe anything you have tried, including existing settings or other tools.
+      placeholder: What works today, and where does it fall short?
+  - type: dropdown
+    id: os
+    attributes:
+      label: Relevant platforms
+      description: Select all that apply, or leave blank if the improvement is independent of platform.
+      multiple: true
+      options:
+        - Windows
+        - Linux
+        - macOS (experimental)
+  - type: textarea
+    id: elsewhere
+    attributes:
+      label: Examples, references, or mockups
+      description: Add public links, screenshots, or a small example. Remove private data.
+  - type: checkboxes
+    id: searched
+    attributes:
+      label: Before submitting
+      options:
+        - label: I searched this repository's open and closed issues and did not find an existing request for this improvement.
+          required: true

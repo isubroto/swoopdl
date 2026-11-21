@@ -1,0 +1,246 @@
+- generic [active] [ref=f22e1]:
+  - link "মূল বিষয়বস্তুতে যান" [ref=f22e2] [cursor=pointer]:
+    - /url: "#main"
+  - banner [ref=f22e3]:
+    - generic [ref=f22e4]:
+      - link "Swoopdl হোম" [ref=f22e5] [cursor=pointer]:
+        - /url: /?lang=bn
+        - generic [ref=f22e6]: Swoopdl
+      - navigation "মূল নেভিগেশন" [ref=f22e7]:
+        - link "সুবিধাসমূহ" [ref=f22e8] [cursor=pointer]:
+          - /url: /features/?lang=bn
+        - link "থিম" [ref=f22e9] [cursor=pointer]:
+          - /url: /themes.html?lang=bn
+        - link "ডাউনলোড" [ref=f22e10] [cursor=pointer]:
+          - /url: /download.html?lang=bn
+        - link "সহায়তা" [ref=f22e11] [cursor=pointer]:
+          - /url: /help/?lang=bn
+      - generic [ref=f22e12]:
+        - 'link "আপনার ভাষা বেছে নিন: বাংলা" [ref=f22e13] [cursor=pointer]':
+          - /url: /languages.html?lang=bn
+          - generic [ref=f22e16]: BN
+        - button "লাইট থিম চালু করুন" [pressed] [ref=f22e17] [cursor=pointer]
+        - link "Swoopdl নিন" [ref=f22e20] [cursor=pointer]:
+          - /url: /download.html?lang=bn
+  - main [ref=f22e23]:
+    - generic [ref=f22e24]:
+      - generic [ref=f22e25]:
+        - link "বিনামূল্যে। ওপেন সোর্স। পুরোপুরি আপনার।" [ref=f22e26] [cursor=pointer]:
+          - /url: /license.html?lang=bn
+        - heading "বড় ডাউনলোড। সামান্য পরিশ্রম।" [level=1] [ref=f22e30]: বড় ডাউনলোড।সামান্য পরিশ্রম।
+        - paragraph [ref=f22e31]: ফাইল, টরেন্ট ও ভিডিও লিংক।একটি ডাউনলোড ম্যানেজার, যার নিয়ন্ত্রণ আপনার হাতে।
+        - generic [ref=f22e32]:
+          - link "Swoopdl নিন" [ref=f22e33] [cursor=pointer]:
+            - /url: /download.html?lang=bn
+          - link "একবার দেখুন" [ref=f22e36] [cursor=pointer]:
+            - /url: "#features"
+        - generic [ref=f22e39]: আপনার ডেস্কটপের জন্য তৈরি।
+        - paragraph [ref=f22e47]: উন্নয়ন চলছে। সবার জন্য ডাউনলোড পরে আসবে।
+      - figure "নমুনা ডাউনলোডসহ নিজস্ব Swoopdl ইন্টারফেসের ধারণাচিত্র" [ref=f22e48]:
+        - generic [ref=f22e50]:
+          - generic [ref=f22e51]: Swoopdl
+          - generic [ref=f22e58]:
+            - generic [aria-hidden] [ref=f22e59]:
+              - generic [ref=f22e60]:
+                - text: সব ডাউনলোড
+                - generic [ref=f22e63]: "4"
+              - generic [ref=f22e64]: চলছে
+              - generic [ref=f22e67]: সম্পন্ন
+              - generic [ref=f22e70]: আপনার সংগ্রহ
+              - generic [ref=f22e71]: নথি
+              - generic [ref=f22e74]: ভিডিও
+              - generic [ref=f22e77]: টরেন্ট
+              - generic [ref=f22e80]: পছন্দসমূহ
+            - generic [ref=f22e83]:
+              - generic [ref=f22e84]:
+                - strong [ref=f22e85]:
+                  - text: আপনার ডাউনলোড
+                  - generic [ref=f22e86]: সবকিছু এক জায়গায়।
+                - generic [ref=f22e87]: লিংক যোগ করুন
+              - generic [aria-hidden] [ref=f22e90]:
+                - generic [ref=f22e91]: নাম
+                - generic [ref=f22e92]: অবস্থা
+              - generic [ref=f22e93]:
+                - generic [ref=f22e97]:
+                  - strong [ref=f22e98]: Weekend collection.zip
+                  - generic [ref=f22e99]:
+                    - text: আর্কাইভ
+                    - generic [ref=f22e100]: 1.2 GB
+                - generic [ref=f22e103]:
+                  - text: ডাউনলোড হচ্ছে
+                  - generic [ref=f22e104]: 68%
+              - generic [ref=f22e105]:
+                - generic [ref=f22e109]:
+                  - strong [ref=f22e110]: A little inspiration.mp4
+                  - generic [ref=f22e111]:
+                    - text: ভিডিও
+                    - generic [ref=f22e112]: 248 MB
+                - generic [ref=f22e113]: সম্পন্ন
+              - generic [ref=f22e116]:
+                - generic [ref=f22e120]:
+                  - strong [ref=f22e121]: Project notes.pdf
+                  - generic [ref=f22e122]:
+                    - text: নথি
+                    - generic [ref=f22e123]: 3.6 MB
+                - generic [ref=f22e124]: সম্পন্ন
+              - generic [ref=f22e127]:
+                - generic [ref=f22e131]:
+                  - strong [ref=f22e132]: Linux desktop.iso
+                  - generic [ref=f22e133]:
+                    - text: টরেন্ট
+                    - generic [ref=f22e134]: 4.7 GB
+                - generic [ref=f22e135]: সারিতে আছে
+              - generic [ref=f22e138]: এক জায়গায়। প্রতিটি ফাইল।
+        - generic [ref=f22e147]:
+          - strong [ref=f22e148]: সামলানোর ঝামেলা একটু কম।
+          - generic [ref=f22e149]: পরের কাজের জন্য আরও সুযোগ।
+        - generic [ref=f22e150]: ইন্টারফেসের ধারণাচিত্র। নমুনা ফাইল দেখানো হয়েছে।
+    - region "আপনার ডাউনলোড একসঙ্গে" [ref=f22e151]:
+      - generic [ref=f22e152]: ছোট-বড় সব ফাইল
+      - generic [ref=f22e156]: টরেন্টও আছে সঙ্গে
+      - generic [ref=f22e160]: লিংক থেকে ভিডিও
+      - generic [ref=f22e164]: বিনামূল্যে ও ওপেন সোর্স
+    - generic [ref=f22e168]:
+      - generic [ref=f22e169]:
+        - generic [ref=f22e170]:
+          - generic [ref=f22e171]: সামলানোর ঝামেলা কম। কাজ বেশি।
+          - heading "আপনার ফাইল পাওয়ার আরও সহজ উপায়।" [level=2] [ref=f22e172]: আপনার ফাইল পাওয়ারআরও সহজ উপায়।
+        - paragraph [ref=f22e173]: দ্রুত নামানো একটি নথি থেকে সারা রাতের ডাউনলোড সারি।প্রতিটি ডাউনলোডকে দিন আরেকটু দিকনির্দেশনা।
+      - generic [ref=f22e174]:
+        - article [ref=f22e175]:
+          - heading "প্রতিটি অংশ এগিয়ে চলুক।" [level=3] [ref=f22e184]
+          - paragraph [ref=f22e185]: সমর্থিত ডাউনলোডে সমান্তরাল সংযোগগুলো কাজ ভাগ করে নেয়। বাধা পেরিয়ে আবার চালু করুন, একেবারে শুরু থেকে করতে হবে না।
+          - link "ডাউনলোড ইঞ্জিন সম্পর্কে জানুন" [ref=f22e186] [cursor=pointer]:
+            - /url: /features/acceleration.html?lang=bn
+        - article [ref=f22e189]:
+          - generic [aria-hidden] [ref=f22e190]:
+            - generic [ref=f22e191]:
+              - text: নথি
+              - generic [ref=f22e194]: প্রস্তুত
+            - generic [ref=f22e195]:
+              - text: পরে দেখব
+              - generic [ref=f22e198]: সারিতে আছে
+            - generic [ref=f22e199]:
+              - text: সাপ্তাহিক ছুটির কাজ
+              - generic [ref=f22e202]: সময় নির্ধারিত
+          - heading "সবকিছুর জন্য একটি জায়গা।" [level=3] [ref=f22e203]
+          - paragraph [ref=f22e204]: ফাইল, ভিডিও ও টরেন্ট এক তালিকায়। বিভাগ ও সারি পরের ফাইলটি খুঁজে পাওয়া সহজ রাখে।
+          - link "সামান্য শৃঙ্খলা আনুন" [ref=f22e205] [cursor=pointer]:
+            - /url: /features/categories.html?lang=bn
+        - article [ref=f22e208]:
+          - generic [ref=f22e213]:
+            - text: আপনি যখন দিনের কাজ শেষ করছেন।
+            - strong [ref=f22e214]: রাত 2:00-এ শুরু করুন
+          - heading "আপনার সময়। আপনার ব্যান্ডউইথ।" [level=3] [ref=f22e218]
+          - paragraph [ref=f22e219]: পরে চালানোর জন্য সারির সময় নির্ধারণ করুন অথবা এখনই গতিসীমা দিন। দিনের বাকি কাজের জন্য সুযোগ রাখুন।
+          - link "আপনার গতি ঠিক করুন" [ref=f22e220] [cursor=pointer]:
+            - /url: /features/scheduler.html?lang=bn
+    - generic [ref=f22e225]:
+      - generic [ref=f22e226]:
+        - generic [ref=f22e227]: আরও কিছু নিয়ন্ত্রণ
+        - heading "আপনার ডাউনলোড। আপনার মতো।" [level=2] [ref=f22e228]: আপনার ডাউনলোড।আপনার মতো।
+        - paragraph [ref=f22e229]: দরকারি সবকিছু হাতের কাছে।অ্যাপ বদলানোর প্রয়োজন নেই।
+        - generic "Swoopdl-এর সুবিধাসমূহ দেখুন" [ref=f22e230]:
+          - button "নিত্যদিনের ফাইল বিরতি দিন, আবার চালু করুন, গুছিয়ে রাখুন।" [pressed] [ref=f22e231] [cursor=pointer]:
+            - generic [ref=f22e235]:
+              - strong [ref=f22e236]: নিত্যদিনের ফাইল
+              - generic [ref=f22e237]: বিরতি দিন, আবার চালু করুন, গুছিয়ে রাখুন।
+          - button "টরেন্টও একসঙ্গে ফাইল বেছে নিন। অংশগুলোর অগ্রগতি দেখুন।" [ref=f22e240] [cursor=pointer]:
+            - generic [ref=f22e244]:
+              - strong [ref=f22e245]: টরেন্টও একসঙ্গে
+              - generic [ref=f22e246]: ফাইল বেছে নিন। অংশগুলোর অগ্রগতি দেখুন।
+          - button "পাতা থেকে ভিডিও একটি লিংক, একটি ফরম্যাট, ব্যস প্রস্তুত।" [ref=f22e249] [cursor=pointer]:
+            - generic [ref=f22e253]:
+              - strong [ref=f22e254]: পাতা থেকে ভিডিও
+              - generic [ref=f22e255]: একটি লিংক, একটি ফরম্যাট, ব্যস প্রস্তুত।
+      - generic [ref=f22e258]:
+        - generic [ref=f22e259]:
+          - generic [ref=f22e260]:
+            - generic [ref=f22e261]: Swoopdl
+            - generic [aria-hidden] [ref=f22e262]: •••
+          - generic [ref=f22e263]:
+            - text: পরের কাজের জন্য প্রস্তুত
+            - heading "Weekend collection.zip" [level=3] [ref=f22e267]
+            - paragraph [ref=f22e268]: বড় একটি ফাইল। আরও কিছু নিয়ন্ত্রণ।
+            - generic [ref=f22e271]:
+              - generic [ref=f22e272]: 68% ডাউনলোড হয়েছে
+              - generic [ref=f22e273]: পুনরায় চালু করা সমর্থিত
+            - generic [ref=f22e283]: আপনার অগ্রগতি সঙ্গেই থাকে।
+        - paragraph [ref=f22e287]: নমুনা তথ্যসহ নিজস্ব ইন্টারফেসের ধারণাচিত্র।
+    - generic [ref=f22e288]:
+      - generic [ref=f22e290]:
+        - generic [ref=f22e291]: আপনার পরের দারুণ আবিষ্কার
+        - generic [ref=f22e301]: সংরক্ষণ করার মতো একটি ফাইল।
+      - generic [ref=f22e311]:
+        - generic [ref=f22e312]: খুঁজে পাওয়া থেকে গুছিয়ে রাখা
+        - heading "আপনার ব্রাউজারই পরিচয় করিয়ে দিক।" [level=2] [ref=f22e313]: আপনার ব্রাউজারইপরিচয় করিয়ে দিক।
+        - paragraph [ref=f22e314]: স্থানীয় ব্রাউজার সংযোগের মাধ্যমে সমর্থিত ডাউনলোড Swoopdl-এ আনুন। কখন চালু করবেন, তা আপনি ঠিক করবেন।
+        - link "ব্রাউজার সেটআপের নিয়ম দেখুন" [ref=f22e315] [cursor=pointer]:
+          - /url: /help/browser-integration.html?lang=bn
+        - paragraph [ref=f22e318]: নিজে সেটআপ করা ও ব্রাউজারে অনুমোদন দেওয়া প্রয়োজন।
+    - generic [ref=f22e319]:
+      - generic [ref=f22e320]:
+        - generic [ref=f22e321]: জেনে রাখার মতো কিছু বিষয়
+        - heading "ভালো প্রশ্ন। সরাসরি উত্তর।" [level=2] [ref=f22e322]: ভালো প্রশ্ন।সরাসরি উত্তর।
+        - link "সব প্রশ্ন" [ref=f22e323] [cursor=pointer]:
+          - /url: /faq/?lang=bn
+      - generic [ref=f22e327]:
+        - group [ref=f22e328]:
+          - generic "Swoopdl কি বিনামূল্যে?" [ref=f22e329] [cursor=pointer]
+        - group [ref=f22e332]:
+          - generic "কোথা থেকে ডাউনলোড করতে পারব?" [ref=f22e333] [cursor=pointer]
+        - group [ref=f22e336]:
+          - generic "কোন কোন অপারেটিং সিস্টেম সমর্থিত?" [ref=f22e337] [cursor=pointer]
+        - group [ref=f22e340]:
+          - generic "ব্রাউজার সংযোগ কি স্বয়ংক্রিয়ভাবে কাজ করে?" [ref=f22e341] [cursor=pointer]
+        - group [ref=f22e344]:
+          - generic "বাধাপ্রাপ্ত ডাউনলোড কি আবার চালু করতে পারব?" [ref=f22e345] [cursor=pointer]
+        - group [ref=f22e348]:
+          - generic "এই ওয়েবসাইট কি আমাকে ট্র্যাক করে?" [ref=f22e349] [cursor=pointer]
+    - generic [ref=f22e353]:
+      - generic [ref=f22e354]:
+        - generic [ref=f22e355]: আপনার পরের ডাউনলোড ম্যানেজারের সঙ্গে পরিচিত হোন
+        - heading "ভালো কিছু। আসছে সামনে।" [level=2] [ref=f22e356]: ভালো কিছু।আসছে সামনে।
+        - paragraph [ref=f22e357]: Swoopdl তৈরি হচ্ছে। প্রাপ্যতা দেখুন, প্রস্তুত থাকুন।
+      - link "Swoopdl নিন" [ref=f22e358] [cursor=pointer]:
+        - /url: /download.html?lang=bn
+  - contentinfo [ref=f22e361]:
+    - generic [ref=f22e362]:
+      - generic [ref=f22e363]:
+        - generic [ref=f22e364]:
+          - link "Swoopdl" [ref=f22e365] [cursor=pointer]:
+            - /url: /?lang=bn
+          - paragraph [ref=f22e367]: নিয়ন্ত্রণ একটু বেশি।অপেক্ষা অনেক কম।
+        - navigation "পণ্য" [ref=f22e368]:
+          - heading "পণ্য" [level=2] [ref=f22e369]
+          - link "সুবিধাসমূহ" [ref=f22e370] [cursor=pointer]:
+            - /url: /features/?lang=bn
+          - link "থিম" [ref=f22e371] [cursor=pointer]:
+            - /url: /themes.html?lang=bn
+          - link "ডাউনলোড ও সেটআপ" [ref=f22e372] [cursor=pointer]:
+            - /url: /download.html?lang=bn
+          - link "শুরু করুন" [ref=f22e373] [cursor=pointer]:
+            - /url: /help/?lang=bn
+        - navigation "প্রয়োজনীয় তথ্য" [ref=f22e374]:
+          - heading "প্রয়োজনীয় তথ্য" [level=2] [ref=f22e375]
+          - link "ভাষাসমূহ" [ref=f22e376] [cursor=pointer]:
+            - /url: /languages.html?lang=bn
+          - link "উন্নয়নের অবস্থা" [ref=f22e377] [cursor=pointer]:
+            - /url: /news.html?lang=bn
+          - link "প্রশ্ন ও উত্তর" [ref=f22e378] [cursor=pointer]:
+            - /url: /faq/?lang=bn
+          - link "ব্রাউজার সংযোগ" [ref=f22e379] [cursor=pointer]:
+            - /url: /help/browser-integration.html?lang=bn
+          - link "ওপেন সোর্স লাইসেন্স" [ref=f22e380] [cursor=pointer]:
+            - /url: /license.html?lang=bn
+        - navigation "তথ্য" [ref=f22e381]:
+          - heading "তথ্য" [level=2] [ref=f22e382]
+          - link "গোপনীয়তা" [ref=f22e383] [cursor=pointer]:
+            - /url: /privacy.html?lang=bn
+          - link "নিরাপত্তা" [ref=f22e384] [cursor=pointer]:
+            - /url: /security.html?lang=bn
+          - link "ব্যবহারের শর্তাবলি" [ref=f22e385] [cursor=pointer]:
+            - /url: /terms.html?lang=bn
+      - generic [ref=f22e386]:
+        - generic [ref=f22e387]: আপনার পরবর্তী ডাউনলোডের জন্য।
+        - generic [ref=f22e388]: মুক্ত সফটওয়্যার। আপনার ব্যবহারের জন্য।

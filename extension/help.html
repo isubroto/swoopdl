@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="color-scheme" content="light dark">
+  <title>Swoopdl — Offline help</title>
+  <style>
+    :root { color-scheme:dark light; --bg:#101827; --card:#192536; --edge:#304057; --ink:#edf6ff; --muted:#b0bfd0; --accent:#55c7f5; }
+    @media(prefers-color-scheme:light){:root{--bg:#f0f5fb;--card:white;--edge:#d9e4ef;--ink:#13233a;--muted:#536a81;--accent:#087db8}}
+    *{box-sizing:border-box} body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.6 system-ui,"Segoe UI",sans-serif}main{max-width:760px;margin:0 auto;padding:34px 20px 68px}
+    .brand{color:var(--accent);font-weight:700;letter-spacing:.025em;font-size:12px}h1{font-size:31px;letter-spacing:-.035em;margin:7px 0 10px}p{color:var(--muted)}.lead{margin-bottom:28px}
+    section{margin:12px 0;padding:20px 22px;border:1px solid var(--edge);border-radius:15px;background:var(--card)}h2{font-size:17px;margin:0 0 6px}section p{margin:0}
+    code{font:13px/1.5 ui-monospace,monospace;overflow-wrap:anywhere;color:var(--accent)}
+  </style>
+</head>
+<body><main>
+  <div class="brand">SWOOPDL / LOCAL HELP</div>
+  <h1>Browser integration</h1>
+  <p class="lead">This guide is bundled with Swoopdl. It does not load websites, submit diagnostics, or require an internet connection.</p>
+  <section id="not-installed"><h2>Desktop app or host not installed</h2><p>Install Swoopdl with browser integration selected. If you installed the extension before the app, finish the desktop installation, then reload the extension. The extension needs the <code>com.swoopdl.host</code> Native Messaging host registered by the installer.</p></section>
+  <section id="forbidden"><h2>Browser access is restricted</h2><p>Confirm the extension is enabled and allowed to access the required sites. Check enterprise/browser restrictions if Native Messaging is disabled by policy.</p></section>
+  <section id="not-running"><h2>Swoopdl is not responding</h2><p>Start the desktop app, wait for it to finish opening, then reopen the extension. Try repairing the Swoopdl desktop installation if the connection still fails.</p></section>
+  <section id="host-failed"><h2>Native host could not connect</h2><p>Restart the browser and the desktop app. Verify the installer registered the host and that the executable path still exists. Reinstall or repair Swoopdl if the registration is stale.</p></section>
+  <section id="too-large"><h2>Message too large</h2><p>Try a smaller batch of links. The browser-to-desktop messaging protocol has payload limits.</p></section>
+  <section id="update-app"><h2>Version mismatch</h2><p>Use matching Swoopdl desktop app and extension versions, then reload the extension.</p></section>
+  <section id="options"><h2>A download stayed in the browser</h2><p>Open the desktop app's integration settings and verify browser capture is enabled. File-type rules, exclusions, minimum size, or paused capture can leave a download with the browser by design.</p></section>
+  <section id="store-youtube"><h2>Media visibility</h2><p>Protected media cannot be downloaded through Swoopdl. Some players do not expose a direct media file or stream URL.</p></section>
+  <section id="site-access"><h2>Site permission</h2><p>Give the extension access to the website if you want it to capture downloads and cookies there. Restricted sites remain in the browser.</p></section>
+  <section id="remote"><h2>Another Swoopdl device</h2><p>Pair only with a Swoopdl device you control using its secure address and pairing code. Pairing communicates with that device, but the extension never opens an unrelated support website.</p></section>
+</main></body></html>

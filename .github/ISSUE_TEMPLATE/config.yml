@@ -1,0 +1,4 @@
+# Route reports through the bug, crash, feature, and website/documentation forms.
+# Use only Swoopdl-owned support and security endpoints.
+# Add contact_links when owned Swoopdl help and private security URLs are established.
+blank_issues_enabled: false

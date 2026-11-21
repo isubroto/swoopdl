@@ -1,0 +1,117 @@
+# Help -> Report a problem uses bug.yml and the IDs in crates/app/src/help.rs.
+# Keep os, os-version, version, install and language as text fields: dropdowns lose URL-prefilled values.
+name: Bug report
+description: Report a reproducible problem with Swoopdl downloads, installation, or interface.
+title: "[Bug]: "
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## Report a Swoopdl bug
+        Describe one problem per report. Search this repository's open and closed issues first.
+        If a crash report window generated a report, use **Crash report** instead.
+
+        **Help → Report a problem**, when configured for your build, fills in your version and system details.
+        **Everything here is public.** Remove passwords, cookies, tokens, private download links, and personal file paths.
+        Report security vulnerabilities through **Security → Report a vulnerability**, if available; otherwise contact a maintainer privately.
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened?
+      description: Describe the problem and include the exact error message, if any.
+      placeholder: When I resume a paused download, it starts from zero instead of continuing.
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      description: Include relevant settings and a public sample URL if safe to share.
+      placeholder: |
+        1. Add a public download URL.
+        2. Pause the download after it reaches 10%.
+        3. Resume the download.
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+      placeholder: The download continues from its previous position.
+    validations:
+      required: true
+  - type: dropdown
+    id: area
+    attributes:
+      label: Affected area
+      options:
+        - HTTP/HTTPS downloads, speed, or resume
+        - Torrents or magnet links
+        - Queues or scheduler
+        - Window, menus, dialogs, or accessibility
+        - Installation, startup, updates, or removal
+        - Languages or translations
+        - Video downloads or link extraction
+        - Bundled browser extension or native messaging
+        - Command line, automation API, or MCP server
+        - Other or unsure
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: Swoopdl version
+      description: Copy the version from Help → About. Include the commit hash for a source build.
+      placeholder: 0.1.0 (commit hash, if available)
+    validations:
+      required: true
+  - type: input
+    id: os
+    attributes:
+      label: Operating system and architecture
+      placeholder: Windows 11 x64, Ubuntu x64, or macOS Apple Silicon
+    validations:
+      required: true
+  - type: input
+    id: os-version
+    attributes:
+      label: Operating system version
+      description: Include the Windows build number, Linux distribution and version, or macOS version.
+      placeholder: Windows 11 24H2 (build 26100) or Ubuntu 24.04
+    validations:
+      required: true
+  - type: input
+    id: install
+    attributes:
+      label: Installation method
+      description: >-
+        State how you installed or built this copy. Include the package source if relevant. The installer (setup.exe), portable ZIP, or another installation method.
+        Recognized installation and operating system choices: The installer (setup.exe), The portable zip, The plain zip, The .dmg, The AppImage, The .deb, The .rpm, The .tar.gz, Another package manager, Built from source, Windows 11, Windows 10, macOS (Apple Silicon), macOS (Intel), Linux, or Other.
+      placeholder: Windows installer, portable ZIP, AppImage, .deb, .rpm, .dmg, or built from source
+    validations:
+      required: true
+  - type: input
+    id: browser
+    attributes:
+      label: Browser and extension version
+      description: For browser-related problems only. Include whether you loaded the bundled Chromium extension or the Firefox XPI.
+      placeholder: Browser version; extension version and installation source, if used
+  - type: input
+    id: language
+    attributes:
+      label: Interface language
+      placeholder: English (en)
+  - type: textarea
+    id: log
+    attributes:
+      label: Logs, screenshots, and additional context
+      description: Hover over a download's Status for recent events. Paste relevant errors or attach screenshots after removing private data.
+      placeholder: Include whether this happens every time, when it started, and any workaround you found.
+  - type: checkboxes
+    id: searched
+    attributes:
+      label: Before submitting
+      options:
+        - label: I searched this repository's open and closed issues and did not find an existing report of this problem.
+          required: true

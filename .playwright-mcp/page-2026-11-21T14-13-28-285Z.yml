@@ -1,0 +1,245 @@
+- generic [active] [ref=f45e1]:
+  - link "Skip to content" [ref=f45e2] [cursor=pointer]:
+    - /url: "#main"
+  - banner [ref=f45e3]:
+    - generic [ref=f45e4]:
+      - link "Swoopdl home" [ref=f45e5] [cursor=pointer]:
+        - /url: /
+        - generic [ref=f45e6]: Swoopdl
+      - navigation "Main navigation" [ref=f45e7]:
+        - link "Features" [ref=f45e8] [cursor=pointer]:
+          - /url: /features/
+        - link "Themes" [ref=f45e9] [cursor=pointer]:
+          - /url: /themes.html
+        - link "Download" [ref=f45e10] [cursor=pointer]:
+          - /url: /download.html
+        - link "Help" [ref=f45e11] [cursor=pointer]:
+          - /url: /help/
+      - generic [ref=f45e12]:
+        - 'button "Choose your language: English" [ref=f45e13] [cursor=pointer]':
+          - generic [ref=f45e16]: EN
+        - button "Switch to dark theme" [ref=f45e17] [cursor=pointer]
+        - link "Get Swoopdl" [ref=f45e22] [cursor=pointer]:
+          - /url: /download.html
+  - main [ref=f45e25]:
+    - generic [ref=f45e26]:
+      - generic [ref=f45e27]:
+        - link "Free. Open source. All yours." [ref=f45e28] [cursor=pointer]:
+          - /url: /license.html
+        - heading "Big downloads. Small effort." [level=1] [ref=f45e32]: Big downloads.Small effort.
+        - paragraph [ref=f45e33]: Files, torrents, and video links.One download manager that keeps you in control.
+        - generic [ref=f45e34]:
+          - link "Get Swoopdl" [ref=f45e35] [cursor=pointer]:
+            - /url: /download.html
+          - link "Take a look" [ref=f45e38] [cursor=pointer]:
+            - /url: "#features"
+        - generic [ref=f45e41]: Built for your desktop.
+        - paragraph [ref=f45e49]: In development. Public downloads coming later.
+      - figure "Original Swoopdl interface concept with example downloads" [ref=f45e50]:
+        - generic [ref=f45e52]:
+          - generic [ref=f45e53]: Swoopdl
+          - generic [ref=f45e60]:
+            - generic [aria-hidden] [ref=f45e61]:
+              - generic [ref=f45e62]:
+                - text: All downloads
+                - generic [ref=f45e65]: "4"
+              - generic [ref=f45e66]: In progress
+              - generic [ref=f45e69]: Completed
+              - generic [ref=f45e72]: YOUR LIBRARY
+              - generic [ref=f45e73]: Documents
+              - generic [ref=f45e76]: Videos
+              - generic [ref=f45e79]: Torrents
+              - generic [ref=f45e82]: Preferences
+            - generic [ref=f45e85]:
+              - generic [ref=f45e86]:
+                - strong [ref=f45e87]:
+                  - text: Your downloads
+                  - generic [ref=f45e88]: Everything, in one place.
+                - generic [ref=f45e89]: Add link
+              - generic [aria-hidden] [ref=f45e92]:
+                - generic [ref=f45e93]: NAME
+                - generic [ref=f45e94]: STATUS
+              - generic [ref=f45e95]:
+                - generic [ref=f45e99]:
+                  - strong [ref=f45e100]: Weekend collection.zip
+                  - generic [ref=f45e101]:
+                    - text: Archive
+                    - generic [ref=f45e102]: 1.2 GB
+                - generic [ref=f45e105]:
+                  - text: Downloading
+                  - generic [ref=f45e106]: 68%
+              - generic [ref=f45e107]:
+                - generic [ref=f45e111]:
+                  - strong [ref=f45e112]: A little inspiration.mp4
+                  - generic [ref=f45e113]:
+                    - text: Video
+                    - generic [ref=f45e114]: 248 MB
+                - generic [ref=f45e115]: Complete
+              - generic [ref=f45e118]:
+                - generic [ref=f45e122]:
+                  - strong [ref=f45e123]: Project notes.pdf
+                  - generic [ref=f45e124]:
+                    - text: Document
+                    - generic [ref=f45e125]: 3.6 MB
+                - generic [ref=f45e126]: Complete
+              - generic [ref=f45e129]:
+                - generic [ref=f45e133]:
+                  - strong [ref=f45e134]: Linux desktop.iso
+                  - generic [ref=f45e135]:
+                    - text: Torrent
+                    - generic [ref=f45e136]: 4.7 GB
+                - generic [ref=f45e137]: Queued
+              - generic [ref=f45e140]: One place. Every file.
+        - generic [ref=f45e149]:
+          - strong [ref=f45e150]: One less thing to manage.
+          - generic [ref=f45e151]: More room for what comes next.
+        - generic [ref=f45e152]: Interface concept. Example files shown.
+    - region "Your downloads together" [ref=f45e153]:
+      - generic [ref=f45e154]: Files, big and small
+      - generic [ref=f45e158]: Torrents, built in
+      - generic [ref=f45e162]: Video from a link
+      - generic [ref=f45e166]: Free and open source
+    - generic [ref=f45e170]:
+      - generic [ref=f45e171]:
+        - generic [ref=f45e172]:
+          - generic [ref=f45e173]: Less managing. More doing.
+          - heading "A smoother way to get your files." [level=2] [ref=f45e174]: A smoother wayto get your files.
+        - paragraph [ref=f45e175]: From a quick document to an overnight queue.Give every download a little more direction.
+      - generic [ref=f45e176]:
+        - article [ref=f45e177]:
+          - heading "Keep every part moving." [level=3] [ref=f45e186]
+          - paragraph [ref=f45e187]: Parallel connections share the work on supported downloads. Resume after interruptions without starting from scratch.
+          - link "Meet the download engine" [ref=f45e188] [cursor=pointer]:
+            - /url: /features/acceleration.html
+        - article [ref=f45e191]:
+          - generic [aria-hidden] [ref=f45e192]:
+            - generic [ref=f45e193]:
+              - text: Documents
+              - generic [ref=f45e196]: Ready
+            - generic [ref=f45e197]:
+              - text: Watch later
+              - generic [ref=f45e200]: Queued
+            - generic [ref=f45e201]:
+              - text: Weekend project
+              - generic [ref=f45e204]: Scheduled
+          - heading "A place for everything." [level=3] [ref=f45e205]
+          - paragraph [ref=f45e206]: Files, videos, and torrents in one list. Categories and queues keep the next thing easy to find.
+          - link "Bring a little order" [ref=f45e207] [cursor=pointer]:
+            - /url: /features/categories.html
+        - article [ref=f45e210]:
+          - generic [ref=f45e215]:
+            - text: While you call it a day.
+            - strong [ref=f45e216]: Start at 2:00 AM
+          - heading "Your time. Your bandwidth." [level=3] [ref=f45e220]
+          - paragraph [ref=f45e221]: Schedule a queue for later or set a speed limit now. Leave room for the rest of your day.
+          - link "Set your own pace" [ref=f45e222] [cursor=pointer]:
+            - /url: /features/scheduler.html
+    - generic [ref=f45e227]:
+      - generic [ref=f45e228]:
+        - generic [ref=f45e229]: A little more control
+        - heading "Your downloads. Your way." [level=2] [ref=f45e230]: Your downloads.Your way.
+        - paragraph [ref=f45e231]: The useful things, close at hand.No need to switch between apps.
+        - generic "Explore Swoopdl features" [ref=f45e232]:
+          - button "Everyday files Pause, resume, and keep things organized." [pressed] [ref=f45e233] [cursor=pointer]:
+            - generic [ref=f45e237]:
+              - strong [ref=f45e238]: Everyday files
+              - generic [ref=f45e239]: Pause, resume, and keep things organized.
+          - button "Torrents, together Choose your files. Follow the pieces." [ref=f45e242] [cursor=pointer]:
+            - generic [ref=f45e246]:
+              - strong [ref=f45e247]: Torrents, together
+              - generic [ref=f45e248]: Choose your files. Follow the pieces.
+          - button "Video from a page A link, a format, and you're ready." [ref=f45e251] [cursor=pointer]:
+            - generic [ref=f45e255]:
+              - strong [ref=f45e256]: Video from a page
+              - generic [ref=f45e257]: A link, a format, and you're ready.
+      - generic [ref=f45e260]:
+        - generic [ref=f45e261]:
+          - generic [ref=f45e262]:
+            - generic [ref=f45e263]: Swoopdl
+            - generic [aria-hidden] [ref=f45e264]: •••
+          - generic [ref=f45e265]:
+            - text: Ready for the next thing
+            - heading "Weekend collection.zip" [level=3] [ref=f45e269]
+            - paragraph [ref=f45e270]: A big file. A little more control.
+            - generic [ref=f45e273]:
+              - generic [ref=f45e274]: 68% downloaded
+              - generic [ref=f45e275]: Resume supported
+            - generic [ref=f45e285]: Your progress stays with you.
+        - paragraph [ref=f45e289]: Original interface concept, with sample data.
+    - generic [ref=f45e290]:
+      - generic [ref=f45e292]:
+        - generic [ref=f45e293]: your next great find
+        - generic [ref=f45e303]: A file worth keeping.
+      - generic [ref=f45e313]:
+        - generic [ref=f45e314]: From found to filed
+        - heading "Let your browser make the introduction." [level=2] [ref=f45e315]: Let your browsermake the introduction.
+        - paragraph [ref=f45e316]: Bring supported downloads into Swoopdl with local browser integration. You choose when to enable it.
+        - link "See how browser setup works" [ref=f45e317] [cursor=pointer]:
+          - /url: /help/browser-integration.html
+        - paragraph [ref=f45e320]: Manual setup and browser approval required.
+    - generic [ref=f45e321]:
+      - generic [ref=f45e322]:
+        - generic [ref=f45e323]: A few things to know
+        - heading "Good questions. Straight answers." [level=2] [ref=f45e324]: Good questions.Straight answers.
+        - link "All questions" [ref=f45e325] [cursor=pointer]:
+          - /url: /faq/
+      - generic [ref=f45e329]:
+        - group [ref=f45e330]:
+          - generic "Is Swoopdl free?" [ref=f45e331] [cursor=pointer]
+        - group [ref=f45e334]:
+          - generic "Where can I download it?" [ref=f45e335] [cursor=pointer]
+        - group [ref=f45e338]:
+          - generic "Which operating systems does it support?" [ref=f45e339] [cursor=pointer]
+        - group [ref=f45e342]:
+          - generic "Does browser integration work automatically?" [ref=f45e343] [cursor=pointer]
+        - group [ref=f45e346]:
+          - generic "Can I resume an interrupted download?" [ref=f45e347] [cursor=pointer]
+        - group [ref=f45e350]:
+          - generic "Does this website track me?" [ref=f45e351] [cursor=pointer]
+    - generic [ref=f45e355]:
+      - generic [ref=f45e356]:
+        - generic [ref=f45e357]: Meet your next download manager
+        - heading "Good things. Coming down the line." [level=2] [ref=f45e358]: Good things.Coming down the line.
+        - paragraph [ref=f45e359]: Swoopdl is taking shape. Check availability and get ready.
+      - link "Get Swoopdl" [ref=f45e360] [cursor=pointer]:
+        - /url: /download.html
+  - contentinfo [ref=f45e363]:
+    - generic [ref=f45e364]:
+      - generic [ref=f45e365]:
+        - generic [ref=f45e366]:
+          - link "Swoopdl" [ref=f45e367] [cursor=pointer]:
+            - /url: /
+          - paragraph [ref=f45e369]: A little more control.A lot less waiting around.
+        - navigation "Product" [ref=f45e370]:
+          - heading "Product" [level=2] [ref=f45e371]
+          - link "Features" [ref=f45e372] [cursor=pointer]:
+            - /url: /features/
+          - link "Themes" [ref=f45e373] [cursor=pointer]:
+            - /url: /themes.html
+          - link "Download & setup" [ref=f45e374] [cursor=pointer]:
+            - /url: /download.html
+          - link "Getting started" [ref=f45e375] [cursor=pointer]:
+            - /url: /help/
+        - navigation "Resources" [ref=f45e376]:
+          - heading "Resources" [level=2] [ref=f45e377]
+          - link "Languages" [ref=f45e378] [cursor=pointer]:
+            - /url: /languages.html
+          - link "Development status" [ref=f45e379] [cursor=pointer]:
+            - /url: /news.html
+          - link "Questions & answers" [ref=f45e380] [cursor=pointer]:
+            - /url: /faq/
+          - link "Browser integration" [ref=f45e381] [cursor=pointer]:
+            - /url: /help/browser-integration.html
+          - link "Open-source licenses" [ref=f45e382] [cursor=pointer]:
+            - /url: /license.html
+        - navigation "Information" [ref=f45e383]:
+          - heading "Information" [level=2] [ref=f45e384]
+          - link "Privacy" [ref=f45e385] [cursor=pointer]:
+            - /url: /privacy.html
+          - link "Security" [ref=f45e386] [cursor=pointer]:
+            - /url: /security.html
+          - link "Terms of use" [ref=f45e387] [cursor=pointer]:
+            - /url: /terms.html
+      - generic [ref=f45e388]:
+        - generic [ref=f45e389]: Made for your next download.
+        - generic [ref=f45e390]: Free software. Yours to use.

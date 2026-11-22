@@ -78,7 +78,10 @@ impl CategoryDialog {
             Target::New => String::new(),
         };
         let modern = crate::theme::modern_layout();
-        let client = if modern {
+        let win_fluent = matches!(crate::theme::current().id.as_ref(), "win" | "fluent");
+        let client = if win_fluent {
+            [628.0, 408.0]
+        } else if modern {
             [520.0, 288.0]
         } else {
             [420.0, 196.0]
@@ -91,7 +94,27 @@ impl CategoryDialog {
             false,
             LIGHT_BG(),
             |ui, origin| {
-                let o = if modern {
+                let o = if win_fluent {
+                    let p = ui.painter();
+                    let c = crate::theme::colors();
+                    let surface = r(origin, 16.0, 16.0, 596.0, 334.0);
+                    p.rect_filled(surface, 8.0, c.tab_page);
+                    p.rect_stroke(
+                        surface,
+                        8.0,
+                        egui::Stroke::new(1.0, c.group_line),
+                        egui::StrokeKind::Inside,
+                    );
+                    winui::text_font(
+                        p,
+                        egui::FontId::proportional(22.0),
+                        origin.x + 32.0,
+                        origin.y + 52.0,
+                        crate::i18n::t(title),
+                        c.text,
+                    );
+                    origin
+                } else if modern {
                     let p = ui.painter();
                     let c = crate::theme::colors();
                     let surface = r(origin, 12.0, 12.0, 496.0, 264.0);
@@ -116,13 +139,34 @@ impl CategoryDialog {
                 };
                 let _font = modern.then(winui::ModernCompactDialogFont::enter);
                 let p = ui.painter().clone();
-                let label = |y: f32, s: &str| {
-                    winui::text_right(&p, o.x + 90.0, o.y + y, crate::i18n::t(s), LIGHT_TEXT())
+                let label = |legacy_y: f32, wide_y: f32, s: &str| {
+                    if win_fluent {
+                        winui::text_font(
+                            &p,
+                            winui::tahoma(),
+                            o.x + 32.0,
+                            o.y + wide_y,
+                            crate::i18n::t(s),
+                            crate::theme::colors().muted,
+                        );
+                    } else {
+                        winui::text_right(
+                            &p,
+                            o.x + 90.0,
+                            o.y + legacy_y,
+                            crate::i18n::t(s),
+                            LIGHT_TEXT(),
+                        );
+                    }
                 };
-                label(26.0, crate::i18n::mark("Name:"));
+                label(26.0, 88.0, crate::i18n::mark("Name:"));
                 let name_box = winui::edit_light(
                     ui,
-                    r(o, 98.0, 12.0, 310.0, 23.0),
+                    if win_fluent {
+                        r(o, 32.0, 101.0, 564.0, 36.0)
+                    } else {
+                        r(o, 98.0, 12.0, 310.0, 23.0)
+                    },
                     &mut self.name,
                     !built_in,
                     false,
@@ -132,10 +176,14 @@ impl CategoryDialog {
                     name_box.request_focus();
                     self.focused = true;
                 }
-                label(57.0, crate::i18n::mark("File types:"));
+                label(57.0, 166.0, crate::i18n::mark("File types:"));
                 winui::edit_light(
                     ui,
-                    r(o, 98.0, 43.0, 310.0, 23.0),
+                    if win_fluent {
+                        r(o, 32.0, 179.0, 564.0, 36.0)
+                    } else {
+                        r(o, 98.0, 43.0, 310.0, 23.0)
+                    },
                     &mut self.types,
                     !built_in,
                     false,
@@ -143,27 +191,38 @@ impl CategoryDialog {
                 winui::fit(
                     ui,
                     &p,
-                    o.x + 98.0,
-                    o.y + 80.0,
+                    o.x + (if win_fluent { 32.0 } else { 98.0 }),
+                    o.y + (if win_fluent { 235.0 } else { 80.0 }),
                     crate::i18n::t("Extensions separated by spaces, for example MP4 MKV R0*"),
                     LIGHT_DISABLED(),
-                    o.x + 408.0,
+                    o.x + (if win_fluent { 596.0 } else { 408.0 }),
                     "category-types-hint",
                 );
-                label(112.0, crate::i18n::mark("Folder:"));
+                label(112.0, 277.0, crate::i18n::mark("Folder:"));
                 // Browse as wide as its label in this language (#192); the box ends 8 px before.
-                let (browse_x, browse_w) =
-                    winui::buttons_to_right(&p, 408.0, 8.0, &[("Browse...", 73.0)], 160.0)[0];
+                let (browse_x, browse_w) = if win_fluent {
+                    (484.0, 112.0)
+                } else {
+                    winui::buttons_to_right(&p, 408.0, 8.0, &[("Browse...", 73.0)], 160.0)[0]
+                };
                 winui::edit_light(
                     ui,
-                    r(o, 98.0, 98.0, browse_x - 8.0 - 98.0, 23.0),
+                    if win_fluent {
+                        r(o, 32.0, 290.0, 440.0, 36.0)
+                    } else {
+                        r(o, 98.0, 98.0, browse_x - 8.0 - 98.0, 23.0)
+                    },
                     &mut self.folder,
                     true,
                     false,
                 );
                 if winui::button_light(
                     ui,
-                    r(o, browse_x, 99.0, browse_w, 21.0),
+                    if win_fluent {
+                        r(o, browse_x, 290.0, browse_w, 36.0)
+                    } else {
+                        r(o, browse_x, 99.0, browse_w, 21.0)
+                    },
                     "Browse...",
                     ButtonKind::Normal,
                     false,
@@ -200,18 +259,22 @@ impl CategoryDialog {
                     winui::fit(
                         ui,
                         &p,
-                        o.x + 98.0,
-                        o.y + 142.0,
+                        o.x + (if win_fluent { 32.0 } else { 98.0 }),
+                        o.y + (if win_fluent { 344.0 } else { 142.0 }),
                         e,
                         winui::ERROR(),
-                        o.x + 408.0,
+                        o.x + (if win_fluent { 596.0 } else { 408.0 }),
                         "category-taken",
                     );
                 }
                 let valid = built_in || (!name.is_empty() && !taken);
                 let ok = winui::button_light(
                     ui,
-                    r(o, 254.0, 164.0, 73.0, 21.0),
+                    if win_fluent {
+                        r(o, 389.0, 360.0, 96.0, 36.0)
+                    } else {
+                        r(o, 254.0, 164.0, 73.0, 21.0)
+                    },
                     "OK",
                     if valid {
                         ButtonKind::Default
@@ -229,7 +292,11 @@ impl CategoryDialog {
                 .clicked();
                 let cancel = winui::button_light(
                     ui,
-                    r(o, 335.0, 164.0, 73.0, 21.0),
+                    if win_fluent {
+                        r(o, 500.0, 360.0, 96.0, 36.0)
+                    } else {
+                        r(o, 335.0, 164.0, 73.0, 21.0)
+                    },
                     "Cancel",
                     ButtonKind::Normal,
                     false,

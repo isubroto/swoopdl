@@ -383,11 +383,26 @@ impl OptionsDialog {
                                 // only the visual treatment is changed for modern themes.
                                 let _surface = winui::Surface::enter(origin.x, origin.x + 720.0);
                                 let page_origin = pos2(origin.x, origin.y - 45.0);
-                                if !matches!(self.page, 0 | 1 | 3) {
+                                if !matches!(self.page, 0 | 1 | 3)
+                                    && !(matches!(
+                                        self.page,
+                                        2 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | REMOTE_PAGE
+                                    ) && matches!(
+                                        crate::theme::current().id.as_ref(),
+                                        "win" | "fluent"
+                                    ))
+                                {
                                     modern_legacy_page_surface(ui, page_origin, self.page);
                                 }
-                                let _font = (!matches!(self.page, 0 | 1 | 3))
-                                    .then(winui::ModernCompactDialogFont::enter);
+                                let _font = (!matches!(self.page, 0 | 1 | 3)
+                                    && !(matches!(
+                                        self.page,
+                                        2 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | REMOTE_PAGE
+                                    ) && matches!(
+                                        crate::theme::current().id.as_ref(),
+                                        "win" | "fluent"
+                                    )))
+                                .then(winui::ModernCompactDialogFont::enter);
                                 self.paint_page(ui, page_origin, downloads);
                             },
                         );
@@ -1149,6 +1164,10 @@ impl OptionsDialog {
     }
 
     fn save_to(&mut self, ui: &mut Ui, o: Pos2, downloads: &std::path::Path) {
+        if matches!(crate::theme::current().id.as_ref(), "win" | "fluent") {
+            self.save_to_modern(ui, o, downloads);
+            return;
+        }
         let p = ui.painter().clone();
         header(
             ui,
@@ -1336,6 +1355,176 @@ impl OptionsDialog {
         if winui::button_light(
             ui,
             settings_form_rect(o, 21.0, 477.0, 232.0, 21.0),
+            "Restore the built-in categories",
+            ButtonKind::Normal,
+            false,
+        )
+        .clicked()
+        {
+            self.commit_cat_dir(downloads);
+            let text = crate::i18n::fmt(
+                crate::i18n::t(
+                    "Bring back {names} as they were shipped: their names, file types and folders? Your own categories, General and Torrents stay as they are. Downloads already moved to General stay there.",
+                ),
+                &[("names", &crate::categories::restored_names())],
+            );
+            self.restore_ask = Some(crate::dialogs::Confirm::new(
+                crate::i18n::mark("Restore the built-in categories"),
+                text,
+            ));
+        }
+    }
+
+    /// Dedicated Win/Fluent page layout. The same category draft, folder picker,
+    /// New/Edit category windows and restore confirmation are used as in the legacy page.
+    /// Coordinates and clickable rectangles are composed together (no 1.55x transform).
+    fn save_to_modern(&mut self, ui: &mut Ui, o: Pos2, downloads: &std::path::Path) {
+        let _font = winui::ModernDialogFont::enter();
+        let p = ui.painter().clone();
+        header(
+            ui,
+            o,
+            Icon::PageSaveTo,
+            "Categories, file types, folders",
+            true,
+            201.0,
+            58.0,
+            398.0,
+        );
+        settings_card(ui, o, 108.0, 358.0);
+        modern_section_title(ui, o, 138.0, "Save To...");
+        modern_field_label(ui, o, 168.0, "Category");
+
+        let cats = Category::all();
+        self.category = self.category.min(cats.len() - 1);
+        let names: Vec<String> = cats.iter().map(|c| c.label().into_owned()).collect();
+        let labels: Vec<&str> = names.iter().map(String::as_str).collect();
+        if let Some(i) = winui::combo_light(
+            ui,
+            r(o, 32.0, 179.0, 438.0, 35.0),
+            &labels,
+            self.category,
+            true,
+            "opt-category",
+        ) {
+            self.commit_cat_dir(downloads);
+            self.category = i;
+            self.cat_dir = display_dir(&self.s.category_dir(cats[i], downloads));
+        }
+        if winui::button_light(
+            ui,
+            r(o, 482.0, 179.0, 80.0, 35.0),
+            "New",
+            ButtonKind::Normal,
+            false,
+        )
+        .clicked()
+        {
+            self.commit_cat_dir(downloads);
+            self.cat_edit = Some(crate::categories::CategoryDialog::new());
+        }
+        if winui::button_light(
+            ui,
+            r(o, 573.0, 179.0, 87.0, 35.0),
+            "Edit...",
+            ButtonKind::Normal,
+            false,
+        )
+        .clicked()
+        {
+            self.commit_cat_dir(downloads);
+            let cat = cats[self.category];
+            let folder = self.s.category_dir(cat, downloads);
+            self.cat_edit = Some(crate::categories::CategoryDialog::edit(cat, &folder));
+        }
+
+        let cat = cats[self.category];
+        let label = cat.shown();
+        let with_category = |template: &str| crate::i18n::fmt(template, &[("category", &label)]);
+        let types_label = with_category(crate::i18n::t(
+            "Automatically put in \"{category}\" category the following file types:",
+        ));
+        modern_field_label(ui, o, 241.0, &types_label);
+        let types = cat.types_text();
+        readonly(ui, r(o, 32.0, 252.0, 628.0, 35.0), &types);
+
+        let dir_line = with_category(crate::i18n::t(
+            "Default download directory for \"{category}\" category",
+        ));
+        modern_field_label(ui, o, 316.0, &dir_line);
+        winui::edit_light_on(
+            ui,
+            r(o, 32.0, 327.0, 514.0, 35.0),
+            &mut self.cat_dir,
+            true,
+            false,
+            LIGHT_PAGE(),
+        );
+        if winui::button_light(
+            ui,
+            r(o, 558.0, 327.0, 102.0, 35.0),
+            "Browse",
+            ButtonKind::Normal,
+            false,
+        )
+        .clicked()
+        {
+            let (title, from) = (dir_line.clone(), self.cat_dir.clone());
+            winui::start_pick(ui.ctx(), "options-category-folder", move || {
+                rfd::FileDialog::new()
+                    .set_title(title)
+                    .set_directory(from)
+                    .pick_folder()
+            });
+        }
+        if let Some(dir) = winui::picked(ui.ctx(), "options-category-folder") {
+            self.cat_dir = display_dir(&dir);
+        }
+        self.commit_cat_dir(downloads);
+
+        let last = with_category(crate::i18n::t(
+            "Change folder for \"{category}\" category on last selected",
+        ));
+        winui::checkbox_light(
+            ui,
+            o + vec2(34.0, 380.0),
+            &mut self.s.change_folder_on_last,
+            &last,
+            true,
+        );
+        winui::checkbox_light(
+            ui,
+            o + vec2(34.0, 420.0),
+            &mut self.s.set_creation_date,
+            "Set file creation date as provided by the server",
+            true,
+        );
+
+        settings_card(ui, o, 483.0, 165.0);
+        modern_section_title(ui, o, 512.0, "Temporary directory");
+        let none = crate::i18n::t("Not used: file parts are written next to the file");
+        readonly(ui, r(o, 32.0, 525.0, 514.0, 35.0), none);
+        winui::button_light(
+            ui,
+            r(o, 558.0, 525.0, 102.0, 35.0),
+            "Browse",
+            ButtonKind::Disabled,
+            false,
+        );
+        winui::paragraph(
+            &p,
+            o.x + 32.0,
+            o.y + 589.0,
+            crate::i18n::t(
+                "Swoopdl writes every connection straight into the final\nfile (a sparse part file next to it), so no temporary directory and no\nassembling step are needed.",
+            ),
+            crate::theme::colors().muted,
+            o.x + 646.0,
+            17.0,
+        );
+        if winui::button_light(
+            ui,
+            r(o, 16.0, 668.0, 284.0, 36.0),
             "Restore the built-in categories",
             ButtonKind::Normal,
             false,
@@ -1646,6 +1835,10 @@ impl OptionsDialog {
     }
 
     fn connection(&mut self, ui: &mut Ui, o: Pos2) {
+        if matches!(crate::theme::current().id.as_ref(), "win" | "fluent") {
+            self.connection_modern(ui, o);
+            return;
+        }
         let p = ui.painter().clone();
         header(
             ui,
@@ -1900,7 +2093,939 @@ impl OptionsDialog {
         }
     }
 
+    /// Win and Fluent share a dedicated, full-width Connection layout while retaining
+    /// the existing editable draft, learned read-only rows, quota and DNS selection flow.
+    fn connection_modern(&mut self, ui: &mut Ui, o: Pos2) {
+        let _font = winui::ModernDialogFont::enter();
+        let p = ui.painter().clone();
+        header(
+            ui,
+            o,
+            Icon::PageConnection,
+            "Connections and Limits",
+            true,
+            245.0,
+            63.0,
+            399.0,
+        );
+
+        settings_card(ui, o, 108.0, 142.0);
+        modern_section_title(ui, o, 137.0, "Max. connections number");
+        modern_field_label(ui, o, 170.0, "Default max. conn. number");
+        winui::spin_box(
+            ui,
+            r(o, 32.0, 181.0, 156.0, 35.0),
+            &mut self.conns,
+            1,
+            u64::from(self.s.connection_limit()),
+            true,
+            "opt-conns",
+        );
+        let locked = sdl_engine::download::MAX_CONNECTIONS;
+        let line = crate::i18n::fmt(
+            crate::i18n::t("Allow more than {n} connections"),
+            &[("n", &crate::i18n::integer(locked as u64))],
+        );
+        let was = self.s.many_connections;
+        winui::checkbox_light(
+            ui,
+            o + vec2(216.0, 190.0),
+            &mut self.s.many_connections,
+            &line,
+            true,
+        );
+        if was && !self.s.many_connections {
+            if self.conns.parse::<u32>().is_ok_and(|n| n > locked) {
+                self.conns = locked.to_string();
+            }
+            for (_, n) in &mut self.s.conn_exceptions {
+                *n = (*n).min(locked);
+            }
+        }
+
+        settings_card(ui, o, 265.0, 244.0);
+        modern_section_title(ui, o, 294.0, "Exceptions:");
+        let rows: Vec<Vec<String>> = self
+            .s
+            .conn_exceptions
+            .iter()
+            .map(|(server, n)| vec![server.clone(), n.to_string()])
+            .chain(
+                self.learned
+                    .iter()
+                    .filter(|(h, _)| {
+                        !self
+                            .s
+                            .conn_exceptions
+                            .iter()
+                            .any(|(s, _)| s.eq_ignore_ascii_case(h))
+                    })
+                    .map(|(h, n)| {
+                        let auto = crate::i18n::t("{n} (auto)");
+                        vec![
+                            h.clone(),
+                            crate::i18n::fmt(auto, &[("n", &crate::i18n::integer(u64::from(*n)))]),
+                        ]
+                    }),
+            )
+            .collect();
+        let (dbl, del_key) = report(
+            ui,
+            o,
+            r(o, 32.0, 309.0, 506.0, 173.0),
+            &[
+                (crate::i18n::mark("Server"), 410.0),
+                (crate::i18n::mark("Number"), 538.0),
+            ],
+            &rows,
+            &mut self.exc_rows,
+            true,
+            "opt-exceptions",
+        );
+        let sel = self
+            .exc_rows
+            .selected
+            .filter(|i| *i < self.s.conn_exceptions.len());
+        let new = winui::button_light(
+            ui,
+            r(o, 552.0, 309.0, 108.0, 36.0),
+            "New",
+            ButtonKind::Normal,
+            false,
+        )
+        .clicked();
+        let kind = if sel.is_some() {
+            ButtonKind::Normal
+        } else {
+            ButtonKind::Disabled
+        };
+        let del = winui::button_light(ui, r(o, 552.0, 358.0, 108.0, 36.0), "Delete", kind, false)
+            .clicked()
+            || del_key;
+        let edit =
+            winui::button_light(ui, r(o, 552.0, 407.0, 108.0, 36.0), "Edit", kind, false).clicked();
+        if new {
+            self.sub = Some(Sub::Exception(None, String::new(), "1".into()));
+        }
+        if let Some(i) = sel {
+            if del {
+                self.s.conn_exceptions.remove(i);
+                self.exc_rows.selected = None;
+            } else if edit || dbl {
+                let (server, n) = self.s.conn_exceptions[i].clone();
+                self.sub = Some(Sub::Exception(Some(i), server, n.to_string()));
+            }
+        }
+
+        settings_card(ui, o, 523.0, 164.0);
+        winui::checkbox_light(
+            ui,
+            o + vec2(32.0, 548.0),
+            &mut self.s.limits_on,
+            "Download limits",
+            true,
+        );
+        let on = self.s.limits_on;
+        let limits_lines = [
+            winui::SentenceLine {
+                lead: winui::Lead::Left(o.x + 42.0),
+                lead_baseline: o.y + 594.0,
+                boxes: o + vec2(295.0, 578.0),
+                gap: 10.0,
+                baseline: o.y + 594.0,
+            },
+            winui::SentenceLine {
+                lead: winui::Lead::Left(o.x + 42.0),
+                lead_baseline: o.y + 631.0,
+                boxes: o + vec2(295.0, 615.0),
+                gap: 10.0,
+                baseline: o.y + 631.0,
+            },
+        ];
+        let boxes = winui::sentence(
+            ui,
+            &p,
+            crate::i18n::t(crate::quota::LIMITS_SENTENCE),
+            &limits_lines,
+            &[("mb", vec2(108.0, 30.0)), ("hours", vec2(108.0, 30.0))],
+            |p, x, baseline, s| {
+                winui::label(p, x, baseline, s, on);
+            },
+        );
+        winui::number_field(ui, boxes[0], &mut self.mb, 1, 999_999, on, LIGHT_PAGE());
+        winui::number_field(ui, boxes[1], &mut self.hours, 1, 999, on, LIGHT_PAGE());
+        winui::checkbox_light(
+            ui,
+            o + vec2(32.0, 658.0),
+            &mut self.s.limits_warn,
+            "Show warning before stopping downloads",
+            on,
+        );
+
+        settings_card(ui, o, 704.0, 124.0);
+        modern_section_title(ui, o, 733.0, "DNS:");
+        let names = dns_names();
+        let labels: Vec<&str> = names.iter().map(String::as_str).collect();
+        if let Some(i) = winui::combo_light(
+            ui,
+            r(o, 32.0, 748.0, 506.0, 36.0),
+            &labels,
+            dns_index(&self.s),
+            true,
+            "opt-dns",
+        ) {
+            set_dns_index(&mut self.s, i);
+            if i > 0 {
+                self.sub = Some(Sub::Dns(DnsEdit::from(&self.s)));
+            }
+        }
+        let kind = if self.s.dns_mode == 0 {
+            ButtonKind::Disabled
+        } else {
+            ButtonKind::Normal
+        };
+        if winui::button_light(
+            ui,
+            r(o, 552.0, 748.0, 108.0, 36.0),
+            "Settings...",
+            kind,
+            false,
+        )
+        .clicked()
+        {
+            self.sub = Some(Sub::Dns(DnsEdit::from(&self.s)));
+        }
+    }
+
+    /// Win/Fluent-specific layout for Proxy / Socks. Keep all Settings fields and
+    /// command handling in the existing draft; only their visible geometry changes.
+    fn proxy_modern(&mut self, ui: &mut Ui, o: Pos2) {
+        let _font = winui::ModernDialogFont::enter();
+        header(
+            ui,
+            o,
+            Icon::PageProxy,
+            "Proxy / socks configuration",
+            true,
+            112.0,
+            63.0,
+            399.0,
+        );
+        let p = ui.painter().clone();
+        settings_card(ui, o, 108.0, 125.0);
+        modern_section_title(ui, o, 147.0, "Browser proxy and system settings");
+        let s = &mut self.s;
+        if winui::button_light(
+            ui,
+            r(o, 512.0, 125.0, 144.0, 35.0),
+            "Get System",
+            ButtonKind::Normal,
+            false,
+        )
+        .clicked()
+            && let Some((host, port)) = system_proxy()
+        {
+            s.proxy_mode = 3;
+            s.proxy_host = host;
+            s.proxy_port = port;
+            s.proxy_http = true;
+            s.proxy_https = true;
+        }
+        winui::checkbox_light(
+            ui,
+            pos2(o.x + 32.0, o.y + 170.0),
+            &mut s.proxy_from_browser,
+            "",
+            true,
+        );
+        let browser_note = crate::i18n::t(
+            "Use proxy/socks from a browser's request if there are download errors /\nfor the downloads intercepted from the browser",
+        );
+        let lines = winui::paragraph(
+            &p,
+            o.x + 59.0,
+            o.y + 175.0,
+            browser_note,
+            LIGHT_TEXT(),
+            o.x + 653.0,
+            16.0,
+        );
+        winui::caption_click(
+            ui,
+            r(o, 59.0, 165.0, 594.0, 18.0 * lines as f32 + 4.0),
+            "proxy-from-browser",
+            &mut s.proxy_from_browser,
+            true,
+        );
+
+        settings_card(ui, o, 250.0, 195.0);
+        modern_section_title(ui, o, 288.0, "Proxy mode");
+        let modes = [
+            (303.0, crate::i18n::mark("No proxy/socks")),
+            (338.0, crate::i18n::mark("Use system settings")),
+            (
+                373.0,
+                crate::i18n::mark("Use automatic configuration script"),
+            ),
+            (408.0, crate::i18n::mark("Manual proxy/socks configuration")),
+        ];
+        let mut group = Vec::new();
+        for (i, (y, label)) in modes.iter().enumerate() {
+            let resp = winui::radio_light(
+                ui,
+                pos2(o.x + 32.0, o.y + *y),
+                s.proxy_mode as usize == i,
+                label,
+                true,
+            );
+            if resp.clicked() {
+                s.proxy_mode = i as u8;
+            }
+            group.push(resp);
+        }
+        if let Some(i) = winui::radio_keys(ui, &group) {
+            s.proxy_mode = i as u8;
+        }
+
+        settings_card(ui, o, 460.0, 123.0);
+        modern_section_title(ui, o, 498.0, "Automatic configuration script");
+        modern_field_label(ui, o, 526.0, "Address");
+        winui::edit_light_on(
+            ui,
+            r(o, 32.0, 540.0, 624.0, 35.0),
+            &mut s.proxy_script,
+            s.proxy_mode == 2,
+            false,
+            LIGHT_PAGE(),
+        );
+
+        settings_card(ui, o, 598.0, 274.0);
+        modern_section_title(ui, o, 637.0, "Manual proxy/socks configuration");
+        let manual = s.proxy_mode == 3;
+        modern_field_label(ui, o, 669.0, "Proxy server address");
+        winui::text_font(
+            &p,
+            winui::tahoma(),
+            o.x + 506.0,
+            o.y + 669.0,
+            crate::i18n::t("Port"),
+            crate::theme::colors().muted,
+        );
+        // The port label is repeated at the point of input rather than above the host.
+        winui::edit_light_on(
+            ui,
+            r(o, 32.0, 681.0, 460.0, 35.0),
+            &mut s.proxy_host,
+            manual,
+            false,
+            LIGHT_PAGE(),
+        );
+        winui::number_field(
+            ui,
+            r(o, 506.0, 681.0, 150.0, 35.0),
+            &mut s.proxy_port,
+            1,
+            65535,
+            manual,
+            LIGHT_PAGE(),
+        );
+        modern_field_label(ui, o, 746.0, "UserName");
+        let pass_label = crate::i18n::t("Password");
+        winui::text_font(
+            &p,
+            winui::tahoma(),
+            o.x + 352.0,
+            o.y + 746.0,
+            pass_label,
+            crate::theme::colors().muted,
+        );
+        winui::edit_light_on(
+            ui,
+            r(o, 32.0, 759.0, 304.0, 35.0),
+            &mut s.proxy_user,
+            manual,
+            false,
+            LIGHT_PAGE(),
+        );
+        password(
+            ui,
+            r(o, 352.0, 759.0, 304.0, 35.0),
+            &mut s.proxy_pass,
+            manual,
+        );
+        winui::checkbox_light(
+            ui,
+            pos2(o.x + 32.0, o.y + 816.0),
+            &mut s.proxy_http,
+            "http",
+            manual,
+        );
+        winui::checkbox_light(
+            ui,
+            pos2(o.x + 117.0, o.y + 816.0),
+            &mut s.proxy_https,
+            "https",
+            manual,
+        );
+        winui::checkbox_light(
+            ui,
+            pos2(o.x + 220.0, o.y + 816.0),
+            &mut s.proxy_ftp,
+            "ftp",
+            false,
+        );
+        winui::button_light(
+            ui,
+            r(o, 452.0, 809.0, 204.0, 35.0),
+            "Advanced / Socks...",
+            ButtonKind::Disabled,
+            false,
+        );
+
+        settings_card(ui, o, 889.0, 72.0);
+        winui::checkbox_light(
+            ui,
+            pos2(o.x + 32.0, o.y + 912.0),
+            &mut s.ftp_passive,
+            "Use FTP in PASV mode",
+            true,
+        );
+        self.adapter_row(ui, o);
+    }
+
+    /// Win/Fluent dedicated credentials and cookies layout; the original branch
+    /// remains available for all other themes.
+    fn logins_modern(&mut self, ui: &mut Ui, o: Pos2) {
+        let _font = winui::ModernDialogFont::enter();
+        header(
+            ui,
+            o,
+            Icon::PageLogins,
+            "User names and passwords for servers/sites",
+            true,
+            117.0,
+            63.0,
+            399.0,
+        );
+        settings_card(ui, o, 108.0, 350.0);
+        modern_section_title(ui, o, 145.0, "Saved site logins");
+        let rows: Vec<Vec<String>> = self
+            .s
+            .site_logins
+            .iter()
+            .map(|(site, user, pass)| {
+                vec![site.clone(), user.clone(), "*".repeat(pass.chars().count())]
+            })
+            .collect();
+        let (dbl, del_key) = report(
+            ui,
+            o,
+            r(o, 32.0, 162.0, 624.0, 219.0),
+            &[
+                (crate::i18n::mark("Site/path"), 354.0),
+                (crate::i18n::mark("User"), 511.0),
+                (crate::i18n::mark("Password"), 656.0),
+            ],
+            &rows,
+            &mut self.login_rows,
+            false,
+            "opt-logins",
+        );
+        let sel = self.login_rows.selected.filter(|i| *i < rows.len());
+        let new = winui::button_light(
+            ui,
+            r(o, 32.0, 399.0, 108.0, 35.0),
+            "New",
+            ButtonKind::Normal,
+            false,
+        )
+        .clicked();
+        let kind = if sel.is_some() {
+            ButtonKind::Normal
+        } else {
+            ButtonKind::Disabled
+        };
+        let edit =
+            winui::button_light(ui, r(o, 150.0, 399.0, 108.0, 35.0), "Edit", kind, false).clicked();
+        let remove =
+            winui::button_light(ui, r(o, 268.0, 399.0, 108.0, 35.0), "Remove", kind, false)
+                .clicked()
+                || del_key;
+        if new {
+            self.sub = Some(Sub::Login(
+                None,
+                String::new(),
+                String::new(),
+                String::new(),
+            ));
+        }
+        if let Some(i) = sel {
+            if remove {
+                self.s.site_logins.remove(i);
+                self.login_rows.selected = None;
+            } else if edit || dbl {
+                let (site, user, pass) = self.s.site_logins[i].clone();
+                self.sub = Some(Sub::Login(Some(i), site, user, pass));
+            }
+        }
+        self.video_cookies_modern(ui, o);
+    }
+
+    fn video_cookies_modern(&mut self, ui: &mut Ui, o: Pos2) {
+        let p = ui.painter().clone();
+        settings_card(ui, o, 477.0, 362.0);
+        modern_section_title(ui, o, 515.0, "Cookies for video sites");
+        let browsers = sdl_tools::proc::cookie_browsers();
+        let at = self.cookie_browser.min(browsers.len() - 1);
+        let on = !self.s.video_cookies.is_empty();
+        let tip = crate::i18n::t(
+            "yt-dlp signs in to video sites with this browser's cookies, read from its files on this computer only. Used when the browser's extension didn't pass the page's own: a pasted address, a playlist.",
+        );
+        let off = winui::radio_light(ui, pos2(o.x + 32.0, o.y + 539.0), !on, "Off", true)
+            .on_hover_text(tip);
+        let from = winui::radio_light(ui, pos2(o.x + 32.0, o.y + 591.0), on, "From browser:", true)
+            .on_hover_text(tip);
+        let choose = |s: &mut Settings, i: usize| s.video_cookies = browsers[i].to_owned();
+        match winui::radio_keys(ui, &[off.clone(), from.clone()]) {
+            Some(0) => self.s.video_cookies.clear(),
+            Some(_) => choose(&mut self.s, at),
+            None if off.clicked() => self.s.video_cookies.clear(),
+            None if from.clicked() => choose(&mut self.s, at),
+            None => {}
+        }
+        let on = !self.s.video_cookies.is_empty();
+        let names: Vec<&str> = browsers
+            .iter()
+            .map(|b| crate::videodlg::browser_label(b))
+            .collect();
+        if let Some(i) = winui::combo_light(
+            ui,
+            r(o, 252.0, 582.0, 404.0, 35.0),
+            &names,
+            at,
+            on,
+            "opt-cookie-browser",
+        ) {
+            self.cookie_browser = i;
+            choose(&mut self.s, i);
+        }
+        modern_field_label(ui, o, 663.0, "Profile (optional):");
+        winui::edit_light_on(
+            ui, r(o, 32.0, 677.0, 565.0, 35.0), &mut self.s.video_cookies_profile,
+            on, false, LIGHT_PAGE(),
+        ).on_hover_text(crate::i18n::t(
+            "A profile's name or its folder. Empty: the profile used last. For a browser built on Chromium that isn't listed (Helium, Thorium...), choose Chromium and its profile's folder.",
+        ));
+        let pick_title = crate::i18n::t("Choose the profile's folder");
+        let kind = if on {
+            ButtonKind::Normal
+        } else {
+            ButtonKind::Disabled
+        };
+        if winui::button_light(ui, r(o, 606.0, 677.0, 50.0, 35.0), "...", kind, false)
+            .on_hover_text(pick_title)
+            .clicked()
+        {
+            let title = pick_title.to_owned();
+            winui::start_pick(ui.ctx(), "options-cookie-profile", move || {
+                rfd::FileDialog::new().set_title(title).pick_folder()
+            });
+        }
+        if let Some(dir) = winui::picked(ui.ctx(), "options-cookie-profile") {
+            self.s.video_cookies_profile = dir.display().to_string();
+        }
+        let chromium = on && !matches!(self.s.video_cookies.as_str(), "firefox" | "safari");
+        let (note, ink) = if cfg!(windows) && chromium {
+            (
+                crate::i18n::t(
+                    "On Windows, Chrome, Edge and Brave may lock their cookies. Firefox works.",
+                ),
+                winui::ERROR(),
+            )
+        } else {
+            (
+                crate::i18n::t("Read on this computer only, and sent only to the video's site."),
+                LIGHT_DISABLED(),
+            )
+        };
+        winui::paragraph(&p, o.x + 32.0, o.y + 773.0, note, ink, o.x + 653.0, 16.0);
+    }
+
+    /// Native-sized Win/Fluent Remote settings layout; the draft and external
+    /// remote controller keep their original ownership and event semantics.
+    fn remote_page_modern(&mut self, ui: &mut Ui, o: Pos2) {
+        let _font = winui::ModernDialogFont::enter();
+        let p = ui.painter().clone();
+        header(
+            ui,
+            o,
+            Icon::PageRemote,
+            "Remote control",
+            true,
+            180.0,
+            63.0,
+            399.0,
+        );
+        settings_card(ui, o, 108.0, 196.0);
+        modern_section_title(ui, o, 144.0, "Remote connection");
+        let adapters = self.adapters_now();
+        winui::checkbox_light(
+            ui,
+            pos2(o.x + 32.0, o.y + 157.0),
+            &mut self.s.remote_on,
+            "Let phones and computers on the local network control SDL",
+            true,
+        );
+        let on = self.s.remote_on;
+        modern_field_label(ui, o, 219.0, "Listen on:");
+        let chosen = self.s.remote_listen.trim().to_owned();
+        let mut values = vec![String::new(), sdl_remote::addrs::THIS_COMPUTER.to_owned()];
+        let mut labels = vec![
+            crate::i18n::t("Every local network address").to_owned(),
+            crate::i18n::t("This computer only (127.0.0.1)").to_owned(),
+        ];
+        for a in &adapters {
+            for ip in
+                a.v4.iter()
+                    .map(|v| v.to_string())
+                    .chain(a.v6.iter().map(|v| v.to_string()))
+            {
+                labels.push(format!("{} \u{2014} {ip}", a.name));
+                values.push(ip);
+            }
+        }
+        if !values.contains(&chosen) {
+            labels.push(crate::i18n::fmt(
+                crate::i18n::t("{adapter} (not connected)"),
+                &[("adapter", &chosen)],
+            ));
+            values.push(chosen.clone());
+        }
+        let at = values.iter().position(|v| *v == chosen).unwrap_or(0);
+        let shown: Vec<&str> = labels.iter().map(String::as_str).collect();
+        if let Some(i) = winui::combo_light(
+            ui,
+            r(o, 32.0, 233.0, 488.0, 35.0),
+            &shown,
+            at,
+            on,
+            "opt-remote-at",
+        ) {
+            self.s.remote_listen = values[i].clone();
+        }
+        winui::text_font(
+            &p,
+            winui::tahoma(),
+            o.x + 537.0,
+            o.y + 219.0,
+            crate::i18n::t("Port:"),
+            crate::theme::colors().muted,
+        );
+        winui::spin_box(
+            ui,
+            r(o, 537.0, 233.0, 119.0, 35.0),
+            &mut self.port,
+            1024,
+            65535,
+            on,
+            "opt-remote-port",
+        );
+
+        settings_card(ui, o, 320.0, 177.0);
+        modern_section_title(ui, o, 358.0, "Status");
+        let running = self.remote.as_ref().map(|r| r.status());
+        let urls = self.remote.as_ref().map(|r| r.urls()).unwrap_or_default();
+        let changed = self.remote_config() != crate::remote::config(&self.from);
+        use sdl_remote::Status;
+        let (line, ok) = match &running {
+            _ if changed => (
+                crate::i18n::t("The changes apply when you click OK.").to_owned(),
+                true,
+            ),
+            None | Some(Status::Off) => (
+                crate::i18n::t("Off: nothing on the network can reach SDL.").to_owned(),
+                true,
+            ),
+            Some(Status::Listening(_)) => (
+                crate::i18n::t("On. On the phone, open this address:").to_owned(),
+                true,
+            ),
+            Some(Status::NoAddress) => (
+                crate::i18n::t("No local network now: it starts when the computer joins one.")
+                    .to_owned(),
+                false,
+            ),
+            Some(Status::PortInUse(port)) => (
+                crate::i18n::fmt(
+                    crate::i18n::t("Port {port} is used by another program: choose another."),
+                    &[("port", &port.to_string())],
+                ),
+                false,
+            ),
+            Some(Status::Failed(e)) => (
+                crate::i18n::fmt(
+                    crate::i18n::t("It could not start: {error}"),
+                    &[("error", e)],
+                ),
+                false,
+            ),
+        };
+        let ink = if ok {
+            LIGHT_TEXT()
+        } else {
+            crate::theme::colors().error_strong
+        };
+        winui::paragraph(&p, o.x + 32.0, o.y + 392.0, &line, ink, o.x + 651.0, 16.0);
+        if !changed && let Some(first) = urls.first() {
+            readonly_ltr(ui, r(o, 32.0, 420.0, 624.0, 35.0), first);
+        }
+        if let Some(fp) = self.remote.as_ref().and_then(|r| r.fingerprint()) {
+            let label = crate::i18n::fmt(
+                crate::i18n::t("Certificate (SHA-256): {fingerprint}"),
+                &[("fingerprint", &crate::i18n::ltr(&fp))],
+            );
+            let (rect, cut) = winui::label_into(
+                &p,
+                o.x + 32.0,
+                o.y + 482.0,
+                &label,
+                LIGHT_TEXT(),
+                o.x + 654.0,
+                o.x + 32.0,
+            );
+            if cut {
+                winui::full_on_hover(ui, rect, "opt-remote-cert", &label);
+            }
+        }
+
+        settings_card(ui, o, 513.0, 301.0);
+        modern_section_title(ui, o, 549.0, "Paired devices:");
+        let devices = self
+            .remote
+            .as_ref()
+            .map(|r| r.devices())
+            .unwrap_or_default();
+        let when = |secs: i64| {
+            chrono::DateTime::from_timestamp(secs, 0)
+                .map(|t| {
+                    crate::regional::short_date_time(t.with_timezone(&chrono::Local).naive_local())
+                })
+                .unwrap_or_default()
+        };
+        let rows: Vec<Vec<String>> = devices
+            .iter()
+            .map(|d| vec![d.name.clone(), when(d.added), when(d.seen)])
+            .collect();
+        let (_, del_key) = report(
+            ui,
+            o,
+            r(o, 32.0, 572.0, 624.0, 161.0),
+            &[
+                (crate::i18n::mark("Device"), 251.0),
+                (crate::i18n::mark("Paired"), 447.0),
+                (crate::i18n::mark("Last seen"), 656.0),
+            ],
+            &rows,
+            &mut self.device_rows,
+            false,
+            "opt-remote-devices",
+        );
+        let sel = self.device_rows.selected.filter(|i| *i < rows.len());
+        let pair_kind = if on {
+            ButtonKind::Normal
+        } else {
+            ButtonKind::Disabled
+        };
+        let pair = winui::why_disabled(
+            winui::button_light(
+                ui,
+                r(o, 32.0, 753.0, 192.0, 35.0),
+                "Pair a device...",
+                pair_kind,
+                false,
+            ),
+            !on,
+            "Turn on the remote control first.",
+        )
+        .clicked();
+        let remove_kind = if sel.is_some() {
+            ButtonKind::Normal
+        } else {
+            ButtonKind::Disabled
+        };
+        let remove = winui::button_light(
+            ui,
+            r(o, 237.0, 753.0, 132.0, 35.0),
+            "Remove",
+            remove_kind,
+            false,
+        )
+        .clicked()
+            || del_key;
+        if pair && on {
+            self.pair();
+        }
+        if remove
+            && let (Some(i), Some(r)) = (sel, &self.remote)
+            && let Some(d) = devices.get(i)
+        {
+            r.remove(&d.id);
+            self.device_rows.selected = None;
+        }
+        winui::paragraph(
+            &p,
+            o.x + 32.0,
+            o.y + 852.0,
+            crate::i18n::t(
+                "Only paired devices see or change anything. The first time, the phone's browser warns about SDL's own certificate: its fingerprint is the one above.",
+            ),
+            LIGHT_TEXT(),
+            o.x + 653.0,
+            16.0,
+        );
+    }
+
+    fn pair_window_modern(ctx: &egui::Context, remote: sdl_remote::Remote) -> bool {
+        let out = window(
+            ctx,
+            "opt-pair",
+            "Pair a device",
+            [560.0, 608.0],
+            false,
+            LIGHT_BG(),
+            |ui, o| {
+                let _font = winui::ModernDialogFont::enter();
+                let p = ui.painter().clone();
+                settings_card(ui, o, 18.0, 521.0);
+                let urls = remote.urls();
+                let (shown, paired) = remote.pairing();
+                let close_label = if paired.is_some() { "Done" } else { "Close" };
+                let close = winui::button_light(
+                    ui,
+                    r(o, 432.0, 558.0, 96.0, 36.0),
+                    close_label,
+                    ButtonKind::Default,
+                    false,
+                )
+                .clicked();
+                let Some(url) = urls.first() else {
+                    winui::paragraph(
+                        &p,
+                        o.x + 32.0,
+                        o.y + 62.0,
+                        crate::i18n::t(
+                            "SDL can't be reached on the network now: Options → Remote says why.",
+                        ),
+                        crate::theme::colors().error_strong,
+                        o.x + 520.0,
+                        18.0,
+                    );
+                    return if close || winui::escape_pressed(ui) {
+                        Outcome::Closed
+                    } else {
+                        Outcome::Open
+                    };
+                };
+                if let Some(name) = &paired {
+                    let line = crate::i18n::fmt(
+                        crate::i18n::t("{device} is paired. It can control SDL now."),
+                        &[("device", &crate::i18n::isolate(name))],
+                    );
+                    winui::paragraph(
+                        &p,
+                        o.x + 32.0,
+                        o.y + 64.0,
+                        &line,
+                        LIGHT_TEXT(),
+                        o.x + 520.0,
+                        18.0,
+                    );
+                    return if close || winui::escape_pressed(ui) || winui::enter_pressed(ui) {
+                        Outcome::Done(())
+                    } else {
+                        Outcome::Open
+                    };
+                }
+                winui::paragraph(
+                    &p,
+                    o.x + 32.0,
+                    o.y + 54.0,
+                    crate::i18n::t(
+                        "On the phone, scan this code with the camera, or open the address and enter the code.",
+                    ),
+                    LIGHT_TEXT(),
+                    o.x + 520.0,
+                    18.0,
+                );
+                let link = match &shown {
+                    Some((code, _)) => format!("{url}#pair={code}"),
+                    None => url.clone(),
+                };
+                crate::remote::paint_qr(&p, r(o, 166.0, 108.0, 228.0, 228.0), &link);
+                readonly_ltr(ui, r(o, 32.0, 364.0, 496.0, 35.0), url);
+                match &shown {
+                    Some((code, left)) => {
+                        winui::text_font(
+                            &p,
+                            egui::FontId::new(29.0, winui::tahoma_bold().family),
+                            o.x + 182.0,
+                            o.y + 457.0,
+                            &crate::i18n::ltr(&format!("{} {}", &code[..4], &code[4..])),
+                            LIGHT_TEXT(),
+                        );
+                        let secs = left.as_secs();
+                        let line = crate::i18n::fmt(
+                            crate::i18n::t("Waiting for the device. The code works for {time}."),
+                            &[("time", &format!("{}:{:02}", secs / 60, secs % 60))],
+                        );
+                        winui::paragraph(
+                            &p,
+                            o.x + 32.0,
+                            o.y + 503.0,
+                            &line,
+                            LIGHT_TEXT(),
+                            o.x + 521.0,
+                            16.0,
+                        );
+                    }
+                    None => {
+                        winui::paragraph(
+                            &p,
+                            o.x + 32.0,
+                            o.y + 443.0,
+                            crate::i18n::t("This code can't be used any more."),
+                            crate::theme::colors().error_strong,
+                            o.x + 519.0,
+                            16.0,
+                        );
+                        if winui::button_light(
+                            ui,
+                            r(o, 32.0, 481.0, 132.0, 36.0),
+                            "New code",
+                            ButtonKind::Normal,
+                            false,
+                        )
+                        .clicked()
+                        {
+                            remote.start_pairing();
+                        }
+                    }
+                }
+                if close || winui::escape_pressed(ui) {
+                    Outcome::Closed
+                } else {
+                    Outcome::Open
+                }
+            },
+        );
+        matches!(out, Outcome::Open)
+    }
+
     fn proxy(&mut self, ui: &mut Ui, o: Pos2) {
+        if matches!(crate::theme::current().id.as_ref(), "win" | "fluent") {
+            self.proxy_modern(ui, o);
+            return;
+        }
         let p = ui.painter().clone();
         let modern = crate::theme::modern_layout();
         if modern {
@@ -2186,15 +3311,25 @@ impl OptionsDialog {
             .map(|(_, a)| a.clone())
             .unwrap_or_default();
         let p = ui.painter().clone();
-        settings_etched_h(&p, settings_form_x(o.x, 21.0), o.y + 372.0, 381.0);
+        let modern = matches!(crate::theme::current().id.as_ref(), "win" | "fluent");
+        if modern {
+            settings_card(ui, o, 980.0, 172.0);
+            modern_section_title(ui, o, 1020.0, "Network adapter");
+        } else {
+            settings_etched_h(&p, settings_form_x(o.x, 21.0), o.y + 372.0, 381.0);
+        }
         // i18n: label before the choice of network adapter (Ethernet, Wi-Fi, a VPN's) every connection must go through
-        text(
-            &p,
-            settings_form_x(o.x, 27.0),
-            o.y + 395.0,
-            crate::i18n::t("Network adapter:"),
-            LIGHT_TEXT(),
-        );
+        if modern {
+            modern_field_label(ui, o, 1061.0, "Network adapter:");
+        } else {
+            text(
+                &p,
+                settings_form_x(o.x, 27.0),
+                o.y + 395.0,
+                crate::i18n::t("Network adapter:"),
+                LIGHT_TEXT(),
+            );
+        }
         // The choices: any, then each adapter with its address (the ones with none too: a VPN
         // switched off), the chosen one kept when it's gone.
         let chosen = self.s.net_adapter.trim().to_owned();
@@ -2231,7 +3366,11 @@ impl OptionsDialog {
         let shown: Vec<&str> = labels.iter().map(String::as_str).collect();
         if let Some(i) = winui::combo_light(
             ui,
-            settings_form_rect(o, 130.0, 380.0, 265.0, 21.0),
+            if modern {
+                r(o, 32.0, 1073.0, 624.0, 35.0)
+            } else {
+                settings_form_rect(o, 130.0, 380.0, 265.0, 21.0)
+            },
             &shown,
             at,
             true,
@@ -2274,25 +3413,652 @@ impl OptionsDialog {
             crate::theme::colors().error_strong
         };
         // Up to two lines, each cut with "..." (whole on hover) when a translation is longer.
-        for (row, part) in line.lines().take(2).enumerate() {
-            let (rect, cut) = winui::label_into(
+        if modern {
+            winui::paragraph(
                 &p,
-                settings_form_x(o.x, 27.0),
-                o.y + 422.0 + 15.0 * row as f32,
-                part,
+                o.x + 32.0,
+                o.y + 1134.0,
+                &line,
                 color,
-                settings_form_x(o.x, 400.0),
-                settings_form_x(o.x, 27.0),
+                o.x + 650.0,
+                16.0,
             );
-            if cut {
-                winui::full_on_hover(ui, rect, ("opt-adapter-state", row), part);
+        } else {
+            for (row, part) in line.lines().take(2).enumerate() {
+                let (rect, cut) = winui::label_into(
+                    &p,
+                    settings_form_x(o.x, 27.0),
+                    o.y + 422.0 + 15.0 * row as f32,
+                    part,
+                    color,
+                    settings_form_x(o.x, 400.0),
+                    settings_form_x(o.x, 27.0),
+                );
+                if cut {
+                    winui::full_on_hover(ui, rect, ("opt-adapter-state", row), part);
+                }
             }
         }
+    }
+
+    /// Win/Fluent Accounts: keep the existing ordered debrid-account model and keyboard
+    /// selection; only the table, command buttons, and explanatory sections move.
+    fn accounts_modern(&mut self, ui: &mut Ui, o: Pos2) {
+        let _font = winui::ModernDialogFont::enter();
+        let p = ui.painter().clone();
+        header(
+            ui,
+            o,
+            Icon::PageLogins,
+            "Debrid service accounts",
+            true,
+            117.0,
+            63.0,
+            399.0,
+        );
+        let vault = crate::secrets::vault();
+        let rows: Vec<Vec<String>> = self
+            .s
+            .debrid_accounts
+            .iter()
+            .map(|a| {
+                let state = if a.account().is_none() {
+                    if vault.unread(&format!("debrid/{}", a.id))
+                        && vault.kept() == crate::secrets::Kept::Locked
+                    {
+                        crate::i18n::t("in the locked keyring").to_owned()
+                    } else {
+                        crate::i18n::t("signed out: sign in again").to_owned()
+                    }
+                } else {
+                    a.state.clone()
+                };
+                vec![a.service.name().to_owned(), a.user.clone(), state]
+            })
+            .collect();
+
+        settings_card(ui, o, 108.0, 394.0);
+        modern_section_title(ui, o, 144.0, "Debrid service accounts");
+        winui::paragraph(
+            &p,
+            o.x + 32.0,
+            o.y + 174.0,
+            crate::i18n::t(
+                "Accounts are checked in list order. Select one to remove or change its priority.",
+            ),
+            crate::theme::colors().muted,
+            o.x + 654.0,
+            16.0,
+        );
+        let (_, del_key) = settings_report(
+            ui,
+            o,
+            r(o, 32.0, 198.0, 628.0, 228.0),
+            &[
+                (crate::i18n::mark("Service"), 115.0),
+                (crate::i18n::mark("Account"), 250.0),
+                (crate::i18n::mark("State"), 416.0),
+            ],
+            &rows,
+            &mut self.account_rows,
+            false,
+            "opt-accounts",
+        );
+        let sel = self.account_rows.selected.filter(|i| *i < rows.len());
+        let kind = |on: bool| {
+            if on {
+                ButtonKind::Normal
+            } else {
+                ButtonKind::Disabled
+            }
+        };
+        let add = winui::button_light(
+            ui,
+            r(o, 32.0, 443.0, 130.0, 36.0),
+            "Add...",
+            ButtonKind::Accent,
+            false,
+        )
+        .clicked();
+        let remove = winui::button_light(
+            ui,
+            r(o, 174.0, 443.0, 130.0, 36.0),
+            "Remove",
+            kind(sel.is_some()),
+            false,
+        )
+        .clicked()
+            || del_key;
+        let up = winui::button_light(
+            ui,
+            r(o, 400.0, 443.0, 120.0, 36.0),
+            "Up",
+            kind(sel.is_some_and(|i| i > 0)),
+            false,
+        )
+        .clicked();
+        let down = winui::button_light(
+            ui,
+            r(o, 532.0, 443.0, 128.0, 36.0),
+            "Down",
+            kind(sel.is_some_and(|i| i + 1 < rows.len())),
+            false,
+        )
+        .clicked();
+        if add {
+            self.sub = Some(Sub::Account(AccountEdit::default()));
+        }
+        if let Some(i) = sel {
+            let list = &mut self.s.debrid_accounts;
+            if remove {
+                list.remove(i);
+                self.account_rows.selected = None;
+            } else if up && i > 0 {
+                list.swap(i, i - 1);
+                self.account_rows.selected = Some(i - 1);
+            } else if down && i + 1 < list.len() {
+                list.swap(i, i + 1);
+                self.account_rows.selected = Some(i + 1);
+            }
+        }
+
+        settings_card(ui, o, 518.0, 150.0);
+        modern_section_title(ui, o, 555.0, "Download through accounts");
+        winui::checkbox_light(
+            ui,
+            o + vec2(32.0, 586.0),
+            &mut self.s.debrid_on,
+            "Download supported file-host links through these accounts",
+            true,
+        );
+        winui::checkbox_light(
+            ui,
+            o + vec2(32.0, 627.0),
+            &mut self.s.debrid_torrents,
+            "Send torrents and magnet links to the first account instead of to peers",
+            self.s.debrid_on,
+        );
+
+        settings_card(ui, o, 686.0, 255.0);
+        modern_section_title(ui, o, 722.0, "Security and service limitations");
+        winui::paragraph(
+            &p,
+            o.x + 32.0,
+            o.y + 753.0,
+            crate::i18n::t(
+                "Experimental: built from the services' public API documentation, not yet confirmed with real accounts.",
+            ),
+            crate::theme::colors().warning,
+            o.x + 650.0,
+            17.0,
+        );
+        winui::paragraph(
+            &p,
+            o.x + 32.0,
+            o.y + 815.0,
+            crate::i18n::t(
+                "A debrid service downloads a file host's link with your own paid account and gives SDL a direct link. Use only your own account: sharing an account or its links breaks the services' terms and can get it suspended. Downloads the browser already started stay as they are.",
+            ),
+            LIGHT_TEXT(),
+            o.x + 650.0,
+            16.0,
+        );
+        let kept = vault.kept();
+        if kept == crate::secrets::Kept::Looking {
+            ui.ctx()
+                .request_repaint_after(std::time::Duration::from_millis(200));
+        }
+        if let Some(info) = kept_text(kept) {
+            winui::paragraph(
+                &p,
+                o.x + 32.0,
+                o.y + 897.0,
+                crate::i18n::t(info),
+                crate::theme::colors().muted,
+                o.x + 650.0,
+                15.0,
+            );
+        }
+    }
+
+    /// Win/Fluent Sounds: a dedicated event/file table with accurate row hitboxes,
+    /// preserved Space/Enter/Delete handling and the native WAV file picker.
+    fn sounds_modern(&mut self, ui: &mut Ui, o: Pos2) {
+        let _font = winui::ModernDialogFont::enter();
+        let p = ui.painter().clone();
+        header(
+            ui,
+            o,
+            Icon::PageSounds,
+            "Sound settings",
+            true,
+            304.0,
+            61.0,
+            406.0,
+        );
+        settings_card(ui, o, 108.0, 440.0);
+        modern_section_title(ui, o, 145.0, "Select sounds for Swoopdl events");
+        winui::paragraph(
+            &p,
+            o.x + 32.0,
+            o.y + 176.0,
+            crate::i18n::t(
+                "Select an event to browse for its sound or play the currently assigned file.",
+            ),
+            crate::theme::colors().muted,
+            o.x + 649.0,
+            15.0,
+        );
+        let list_rc = r(o, 32.0, 195.0, 628.0, 275.0);
+        list_frame(&p, list_rc);
+        let list = winui::rect(list_rc);
+        let head_y = list.top() + 1.0;
+        text(
+            &p,
+            list.left() + 14.0,
+            head_y + 20.0,
+            crate::i18n::t("Event"),
+            LIGHT_TEXT(),
+        );
+        let split = o.x + 332.0;
+        fill(
+            &p,
+            split,
+            head_y + 1.0,
+            split,
+            head_y + 31.0,
+            winui::HEADER_LINE(),
+        );
+        text(
+            &p,
+            split + 12.0,
+            head_y + 20.0,
+            crate::i18n::t("Sound file"),
+            LIGHT_TEXT(),
+        );
+        let body = Rect::from_min_max(
+            pos2(list.left() + 1.0, head_y + 33.0),
+            pos2(list.right() - 1.0, list.bottom() - 1.0),
+        );
+        let sounds = &mut self.s.sounds;
+        self.sound_rows.name = crate::i18n::t("Sounds");
+        let ev = winui::row_list(
+            ui,
+            "sounds",
+            winui::rect(body.expand(1.0)),
+            SOUND_EVENTS.len(),
+            45.0,
+            &mut self.sound_rows,
+            |ui, clip, i, row, look| {
+                let top = row.top();
+                fill(
+                    clip,
+                    row.left(),
+                    top + 44.0,
+                    row.right(),
+                    top + 44.0,
+                    winui::GRID(),
+                );
+                fill(clip, split, top, split, top + 44.0, winui::GRID());
+                let (on, file) = &mut sounds[i];
+                let event = crate::i18n::t(SOUND_EVENTS[i]);
+                look.name = event.to_owned();
+                winui::row_check(
+                    ui,
+                    clip,
+                    pos2(o.x + 41.0, top + 14.0),
+                    on,
+                    event,
+                    ("sound", i),
+                );
+                winui::fit(
+                    ui,
+                    clip,
+                    o.x + 67.0,
+                    top + 28.0,
+                    event,
+                    look.ink,
+                    split - 12.0,
+                    ("sound-event", i),
+                );
+                let name = std::path::Path::new(file.as_str())
+                    .file_name()
+                    .map(|n| n.to_string_lossy().into_owned())
+                    .unwrap_or_default();
+                let drawn = winui::fit(
+                    ui,
+                    clip,
+                    split + 12.0,
+                    top + 28.0,
+                    &name,
+                    look.ink,
+                    row.right() - 12.0,
+                    ("sound-file", i),
+                );
+                if !file.is_empty() {
+                    winui::copyable(ui, drawn, ("sound-path", i), file, true);
+                }
+            },
+        );
+        if let Some(i) = ev.space {
+            sounds[i].0 = !sounds[i].0;
+        }
+        if ev.focused {
+            self.sound_rows
+                .type_to(ui, "sounds", SOUND_EVENTS.len(), |i| {
+                    crate::i18n::t(SOUND_EVENTS[i]).to_owned()
+                });
+        }
+        if let Some(i) = ev.delete {
+            sounds[i] = (false, String::new());
+        }
+        let pick_file = ev.double_clicked.or(ev.entered);
+        if pick_file.is_some() {
+            winui::take_key(ui, egui::Key::Enter);
+        }
+        let sel = self.sound_rows.selected.filter(|i| *i < SOUND_EVENTS.len());
+        let browse = winui::button_light(
+            ui,
+            r(o, 32.0, 488.0, 160.0, 36.0),
+            "Browse...",
+            if sel.is_some() {
+                ButtonKind::Normal
+            } else {
+                ButtonKind::Disabled
+            },
+            false,
+        )
+        .clicked();
+        let has_file = sel.is_some_and(|i| !self.s.sounds[i].1.is_empty());
+        let play = winui::button_light(
+            ui,
+            r(o, 207.0, 488.0, 125.0, 36.0),
+            "Play",
+            if has_file {
+                ButtonKind::Normal
+            } else {
+                ButtonKind::Disabled
+            },
+            false,
+        )
+        .clicked();
+        if let Some(i) = sel {
+            if browse || pick_file == Some(i) {
+                let title = crate::i18n::t(SOUND_EVENTS[i]).to_owned();
+                let kind = crate::i18n::t("Sounds").to_owned();
+                winui::start_pick(ui.ctx(), &format!("sound-{i}"), move || {
+                    rfd::FileDialog::new()
+                        .set_title(title)
+                        .add_filter(kind, &["wav"])
+                        .pick_file()
+                });
+            }
+            if let Some(f) = winui::picked(ui.ctx(), &format!("sound-{i}")) {
+                self.s.sounds[i] = (true, f.display().to_string());
+            }
+            if play && has_file {
+                play_sound(&self.s.sounds[i].1);
+            }
+        }
+        settings_card(ui, o, 565.0, 109.0);
+        modern_section_title(ui, o, 602.0, "Keyboard controls");
+        winui::paragraph(
+            &p,
+            o.x + 32.0,
+            o.y + 636.0,
+            crate::i18n::t(
+                "Space toggles an event; Enter or double-click selects a WAV file; Delete clears the selected sound.",
+            ),
+            crate::theme::colors().muted,
+            o.x + 649.0,
+            16.0,
+        );
+    }
+
+    /// Win/Fluent Regional: independent readable controls with the same region,
+    /// date order, clock and week-start identifiers as the compact implementation.
+    fn regional_modern(&mut self, ui: &mut Ui, o: Pos2) {
+        let _font = winui::ModernDialogFont::enter();
+        let p = ui.painter().clone();
+        header(
+            ui,
+            o,
+            Icon::PageRegional,
+            "Dates and times",
+            true,
+            302.0,
+            61.0,
+            406.0,
+        );
+        let reg = &mut self.s.regional;
+        settings_card(ui, o, 108.0, 158.0);
+        modern_section_title(ui, o, 144.0, "Write dates and times");
+        let system = winui::radio_light(
+            ui,
+            o + vec2(32.0, 170.0),
+            !reg.custom,
+            "As the system's region writes them",
+            true,
+        );
+        let own = winui::radio_light(ui, o + vec2(32.0, 211.0), reg.custom, "My own way:", true);
+        match winui::radio_keys(ui, &[system.clone(), own.clone()]) {
+            Some(i) => reg.custom = i == 1,
+            None if system.clicked() => reg.custom = false,
+            None if own.clicked() => reg.custom = true,
+            None => {}
+        }
+        let on = reg.custom;
+        settings_card(ui, o, 282.0, 309.0);
+        modern_section_title(ui, o, 318.0, "My own way:");
+        let orders = [
+            crate::i18n::mark("Day, month, year"),
+            crate::i18n::mark("Month, day, year"),
+            crate::i18n::mark("Year, month, day"),
+        ];
+        let order_at = match reg.order {
+            DateOrder::Dmy => 0,
+            DateOrder::Mdy => 1,
+            DateOrder::Ymd => 2,
+        };
+        modern_field_label(ui, o, 355.0, "Date order:");
+        if let Some(i) = winui::combo_light(
+            ui,
+            r(o, 32.0, 366.0, 628.0, 35.0),
+            &orders,
+            order_at,
+            on,
+            "regional-order",
+        ) {
+            reg.order = [DateOrder::Dmy, DateOrder::Mdy, DateOrder::Ymd][i];
+        }
+        let clocks = [
+            crate::i18n::mark("12-hour (9:41 PM)"),
+            crate::i18n::mark("24-hour (21:41)"),
+        ];
+        modern_field_label(ui, o, 431.0, "Clock:");
+        if let Some(i) = winui::combo_light(
+            ui,
+            r(o, 32.0, 442.0, 628.0, 35.0),
+            &clocks,
+            reg.clock24 as usize,
+            on,
+            "regional-clock",
+        ) {
+            reg.clock24 = i == 1;
+        }
+        let days = [
+            crate::i18n::mark("Sunday"),
+            crate::i18n::mark("Monday"),
+            crate::i18n::mark("Saturday"),
+        ];
+        let day_at = match reg.week_start {
+            1 => 1,
+            6 => 2,
+            _ => 0,
+        };
+        modern_field_label(ui, o, 507.0, "First day of the week:");
+        if let Some(i) = winui::combo_light(
+            ui,
+            r(o, 32.0, 518.0, 628.0, 35.0),
+            &days,
+            day_at,
+            on,
+            "regional-week",
+        ) {
+            reg.week_start = [0, 1, 6][i];
+        }
+        settings_card(ui, o, 607.0, 135.0);
+        modern_section_title(ui, o, 643.0, "Example:");
+        let now = chrono::Local::now().naive_local();
+        let sample = crate::regional::format_with(crate::regional::effective(reg), now);
+        winui::text_in_window(
+            ui,
+            &p,
+            o.x + 32.0,
+            o.y + 675.0,
+            &crate::i18n::ltr(&sample),
+            LIGHT_TEXT(),
+        );
+        winui::paragraph(
+            &p,
+            o.x + 32.0,
+            o.y + 714.0,
+            crate::i18n::t("Used by the list of downloads and the Scheduler."),
+            crate::theme::colors().muted,
+            o.x + 649.0,
+            15.0,
+        );
+    }
+
+    /// Win/Fluent Archives: separate extraction and Link grabber cards, with
+    /// all original checkbox, destination, and installed-tool state preserved.
+    fn archives_modern(&mut self, ui: &mut Ui, o: Pos2) {
+        let _font = winui::ModernDialogFont::enter();
+        let p = ui.painter().clone();
+        header(
+            ui,
+            o,
+            Icon::PageArchives,
+            "Archives and Link grabber",
+            true,
+            214.0,
+            61.0,
+            406.0,
+        );
+        let s = &mut self.s;
+        settings_card(ui, o, 108.0, 428.0);
+        modern_section_title(ui, o, 145.0, "Archives");
+        winui::checkbox_light(
+            ui,
+            o + vec2(32.0, 185.0),
+            &mut s.extract_auto,
+            "Extract archives when their download completes",
+            true,
+        );
+        winui::checkbox_light(
+            ui,
+            o + vec2(32.0, 230.0),
+            &mut s.extract_delete,
+            if cfg!(windows) {
+                "Then move the archives to the Recycle Bin"
+            } else {
+                "Then move the archives to the Trash"
+            },
+            true,
+        );
+        modern_field_label(ui, o, 298.0, "What an archive holds goes:");
+        const INTO: [&str; 3] = [
+            crate::i18n::mark("Into a folder named after it, when it holds several things"),
+            crate::i18n::mark("Always into a folder named after it"),
+            crate::i18n::mark("Straight into the archive's folder"),
+        ];
+        if let Some(i) = winui::combo_light(
+            ui,
+            r(o, 32.0, 312.0, 628.0, 35.0),
+            &INTO,
+            s.extract_subfolder.min(2) as usize,
+            true,
+            "opt-extract-into",
+        ) {
+            s.extract_subfolder = i as u8;
+        }
+        winui::paragraph(
+            &p,
+            o.x + 32.0,
+            o.y + 386.0,
+            crate::i18n::t(
+                "ZIP, 7Z, RAR, TAR, GZ and XZ; a split archive (.part1.rar, .7z.001) once\nevery volume is in. A file there already is kept: the new one is numbered.",
+            ),
+            LIGHT_TEXT(),
+            o.x + 650.0,
+            16.0,
+        );
+        let (rar, ink) = match &self.seven_zip {
+            Some(path) => (
+                crate::i18n::fmt(
+                    crate::i18n::t("7z and RAR archives are extracted by 7-Zip ({path})."),
+                    &[("path", &crate::i18n::ltr(&path.display().to_string()))],
+                ),
+                LIGHT_TEXT(),
+            ),
+            None => (
+                crate::i18n::t(
+                    "7z and RAR archives need 7-Zip (7-zip.org), which isn't installed.",
+                )
+                .to_owned(),
+                winui::ERROR(),
+            ),
+        };
+        let line = winui::fit(
+            ui,
+            &p,
+            o.x + 32.0,
+            o.y + 485.0,
+            &rar,
+            ink,
+            o.x + 650.0,
+            "opt-rar-tool",
+        );
+        if winui::text_width(&p, &rar) > 618.0 {
+            winui::full_on_hover(ui, line, "opt-rar-tool-full", &rar);
+        }
+
+        settings_card(ui, o, 552.0, 205.0);
+        modern_section_title(ui, o, 590.0, "Link grabber");
+        winui::checkbox_light(
+            ui,
+            o + vec2(32.0, 629.0),
+            &mut s.grabber_check,
+            "Look links up when they arrive (name, size, online)",
+            true,
+        );
+        winui::checkbox_light(
+            ui,
+            o + vec2(32.0, 671.0),
+            &mut s.grabber_hide_pages,
+            "Hide web pages",
+            true,
+        );
+        winui::paragraph(
+            &p,
+            o.x + 32.0,
+            o.y + 715.0,
+            crate::i18n::t(
+                "Tasks → Link grabber, or the browser's \"Download all links\": a split\narchive's volumes are one package, the other links of a page another.",
+            ),
+            crate::theme::colors().muted,
+            o.x + 650.0,
+            16.0,
+        );
     }
 
     /// Accounts (#44, ours): debrid service accounts that download file-host links. The list is
     /// asked in its order; a link goes through the first account whose service takes its host.
     fn accounts(&mut self, ui: &mut Ui, o: Pos2) {
+        if matches!(crate::theme::current().id.as_ref(), "win" | "fluent") {
+            self.accounts_modern(ui, o);
+            return;
+        }
         header(
             ui,
             o,
@@ -2469,6 +4235,10 @@ impl OptionsDialog {
     }
 
     fn logins(&mut self, ui: &mut Ui, o: Pos2) {
+        if matches!(crate::theme::current().id.as_ref(), "win" | "fluent") {
+            self.logins_modern(ui, o);
+            return;
+        }
         header(
             ui,
             o,
@@ -2706,6 +4476,10 @@ impl OptionsDialog {
     /// Archives (ours, #37): extracting archives when their download completes, what becomes
     /// of them, and Link grabber's ways.
     fn archives(&mut self, ui: &mut Ui, o: Pos2) {
+        if matches!(crate::theme::current().id.as_ref(), "win" | "fluent") {
+            self.archives_modern(ui, o);
+            return;
+        }
         let p = ui.painter().clone();
         // i18n: Options page title: extracting downloaded archives, and Link grabber
         let title = crate::i18n::mark("Archives and Link grabber");
@@ -2842,6 +4616,10 @@ impl OptionsDialog {
     /// Regional (ours): how dates and times are written in the list and the Scheduler, as the
     /// system's region writes them or the user's own way.
     fn regional(&mut self, ui: &mut Ui, o: Pos2) {
+        if matches!(crate::theme::current().id.as_ref(), "win" | "fluent") {
+            self.regional_modern(ui, o);
+            return;
+        }
         let p = ui.painter().clone();
         header(
             ui,
@@ -2995,6 +4773,10 @@ impl OptionsDialog {
     }
 
     fn sounds(&mut self, ui: &mut Ui, o: Pos2) {
+        if matches!(crate::theme::current().id.as_ref(), "win" | "fluent") {
+            self.sounds_modern(ui, o);
+            return;
+        }
         let p = ui.painter().clone();
         header(
             ui,
@@ -3241,6 +5023,10 @@ impl OptionsDialog {
     /// Remote (#141, ours): phones and computers on the local network add and control
     /// downloads from a page SDL serves, once paired with a code shown here.
     fn remote_page(&mut self, ui: &mut Ui, o: Pos2) {
+        if matches!(crate::theme::current().id.as_ref(), "win" | "fluent") {
+            self.remote_page_modern(ui, o);
+            return;
+        }
         let p = ui.painter().clone();
         // i18n: Options page title: control SDL from a phone or another computer on the local network
         let title = crate::i18n::mark("Remote control");
@@ -3511,6 +5297,9 @@ impl OptionsDialog {
             return false;
         };
         ctx.request_repaint_after(std::time::Duration::from_millis(500));
+        if matches!(crate::theme::current().id.as_ref(), "win" | "fluent") {
+            return Self::pair_window_modern(ctx, remote);
+        }
         let out = window(
             ctx,
             "opt-pair",
@@ -3681,14 +5470,22 @@ impl OptionsDialog {
                 } else {
                     crate::i18n::mark("New login")
                 };
+                let modern_login = matches!(crate::theme::current().id.as_ref(), "win" | "fluent");
                 let out = window(
                     ctx,
                     "opt-login",
                     title,
-                    [300.0, 150.0],
+                    if modern_login {
+                        [560.0, 344.0]
+                    } else {
+                        [300.0, 150.0]
+                    },
                     false,
                     LIGHT_BG(),
                     |ui, o| {
+                        if modern_login {
+                            return modern_login_dialog(ui, o, &mut site, &mut user, &mut pass);
+                        }
                         let p = ui.painter().clone();
                         // i18n: label before a web address (site and folder)
                         winui::text_right(
@@ -3750,14 +5547,23 @@ impl OptionsDialog {
                 } else {
                     crate::i18n::mark("New exception")
                 };
+                let wide_exception =
+                    matches!(crate::theme::current().id.as_ref(), "win" | "fluent");
                 let out = window(
                     ctx,
                     "opt-exception",
                     title,
-                    [300.0, 118.0],
+                    if wide_exception {
+                        [560.0, 256.0]
+                    } else {
+                        [300.0, 118.0]
+                    },
                     false,
                     LIGHT_BG(),
                     |ui, o| {
+                        if wide_exception {
+                            return modern_exception_dialog(ui, o, &mut server, &mut number, limit);
+                        }
                         let p = ui.painter().clone();
                         // i18n: noun: label before a server name
                         winui::text_right(
@@ -3959,15 +5765,26 @@ impl OptionsDialog {
                 }
             }
             Sub::Dns(mut e) => {
+                let wide_dns = matches!(crate::theme::current().id.as_ref(), "win" | "fluent");
                 let out = window(
                     ctx,
                     "opt-dns",
                     // i18n: window title: the settings of the DNS chosen in Options → Connection
                     "DNS settings",
-                    [400.0, 312.0],
+                    if wide_dns {
+                        [644.0, 588.0]
+                    } else {
+                        [400.0, 312.0]
+                    },
                     false,
                     LIGHT_BG(),
-                    |ui, o| dns_dialog(ui, o, &mut e),
+                    |ui, o| {
+                        if wide_dns {
+                            dns_dialog_modern(ui, o, &mut e)
+                        } else {
+                            dns_dialog(ui, o, &mut e)
+                        }
+                    },
                 );
                 match out {
                     Outcome::Open => self.sub = Some(Sub::Dns(e)),
@@ -3976,15 +5793,26 @@ impl OptionsDialog {
                 }
             }
             Sub::Account(mut e) => {
+                let modern = matches!(crate::theme::current().id.as_ref(), "win" | "fluent");
                 let out = window(
                     ctx,
                     "opt-account",
                     // i18n: window title: adding a debrid service account (Real-Debrid…)
                     "Add an account",
-                    [420.0, 300.0],
+                    if modern {
+                        [680.0, 610.0]
+                    } else {
+                        [420.0, 300.0]
+                    },
                     false,
                     LIGHT_BG(),
-                    |ui, o| account_dialog(ui, o, &mut e),
+                    |ui, o| {
+                        if modern {
+                            modern_account_dialog(ui, o, &mut e)
+                        } else {
+                            account_dialog(ui, o, &mut e)
+                        }
+                    },
                 );
                 match out {
                     Outcome::Open => self.sub = Some(Sub::Account(e)),
@@ -4650,6 +6478,197 @@ fn account_dialog(ui: &mut Ui, o: Pos2, e: &mut AccountEdit) -> Outcome<settings
     }
 }
 
+/// Win/Fluent Accounts Add dialog. The same sign-in state machine, timeout,
+/// token flow, keyboard actions, and credential return type as the classic dialog.
+fn modern_account_dialog(
+    ui: &mut Ui,
+    o: Pos2,
+    e: &mut AccountEdit,
+) -> Outcome<settings::DebridAccount> {
+    use crate::debrid::SignInState as S;
+    let _font = winui::ModernDialogFont::enter();
+    let p = ui.painter().clone();
+    let ctx = ui.ctx().clone();
+    let state = e.signin.get();
+    let busy = matches!(state, S::Starting | S::Waiting { .. } | S::Checking);
+    settings_card(ui, o, 18.0, 508.0);
+    modern_section_title(ui, o, 56.0, "Add an account");
+    modern_field_label(ui, o, 87.0, "Service:");
+    let all = sdl_debrid::ServiceKind::ALL;
+    let names: Vec<&str> = all.iter().map(|k| k.name()).collect();
+    let at = all.iter().position(|k| *k == e.service).unwrap_or(0);
+    if let Some(i) = winui::combo_light(
+        ui,
+        r(o, 32.0, 101.0, 612.0, 36.0),
+        &names,
+        at,
+        !busy,
+        "opt-account-service",
+    ) && all[i] != e.service
+    {
+        e.service = all[i];
+        e.token.clear();
+        *e.signin.state.lock().unwrap() = S::Idle;
+    }
+    let by_code = e.service.signs_in_by_code();
+    let kind = |on: bool| {
+        if on {
+            ButtonKind::Normal
+        } else {
+            ButtonKind::Disabled
+        }
+    };
+    if winui::button_light(
+        ui,
+        r(o, 32.0, 160.0, 252.0, 36.0),
+        "Sign in in the browser",
+        kind(!busy && by_code),
+        false,
+    )
+    .clicked()
+    {
+        e.signin
+            .stop
+            .store(false, std::sync::atomic::Ordering::Relaxed);
+        e.signin.by_code(e.service, &ctx);
+    }
+    if let S::Waiting { code, page, until } = &state {
+        let code_font = egui::FontId::monospace(crate::theme::metrics().font_code);
+        p.text(
+            o + vec2(32.0, 218.0),
+            egui::Align2::LEFT_TOP,
+            code,
+            code_font,
+            LIGHT_TEXT(),
+        );
+        if winui::button_light(
+            ui,
+            r(o, 288.0, 217.0, 154.0, 35.0),
+            "Copy code",
+            ButtonKind::Normal,
+            false,
+        )
+        .clicked()
+        {
+            crate::copy_text(&ctx, code.clone());
+        }
+        if winui::button_light(
+            ui,
+            r(o, 452.0, 217.0, 192.0, 35.0),
+            "Open the page",
+            ButtonKind::Normal,
+            false,
+        )
+        .clicked()
+        {
+            open_page(page);
+        }
+        let left = until
+            .saturating_duration_since(std::time::Instant::now())
+            .as_secs();
+        winui::paragraph(
+            &p,
+            o.x + 32.0,
+            o.y + 289.0,
+            &crate::i18n::fmt(
+                crate::i18n::t(
+                    "Type this code at {page} and allow SDL; waiting for you (the code expires in {time}).",
+                ),
+                &[
+                    ("page", &crate::i18n::ltr(page)),
+                    ("time", &format!("{}:{:02}", left / 60, left % 60)),
+                ],
+            ),
+            LIGHT_TEXT(),
+            o.x + 640.0,
+            15.0,
+        );
+        ctx.request_repaint_after(std::time::Duration::from_secs(1));
+    }
+    modern_field_label(
+        ui,
+        o,
+        344.0,
+        if by_code {
+            "Or paste your API token:"
+        } else {
+            "Paste your API key (from the service's Account page):"
+        },
+    );
+    winui::password_light(ui, r(o, 32.0, 360.0, 430.0, 36.0), &mut e.token, !busy);
+    if winui::button_light(
+        ui,
+        r(o, 472.0, 360.0, 172.0, 36.0),
+        "Use the token",
+        kind(!busy && !e.token.trim().is_empty()),
+        false,
+    )
+    .clicked()
+    {
+        e.signin.by_token(e.service, e.token.clone(), &ctx);
+    }
+    if winui::button_light(
+        ui,
+        r(o, 32.0, 410.0, 178.0, 34.0),
+        "Find my token",
+        ButtonKind::Normal,
+        false,
+    )
+    .clicked()
+    {
+        open_page(e.service.token_page());
+    }
+    let (line, ok) = match &state {
+        S::Starting | S::Checking => (crate::i18n::t("Asking the service...").to_owned(), true),
+        S::Done { user, state, .. } => (
+            crate::i18n::fmt(
+                crate::i18n::t("Signed in as {user} ({state})"),
+                &[("user", &crate::i18n::ltr(user)), ("state", state)],
+            ),
+            true,
+        ),
+        S::Failed(why) => (why.clone(), false),
+        _ => (String::new(), true),
+    };
+    let ink = if ok {
+        LIGHT_TEXT()
+    } else {
+        crate::theme::colors().error_strong
+    };
+    let (rect, cut) = winui::label_into(
+        &p,
+        o.x + 32.0,
+        o.y + 491.0,
+        &line,
+        ink,
+        o.x + 644.0,
+        o.x + 32.0,
+    );
+    if cut {
+        winui::full_on_hover(ui, rect, "opt-account-state", &line);
+    }
+    let done = matches!(state, S::Done { .. });
+    match modern_modal_actions(ui, o, 548.0, 644.0, done) {
+        Outcome::Done(()) => match state {
+            S::Done {
+                user,
+                state,
+                credential,
+            } => Outcome::Done(settings::DebridAccount {
+                id: 0,
+                service: e.service,
+                enabled: true,
+                user,
+                state,
+                secret: credential,
+            }),
+            _ => Outcome::Open,
+        },
+        Outcome::Closed => Outcome::Closed,
+        Outcome::Open => Outcome::Open,
+    }
+}
+
 /// Open a service's web page in the browser; never in an off-screen test run (SDL_OFFSCREEN),
 /// whose clicks come from scripts, not from a person at the browser.
 fn open_page(url: &str) {
@@ -4697,18 +6716,23 @@ fn ok_cancel(ui: &mut Ui, o: Pos2, x: f32, y: f32, valid: bool) -> Outcome<()> {
 /// allocated only 480 points for ten pages and clipped controls on tall pages.
 fn modern_page_height(page: usize) -> f32 {
     match page {
-        0 => 1110.0,          // General: browser cards after seven switches
-        1 => 735.0,           // File types
-        2 => 700.0,           // Save to
-        3 => 1050.0,          // Downloads
-        4 => 700.0,           // Connection
-        5 => 750.0,           // Proxy / Socks
-        6 => 700.0,           // Sites Logins
-        7 => 700.0,           // Accounts
-        8 => 700.0,           // Sounds
-        9 => 700.0,           // Regional
-        10 => 700.0,          // Archives
-        REMOTE_PAGE => 830.0, // Remote
+        0 => 1110.0, // General: browser cards after seven switches
+        1 => 735.0,  // File types
+        2 if matches!(crate::theme::current().id.as_ref(), "win" | "fluent") => 790.0,
+        2 => 700.0,  // Other themes retain the previous scroll extent
+        3 => 1050.0, // Downloads
+        4 if matches!(crate::theme::current().id.as_ref(), "win" | "fluent") => 895.0,
+        4 => 700.0, // Other themes retain the previous scroll extent
+        5 if matches!(crate::theme::current().id.as_ref(), "win" | "fluent") => 1250.0,
+        5 => 750.0, // Proxy / Socks classic layout
+        6 if matches!(crate::theme::current().id.as_ref(), "win" | "fluent") => 960.0,
+        6 => 700.0,  // Sites Logins classic layout
+        7 => 1035.0, // Accounts: table, routing, security guidance
+        8 => 745.0,  // Sounds: full event list and actions
+        9 => 855.0,  // Regional: separate local-format fields and preview
+        10 => 900.0, // Archives: extraction and Link grabber cards
+        REMOTE_PAGE if matches!(crate::theme::current().id.as_ref(), "win" | "fluent") => 1010.0,
+        REMOTE_PAGE => 830.0, // Remote classic layout
         _ => 720.0,
     }
 }
@@ -4830,6 +6854,38 @@ fn settings_label(ui: &mut Ui, o: Pos2, y: f32, label: &str) {
     let drawn = winui::text(ui.painter(), o.x + 32.0, o.y + y, &shown, LIGHT_TEXT());
     if shown != full {
         winui::full_on_hover(ui, drawn, ("settings-label", label), full);
+    }
+}
+
+/// A section heading inside the wide Win/Fluent page cards. It does not create a
+/// separate hit target or translate commands; original page IDs stay unchanged.
+fn modern_section_title(ui: &mut Ui, o: Pos2, baseline: f32, label: &str) {
+    let p = ui.painter().clone();
+    let font = winui::tahoma_bold();
+    let full = crate::i18n::t(label);
+    let shown = winui::ellipsize(&p, &font, full, 622.0);
+    let rc = winui::text_font(&p, font, o.x + 32.0, o.y + baseline, &shown, LIGHT_TEXT());
+    if shown != full {
+        winui::full_on_hover(ui, rc, ("modern-section", label), full);
+    }
+}
+
+/// A visible label above a field; long translations remain available on hover.
+fn modern_field_label(ui: &mut Ui, o: Pos2, baseline: f32, label: &str) {
+    let p = ui.painter().clone();
+    let font = winui::tahoma();
+    let full = crate::i18n::t(label);
+    let shown = winui::ellipsize(&p, &font, full, 620.0);
+    let rc = winui::text_font(
+        &p,
+        font,
+        o.x + 32.0,
+        o.y + baseline,
+        &shown,
+        crate::theme::colors().muted,
+    );
+    if shown != full {
+        winui::full_on_hover(ui, rc, ("modern-field", label.to_owned()), full);
     }
 }
 
@@ -5490,6 +7546,254 @@ fn group(ui: &Ui, o: Pos2, x: f32, y: f32, w: f32, h: f32, caption: &str) {
     if caption != full {
         winui::full_on_hover(ui, rc, ("group", caption.as_str()), full);
     }
+}
+
+/// Shared modern modal footer with the same Enter, Escape and disabled-OK behavior
+/// as `ok_cancel`. Dialogs retain their settings/validation commit paths.
+fn modern_modal_actions(ui: &mut Ui, o: Pos2, y: f32, right: f32, valid: bool) -> Outcome<()> {
+    let ok = winui::button_light(
+        ui,
+        r(o, right - 206.0, y, 96.0, 36.0),
+        "OK",
+        if valid {
+            ButtonKind::Accent
+        } else {
+            ButtonKind::Disabled
+        },
+        false,
+    )
+    .clicked();
+    let cancel = winui::button_light(
+        ui,
+        r(o, right - 100.0, y, 96.0, 36.0),
+        "Cancel",
+        ButtonKind::Normal,
+        false,
+    )
+    .clicked();
+    if cancel || winui::escape_pressed(ui) {
+        Outcome::Closed
+    } else if valid && (ok || winui::enter_pressed(ui)) {
+        Outcome::Done(())
+    } else {
+        Outcome::Open
+    }
+}
+
+/// Connection → New/Edit exception. Visual layout only: server/number drafts,
+/// ranges, and save semantics belong to the original `Sub::Exception` branch.
+/// Sites Logins: New/Edit site credential fields. Original validation and commit
+/// remain in the existing Sub::Login branch; this changes the modal geometry only.
+fn modern_login_dialog(
+    ui: &mut Ui,
+    o: Pos2,
+    site: &mut String,
+    user: &mut String,
+    pass: &mut String,
+) -> Outcome<()> {
+    let _font = winui::ModernDialogFont::enter();
+    settings_card(ui, o, 18.0, 250.0);
+    modern_field_label(ui, o, 60.0, "Site/path:");
+    winui::edit_light(ui, r(o, 32.0, 74.0, 496.0, 35.0), site, true, false);
+    modern_field_label(ui, o, 128.0, "User:");
+    winui::edit_light(ui, r(o, 32.0, 142.0, 496.0, 35.0), user, true, false);
+    modern_field_label(ui, o, 197.0, "Password:");
+    password(ui, r(o, 32.0, 211.0, 496.0, 35.0), pass, true);
+    modern_modal_actions(ui, o, 293.0, 528.0, !site.trim().is_empty())
+}
+
+fn modern_exception_dialog(
+    ui: &mut Ui,
+    o: Pos2,
+    server: &mut String,
+    number: &mut String,
+    limit: u32,
+) -> Outcome<()> {
+    let _font = winui::ModernDialogFont::enter();
+    let c = crate::theme::colors();
+    ui.painter()
+        .rect_filled(r(o, 16.0, 18.0, 528.0, 178.0), 8.0, c.tab_page);
+    modern_field_label(ui, o, 51.0, "Server:");
+    winui::edit_light(ui, r(o, 32.0, 65.0, 496.0, 35.0), server, true, false);
+    modern_field_label(ui, o, 132.0, "Connections:");
+    winui::spin_box(
+        ui,
+        r(o, 32.0, 146.0, 166.0, 35.0),
+        number,
+        1,
+        u64::from(limit),
+        true,
+        "opt-exception-number",
+    );
+    let in_range = number
+        .parse::<u32>()
+        .is_ok_and(|n| (1..=limit).contains(&n));
+    modern_modal_actions(ui, o, 209.0, 532.0, !server.trim().is_empty() && in_range)
+}
+
+/// DNS settings modal for Win and Fluent. All DNS mode selection, field edits,
+/// fallback, asynchronous connectivity test and validation match the classic form.
+fn dns_dialog_modern(ui: &mut Ui, o: Pos2, e: &mut DnsEdit) -> Outcome<()> {
+    use sdl_engine::dns::{Mode, Preset};
+    let _font = winui::ModernDialogFont::enter();
+    let p = ui.painter().clone();
+    let c = crate::theme::colors();
+    let preset = Preset::by_id(&e.provider);
+    p.rect_filled(r(o, 16.0, 16.0, 612.0, 129.0), 8.0, c.tab_page);
+    modern_section_title(ui, o, 44.0, "Ask it with:");
+    let modes = [
+        (1u8, Mode::Plain, "plain DNS"),
+        (2, Mode::Tls, "DNS over TLS"),
+        (3, Mode::Https, "DNS over HTTPS"),
+    ];
+    let mut clicked = Vec::new();
+    for (row, (n, m, caption)) in modes.iter().enumerate() {
+        let offered = preset.is_none_or(|p| p.offers(*m));
+        let response = winui::radio_light(
+            ui,
+            o + vec2(32.0, 56.0 + 27.0 * row as f32),
+            e.mode == *n,
+            caption,
+            offered,
+        );
+        if response.clicked() && offered {
+            e.mode = *n;
+        }
+        clicked.push(response);
+    }
+    if let Some(i) = winui::radio_keys(ui, &clicked) {
+        let (n, m, _) = modes[i];
+        if preset.is_none_or(|p| p.offers(m)) {
+            e.mode = n;
+        }
+    }
+
+    p.rect_filled(r(o, 16.0, 158.0, 612.0, 166.0), 8.0, c.tab_page);
+    let field = |ui: &mut Ui, y: f32, label: &str, value: &mut String, enabled: bool| {
+        modern_field_label(ui, o, y, label);
+        winui::edit_light(ui, r(o, 32.0, y + 12.0, 580.0, 35.0), value, enabled, false);
+    };
+    let mode = settings::dns_mode(e.mode).unwrap_or(Mode::Https);
+    match preset {
+        Some(pr) => {
+            let shown = match mode {
+                Mode::Plain => pr.plain.join(", "),
+                Mode::Tls => pr.tls_name.to_owned(),
+                Mode::Https => pr.doh.to_owned(),
+            };
+            modern_field_label(ui, o, 188.0, "Server:");
+            readonly(ui, r(o, 32.0, 200.0, 580.0, 35.0), &shown);
+            if pr.id == "nextdns" {
+                field(
+                    ui,
+                    265.0,
+                    "Configuration ID:",
+                    &mut e.nextdns_id,
+                    mode != Mode::Plain,
+                );
+            }
+        }
+        None => match mode {
+            Mode::Plain => field(ui, 188.0, "Servers:", &mut e.servers, true),
+            Mode::Tls => {
+                field(ui, 188.0, "Servers:", &mut e.servers, true);
+                field(ui, 265.0, "Certificate name:", &mut e.tls_name, true);
+            }
+            Mode::Https => {
+                field(ui, 188.0, "Address:", &mut e.doh_url, true);
+                field(ui, 265.0, "IP addresses (optional):", &mut e.servers, true);
+            }
+        },
+    }
+    p.rect_filled(r(o, 16.0, 336.0, 612.0, 181.0), 8.0, c.tab_page);
+    winui::checkbox_light(
+        ui,
+        o + vec2(32.0, 353.0),
+        &mut e.fallback,
+        "If it can't be reached, use the system's DNS",
+        true,
+    );
+    winui::paragraph(
+        &p,
+        o.x + 32.0,
+        o.y + 391.0,
+        crate::i18n::t(
+            "Names in your hosts file and local names (single words, .local, .lan) stay with the system's DNS. Video pages and torrent trackers use the system's DNS for now.",
+        ),
+        c.muted,
+        o.x + 602.0,
+        18.0,
+    );
+
+    let choice = e.choice();
+    let running = e.test.as_ref().is_some_and(|t| t.lock().unwrap().is_none());
+    let kind = if choice.is_ok() && !running {
+        ButtonKind::Normal
+    } else {
+        ButtonKind::Disabled
+    };
+    if winui::button_light(ui, r(o, 32.0, 465.0, 96.0, 35.0), "Test", kind, false).clicked()
+        && let Ok(c) = &choice
+    {
+        let slot = std::sync::Arc::new(std::sync::Mutex::new(None));
+        e.test = Some(slot.clone());
+        let (c, ctx) = (c.clone(), ui.ctx().clone());
+        let route = crate::settings::own_route();
+        std::thread::spawn(move || {
+            let result = tokio::runtime::Builder::new_current_thread()
+                .enable_all()
+                .build()
+                .map_err(|e| e.to_string())
+                .and_then(|rt| {
+                    rt.block_on(sdl_engine::dns::test(&c, "github.com", &[], &route))
+                        .map_err(|e| e.to_string())
+                });
+            let line = match result {
+                Ok((took, ips)) => (
+                    crate::i18n::fmt(
+                        crate::i18n::t("Answered in {ms} ms: {ip}"),
+                        &[
+                            ("ms", &crate::i18n::integer(took.as_millis() as u64)),
+                            (
+                                "ip",
+                                &ips.first().map(|i| i.to_string()).unwrap_or_default(),
+                            ),
+                        ],
+                    ),
+                    true,
+                ),
+                Err(why) => (why, false),
+            };
+            *slot.lock().unwrap() = Some(line);
+            ctx.request_repaint();
+        });
+    }
+    let status = match (&choice, &e.test) {
+        (Err(why), _) => Some((why.clone(), false)),
+        (Ok(_), Some(t)) => Some(
+            t.lock()
+                .unwrap()
+                .clone()
+                .unwrap_or_else(|| (crate::i18n::t("Asking...").to_owned(), true)),
+        ),
+        _ => None,
+    };
+    if let Some((line, ok)) = status {
+        let color = if ok { LIGHT_TEXT() } else { c.error_strong };
+        let (rect, cut) = winui::label_into(
+            &p,
+            o.x + 143.0,
+            o.y + 487.0,
+            &line,
+            color,
+            o.x + 604.0,
+            o.x + 143.0,
+        );
+        if cut {
+            winui::full_on_hover(ui, rect, "dns-test", &line);
+        }
+    }
+    modern_modal_actions(ui, o, 537.0, 615.0, choice.is_ok())
 }
 
 /// A label (translated here) that IDM greys out with the classic embossed look when its

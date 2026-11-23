@@ -66,6 +66,40 @@ class WebsiteBuildTests(unittest.TestCase):
                     path = path / 'index.html'
                 self.assertTrue(path.exists(), f'{page.relative_to(self.output)}: {url}')
 
+    def test_project_pages_keep_assets_navigation_and_locales_under_the_base_path(self):
+        import json
+        self.builder.build(self.output, {'base_path': '/swoopdl/'})
+        for page in self.output.rglob('*.html'):
+            parser = References()
+            parser.feed(page.read_text('utf-8'))
+            for url in parser.urls:
+                parts = urlsplit(url)
+                if parts.scheme or parts.netloc or not parts.path:
+                    continue
+                self.assertTrue(parts.path.startswith('/swoopdl/'), f'{page.name}: {url}')
+                path = self.output / unquote(parts.path.removeprefix('/swoopdl/'))
+                if parts.path.endswith('/'):
+                    path = path / 'index.html'
+                self.assertTrue(path.exists(), f'{page.name}: {url}')
+        css = (self.output / 'styles.css').read_text('utf-8')
+        self.assertIn("url('/swoopdl/vendor/", css)
+        self.assertIn("url('/swoopdl/assets/flow-art.svg')", css)
+        runtime = (self.output / 'localize.js').read_text('utf-8')
+        self.assertIn("fetch('/swoopdl/locales/index.json'", runtime)
+        self.assertIn("fetch('/swoopdl/locales/'", runtime)
+        self.assertIn("'/swoopdl/assets/icons.svg#'", (self.output / 'main.js').read_text('utf-8'))
+        manifest = json.loads((self.output / 'site.webmanifest').read_text('utf-8'))
+        self.assertEqual(manifest['start_url'], '/swoopdl/')
+        self.assertEqual(manifest['icons'][0]['src'], '/swoopdl/assets/swoopdl.png')
+        alias = (self.output / 'faq.html').read_text('utf-8')
+        self.assertIn('url=/swoopdl/faq/', alias)
+        self.assertIn('/swoopdl/features/', (self.output / 'llms.txt').read_text('utf-8'))
+
+    def test_base_path_rejects_external_urls_and_traversal(self):
+        for path in ('//example.test', 'https://example.test', '/../escape', '/a/../b', '/a?x=1', '/a#b', '/a\\b'):
+            with self.subTest(path=path), self.assertRaises(ValueError):
+                self.builder.configuration({'base_path': path})
+
     def test_configured_release_and_site_metadata_use_only_configured_values(self):
         config = {'site_url': 'https://downloads.example.test', 'repository': '',
                   'release': {'version': '1.2.3', 'assets': {

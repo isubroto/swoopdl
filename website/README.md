@@ -10,6 +10,11 @@ python tools/website/build.py --serve
 
 Open **http://127.0.0.1:8765/**. Build output is written to `target/site`. To use another port, add `--port 8766`. Run the command again after editing source files to rebuild the website.
 
+To reproduce GitHub project hosting, run `python tools/website/build.py --serve --base-path /swoopdl`
+and open **http://127.0.0.1:8765/swoopdl/**. The Pages workflow supplies the repository name as
+this prefix. Assets, navigation, fonts, language catalogs, and redirects all use that path.
+Root hosting remains the default; an optional `base_path` in `site.json` sets the same prefix.
+
 ```powershell
 python -m unittest discover -s tools/website -p test_build.py -v
 node --check website/main.js

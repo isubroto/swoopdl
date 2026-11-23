@@ -13,6 +13,7 @@ import html
 import http.server
 import json
 from pathlib import Path
+import re
 import shutil
 import sys
 import tomllib
@@ -51,6 +52,14 @@ def safe_url(value):
 
 def configuration(config):
     result = dict(config)
+    base_path = result.get('base_path', '')
+    if not isinstance(base_path, str):
+        raise ValueError('base_path must be a URL path')
+    base_path = base_path.rstrip('/')
+    if base_path and (not re.fullmatch(r'(?:/[A-Za-z0-9_.-]+)+', base_path)
+                      or any(part in ('.', '..') for part in base_path.split('/'))):
+        raise ValueError('base_path must be a local URL path without traversal, queries or fragments')
+    result['base_path'] = base_path
     result['site_url'] = safe_url(result.get('site_url', '')).rstrip('/')
     if result['site_url']:
         parts = urlsplit(result['site_url'])
@@ -72,6 +81,18 @@ def configuration(config):
         safe_url(asset['url'])
     result['release'] = {'version': version, 'assets': assets}
     return result
+
+
+def prefix_urls(text, base_path):
+    """Mount generated HTML, CSS and script URL literals below a project path.
+
+    Source templates use root-relative URLs. Leave external, protocol-relative,
+    data and fragment URLs intact; localization runs after HTML URLs are mounted.
+    """
+    if not base_path:
+        return text
+    text = re.sub(r'''(["'])/(?!/)''', lambda match: match[1] + base_path + '/', text)
+    return re.sub(r'(url=)/(?!/)', lambda match: match[1] + base_path + '/', text)
 
 
 def faq_html(items=FAQ):
@@ -122,9 +143,9 @@ def metadata(title, description, path, config):
             f'<meta property="og:title" content="{esc(title)} — Swoopdl">', f'<meta property="og:description" content="{esc(description)}">',
             '<meta property="og:type" content="website"><meta property="og:site_name" content="Swoopdl">']
     if config['site_url']:
-        url = config['site_url'] + path
+        url = config['site_url'] + config['base_path'] + path
         bits.extend([f'<link rel="canonical" href="{esc(url)}">', f'<meta property="og:url" content="{esc(url)}">',
-                     f'<meta property="og:image" content="{esc(config["site_url"])}/assets/social.png">',
+                     f'<meta property="og:image" content="{esc(config["site_url"] + config["base_path"])}/assets/social.png">',
                      '<meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">',
                      '<meta property="og:image:alt" content="Swoopdl. Big downloads. Small effort.">',
                      '<meta name="twitter:card" content="summary_large_image">'])
@@ -144,13 +165,15 @@ def shell(body):
 THEME = '''<script>(function(){try{var t=localStorage.getItem('swoopdl-theme');if(t==='light'||t==='dark')document.documentElement.dataset.theme=t;}catch(e){}})();</script>'''
 
 
-def build(output=OUT, config=None):
+def build(output=OUT, config=None, *, base_path=None):
     output = Path(output).resolve()
     # Never clear an arbitrary directory: only this builder's output or an empty destination.
     if output == ROOT.resolve() or output == WEB.resolve() or output in ROOT.resolve().parents:
         raise ValueError('Refusing to build into a source directory')
     if config is None:
         config = json.loads((WEB / 'site.json').read_text('utf-8-sig'))
+    if base_path is not None:
+        config = {**config, 'base_path': base_path}
     config = configuration(config)
     if output.exists():
         if output != OUT.resolve() and any(output.iterdir()) and not (output / '.swoopdl-site').exists():
@@ -164,7 +187,8 @@ def build(output=OUT, config=None):
         shutil.copy2(WEB / 'assets' / name, output / 'assets' / name)
     shutil.copytree(WEB / 'vendor/plus-jakarta-sans', output / 'vendor/plus-jakarta-sans')
     for name in ('styles.css', 'main.js', 'localize.js'):
-        shutil.copy2(WEB / name, output / name)
+        text = (WEB / name).read_text('utf-8')
+        (output / name).write_text(prefix_urls(text, config['base_path']), 'utf-8')
     font_path = '/vendor/plus-jakarta-sans/plus-jakarta-sans-latin.ttf'
     def asset_url(path):
         digest = hashlib.sha256((output / path.lstrip('/')).read_bytes()).hexdigest()[:10]
@@ -247,7 +271,7 @@ def build(output=OUT, config=None):
         target = output / path.lstrip('/')
         text = target.read_text('utf-8').replace('<meta name="color-scheme"', '<meta name="robots" content="noindex"><meta http-equiv="refresh" content="0;url=' + destination + '"><meta name="color-scheme"')
         target.write_text(text, 'utf-8')
-    (output / 'site.webmanifest').write_text(json.dumps({'name': 'Swoopdl', 'short_name': 'Swoopdl', 'start_url': '/', 'display': 'browser', 'background_color': '#F8FAFC', 'theme_color': '#2563EB', 'icons': [{'src': '/assets/swoopdl.png', 'sizes': '1024x1024', 'type': 'image/png'}]}, indent=2), 'utf-8')
+    (output / 'site.webmanifest').write_text(json.dumps({'name': 'Swoopdl', 'short_name': 'Swoopdl', 'start_url': config['base_path'] + '/', 'display': 'browser', 'background_color': '#F8FAFC', 'theme_color': '#2563EB', 'icons': [{'src': config['base_path'] + '/assets/swoopdl.png', 'sizes': '1024x1024', 'type': 'image/png'}]}, indent=2), 'utf-8')
     robots = 'User-agent: *\nAllow: /\n'
     if config['site_url']:
         (output / 'CNAME').write_text(urlsplit(config['site_url']).hostname + '\n', 'utf-8')
@@ -255,12 +279,15 @@ def build(output=OUT, config=None):
         for path in pages:
             if path in aliases:
                 continue
-            ET.SubElement(ET.SubElement(sitemap, 'url'), 'loc').text = config['site_url'] + path
+            ET.SubElement(ET.SubElement(sitemap, 'url'), 'loc').text = config['site_url'] + config['base_path'] + path
         ET.ElementTree(sitemap).write(output / 'sitemap.xml', encoding='utf-8', xml_declaration=True)
-        robots += '\nSitemap: ' + config['site_url'] + '/sitemap.xml\n'
+        robots += '\nSitemap: ' + config['site_url'] + config['base_path'] + '/sitemap.xml\n'
     (output / 'robots.txt').write_text(robots, 'utf-8')
     (output / '.nojekyll').write_text('', 'utf-8')
-    (output / 'llms.txt').write_text('# Swoopdl\n\nFree, open-source desktop download manager. ' + download_answer + '\n\n- Features: /features/\n- Availability and setup: /download.html\n- Help: /help/\n- License: /license.html\n', 'utf-8')
+    (output / 'llms.txt').write_text(('# Swoopdl\n\nFree, open-source desktop download manager. ' + download_answer + '\n\n- Features: /features/\n- Availability and setup: /download.html\n- Help: /help/\n- License: /license.html\n').replace(': /', ': ' + config['base_path'] + '/'), 'utf-8')
+    # Rewrite before collecting translation marks so localized links keep the same mount.
+    for page in output.rglob('*.html'):
+        page.write_text(prefix_urls(page.read_text('utf-8'), config['base_path']), 'utf-8')
     localization.publish(output)
     print(f'Built {len(pages)} pages offline -> {output}')
     return output
@@ -270,16 +297,41 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--serve', action='store_true', help='Serve the generated website locally')
     parser.add_argument('--port', type=int, default=8765)
+    parser.add_argument('--base-path', help='URL prefix for project hosting, for example /swoopdl')
     args = parser.parse_args()
-    build()
+    config = json.loads((WEB / 'site.json').read_text('utf-8-sig'))
+    if args.base_path is not None:
+        config['base_path'] = args.base_path
+    config = configuration(config)
+    build(config=config)
     if args.serve:
-        handler = functools.partial(PreviewHandler, directory=str(OUT))
-        print(f'Preview: http://127.0.0.1:{args.port}/', flush=True)
+        handler = functools.partial(PreviewHandler, directory=str(OUT), base_path=config['base_path'])
+        print(f'Preview: http://127.0.0.1:{args.port}{config["base_path"]}/', flush=True)
         http.server.ThreadingHTTPServer(('127.0.0.1', args.port), handler).serve_forever()
 
 
 class PreviewHandler(http.server.SimpleHTTPRequestHandler):
     """Always show current build output instead of an older browser-cached page."""
+
+    def __init__(self, *args, base_path='', **kwargs):
+        self.base_path = base_path
+        super().__init__(*args, **kwargs)
+
+    def send_head(self):
+        if self.base_path:
+            path = urlsplit(self.path).path
+            if path == self.base_path:
+                self.send_response(301)
+                self.send_header('Location', self.base_path + '/')
+                self.end_headers()
+                return None
+            if not path.startswith(self.base_path + '/'):
+                self.send_error(404)
+                return None
+        return super().send_head()
+
+    def translate_path(self, path):
+        return super().translate_path(path[len(self.base_path):])
 
     def end_headers(self):
         self.send_header('Cache-Control', 'no-store')

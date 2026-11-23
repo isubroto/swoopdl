@@ -1,0 +1,2 @@
+[  383072ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://127.0.0.1:8765/swoopdl/locales/as.json?v=fdff6d3643:1
+[  386799ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://127.0.0.1:8765/swoopdl/locales/as.json?v=fdff6d3643:1

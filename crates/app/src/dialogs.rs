@@ -19,9 +19,42 @@ pub enum Outcome<T> {
 }
 
 /// The shared spacious task-dialog geometry is used by Swoopdl Fluent and Win.
-/// This preserves existing control coordinates and hitboxes in all other presets.
+/// Preserve the existing Win dialog geometry from Preview 01.
 pub(crate) fn fluent_active() -> bool {
     matches!(crate::theme::current().id.as_ref(), "fluent" | "win")
+}
+
+/// A restrained functional accent for the shared Graphite Current dialog header.
+/// This is presentation only; all controls, focus IDs and commands stay unchanged.
+fn fluent_flow_accent(title: &str) -> egui::Color32 {
+    let dark = crate::theme::dark_surface();
+    if title.contains("torrent") || title.contains("Torrent") || title.contains("RSS") {
+        if dark {
+            egui::Color32::from_rgb(101, 208, 202)
+        } else {
+            egui::Color32::from_rgb(13, 114, 138)
+        }
+    } else if title.contains("video") || title.contains("Video") {
+        if dark {
+            egui::Color32::from_rgb(190, 172, 234)
+        } else {
+            egui::Color32::from_rgb(112, 84, 165)
+        }
+    } else if title.contains("Speed") || title.contains("Batch") {
+        if dark {
+            egui::Color32::from_rgb(243, 191, 110)
+        } else {
+            egui::Color32::from_rgb(145, 94, 30)
+        }
+    } else if title.contains("complete") || title.contains("Complete") {
+        if dark {
+            egui::Color32::from_rgb(114, 205, 165)
+        } else {
+            egui::Color32::from_rgb(21, 115, 72)
+        }
+    } else {
+        crate::theme::colors().accent
+    }
 }
 
 /// Keep the existing dialog body painters and their hitboxes together, while adding a
@@ -49,14 +82,26 @@ pub(crate) fn fluent_shell_origin(
     }
     let p = ui.painter();
     let c = crate::theme::colors();
+    // Share a quiet graphite header between the download and secondary workflows.
+    // Colored leading rails communicate type, without adding texture or new hitboxes.
+    let fluent_brand = crate::theme::current().id == "fluent";
     p.rect_filled(r(origin, 12.0, 12.0, base[0], 68.0), 12.0, c.egui_widget);
     p.rect_filled(r(origin, 28.0, 23.0, 44.0, 44.0), 10.0, c.menu_hot);
+    if fluent_brand {
+        let accent = fluent_flow_accent(title);
+        p.rect_filled(r(origin, 12.0, 12.0, 4.0, 68.0), 2.0, accent);
+        p.rect_filled(r(origin, 36.0, 23.0, 28.0, 3.0), 1.5, accent);
+    }
     let glyph = if title == "Download File Info" {
         crate::icons::Icon::PageFileTypes
     } else if title == "Download progress" {
         crate::icons::Icon::PageDownloads
-    } else if title.contains("torrent") {
+    } else if title.contains("torrent") || (fluent_brand && title.contains("Torrent")) {
         crate::icons::Icon::AddTorrent
+    } else if fluent_brand && (title.contains("video") || title.contains("Video")) {
+        crate::icons::Icon::HelperVideo
+    } else if fluent_brand && title.contains("Speed") {
+        crate::icons::Icon::Scheduler
     } else {
         crate::icons::Icon::PageDownloads
     };
@@ -744,7 +789,13 @@ impl AddUrl {
                 // Header is deliberately separate from the form: a shared 44-point icon
                 // tile, 20-point title and quieter supporting text are reused by all flows.
                 p.rect_filled(r(o, 20.0, 18.0, 632.0, 82.0), 12.0, c.egui_widget);
+                if crate::theme::current().id == "fluent" {
+                    p.rect_filled(r(o, 20.0, 18.0, 4.0, 82.0), 2.0, c.accent);
+                }
                 p.rect_filled(r(o, 36.0, 35.0, 48.0, 48.0), 12.0, c.menu_hot);
+                if crate::theme::current().id == "fluent" {
+                    p.rect_filled(r(o, 44.0, 35.0, 32.0, 3.0), 1.5, c.accent);
+                }
                 crate::icons::Icon::AddUrl
                     .image(true)
                     .paint_at(ui, r(o, 48.0, 47.0, 24.0, 24.0));
@@ -1936,6 +1987,13 @@ impl Complete {
                 let p = ui.painter().clone();
                 let c = crate::theme::colors();
                 p.rect_filled(r(o, 20.0, 18.0, 632.0, 82.0), 12.0, c.egui_widget);
+                if crate::theme::current().id == "fluent" {
+                    p.rect_filled(
+                        r(o, 20.0, 18.0, 4.0, 82.0),
+                        2.0,
+                        fluent_flow_accent("Download complete"),
+                    );
+                }
                 let success = egui::Color32::from_rgb(28, 151, 112);
                 let icon_center = o + vec2(61.0, 59.0);
                 p.circle_filled(icon_center, 24.0, success);

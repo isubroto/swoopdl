@@ -518,9 +518,14 @@ pub fn show(
         outer.bottom() - 1.0,
     );
     let fluent = crate::theme::modern_layout();
+    let branded = crate::theme::current().id == "fluent";
     if fluent {
-        p.rect_filled(screen(outer), 8.0, FRAME());
-        p.rect_filled(screen(outer.shrink(1.0)), 7.0, BG());
+        p.rect_filled(screen(outer), if branded { 10.0 } else { 8.0 }, FRAME());
+        p.rect_filled(
+            screen(outer.shrink(1.0)),
+            if branded { 9.0 } else { 7.0 },
+            BG(),
+        );
     } else {
         winui::solid(&p, screen(outer), FRAME());
         fill(&p, l + 1.0, t + 1.0, r - 1.0, b - 1.0, BG());
@@ -678,6 +683,8 @@ pub fn show(
     let p_all = p.clone();
     let p = p.with_clip_rect(screen(header));
     fill(&p, cl, ct, rr, ct + header_h() - 1.0, HEADER_BG());
+    // Graphite Current keeps headers content-led: sort and filter states already
+    // indicate the active column without a permanent colored rule.
     for (c, x0, x1) in &cols {
         let hovered = hresp
             .hover_pos()
@@ -715,7 +722,9 @@ pub fn show(
         } else if let Some(t) = tint {
             fill(&p, *x0, ct, x1 - 1.0, ct + header_h() - 1.0, t);
         }
-        fill(&p, *x1, ct, *x1, ct + header_h() - 1.0, HEADER_SEP());
+        if !branded {
+            fill(&p, *x1, ct, *x1, ct + header_h() - 1.0, HEADER_SEP());
+        }
         let mut arrow_room = if st.sort.is_some_and(|(sc, _)| sc == *c) {
             14.0
         } else {
@@ -727,7 +736,9 @@ pub fn show(
         let filtered = st.filters[*c].is_some();
         let open = st.filter_open.is_some_and(|(fc, _)| fc == *c);
         let roomy = x1 - x0 >= 44.0;
-        if roomy || filtered || hovered || open {
+        // In Fluent, show filter glyphs only for hovered/open/filtered columns.
+        // This keeps 13 narrow headers readable while the controls remain discoverable.
+        if (!branded && roomy) || filtered || hovered || open {
             let fr = funnel_rect(st, *c, *x0, *x1, ct);
             let color = if filtered {
                 FILTER_ON()
@@ -900,6 +911,18 @@ pub fn show(
         if let Some(row) = rows.get(idx) {
             let picked = selected.get(idx).copied().unwrap_or(false);
             expose_row(idx, row, picked);
+            // A subtle alternate tint preserves density without cardizing rows.
+            if branded && !picked && idx % 2 == 1 && last_right - cl > 8.0 {
+                let row_rect = screen(Rect::from_min_max(
+                    pos2(cl + 2.0, top + 1.0),
+                    pos2(last_right - 3.0, top + row_h() - 1.0),
+                ));
+                bp.rect_filled(
+                    row_rect,
+                    3.0,
+                    crate::theme::colors().header.gamma_multiply(0.33),
+                );
+            }
             if hovered_row == Some(idx) && !picked {
                 fill(
                     &bp,
@@ -1020,7 +1043,18 @@ pub fn show(
         let gy = top + row_h() - 1.0;
         // An empty list has no grid (the empty state stands alone).
         if !rows.is_empty() {
-            fill(&bp, cl, gy, rr, gy, GRID_H());
+            fill(
+                &bp,
+                cl,
+                gy,
+                rr,
+                gy,
+                if branded {
+                    crate::theme::colors().list_grid.gamma_multiply(0.44)
+                } else {
+                    GRID_H()
+                },
+            );
         }
     }
     expose_out_of_view(reach.start.max(first + visible)..reach.end);
@@ -1030,9 +1064,11 @@ pub fn show(
         resp.clone().on_hover_text_at_pointer(full);
     }
     filter_box(ui, st);
-    for (_, _, x1) in cols.iter().filter(|_| !rows.is_empty()) {
-        // One line at col.right + 1.
-        fill(&bp, x1 + 1.0, body_top, x1 + 1.0, rb, GRID_V_RIGHT());
+    if !branded {
+        for (_, _, x1) in cols.iter().filter(|_| !rows.is_empty()) {
+            // Win and other themes preserve precise column grid alignment.
+            fill(&bp, x1 + 1.0, body_top, x1 + 1.0, rb, GRID_V_RIGHT());
+        }
     }
     // While a column is dragged: a translucent copy of its header follows the pointer, and a
     // 2 px mark shows where it will land.

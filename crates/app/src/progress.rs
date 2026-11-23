@@ -442,10 +442,16 @@ impl Progress {
             ui.ctx().request_repaint();
         }
 
-        // The progress bar uses the active theme's rounded control rendering.
-        winui::meter(
+        // Graphite Current: a noticeably thicker, single-colour transfer bar.
+        // Keep the original compact meter and placement for Win and other themes.
+        let (bar_y, bar_h) = if crate::theme::current().id == "fluent" {
+            (178.0, 20.0)
+        } else {
+            (180.0, 16.0)
+        };
+        winui::transfer_meter(
             &p,
-            r(content_o, 17.0, 180.0, 513.0, 16.0),
+            r(content_o, 17.0, bar_y, 513.0, bar_h),
             frac.unwrap_or(0.0) as f32,
         );
 
@@ -456,7 +462,10 @@ impl Progress {
             crate::i18n::mark("Show details >>")
         };
         let other_tab = self.tab != Tab::Status;
-        let kind = if other_tab {
+        let kind = if crate::theme::current().id == "fluent" {
+            // Match the flat Graphite Current action style shown in the approved design.
+            ButtonKind::Accent
+        } else if other_tab {
             ButtonKind::Default
         } else {
             ButtonKind::Normal
@@ -577,6 +586,8 @@ impl Progress {
                 content_o + egui::vec2(0.0, torrent_drop(item)),
                 item,
             );
+        } else if self.details && crate::theme::current().id == "fluent" {
+            fluent_telemetry(ui, &p, content_o, item, snap);
         } else if self.details {
             winui::text_in_window(
                 ui,
@@ -697,10 +708,24 @@ impl Progress {
             };
             p.rect_filled(rc, 8.0, background);
             if active {
+                // Semantic active-tab marker: teal transfer, amber limiter,
+                // and a violet completion preference tab. The tab rect and ID stay put.
+                let accent = if crate::theme::current().id == "fluent" {
+                    match (crate::theme::dark_surface(), entries[index].0) {
+                        (true, Tab::Status) => egui::Color32::from_rgb(101, 208, 202),
+                        (false, Tab::Status) => egui::Color32::from_rgb(13, 114, 138),
+                        (true, Tab::Limiter) => egui::Color32::from_rgb(243, 191, 110),
+                        (false, Tab::Limiter) => egui::Color32::from_rgb(145, 94, 30),
+                        (true, Tab::Completion) => egui::Color32::from_rgb(190, 172, 234),
+                        (false, Tab::Completion) => egui::Color32::from_rgb(112, 84, 165),
+                    }
+                } else {
+                    c.accent
+                };
                 p.rect_filled(
                     r(o, *x0 + 9.0, 43.0, (x1 - x0 - 18.0).max(0.0), 3.0),
                     1.5,
-                    c.accent,
+                    accent,
                 );
             }
             winui::text_font(
@@ -1876,19 +1901,91 @@ fn segment_bar(p: &egui::Painter, o: Pos2, item: &Item, snap: Option<&Snapshot>)
     }
 }
 
+/// A compact, flat transfer-details surface in Fluent only. The video and gallery
+/// backends report aggregate progress, not per-socket connections. Never infer fake
+/// connections from their transfer rate; HTTP keeps the real engine connection list.
+fn fluent_telemetry(ui: &mut Ui, p: &egui::Painter, o: Pos2, item: &Item, snap: Option<&Snapshot>) {
+    let c = crate::theme::colors();
+    let panel = r(o, 17.0, 247.0, 513.0, 154.0);
+    p.rect_filled(panel, 10.0, c.egui_widget);
+    p.rect_stroke(
+        panel,
+        10.0,
+        egui::Stroke::new(1.0, c.list_frame),
+        egui::StrokeKind::Inside,
+    );
+    winui::text_font(
+        p,
+        egui::FontId::proportional(14.0),
+        o.x + 33.0,
+        o.y + 264.0,
+        crate::i18n::t("Download telemetry"),
+        winui::TEXT(),
+    );
+    if item.video.is_some() || item.gallery.is_some() {
+        // Video and gallery tooling has no SDL-engine per-connection snapshots.
+        let (kind, backend) = if item.video.is_some() {
+            ("Video download", "yt-dlp")
+        } else {
+            ("Gallery download", "gallery-dl")
+        };
+        winui::text_font(
+            p,
+            egui::FontId::proportional(13.0),
+            o.x + 34.0,
+            o.y + 296.0,
+            crate::i18n::t(kind),
+            winui::TEXT(),
+        );
+        winui::text_font(
+            p,
+            egui::FontId::proportional(13.0),
+            o.x + 34.0,
+            o.y + 322.0,
+            crate::i18n::t("Managed by"),
+            c.muted,
+        );
+        winui::text_font(
+            p,
+            egui::FontId::proportional(13.0),
+            o.x + 139.0,
+            o.y + 322.0,
+            backend,
+            c.accent,
+        );
+        winui::text_font(
+            p,
+            egui::FontId::proportional(12.0),
+            o.x + 34.0,
+            o.y + 367.0,
+            crate::i18n::t("Individual connection statistics are unavailable for this download."),
+            c.muted,
+        );
+    } else {
+        // HTTP/HTTPS: preserve the existing sorted, scrollable engine-reported
+        // connection IDs, bytes, statuses, contextual errors and mouse/keyboard events.
+        connections(ui, p, o, snap);
+    }
+}
+
 /// The connections table (spec "Connections table"): N. · Downloaded · Info.
 fn connections(ui: &mut Ui, p: &egui::Painter, o: Pos2, snap: Option<&Snapshot>) {
     let outer = r(o, 17.0, 273.0, 513.0, 128.0);
-    winui::solid(p, outer, winui::FIELD_EDGE());
-    fill(
-        p,
-        o.x + 18.0,
-        o.y + 274.0,
-        o.x + 528.0,
-        o.y + 399.0,
-        // Every list's background (IDM's light one is mauve, #beb4be: the only one of its kind).
-        winui::FIELD(),
-    );
+    if crate::theme::current().id == "fluent" {
+        // The surrounding telemetry card supplies the border. No raised inset frame.
+        p.rect_filled(outer, 8.0, crate::theme::colors().egui_panel);
+    } else {
+        winui::solid(p, outer, winui::FIELD_EDGE());
+        fill(
+            p,
+            o.x + 18.0,
+            o.y + 274.0,
+            o.x + 528.0,
+            o.y + 399.0,
+            // Every list's background (IDM's light one is mauve, #beb4be).
+            winui::FIELD(),
+        );
+    }
     fill(
         p,
         o.x + 19.0,
@@ -1932,6 +2029,16 @@ fn connections(ui: &mut Ui, p: &egui::Painter, o: Pos2, snap: Option<&Snapshot>)
         .map(|s| s.connections.iter().collect())
         .unwrap_or_default();
     conns.sort_by_key(|c| c.id);
+    if conns.is_empty() && crate::theme::current().id == "fluent" {
+        winui::text_font(
+            p,
+            egui::FontId::proportional(12.0),
+            o.x + 33.0,
+            o.y + 338.0,
+            crate::i18n::t("Waiting for connection information"),
+            crate::theme::colors().muted,
+        );
+    }
     let key = egui::Id::unique(("conn-scroll", ui.ctx().viewport_id()));
     let visible = 6usize;
     let max_first = conns.len().saturating_sub(visible);

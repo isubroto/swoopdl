@@ -1316,35 +1316,90 @@ impl App {
                 body.center().y - 18.0
             };
             if roomy {
-                let tile = winui::rect(egui::Rect::from_center_size(
+                let center = winui::rect(egui::Rect::from_center_size(
                     pos2(cx, top + 32.0),
-                    egui::vec2(64.0, 64.0),
-                ));
-                p.rect_filled(tile, 14.0, c.menu_hot);
-                let center = tile.center();
-                let ink = egui::Stroke::new(2.0, c.accent);
-                p.line_segment(
-                    [
-                        center - egui::vec2(0.0, 12.0),
-                        center + egui::vec2(0.0, 9.0),
-                    ],
-                    ink,
-                );
-                p.line_segment(
-                    [center - egui::vec2(9.0, 0.0), center + egui::vec2(0.0, 9.0)],
-                    ink,
-                );
-                p.line_segment(
-                    [center + egui::vec2(9.0, 0.0), center + egui::vec2(0.0, 9.0)],
-                    ink,
-                );
-                p.line_segment(
-                    [
-                        center + egui::vec2(-12.0, 15.0),
-                        center + egui::vec2(12.0, 15.0),
-                    ],
-                    ink,
-                );
+                    egui::vec2(1.0, 1.0),
+                ))
+                .center();
+                if crate::theme::current().id == "fluent" {
+                    // Two offset document cards and a transfer arrow, drawn with
+                    // static primitives. No textures, animation or repaint loop.
+                    let back = egui::Rect::from_center_size(
+                        center + egui::vec2(12.0, -7.0),
+                        egui::vec2(38.0, 47.0),
+                    );
+                    let front = egui::Rect::from_center_size(
+                        center + egui::vec2(-9.0, 4.0),
+                        egui::vec2(44.0, 52.0),
+                    );
+                    p.rect_filled(back, 8.0, c.menu_hot);
+                    p.rect_stroke(
+                        back,
+                        8.0,
+                        egui::Stroke::new(1.0, c.list_frame),
+                        egui::StrokeKind::Inside,
+                    );
+                    p.rect_filled(front, 9.0, c.egui_widget);
+                    p.rect_stroke(
+                        front,
+                        9.0,
+                        egui::Stroke::new(1.0, c.list_frame),
+                        egui::StrokeKind::Inside,
+                    );
+                    let ink = egui::Stroke::new(2.1, c.accent);
+                    let arrow = center + egui::vec2(-9.0, 4.0);
+                    p.line_segment(
+                        [arrow - egui::vec2(0.0, 12.0), arrow + egui::vec2(0.0, 7.0)],
+                        ink,
+                    );
+                    p.line_segment(
+                        [arrow + egui::vec2(-7.0, 0.0), arrow + egui::vec2(0.0, 7.0)],
+                        ink,
+                    );
+                    p.line_segment(
+                        [arrow + egui::vec2(7.0, 0.0), arrow + egui::vec2(0.0, 7.0)],
+                        ink,
+                    );
+                    p.line_segment(
+                        [
+                            arrow + egui::vec2(-10.0, 12.0),
+                            arrow + egui::vec2(10.0, 12.0),
+                        ],
+                        ink,
+                    );
+                } else {
+                    let tile = winui::rect(egui::Rect::from_center_size(
+                        pos2(cx, top + 32.0),
+                        egui::vec2(64.0, 64.0),
+                    ));
+                    p.rect_filled(tile, 14.0, c.menu_hot);
+                    let ink = egui::Stroke::new(2.0, c.accent);
+                    p.line_segment(
+                        [
+                            center - egui::vec2(0.0, 12.0),
+                            center + egui::vec2(0.0, 9.0),
+                        ],
+                        ink,
+                    );
+                    p.line_segment(
+                        [
+                            center + egui::vec2(-9.0, 0.0),
+                            center + egui::vec2(0.0, 9.0),
+                        ],
+                        ink,
+                    );
+                    p.line_segment(
+                        [center + egui::vec2(9.0, 0.0), center + egui::vec2(0.0, 9.0)],
+                        ink,
+                    );
+                    p.line_segment(
+                        [
+                            center + egui::vec2(-12.0, 15.0),
+                            center + egui::vec2(12.0, 15.0),
+                        ],
+                        ink,
+                    );
+                }
                 let title_font = egui::FontId::proportional(20.0);
                 let title = winui::ellipsize(&p, &title_font, title, width);
                 let tw = winui::text_width_font(&p, title_font.clone(), &title);
@@ -1397,6 +1452,14 @@ impl App {
     fn status_strip(&self, ui: &Ui, o: Pos2, w: f32, h: f32, shown: usize) {
         let p = ui.painter();
         let top = o.y + h - strip_height();
+        if crate::theme::current().id == "fluent" {
+            // Quiet status strip: subtle separation, without a boxed dashboard widget.
+            let c = crate::theme::colors();
+            p.line_segment(
+                [pos2(o.x + 8.0, top), pos2(o.x + (w - 8.0).max(8.0), top)],
+                egui::Stroke::new(1.0, c.list_frame),
+            );
+        }
         // Centred in the band it reads as: the strip and the 5 px gap above it, under the panes.
         let baseline = winui::baseline_in(top - 5.0, strip_height() + 5.0);
         let n = shown as u64;
@@ -1418,6 +1481,10 @@ impl App {
         );
         if let Some(right) = self.activity() {
             winui::text_right(p, o.x + w - 10.0, baseline, &right, winui::MUTED());
+        } else if crate::theme::current().id == "fluent" && w > 340.0 {
+            // i18n: the status strip when no transfer is currently running.
+            let idle = crate::i18n::t("No active transfers");
+            winui::text_right(p, o.x + w - 12.0, baseline, idle, winui::MUTED());
         }
     }
 
@@ -6929,17 +6996,59 @@ impl App {
             let width = (w - list_left - 7.0).max(0.0);
             let c = crate::theme::colors();
             let p = ui.painter();
+            let branded = crate::theme::current().id == "fluent";
             let panel = winui::rect(egui::Rect::from_min_size(
                 pos2(left, top),
                 egui::vec2(width, 70.0),
             ));
-            p.rect_filled(panel, 8.0, c.list);
+            p.rect_filled(panel, if branded { 10.0 } else { 8.0 }, c.list);
             p.rect_stroke(
                 panel,
-                8.0,
+                if branded { 10.0 } else { 8.0 },
                 egui::Stroke::new(1.0, c.list_frame),
                 egui::StrokeKind::Inside,
             );
+            // Fluent header: a single small transfer glyph anchors the heading,
+            // without adding buttons or changing the search/column hitboxes.
+            let heading_inset = if branded && width >= 430.0 {
+                58.0
+            } else {
+                18.0
+            };
+            if branded && width >= 430.0 {
+                let icon = winui::rect(egui::Rect::from_min_size(
+                    pos2(left + 15.0, top + 16.0),
+                    egui::vec2(31.0, 33.0),
+                ));
+                p.rect_filled(icon, 9.0, c.selection_inactive);
+                let center = icon.center();
+                let ink = egui::Stroke::new(1.8, c.accent);
+                p.line_segment(
+                    [
+                        center - egui::vec2(0.0, 10.0),
+                        center + egui::vec2(0.0, 5.0),
+                    ],
+                    ink,
+                );
+                p.line_segment(
+                    [
+                        center + egui::vec2(-5.0, 0.0),
+                        center + egui::vec2(0.0, 5.0),
+                    ],
+                    ink,
+                );
+                p.line_segment(
+                    [center + egui::vec2(5.0, 0.0), center + egui::vec2(0.0, 5.0)],
+                    ink,
+                );
+                p.line_segment(
+                    [
+                        center + egui::vec2(-8.0, 9.0),
+                        center + egui::vec2(8.0, 9.0),
+                    ],
+                    ink,
+                );
+            }
             let title = self
                 .tree_rows()
                 .into_iter()
@@ -6955,15 +7064,15 @@ impl App {
                 &title,
                 (width
                     - if width > 600.0 {
-                        390.0
+                        390.0 + heading_inset - 18.0
                     } else if width > 220.0 {
-                        150.0
+                        150.0 + heading_inset - 18.0
                     } else {
                         36.0
                     })
                 .max(0.0),
             );
-            winui::text_font(p, font, left + 18.0, top + 30.0, &shown, c.text);
+            winui::text_font(p, font, left + heading_inset, top + 30.0, &shown, c.text);
             let subtitle_font = winui::segoe();
             let subtitle = winui::ellipsize(
                 p,
@@ -6971,9 +7080,9 @@ impl App {
                 crate::i18n::t("Manage downloaded files, queues and transfers"),
                 (width
                     - if width > 600.0 {
-                        390.0
+                        390.0 + heading_inset - 18.0
                     } else if width > 220.0 {
-                        150.0
+                        150.0 + heading_inset - 18.0
                     } else {
                         36.0
                     })
@@ -6982,7 +7091,7 @@ impl App {
             winui::text_font(
                 p,
                 subtitle_font,
-                left + 18.0,
+                left + heading_inset,
                 top + 52.0,
                 &subtitle,
                 c.muted,

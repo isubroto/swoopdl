@@ -919,7 +919,7 @@ mod tests {
         assert_eq!(fluent.icon_set.as_deref(), Some("metro"));
         assert_eq!(fluent.controls.button, ButtonLook::Fluent);
         assert_eq!(fluent.controls.scroll, ScrollLook::Overlay);
-        assert_eq!(fluent.metrics.list_row, 41.0);
+        assert_eq!(fluent.metrics.list_row, 43.0);
         let win = builtins()[9];
         assert_eq!(win.id, "win");
         assert_eq!(win.name, "Win");

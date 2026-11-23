@@ -1927,13 +1927,17 @@ pub fn field_frame(p: &Painter, rc: Rect, look: FieldLook) {
         Stroke::new(crate::theme::metrics().border, border),
         StrokeKind::Inside,
     );
-    hline(
-        p,
-        rc.left() + radius,
-        rc.right() - radius - 1.0,
-        rc.bottom() - 1.0,
-        bottom,
-    );
+    // Graphite Current fields use a single flat border. The real keyboard-focus
+    // underline is painted independently by `focus_bottom`, never removed.
+    if crate::theme::current().id != "fluent" {
+        hline(
+            p,
+            rc.left() + radius,
+            rc.right() - radius - 1.0,
+            rc.bottom() - 1.0,
+            bottom,
+        );
+    }
 }
 
 /// How far along something is, as IDM shows a download: its green fill on a track (themed: the
@@ -1974,6 +1978,33 @@ pub fn meter(p: &Painter, rc: Rect, fraction: f32) {
         Stroke::new(border, c.meter_edge),
         StrokeKind::Inside,
     );
+}
+
+/// A substantial, flat transfer bar for the Fluent download-progress window.
+/// Unlike the small shared `meter`, this one fills an intentionally taller track.
+/// Classic, Win and other themes retain their existing meter rendering.
+pub fn transfer_meter(p: &Painter, rc: Rect, fraction: f32) {
+    if crate::theme::current().id != "fluent" {
+        meter(p, rc, fraction);
+        return;
+    }
+    if rc.width() <= 0.0 || rc.height() <= 0.0 {
+        return;
+    }
+    let c = crate::theme::colors();
+    let radius = (rc.height() / 2.0).min(10.0);
+    p.rect_filled(rc, radius, c.meter_edge);
+    let measured = fraction.clamp(0.0, 1.0) * rc.width();
+    // Keep tiny but nonzero progress visible without changing its numeric value.
+    let done_width = if measured > 0.0 {
+        measured.max(3.0).min(rc.width())
+    } else {
+        0.0
+    };
+    if done_width > 0.0 {
+        let done = Rect::from_min_size(rc.min, vec2(done_width, rc.height()));
+        p.rect_filled(done, radius.min(done_width / 2.0), c.progress_bar);
+    }
 }
 
 /// An era theme's bar (`palette::ProgressLook::Blocks` or `Gloss`) in `rc` (on screen): a
@@ -3832,9 +3863,11 @@ fn paint_button(
             Stroke::new(m.border, face.border),
             StrokeKind::Inside,
         );
-        // The bottom edge: a push button's and a drop-down's 3 points in from its ends, a small
-        // part's from its corners (none on one too low for it).
-        if shape != Shape::Small || rc.height() >= 14.0 {
+        // Fluent: one solid face plus one outline, not a simulated raised bottom edge.
+        // This shared painter covers buttons in Settings, dialogs, menus and main UI.
+        // All event handlers, disabled states and keyboard focus rings remain intact.
+        if crate::theme::current().id != "fluent" && (shape != Shape::Small || rc.height() >= 14.0)
+        {
             let inset = if shape == Shape::Small { radius } else { 3.0 };
             hline(
                 p,

@@ -324,7 +324,9 @@ impl OptionsDialog {
                 let at = ORDER.iter().position(|p| *p == self.page).unwrap_or(0);
                 let by_key = winui::tab_keys(ui, ORDER.len(), at).map(|i| ORDER[i]);
                 let page_o = o;
-                if fluent {
+                if crate::theme::current().id.as_ref() == "fluent" {
+                    graphite_settings_shell(ui, o, client);
+                } else if fluent {
                     let p = ui.painter();
                     let c = crate::theme::colors();
                     p.rect_filled(
@@ -6744,6 +6746,7 @@ fn modern_page_height(page: usize) -> f32 {
 fn modern_legacy_page_surface(ui: &Ui, o: Pos2, page: usize) {
     let c = crate::theme::colors();
     let p = ui.painter();
+    let branded = crate::theme::current().id.as_ref() == "fluent";
     // All nine retained pages receive the same full-width composition; the
     // varying bottom edge leaves room for explanatory text and error states.
     let bottom = match page {
@@ -6752,16 +6755,21 @@ fn modern_legacy_page_surface(ui: &Ui, o: Pos2, page: usize) {
         _ => 542.0,
     };
     let frame = r(o, 16.0, 94.0, 660.0, bottom - 94.0);
-    p.rect_filled(frame, 8.0, c.tab_page);
+    let corner = if branded { 14.0 } else { 8.0 };
+    p.rect_filled(frame, corner, c.tab_page);
     p.rect_stroke(
         frame,
-        8.0,
+        corner,
         egui::Stroke::new(1.0, c.group_line),
         egui::StrokeKind::Inside,
     );
-    // An understated accent edge identifies the active settings surface,
-    // without creating a secondary input target or a nested scrolling pane.
-    p.rect_filled(r(o, 16.0, 108.0, 3.0, 24.0), 2.0, c.accent);
+    // Same content rectangle and hitboxes, but a stronger branded rail for
+    // Swoopdl Fluent and a reserved Windows 11 rail for Win.
+    p.rect_filled(
+        r(o, 16.0, 108.0, if branded { 5.0 } else { 3.0 }, 24.0),
+        if branded { 2.5 } else { 2.0 },
+        c.accent,
+    );
     p.line_segment(
         [pos2(o.x + 16.0, o.y + 89.0), pos2(o.x + 676.0, o.y + 89.0)],
         egui::Stroke::new(1.0, c.group_line),
@@ -6834,17 +6842,97 @@ fn settings_report(
     report(ui, o, rc, &columns, rows, st, grid, id)
 }
 
+/// Graphite Current Settings shell. Drawing is deliberately passive: the
+/// twelve existing page painters, all their hitboxes and the common footer
+/// continue to own every interaction. Win and the other presets never enter
+/// this path.
+fn graphite_settings_shell(ui: &Ui, o: Pos2, client: [f32; 2]) {
+    let p = ui.painter();
+    let c = crate::theme::colors();
+    let content = r(
+        o,
+        229.0,
+        0.0,
+        (client[0] - 229.0).max(0.0),
+        (client[1] - 64.0).max(0.0),
+    );
+    let navigation = r(o, 0.0, 0.0, 229.0, (client[1] - 64.0).max(0.0));
+    let footer = r(o, 0.0, client[1] - 64.0, client[0], 64.0);
+    p.rect_filled(content, 0.0, c.window);
+    p.rect_filled(navigation, 0.0, c.menubar);
+    p.rect_filled(footer, 0.0, c.egui_window);
+    p.line_segment(
+        [
+            pos2(winui::mx(o.x), o.y + client[1] - 64.0),
+            pos2(winui::mx(o.x + client[0]), o.y + client[1] - 64.0),
+        ],
+        egui::Stroke::new(1.0, c.group_line),
+    );
+    p.rect_filled(r(o, 245.0, client[1] - 45.0, 3.0, 25.0), 1.5, c.accent);
+    winui::text_font(
+        p,
+        winui::tahoma(),
+        o.x + 262.0,
+        o.y + client[1] - 29.0,
+        crate::i18n::t("Changes are saved when you select OK"),
+        c.muted,
+    );
+}
+
+/// Restrained semantic icon colors for the Fluent Settings sidebar only.
+/// The main theme's blue is reserved for the selected page and key actions.
+fn graphite_settings_icon_color(page: usize, selected: bool) -> egui::Color32 {
+    if selected {
+        return crate::theme::colors().accent;
+    }
+    let dark = crate::theme::dark_surface();
+    match page {
+        1 | 7 => {
+            if dark {
+                egui::Color32::from_rgb(190, 172, 234)
+            } else {
+                egui::Color32::from_rgb(112, 84, 165)
+            }
+        }
+        2 | 8 => {
+            if dark {
+                egui::Color32::from_rgb(104, 204, 194)
+            } else {
+                egui::Color32::from_rgb(13, 118, 123)
+            }
+        }
+        4 | 5 | REMOTE_PAGE => {
+            if dark {
+                egui::Color32::from_rgb(241, 189, 115)
+            } else {
+                egui::Color32::from_rgb(145, 94, 30)
+            }
+        }
+        6 | 10 => {
+            if dark {
+                egui::Color32::from_rgb(241, 159, 174)
+            } else {
+                egui::Color32::from_rgb(173, 67, 90)
+            }
+        }
+        _ => crate::theme::colors().muted,
+    }
+}
+
 /// Full-width card shared by modern options page layouts.
 fn settings_card(ui: &Ui, o: Pos2, y: f32, height: f32) {
     let c = crate::theme::colors();
+    let branded = crate::theme::current().id.as_ref() == "fluent";
+    let radius = if branded { 10.0 } else { 8.0 };
     let rc = r(o, 16.0, y, 660.0, height);
-    ui.painter().rect_filled(rc, 8.0, c.tab_page);
+    ui.painter().rect_filled(rc, radius, c.tab_page);
     ui.painter().rect_stroke(
         rc,
-        8.0,
+        radius,
         egui::Stroke::new(1.0, c.group_line),
         egui::StrokeKind::Inside,
     );
+    // Graphite Current uses restrained card borders instead of repeated accent rails.
 }
 
 /// Keep translated labels within the card; the shared text painter records accessibility captions.
@@ -6864,6 +6952,14 @@ fn modern_section_title(ui: &mut Ui, o: Pos2, baseline: f32, label: &str) {
     let font = winui::tahoma_bold();
     let full = crate::i18n::t(label);
     let shown = winui::ellipsize(&p, &font, full, 622.0);
+    let branded = crate::theme::current().id.as_ref() == "fluent";
+    if branded {
+        p.circle_filled(
+            pos2(winui::mx(o.x + 24.0), o.y + baseline - 7.0),
+            3.0,
+            crate::theme::colors().accent,
+        );
+    }
     let rc = winui::text_font(&p, font, o.x + 32.0, o.y + baseline, &shown, LIGHT_TEXT());
     if shown != full {
         winui::full_on_hover(ui, rc, ("modern-section", label), full);
@@ -6899,6 +6995,8 @@ fn fluent_setting(
     enabled: bool,
 ) -> egui::Response {
     let c = crate::theme::colors();
+    let branded = crate::theme::current().id.as_ref() == "fluent";
+    let card_radius = if branded { 10.0 } else { 8.0 };
     let rc = r(o, 0.0, 0.0, 660.0, 63.0);
     let response = ui.interact(
         rc,
@@ -6924,7 +7022,7 @@ fn fluent_setting(
     let p = ui.painter();
     p.rect_filled(
         rc,
-        8.0,
+        card_radius,
         if enabled && response.hovered() {
             c.subtle_hot
         } else {
@@ -6933,7 +7031,7 @@ fn fluent_setting(
     );
     p.rect_stroke(
         rc,
-        8.0,
+        card_radius,
         egui::Stroke::new(1.0, c.group_line),
         egui::StrokeKind::Inside,
     );
@@ -6999,30 +7097,63 @@ fn fluent_options_nav(ui: &mut Ui, o: Pos2, selected: usize) -> Option<usize> {
     ];
     let p = ui.painter().clone();
     let c = crate::theme::colors();
+    let branded = crate::theme::current().id.as_ref() == "fluent";
     let font = winui::segoe();
     let panel = winui::rect(Rect::from_min_size(o, vec2(229.0, 656.0)));
-    p.rect_filled(panel, 0.0, c.window);
+    p.rect_filled(panel, 0.0, if branded { c.menubar } else { c.window });
     let divider_x = winui::mx(o.x + 228.0);
     p.line_segment(
         [pos2(divider_x, o.y + 12.0), pos2(divider_x, o.y + 656.0)],
         egui::Stroke::new(1.0, c.group_line),
     );
-    winui::text_font(
-        &p,
-        winui::tahoma_title(),
-        o.x + 18.0,
-        o.y + 32.0,
-        crate::i18n::t("Swoopdl Configuration"),
-        c.text,
-    );
-    winui::text_font(
-        &p,
-        font.clone(),
-        o.x + 18.0,
-        o.y + 57.0,
-        crate::i18n::t("Preferences"),
-        c.muted,
-    );
+    if branded {
+        // A legible Swoopdl download mark replaces the placeholder dot. It uses the
+        // existing SVG icon cache: no new texture, font, animation or repaint timer.
+        p.rect_filled(r(o, 15.0, 15.0, 38.0, 39.0), 10.0, c.highlight_hot);
+        p.rect_filled(r(o, 15.0, 15.0, 3.0, 39.0), 1.5, c.accent);
+        crate::icons::Icon::PageDownloads
+            .image(true)
+            .paint_at(ui, r(o, 23.0, 23.0, 22.0, 22.0));
+        let sparkle = if crate::theme::dark_surface() {
+            egui::Color32::from_rgb(101, 208, 202)
+        } else {
+            egui::Color32::from_rgb(13, 114, 138)
+        };
+        p.circle_filled(pos2(winui::mx(o.x + 46.0), o.y + 21.0), 3.0, sparkle);
+        winui::text_font(
+            &p,
+            winui::tahoma_bold(),
+            o.x + 64.0,
+            o.y + 34.0,
+            "Swoopdl",
+            c.text,
+        );
+        winui::text_font(
+            &p,
+            font.clone(),
+            o.x + 64.0,
+            o.y + 53.0,
+            crate::i18n::t("Preferences"),
+            c.muted,
+        );
+    } else {
+        winui::text_font(
+            &p,
+            winui::tahoma_title(),
+            o.x + 18.0,
+            o.y + 32.0,
+            crate::i18n::t("Swoopdl Configuration"),
+            c.text,
+        );
+        winui::text_font(
+            &p,
+            font.clone(),
+            o.x + 18.0,
+            o.y + 57.0,
+            crate::i18n::t("Preferences"),
+            c.muted,
+        );
+    }
     let mut selected_next = None;
     let mut focus_next = None;
     if ui.memory(|m| m.has_focus(egui::Id::unique(("opt-tab", selected)))) {
@@ -7082,20 +7213,39 @@ fn fluent_options_nav(ui: &mut Ui, o: Pos2, selected: usize) -> Option<usize> {
         if *page == active || response.hovered() {
             p.rect_filled(
                 rc,
-                6.0,
+                if branded { 9.0 } else { 6.0 },
                 if *page == active {
                     c.highlight_hot
                 } else {
                     c.subtle_hot
                 },
             );
+            if branded && *page == active {
+                p.rect_stroke(
+                    rc,
+                    9.0,
+                    egui::Stroke::new(1.0, c.toolbar_hot_border),
+                    egui::StrokeKind::Inside,
+                );
+            }
         }
         if *page == active {
             let bar = winui::rect(Rect::from_min_size(
-                pos2(o.x + 10.0, y + 7.0),
+                pos2(o.x + if branded { 12.0 } else { 10.0 }, y + 7.0),
                 vec2(3.0, 20.0),
             ));
-            p.rect_filled(bar, 2.0, c.accent);
+            p.rect_filled(bar, if branded { 1.5 } else { 2.0 }, c.accent);
+        }
+        if branded {
+            p.rect_filled(
+                r(o, 18.0, y - o.y + 5.0, 25.0, 27.0),
+                7.0,
+                if *page == active {
+                    c.subtle_hot
+                } else {
+                    c.egui_panel
+                },
+            );
         }
         let icon = match *page {
             0 => Icon::PageGeneral,
@@ -7111,8 +7261,14 @@ fn fluent_options_nav(ui: &mut Ui, o: Pos2, selected: usize) -> Option<usize> {
             REMOTE_PAGE => Icon::PageRemote,
             _ => Icon::PageGeneral,
         };
-        icon.image(true)
-            .paint_at(ui, r(o, 20.0, y - o.y + 10.0, 17.0, 17.0));
+        let page_icon = icon.image(true);
+        if branded {
+            page_icon
+                .tint(graphite_settings_icon_color(*page, *page == active))
+                .paint_at(ui, r(o, 22.0, y - o.y + 10.0, 17.0, 17.0));
+        } else {
+            page_icon.paint_at(ui, r(o, 20.0, y - o.y + 10.0, 17.0, 17.0));
+        }
         let translated = crate::i18n::t(title);
         let clipped = winui::ellipsize(&p, &font, translated, 156.0);
         winui::text_font(
@@ -7418,6 +7574,25 @@ fn header(
 ) {
     let p = ui.painter().clone();
     let fluent = crate::theme::modern_layout();
+    if crate::theme::current().id.as_ref() == "fluent" {
+        let c = crate::theme::colors();
+        let panel = r(o, 16.0, 42.0, 660.0, 59.0);
+        p.rect_filled(panel, 10.0, c.header);
+        p.rect_stroke(
+            panel,
+            10.0,
+            egui::Stroke::new(1.0, c.group_line),
+            egui::StrokeKind::Inside,
+        );
+        p.rect_filled(r(o, 27.0, 52.0, 42.0, 39.0), 9.0, c.highlight_hot);
+        icon.image(true)
+            .tint(c.accent)
+            .paint_at(ui, r(o, 32.0, 55.0, 32.0, 32.0));
+        let font = egui::FontId::proportional(22.0);
+        let shown = winui::ellipsize(&p, &font, crate::i18n::t(title), 576.0);
+        winui::text_font(&p, font, o.x + 80.0, o.y + 77.0, &shown, c.text);
+        return;
+    }
     if fluent {
         p.rect_filled(
             r(o, 16.0, 51.0, 42.0, 40.0),

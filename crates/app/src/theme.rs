@@ -1015,6 +1015,12 @@ pub fn apply_theme(ctx: &egui::Context) {
         // Tooltips as Windows 11's: rounded corners, a hairline border, roomy padding.
         v.menu_corner_radius = radius(m.popup_radius);
         v.window_stroke = Stroke::new(1.0, c.egui_window_border);
+        // Fluent uses flat layers even for egui-owned tooltips, menus and popups.
+        // All other themes retain their native era shadows unchanged.
+        if theme.id == "fluent" {
+            v.window_shadow = egui::epaint::Shadow::NONE;
+            v.popup_shadow = egui::epaint::Shadow::NONE;
+        }
         v
     };
     ctx.set_visuals_of(egui::Theme::Dark, visuals(Visuals::dark(), &theme.dark));

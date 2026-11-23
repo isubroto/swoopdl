@@ -241,6 +241,8 @@ pub fn menu_bar(ui: &mut Ui, o: Pos2, width: f32, open: Option<usize>) -> Option
         o.y + menu_height() - 1.0,
         MENUBAR_LINE(),
     );
+    // Graphite Current keeps the menu hierarchy neutral. Keyboard and pointer
+    // interaction remain exactly as before; color is reserved for active commands.
     let mut hit = None;
     // For screen readers and UI Automation (#113): a menu bar whose titles are menu items that
     // open their menus (Click, as with the mouse).
@@ -1157,6 +1159,7 @@ fn popup_level<C: Clone>(
             o.y + size.y - 1.0,
             POPUP_BG(),
         );
+        // No decorative flyout rail: selection and keyboard focus provide hierarchy.
         let pointer = ui.ctx().pointer_hover_pos();
         let clicked = ui.input(|i| i.pointer.primary_released());
         // The pointer moving over an item takes the highlight from the keyboard.
@@ -1420,6 +1423,98 @@ fn popup_level<C: Clone>(
     }
 }
 
+// Graphite Current Fluent paints semantic ink directly into the existing themed SVGs.
+// Disabled commands still use the normal disabled glyph and stay non-interactive.
+fn fluent_command_ink(icon: Icon) -> Color32 {
+    let dark = crate::theme::dark();
+    match (dark, icon) {
+        (true, Icon::AddTorrent) => rgb(101, 208, 202),
+        (false, Icon::AddTorrent) => rgb(17, 127, 140),
+        (true, Icon::Resume | Icon::StartQueue) => rgb(114, 205, 165),
+        (false, Icon::Resume | Icon::StartQueue) => rgb(17, 108, 73),
+        (true, Icon::Stop | Icon::StopAll | Icon::StopQueue) => rgb(243, 191, 110),
+        (false, Icon::Stop | Icon::StopAll | Icon::StopQueue) => rgb(139, 92, 14),
+        (true, Icon::Delete | Icon::DeleteCompleted) => rgb(255, 143, 164),
+        (false, Icon::Delete | Icon::DeleteCompleted) => rgb(180, 35, 64),
+        (true, Icon::Options) => rgb(193, 177, 255),
+        (false, Icon::Options) => rgb(94, 78, 177),
+        (true, Icon::Scheduler) => rgb(117, 167, 245),
+        (false, Icon::Scheduler) => rgb(40, 105, 200),
+        _ => crate::theme::colors().accent,
+    }
+}
+
+// The Metro set has a monochrome SVG for each toolbar role. Request it with the
+// semantic ink (rather than tinting an already dark SVG and losing saturation).
+fn fluent_command_image(icon: Icon, ink: Color32) -> Option<egui::Image<'static>> {
+    let role = match icon {
+        Icon::AddUrl => "tb-add-url",
+        Icon::AddTorrent => "tb-add-torrent",
+        Icon::Resume => "tb-resume",
+        Icon::Stop => "tb-stop",
+        Icon::StopAll => "tb-stop-all",
+        Icon::Delete => "tb-delete",
+        Icon::DeleteCompleted => "tb-delete-completed",
+        Icon::Options => "tb-options",
+        Icon::Scheduler => "tb-scheduler",
+        Icon::StartQueue => "tb-start-queue",
+        Icon::StopQueue => "tb-stop-queue",
+        _ => return None,
+    };
+    let (source, tint) = crate::themeicons::source(role, 32.0, ink, true)?;
+    Some(egui::Image::new(source).tint(tint))
+}
+
+// Only themed monochrome tree icons are recoloured; full-colour Silk/file icons
+// retain their original appearance. Draw via the clipped tree painter.
+fn fluent_category_ink(role: &str) -> Color32 {
+    let dark = crate::theme::dark();
+    match (dark, role) {
+        (true, "cat-compressed") => rgb(243, 191, 110),
+        (false, "cat-compressed") => rgb(139, 92, 14),
+        (true, "cat-documents") => rgb(117, 167, 245),
+        (false, "cat-documents") => rgb(40, 105, 200),
+        (true, "cat-music") => rgb(255, 143, 164),
+        (false, "cat-music") => rgb(180, 35, 64),
+        (true, "cat-programs") => rgb(101, 208, 202),
+        (false, "cat-programs") => rgb(17, 127, 140),
+        (true, "cat-video") => rgb(193, 177, 255),
+        (false, "cat-video") => rgb(94, 78, 177),
+        (true, "cat-finished") => rgb(114, 205, 165),
+        (false, "cat-finished") => rgb(17, 108, 73),
+        (true, "cat-unfinished") => rgb(243, 191, 110),
+        (false, "cat-unfinished") => rgb(139, 92, 14),
+        (true, "cat-torrents") => rgb(101, 208, 202),
+        (false, "cat-torrents") => rgb(17, 127, 140),
+        (true, "cat-queues") => rgb(193, 177, 255),
+        (false, "cat-queues") => rgb(94, 78, 177),
+        _ => crate::theme::colors().accent,
+    }
+}
+
+fn fluent_category_image(ui: &Ui, painter: &egui::Painter, key: &IconKey, min: Pos2) -> bool {
+    let IconKey::Themed(role, _) = key else {
+        return false;
+    };
+    let Some((source, tint)) =
+        crate::themeicons::source(role, 16.0, fluent_category_ink(role), true)
+    else {
+        return false;
+    };
+    let rc = winui::rect(Rect::from_min_size(min, vec2(16.0, 16.0)));
+    let image = egui::Image::new(source);
+    if let Ok(egui::load::TexturePoll::Ready { texture }) = image.load_for_size(ui.ctx(), rc.size())
+    {
+        painter.image(
+            texture.id,
+            rc,
+            Rect::from_min_max(pos2(0.0, 0.0), pos2(1.0, 1.0)),
+            tint,
+        );
+    }
+    true
+}
+
 // ---- toolbar -------------------------------------------------------------------------------
 
 pub enum ToolbarEvent {
@@ -1431,11 +1526,166 @@ pub enum ToolbarEvent {
 /// Paint the etch (y 20, 21) and the toolbar band (y 22–91).
 /// Client y where the panes (Categories, list) start: below the toolbar band, in both modes.
 pub fn pane_top() -> f32 {
-    if crate::theme::modern_layout() {
+    if crate::theme::current().id == "fluent" {
+        64.0
+    } else if crate::theme::modern_layout() {
         90.0
     } else {
         70.0
     }
+}
+
+/// Graphite Current's compact, horizontal Fluent command bar. The command
+/// indices, egui response IDs, enabled predicates and split-menu events remain
+/// identical to the classic toolbar; only the painter and geometry differ.
+fn fluent_toolbar_compact(
+    ui: &mut Ui,
+    o: Pos2,
+    width: f32,
+    buttons: &[(Icon, &str, bool)],
+) -> Option<ToolbarEvent> {
+    let p = ui.painter().clone();
+    let c = crate::theme::colors();
+    let top = o.y + menu_height() + 2.0;
+    let height = 58.0;
+    let band = winui::rect(Rect::from_min_size(pos2(o.x, top), vec2(width, height)));
+    p.rect_filled(band, 0.0, c.egui_window);
+    p.line_segment(
+        [
+            pos2(band.left(), band.bottom() - 1.0),
+            pos2(band.right(), band.bottom() - 1.0),
+        ],
+        Stroke::new(1.0, c.toolbar_line),
+    );
+    if width <= 0.0 || buttons.is_empty() {
+        return None;
+    }
+    let n = buttons.len() as f32;
+    let pad = 8.0;
+    let gap = 3.0;
+    let avail = (width - 2.0 * pad - (n - 1.0) * gap).max(0.0);
+    let button_w = (avail / n).max(0.0);
+    let font = winui::segoe();
+    let mut event = None;
+    for (i, (icon, label, enabled)) in buttons.iter().enumerate() {
+        let x = o.x + pad + i as f32 * (button_w + gap);
+        let dropdown = matches!(icon, Icon::StartQueue | Icon::StopQueue | Icon::AddTorrent);
+        let drop_w = if dropdown { 13.0 } else { 0.0 };
+        let btn = Rect::from_min_size(pos2(x, top + 6.0), vec2(button_w, 43.0));
+        let rc = winui::rect(btn);
+        let response = ui.interact(rc, egui::Id::unique(("tb", i)), winui::pointer_only());
+        let label_full = crate::i18n::tc("toolbar", label);
+        let label_room = (button_w - 33.0 - drop_w).max(0.0);
+        let shown = winui::ellipsize(&p, &font, label_full, label_room);
+        let response = if shown != label_full {
+            response.on_hover_text(label_full)
+        } else {
+            response
+        };
+        let over_arrow = dropdown
+            && response
+                .hover_pos()
+                .is_some_and(|q| winui::mx(q.x) >= x + button_w - drop_w);
+        let down = response.is_pointer_button_down_on();
+        if i == 0 && *enabled {
+            p.rect_filled(
+                rc,
+                8.0,
+                if down {
+                    c.button_accent_pressed
+                } else if response.hovered() {
+                    c.button_accent_hot
+                } else {
+                    c.button_accent
+                },
+            );
+        } else if (response.hovered() && *enabled) || (over_arrow && dropdown) {
+            p.rect_filled(
+                rc,
+                8.0,
+                if down {
+                    c.toolbar_pressed
+                } else {
+                    c.toolbar_hot
+                },
+            );
+            p.rect_stroke(
+                rc,
+                8.0,
+                Stroke::new(1.0, c.toolbar_hot_border),
+                egui::StrokeKind::Inside,
+            );
+        }
+        let icon_size = (button_w - 9.0).clamp(0.0, 20.0);
+        if icon_size >= 8.0 {
+            let icon_rect = winui::rect(Rect::from_center_size(
+                pos2(x + 13.0, top + 27.5),
+                vec2(icon_size, icon_size),
+            ));
+            if i == 0 && *enabled {
+                // Simple visible plus on the sole emphasized Add URL action.
+                let center = icon_rect.center();
+                let ink = Stroke::new(1.8, c.button_accent_text);
+                p.line_segment([center - vec2(6.0, 0.0), center + vec2(6.0, 0.0)], ink);
+                p.line_segment([center - vec2(0.0, 6.0), center + vec2(0.0, 6.0)], ink);
+            } else if *enabled {
+                fluent_command_image(*icon, fluent_command_ink(*icon))
+                    .unwrap_or_else(|| icon.image(*enabled))
+                    .paint_at(ui, icon_rect);
+            } else {
+                icon.image(false).paint_at(ui, icon_rect);
+            }
+        }
+        if button_w > 34.0 {
+            text_font(
+                &p,
+                font.clone(),
+                x + 28.0,
+                top + 33.0,
+                &shown,
+                if i == 0 && *enabled {
+                    c.button_accent_text
+                } else if *enabled {
+                    TEXT()
+                } else {
+                    TB_DISABLED()
+                },
+            );
+        }
+        if dropdown && button_w > 19.0 {
+            let ax = x + button_w - 7.0;
+            let ay = top + 27.0;
+            if over_arrow {
+                p.line_segment(
+                    [
+                        pos2(winui::mx(x + button_w - drop_w), top + 12.0),
+                        pos2(winui::mx(x + button_w - drop_w), top + 40.0),
+                    ],
+                    Stroke::new(1.0, c.toolbar_hot_border),
+                );
+            }
+            for (row, half) in [3.0f32, 2.0, 1.0, 0.0].iter().enumerate() {
+                winui::fill_l(
+                    &p,
+                    ax - half,
+                    ay + row as f32,
+                    ax + half,
+                    ay + row as f32,
+                    TB_ARROW(),
+                );
+            }
+        }
+        // Preserve the split menu's availability even when its primary action
+        // is disabled, just like the classic toolbar.
+        if response.clicked() && (*enabled || over_arrow) {
+            event = Some(if over_arrow {
+                ToolbarEvent::Drop(i, pos2(winui::mx(x), btn.bottom()))
+            } else {
+                ToolbarEvent::Click(i)
+            });
+        }
+    }
+    event
 }
 
 pub fn toolbar(
@@ -1444,6 +1694,9 @@ pub fn toolbar(
     width: f32,
     buttons: &[(Icon, &str, bool)],
 ) -> Option<ToolbarEvent> {
+    if crate::theme::current().id == "fluent" {
+        return fluent_toolbar_compact(ui, o, width, buttons);
+    }
     let p = ui.painter().clone();
     let top = o.y + menu_height();
     let c = crate::theme::colors();
@@ -1458,6 +1711,7 @@ pub fn toolbar(
     );
     // Spacious presets use the UI font; compact presets retain Tahoma labels.
     let fluent = crate::theme::modern_layout();
+    let branded = crate::theme::current().id == "fluent";
     let font = if fluent {
         winui::segoe()
     } else {
@@ -1471,6 +1725,18 @@ pub fn toolbar(
 
     let band = Rect::from_min_size(pos2(o.x, top + 2.0), vec2(width, band_h));
     p.rect_filled(band, 0.0, if fluent { c.egui_window } else { WINDOW_BG() });
+    if branded && width > 16.0 {
+        // Inset, restrained command surface. The eleven existing command hitboxes
+        // and split-button hover/click behavior are unchanged.
+        let dock = winui::rect(band.shrink2(vec2(7.0, 4.0)));
+        p.rect_filled(dock, 10.0, c.egui_window);
+        p.rect_stroke(
+            dock,
+            10.0,
+            Stroke::new(1.0, c.toolbar_line),
+            egui::StrokeKind::Inside,
+        );
+    }
     if fluent {
         // A restrained Fluent command surface; existing toolbar geometry stays unchanged.
         p.line_segment(
@@ -1530,6 +1796,8 @@ pub fn toolbar(
         let resp = ui.interact(rc, egui::Id::unique(("tb", i)), winui::pointer_only());
         let resp = if cut { resp.on_hover_text(full) } else { resp };
         let past_button = |q: Pos2| winui::mx(q.x) >= x + bw;
+        // Secondary commands remain unboxed until hover; one strong Add URL
+        // button anchors the toolbar without competing decorative tiles.
         if fluent {
             // Add URL is the primary command even at rest; the other buttons retain their
             // existing action order, enabled predicates and split-button hit regions.
@@ -1556,7 +1824,7 @@ pub fn toolbar(
                     egui::StrokeKind::Inside,
                 );
             }
-            if matches!(i, 2 | 7 | 9) {
+            if !branded && matches!(i, 2 | 7 | 9) {
                 p.line_segment(
                     [
                         pos2(winui::mx(x - 4.0), top + 14.0),
@@ -1639,7 +1907,15 @@ pub fn toolbar(
             p.line_segment([center - vec2(8.0, 0.0), center + vec2(8.0, 0.0)], stroke);
             p.line_segment([center - vec2(0.0, 8.0), center + vec2(0.0, 8.0)], stroke);
         } else {
-            icon.image(*enabled).paint_at(ui, winui::rect(icon_rect));
+            // Fluent only: the glyph itself carries the meaningful action color.
+            // A disabled command always retains the existing disabled glyph.
+            if branded && *enabled {
+                fluent_command_image(*icon, fluent_command_ink(*icon))
+                    .unwrap_or_else(|| icon.image(*enabled))
+                    .paint_at(ui, winui::rect(icon_rect));
+            } else {
+                icon.image(*enabled).paint_at(ui, winui::rect(icon_rect));
+            }
         }
         // Label: x = btn.x + floor((w − ext)/2), +1 for drop-downs, last ink row 58. Every label
         // on one line (IDM draws the drop-downs' 1 px lower: in one row it read as a mistake).
@@ -1793,6 +2069,7 @@ pub fn categories(
 ) -> Option<TreeEvent> {
     let p = ui.painter().clone();
     let fluent = crate::theme::modern_layout();
+    let branded = crate::theme::current().id == "fluent";
     let row_h = if fluent { 39.0 } else { 16.0 };
     let inset = (row_h - 16.0) / 2.0;
     let heading_h = if fluent { 44.0 } else { 18.0 };
@@ -1804,11 +2081,17 @@ pub fn categories(
         pos2(right, bottom - 5.0),
     ));
     if fluent {
-        p.rect_filled(frame, 8.0, TREE_BG());
+        p.rect_filled(frame, if branded { 10.0 } else { 8.0 }, TREE_BG());
     }
     p.rect_stroke(
         frame,
-        if fluent { 8.0 } else { 0.0 },
+        if branded {
+            10.0
+        } else if fluent {
+            8.0
+        } else {
+            0.0
+        },
         Stroke::new(1.0, CAT_FRAME()),
         egui::StrokeKind::Inside,
     );
@@ -1817,7 +2100,11 @@ pub fn categories(
             pos2(o.x + 7.0, y0 + 1.0),
             vec2((right - o.x - 8.0).max(0.0), heading_h),
         ));
-        p.rect_filled(head, 6.0, crate::theme::colors().egui_window);
+        p.rect_filled(
+            head,
+            if branded { 8.0 } else { 6.0 },
+            crate::theme::colors().egui_window,
+        );
     }
     winui::fill_l(
         &p,
@@ -2057,8 +2344,21 @@ pub fn categories(
             if let Some(shade) = shade {
                 tp.rect_filled(
                     winui::rect(pill),
-                    crate::theme::metrics().part_radius,
+                    if branded {
+                        8.0
+                    } else {
+                        crate::theme::metrics().part_radius
+                    },
                     shade,
+                );
+            }
+            // Fluent selection receives a second subtle outline; Win stays unchanged.
+            if branded && r.selected {
+                tp.rect_stroke(
+                    winui::rect(pill),
+                    8.0,
+                    Stroke::new(1.0, crate::theme::colors().accent.gamma_multiply(0.34)),
+                    egui::StrokeKind::Inside,
                 );
             }
         } else if r.selected {
@@ -2075,8 +2375,14 @@ pub fn categories(
         if fluent && r.selected {
             tp.rect_filled(
                 winui::rect(Rect::from_min_size(
-                    pos2(area.left() + 3.0, top + 10.0),
-                    vec2(3.0, 18.0),
+                    pos2(
+                        area.left() + if branded { 5.0 } else { 3.0 },
+                        top + if branded { 8.0 } else { 10.0 },
+                    ),
+                    vec2(
+                        if branded { 4.0 } else { 3.0 },
+                        if branded { 22.0 } else { 18.0 },
+                    ),
                 )),
                 2.0,
                 crate::theme::colors().accent,
@@ -2093,8 +2399,12 @@ pub fn categories(
                 expander_box(&tp, o.x, top, open);
             }
         }
-        // Icons placed, not mirrored.
-        icons.paint_in(ui, &tp, r.icon.clone(), pos2(icon_x, top + inset));
+        // Fluent's themed category glyphs use role-specific ink; keep the
+        // existing icon fallback for other sets and the other themes.
+        let icon_at = pos2(icon_x, top + inset);
+        if !branded || !fluent_category_image(ui, &tp, &r.icon, icon_at) {
+            icons.paint_in(ui, &tp, r.icon.clone(), icon_at);
+        }
         if let Some(name) = r.badge {
             let rc = winui::rect(Rect::from_min_size(
                 pos2(icon_x + 7.0, top + inset + 7.0),

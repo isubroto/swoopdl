@@ -7010,7 +7010,7 @@ dependencies = [
 
 [[package]]
 name = "sdl-app"
-version = "0.1.5"
+version = "0.1.6"
 dependencies = [
  "arboard",
  "base64 0.23.1",
@@ -7071,7 +7071,7 @@ dependencies = [
 
 [[package]]
 name = "sdl-cli"
-version = "0.1.5"
+version = "0.1.6"
 dependencies = [
  "anyhow",
  "clap",
@@ -7090,7 +7090,7 @@ dependencies = [
 
 [[package]]
 name = "sdl-crash"
-version = "0.1.5"
+version = "0.1.6"
 dependencies = [
  "breakpad-symbols",
  "chrono",
@@ -7115,7 +7115,7 @@ dependencies = [
 
 [[package]]
 name = "sdl-debrid"
-version = "0.1.5"
+version = "0.1.6"
 dependencies = [
  "bytes",
  "futures",
@@ -7134,7 +7134,7 @@ dependencies = [
 
 [[package]]
 name = "sdl-engine"
-version = "0.1.5"
+version = "0.1.6"
 dependencies = [
  "base64 0.23.1",
  "bytes",
@@ -7178,7 +7178,7 @@ dependencies = [
 
 [[package]]
 name = "sdl-extract"
-version = "0.1.5"
+version = "0.1.6"
 dependencies = [
  "flate2",
  "lzma-rust2",
@@ -7191,7 +7191,7 @@ dependencies = [
 
 [[package]]
 name = "sdl-geo"
-version = "0.1.5"
+version = "0.1.6"
 dependencies = [
  "lzma-rust2",
  "png 0.18.1",
@@ -7200,7 +7200,7 @@ dependencies = [
 
 [[package]]
 name = "sdl-ipc"
-version = "0.1.5"
+version = "0.1.6"
 dependencies = [
  "craft-atomic",
  "dirs 7.0.0",
@@ -7212,7 +7212,7 @@ dependencies = [
 
 [[package]]
 name = "sdl-labserver"
-version = "0.1.5"
+version = "0.1.6"
 dependencies = [
  "anyhow",
  "axum",
@@ -7237,7 +7237,7 @@ dependencies = [
 
 [[package]]
 name = "sdl-mcp"
-version = "0.1.5"
+version = "0.1.6"
 dependencies = [
  "rmcp",
  "schemars 1.2.3",
@@ -7251,7 +7251,7 @@ dependencies = [
 
 [[package]]
 name = "sdl-nmhost"
-version = "0.1.5"
+version = "0.1.6"
 dependencies = [
  "chrono",
  "sdl-ipc",
@@ -7262,7 +7262,7 @@ dependencies = [
 
 [[package]]
 name = "sdl-remote"
-version = "0.1.5"
+version = "0.1.6"
 dependencies = [
  "aws-lc-rs",
  "axum",
@@ -7283,7 +7283,7 @@ dependencies = [
 
 [[package]]
 name = "sdl-tools"
-version = "0.1.5"
+version = "0.1.6"
 dependencies = [
  "aws-lc-rs",
  "base64 0.23.1",
@@ -7307,7 +7307,7 @@ dependencies = [
 
 [[package]]
 name = "sdl-torrent"
-version = "0.1.5"
+version = "0.1.6"
 dependencies = [
  "flate2",
  "librqbit",

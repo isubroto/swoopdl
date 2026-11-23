@@ -60,6 +60,10 @@ The image check needs Git metadata. The website build also reads repository docu
 
 ## Before submitting
 
+For a local pre-push environment, see [Local workflow checks](tools/dev/ci/README.md).
+On Windows, run `pwsh -File tools/dev/setup-ci.ps1`, then `pwsh -File tools/dev/ci.ps1`.
+The same runner can execute individual Linux workflow jobs through Docker and act.
+
 - Keep the change focused and explain its observable effect.
 - Run checks relevant to the changed behavior and report any failures or unavailable platform checks.
 - Update the affected user instructions and source map when defaults, package contents, commands, or setup steps change.

@@ -141,6 +141,8 @@ focus = "ring"
 - **`[controls]`** — the shape of text boxes, check boxes, buttons, progress bars, scroll bars,
   the focus mark and the title bar.
 - **`icons`** — `color`, `mono` (one colour) or `accent`.
+- **`icon-set`** — the artwork collection. For example, `"mac"` selects Swoopdl's
+  original Mac symbols; `icons = "mono"` keeps them readable in light and dark themes.
 - **`contrast = "high"`** — strengthens every edge and text colour on top of the rest.
 
 Every colour role, size and control style, with what it sets, is listed on the website's

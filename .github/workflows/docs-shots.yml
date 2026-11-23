@@ -30,7 +30,7 @@ jobs:
       # tools/shots/make.py (the help pages' pictures) reads its list with tomllib.
       - uses: actions/setup-python@v5
         with:
-          python-version: "3.12"
+          python-version: "3.15"
 
       - name: Toolchain
         run: rustup show active-toolchain; if (-not $?) { rustup toolchain install }

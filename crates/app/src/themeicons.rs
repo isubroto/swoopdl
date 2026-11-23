@@ -328,6 +328,35 @@ static SETS: LazyLock<Mutex<HashMap<String, Arc<Set>>>> = LazyLock::new(|| {
         32: ["ui-to-tray-symbolic.png"];
         48: ["ui-to-tray-symbolic.png"]);
     sets.insert("metro".to_owned(), Arc::new(Set::from_files(metro, true)));
+    // Original rounded Mac symbols, optically weighted at each size; no system artwork.
+    let mac = builtin_files!("mac";
+        16: ["tb-add-url.svg", "tb-add-torrent.svg", "tb-resume.svg", "tb-stop.svg",
+            "tb-stop-all.svg", "tb-delete.svg", "tb-delete-completed.svg", "tb-options.svg",
+            "tb-scheduler.svg", "tb-start-queue.svg", "tb-stop-queue.svg", "cat-all.svg",
+            "cat-compressed.svg", "cat-documents.svg", "cat-music.svg", "cat-programs.svg",
+            "cat-video.svg", "cat-torrents.svg", "cat-unfinished.svg", "cat-finished.svg",
+            "cat-queues.svg", "cat-folder.svg", "cat-folder-open.svg", "misc-emblem-ok.svg",
+            "misc-up.svg", "misc-down.svg", "misc-remove.svg", "ft-generic.svg", "ft-archive.svg",
+            "ft-audio.svg", "ft-video.svg", "ft-image.svg", "ft-document.svg", "ft-pdf.svg",
+            "ft-spreadsheet.svg", "ft-presentation.svg", "ft-text.svg", "ft-code.svg",
+            "ft-executable.svg", "ft-disk-image.svg", "ft-font.svg", "ft-torrent.svg",
+            "st-complete.svg", "st-downloading.svg", "st-paused.svg", "st-queued.svg",
+            "st-error.svg", "st-seeding.svg", "ui-minimize.svg", "ui-maximize.svg",
+            "ui-restore.svg", "ui-close.svg", "ui-to-tray.svg"];
+        24: ["tb-add-url.svg", "tb-add-torrent.svg", "tb-resume.svg", "tb-stop.svg",
+            "tb-stop-all.svg", "tb-delete.svg", "tb-delete-completed.svg", "tb-options.svg",
+            "tb-scheduler.svg", "tb-start-queue.svg", "tb-stop-queue.svg", "cat-all.svg",
+            "cat-compressed.svg", "cat-documents.svg", "cat-music.svg", "cat-programs.svg",
+            "cat-video.svg", "cat-torrents.svg", "cat-unfinished.svg", "cat-finished.svg",
+            "cat-queues.svg", "cat-folder.svg", "cat-folder-open.svg", "misc-emblem-ok.svg",
+            "misc-up.svg", "misc-down.svg", "misc-remove.svg", "ft-generic.svg", "ft-archive.svg",
+            "ft-audio.svg", "ft-video.svg", "ft-image.svg", "ft-document.svg", "ft-pdf.svg",
+            "ft-spreadsheet.svg", "ft-presentation.svg", "ft-text.svg", "ft-code.svg",
+            "ft-executable.svg", "ft-disk-image.svg", "ft-font.svg", "ft-torrent.svg",
+            "st-complete.svg", "st-downloading.svg", "st-paused.svg", "st-queued.svg",
+            "st-error.svg", "st-seeding.svg", "ui-minimize.svg", "ui-maximize.svg",
+            "ui-restore.svg", "ui-close.svg", "ui-to-tray.svg"]);
+    sets.insert("mac".to_owned(), Arc::new(Set::from_files(mac, true)));
     // GNOME's adwaita-icon-theme 51.0 (LGPL-3, assets/themes/adwaita/icons/LICENSE), its files
     // as GNOME ships them: colour pictures at 16 pixels and drawings above, one-colour symbolic
     // icons tinted. The PDF, torrent-file and Hide to the notification area icons are SDL's
@@ -743,6 +772,38 @@ mod tests {
     use super::*;
 
     #[test]
+    fn mac_symbols_cover_every_need_and_render_in_light_and_dark_ink() {
+        let theme = crate::themefile::builtin("mac", include_str!("../assets/themes/mac.toml"));
+        assert_eq!(theme.icon_set.as_deref(), Some("mac"));
+        assert_eq!(theme.icons, crate::palette::IconStyle::Mono);
+        let mac = set("mac").expect("Mac has its own built-in icon set");
+        for (need, _) in NEEDS {
+            for px in [16, 24] {
+                let file = mac
+                    .files
+                    .get(&((*need).to_owned(), px))
+                    .unwrap_or_else(|| panic!("mac lacks {need} at {px}"));
+                assert!(file.mono && !file.png, "mac {need} {px}: symbolic SVG");
+                for ink in ["#262626", "#ececee"] {
+                    let bytes = inked(&file.bytes, ink);
+                    let image =
+                        egui_extras::image::load_svg_bytes(&bytes, &Default::default()).unwrap();
+                    assert_eq!(image.size, [px as usize; 2], "mac {need} {px}");
+                    assert!(image.pixels.iter().any(|p| p.a() > 0), "mac {need}: empty");
+                }
+            }
+        }
+        let metro = set("metro").unwrap();
+        for need in ["tb-add-url", "tb-options", "cat-folder", "ft-document"] {
+            assert_ne!(
+                mac.file(need, 24.0).unwrap().1.bytes,
+                metro.file(need, 24.0).unwrap().1.bytes,
+                "mac {need} must have its own artwork"
+            );
+        }
+    }
+
+    #[test]
     fn every_need_has_one_id_and_metro_has_them_all() {
         let mut ids: Vec<&str> = NEEDS.iter().map(|(n, _)| *n).collect();
         ids.sort_unstable();
@@ -838,7 +899,7 @@ mod tests {
     #[test]
     fn every_built_in_icon_file_is_a_need_and_carried() {
         let dir = std::path::Path::new(env!("CARGO_MANIFEST_DIR")).join("assets/themes");
-        for name in ["metro", "adwaita", "breeze", "luna", "aero", "aqua"] {
+        for name in ["metro", "mac", "adwaita", "breeze", "luna", "aero", "aqua"] {
             let carried = set(name).unwrap();
             let mut n = 0;
             for px in SIZES {
@@ -870,7 +931,7 @@ mod tests {
     /// drawing's largest scales cleanly), so no picture is stretched.
     #[test]
     fn pictures_come_in_every_size_the_loader_asks_for() {
-        for name in ["metro", "adwaita", "breeze", "luna", "aero", "aqua"] {
+        for name in ["metro", "mac", "adwaita", "breeze", "luna", "aero", "aqua"] {
             let set = set(name).unwrap();
             for (need, _) in NEEDS {
                 let sizes: Vec<u32> = SIZES

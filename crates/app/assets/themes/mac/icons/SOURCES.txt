@@ -1,0 +1,12 @@
+Swoopdl Mac symbolic icons
+
+Original artwork created for Swoopdl. Licensed under the repository's
+GPL-3.0-or-later license (see LICENSE at the repository root).
+
+These independent rounded symbol drawings do not contain Apple system artwork,
+SF Symbols exports, proprietary fonts, or Microsoft's Fluent icons.
+White SVG strokes and fills take the active theme's text or disabled color.
+The 16 px versions use a slightly heavier optical stroke than the 24 px versions.
+SVGs scale to higher display densities without raster variants.
+
+Regenerate with: python tools/icon/build_mac.py

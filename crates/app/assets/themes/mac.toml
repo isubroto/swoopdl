@@ -13,8 +13,8 @@
 # grays #E5E5EA #D1D1D6 #8E8E93 (light) and #48484A #3A3A3C #2C2C2E #1C1C1E (dark).
 name = "Mac"
 inherits = "classic"
-icon-set = "metro"
-icons = "mono"
+icon-set = "mac"
+icons = "mono" # Tint the Mac symbols with the theme's text colour.
 
 [controls]
 button = "fluent"

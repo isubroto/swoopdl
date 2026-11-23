@@ -937,7 +937,7 @@ mod tests {
         let mac = builtins()[10];
         assert_eq!(mac.id, "mac");
         assert_eq!(mac.name, "Mac");
-        assert_eq!(mac.icon_set.as_deref(), Some("metro"));
+        assert_eq!(mac.icon_set.as_deref(), Some("mac"));
         assert_eq!(mac.controls.button, ButtonLook::Fluent);
         assert_eq!(mac.controls.scroll, ScrollLook::Overlay);
         assert_eq!(mac.controls.caption, CaptionLook::System);

@@ -2,9 +2,9 @@
 # Keeps its original rounded controls, caption painter and gloss, with a modern
 # workspace and the existing monochrome icon set. No Apple artwork is included.
 
-name = "aqua"
+name = "Aqua"
 icon-set = "aqua"
-icons = "aqua"
+icons = "mono"
 
 [controls]
 field-focus = "ring"

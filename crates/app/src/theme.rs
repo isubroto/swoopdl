@@ -41,9 +41,9 @@ pub fn preferred_id(id: &str) -> &str {
     }
 }
 
-/// The spacious desktop layout shared by Fluent, Win and refreshed Aqua.
+/// The spacious workspace layout for modern themes; Mac has independent materials.
 pub fn modern_layout() -> bool {
-    matches!(current().id.as_ref(), "fluent" | "aqua" | "win")
+    matches!(current().id.as_ref(), "fluent" | "aqua" | "win" | "mac")
 }
 
 /// The active theme.
@@ -930,7 +930,7 @@ fn sharp_text(defs: &mut egui::FontDefinitions) {
 /// egui's text sizes from the theme (tooltips, multi-line boxes).
 fn text_styles(ctx: &egui::Context) {
     let m = metrics();
-    let fluent = matches!(current().id.as_ref(), "fluent" | "win");
+    let fluent = matches!(current().id.as_ref(), "fluent" | "win" | "mac");
     let small = if fluent {
         m.font_small.max(12.0)
     } else {
@@ -1007,7 +1007,7 @@ pub fn apply_theme(ctx: &egui::Context) {
         if c.egui_widget_border != egui::Color32::TRANSPARENT {
             v.widgets.inactive.bg_stroke = Stroke::new(1.0, c.egui_widget_border);
         }
-        v.window_corner_radius = if matches!(theme.id.as_ref(), "fluent" | "aqua" | "win") {
+        v.window_corner_radius = if matches!(theme.id.as_ref(), "fluent" | "aqua" | "win" | "mac") {
             radius(m.popup_radius)
         } else {
             CornerRadius::same(0)
@@ -1054,6 +1054,7 @@ mod mode_tests {
             "high-contrast",
             "my-theme",
             "fluent",
+            "mac",
         ] {
             assert_eq!(preferred_id(id), id);
         }

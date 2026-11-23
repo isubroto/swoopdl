@@ -1,6 +1,7 @@
 # Swoopdl Fluent -- distinct Swoopdl-branded design (not the Win preset).
 # Built on Swoopdl's existing theme DSL; IDM Classic remains available.
 # No command, persistence, network, scheduler or download behavior changes.
+#
 name = "Swoopdl Fluent"
 inherits = "classic"
 icon-set = "metro" # Reuse the already-shipped monochrome-capable icon collection.
@@ -16,141 +17,153 @@ caption = "system"
 focus = "ring"
 
 [sizes]
-radius = 10
-"radius.button" = 10
-"radius.part" = 8
-"radius.check" = 5
-"radius.flyout" = 14
-"radius.menu-item" = 10
-"radius.egui" = 12
-"radius.popup" = 14
-"list.row" = 43
-"list.header" = 40
+# Radius steps by hierarchy. Nested radius <= parent (menu-item 6 in popup 10).
+radius = 6
+"radius.button" = 6
+"radius.part" = 4
+"radius.check" = 3
+"radius.flyout" = 10
+"radius.menu-item" = 6
+"radius.egui" = 8
+"radius.popup" = 10
+# Two-line rows (name + speed/ETA) fit in 40; header recedes at 32.
+"list.row" = 40
+"list.header" = 32
 
-"font.ui" = 14
-"font.ui.bold" = 14
+# One size for UI and body; hierarchy comes from weight and muted color.
+"font.ui" = 13
+"font.ui.bold" = 13
 "font.body" = 13
 "font.small" = 12
 
 [seeds.light]
-background = "#F4F7FB"
-surface = "#FFFFFF"
-header = "#EDF2F8"
-text = "#1C283A"
-accent = "#2869C8"
-selection = "#E2ECFC"
-error = "#B42340"
-warning = "#8B5C0E"
-success = "#116C49"
+background = "#EEF1F3"
+surface = "#FBFCFC"
+header = "#E4E9ED"
+text = "#18222B"
+accent = "#2F4D6B"
+selection = "#CBDBEA"
+error = "#B3203A"
+warning = "#A24A0A"
+success = "#17704A"
 
 [seeds.dark]
-background = "#151922"
-surface = "#1C2431"
-header = "#252F3E"
-text = "#F2F5FA"
-accent = "#75A7F5"
-selection = "#293B55"
+background = "#13171C"
+surface = "#1A2027"
+header = "#222A33"
+text = "#EDF1F4"
+accent = "#8DB4DA"
+selection = "#33485F"
 error = "#FF8FA4"
-warning = "#F3BF6E"
-success = "#72CDA5"
+warning = "#FFA270"
+success = "#6FD0A0"
 
 [light]
-"tree-chevrons" = true
-"tree" = "#FFFFFF"
-"tree.frame" = "#DCE4EF"
-"menubar" = "#F4F7FB"
-"menubar.bottom" = "#F4F7FB"
-"menubar.line" = "#E1E7F0"
-"menu.border" = "#CFD9E7"
-"menu.hot" = "#E2ECFC"
-"toolbar.hot" = "#E2ECFC"
-"toolbar.hot.faint" = "#F2F6FD"
-"toolbar.pressed" = "#CFDFF5"
-"toolbar.hot.border" = "#B3CCEC"
-"toolbar.hot.edge" = "#AEC8E8"
-"list.frame" = "#DCE4EF"
-"table.line" = "#E6EBF3"
-"header.sep" = "#DCE4EF"
-"tab.page" = "#FFFFFF"
-"group.line" = "#DCE4EF"
-"selection.inactive" = "#E2ECFC"
-caption = "#F4F7FB"
+tree-chevrons = true
+tree = "#FBFCFC"
+"tree.frame" = "#D3DBE2"
+menubar = "#EEF1F3"
+"menubar.bottom" = "#EEF1F3"
+"menubar.line" = "#DAE0E5"
+"menu.border" = "#C6D0D9"
+"menu.hot" = "#E6EDF3"
+"toolbar.hot" = "#E6EDF3"
+"toolbar.hot.faint" = "#F2F5F8"
+"toolbar.pressed" = "#C4D4E4"
+"toolbar.hot.border" = "#B2C3D4"
+"toolbar.hot.edge" = "#AFC0D1"
+"list.frame" = "#D3DBE2"
+"table.line" = "#E3E8EC"
+"header.sep" = "#CBD4DC"
+"tab.page" = "#FBFCFC"
+"group.line" = "#D3DBE2"
+caption = "#EEF1F3"
 
-"text.muted" = "#52647E"
-"selection" = "#E2ECFC"
-"selection.text" = "#1C283A"
-"selection.muted" = "#52647E"
-"header" = "#EDF2F8"
-"list.grid" = "#DFE7F1"
-"subtle.hot" = "#EAF1FB"
-"egui.window" = "#FFFFFF"
-"egui.panel" = "#F4F7FB"
-"egui.widget" = "#FFFFFF"
-"egui.widget.border" = "#DCE4EF"
-"field" = "#FFFFFF"
-"field.border" = "#A6B7CF"
-"button" = "#FFFFFF"
-"button.border" = "#D5DFEC"
-"button.accent" = "#2869C8"
-"button.accent.hot" = "#215CB5"
-"button.accent.pressed" = "#194D99"
+# Selected is clearly stronger than hover; inactive goes neutral.
+selection = "#CBDBEA"
+"selection.inactive" = "#E2E7EC"
+"selection.text" = "#18222B"
+"selection.muted" = "#4B5C6B"
+
+"text.muted" = "#4B5C6B"
+header = "#E4E9ED"
+"list.grid" = "#E3E8EC"
+"subtle.hot" = "#E8EEF3"
+"egui.window" = "#FBFCFC"
+"egui.panel" = "#EEF1F3"
+"egui.widget" = "#FBFCFC"
+"egui.widget.border" = "#D3DBE2"
+
+field = "#FFFFFF"
+"field.border" = "#7A8B9B"
+button = "#FFFFFF"
+"button.border" = "#C3CED8"
+"button.accent" = "#2F4D6B"
+"button.accent.hot" = "#264159"
+"button.accent.pressed" = "#1D3348"
 "button.accent.text" = "#FFFFFF"
-"focus.ring" = "#1754AB"
-"link" = "#195DAF"
-"highlight.hot" = "#E2ECFC"
-"progress.bar" = "#117F8C"
-"meter.fill" = "#117F8C"
-"check.on" = "#2869C8"
-"check.on.hot" = "#215CB5"
-"check.on.pressed" = "#194D99"
 
+# Gold ring = brand eye ring. ~3.5:1 on surfaces.
+"focus.ring" = "#B87A00"
+link = "#25547F"
+"highlight.hot" = "#E6EDF3"
+# The one warm color. ~3.2:1 against white so the bar reads on its track.
+"progress.bar" = "#BF8100"
+"meter.fill" = "#BF8100"
+"check.on" = "#2F4D6B"
+"check.on.hot" = "#264159"
+"check.on.pressed" = "#1D3348"
 
 [dark]
-"tree-chevrons" = true
-"tree" = "#191F2B"
-"tree.frame" = "#354256"
-"menubar" = "#151922"
-"menubar.bottom" = "#151922"
-"menubar.line" = "#2B3545"
-"menu.border" = "#435268"
-"menu.hot" = "#293B55"
-"toolbar.hot" = "#293B55"
-"toolbar.hot.faint" = "#212B3B"
-"toolbar.pressed" = "#344A67"
-"toolbar.hot.border" = "#49617E"
-"toolbar.hot.edge" = "#49617E"
-"list.frame" = "#354256"
-"table.line" = "#313E50"
-"header.sep" = "#435268"
-"tab.page" = "#1C2431"
-"group.line" = "#354256"
-"selection.inactive" = "#293B55"
-caption = "#151922"
+tree-chevrons = true
+tree = "#171C22"
+"tree.frame" = "#313B47"
+menubar = "#13171C"
+"menubar.bottom" = "#13171C"
+"menubar.line" = "#252D36"
+"menu.border" = "#3D4957"
+"menu.hot" = "#232F3C"
+"toolbar.hot" = "#232F3C"
+"toolbar.hot.faint" = "#1D2630"
+"toolbar.pressed" = "#304459"
+"toolbar.hot.border" = "#46596E"
+"toolbar.hot.edge" = "#46596E"
+"list.frame" = "#313B47"
+"table.line" = "#28313B"
+"header.sep" = "#3D4957"
+"tab.page" = "#1A2027"
+"group.line" = "#313B47"
+caption = "#13171C"
 
-"text.muted" = "#B4C4D8"
-"selection" = "#293B55"
-"selection.text" = "#F2F5FA"
-"selection.muted" = "#B4C4D8"
-"header" = "#252F3E"
-"list.grid" = "#313E50"
-"subtle.hot" = "#29384C"
-"egui.window" = "#1C2431"
-"egui.panel" = "#151922"
-"egui.widget" = "#222C3A"
-"egui.widget.border" = "#435268"
-"field" = "#222C3A"
-"field.border" = "#71819C"
-"button" = "#273243"
-"button.border" = "#54657D"
-"button.accent" = "#75A7F5"
-"button.accent.hot" = "#95BCFF"
-"button.accent.pressed" = "#5C91E5"
-"button.accent.text" = "#101D2B"
-"focus.ring" = "#B6D0FF"
-"link" = "#89B9FF"
-"highlight.hot" = "#293B55"
-"progress.bar" = "#65D0CA"
-"meter.fill" = "#65D0CA"
-"check.on" = "#75A7F5"
-"check.on.hot" = "#95BCFF"
-"check.on.pressed" = "#5C91E5"
+selection = "#33485F"
+"selection.inactive" = "#27323E"
+"selection.text" = "#EDF1F4"
+"selection.muted" = "#B2C0CE"
+
+"text.muted" = "#AEBDCB"
+header = "#222A33"
+"list.grid" = "#28313B"
+"subtle.hot" = "#26323F"
+"egui.window" = "#1A2027"
+"egui.panel" = "#13171C"
+"egui.widget" = "#20272F"
+"egui.widget.border" = "#3D4957"
+
+field = "#20272F"
+"field.border" = "#6F8093"
+button = "#252D37"
+"button.border" = "#566678"
+"button.accent" = "#8DB4DA"
+"button.accent.hot" = "#A6C5E4"
+"button.accent.pressed" = "#759FC9"
+"button.accent.text" = "#0E1822"
+
+# White ring: gold has no contrast against the light accent button here.
+"focus.ring" = "#FFFFFF"
+link = "#9CC0E3"
+"highlight.hot" = "#232F3C"
+"progress.bar" = "#F2B93B"
+"meter.fill" = "#F2B93B"
+"check.on" = "#8DB4DA"
+"check.on.hot" = "#A6C5E4"
+"check.on.pressed" = "#759FC9"

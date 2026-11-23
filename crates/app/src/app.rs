@@ -6008,6 +6008,8 @@ impl App {
             true,
             on("fluent"),
         ));
+        // Independent macOS 27-inspired theme; not an alias for Aqua or Fluent.
+        items.push(Radio("Mac", Cmd::Theme("mac"), true, on("mac")));
         items.push(Radio("Aqua", Cmd::Theme("aqua"), true, on("aqua")));
         items.push(Radio(
             "IDM Classic",
@@ -6996,7 +6998,7 @@ impl App {
             let width = (w - list_left - 7.0).max(0.0);
             let c = crate::theme::colors();
             let p = ui.painter();
-            let branded = crate::theme::current().id == "fluent";
+            let branded = matches!(crate::theme::current().id.as_ref(), "fluent" | "mac");
             let panel = winui::rect(egui::Rect::from_min_size(
                 pos2(left, top),
                 egui::vec2(width, 70.0),

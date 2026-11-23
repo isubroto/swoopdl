@@ -622,7 +622,7 @@ pub static CLASSIC: Theme = Theme {
 /// (written out above), then the ones shipped as theme files (`assets/themes/`, in the format
 /// users write, so they double as examples). Native follows the system and is made when chosen
 /// (`crate::native`).
-pub fn builtins() -> [&'static Theme; 10] {
+pub fn builtins() -> [&'static Theme; 11] {
     static HIGH_CONTRAST: std::sync::LazyLock<Theme> = std::sync::LazyLock::new(|| {
         crate::themefile::builtin(
             "high-contrast",
@@ -654,6 +654,10 @@ pub fn builtins() -> [&'static Theme; 10] {
     static WIN: std::sync::LazyLock<Theme> = std::sync::LazyLock::new(|| {
         crate::themefile::builtin("win", include_str!("../assets/themes/win.toml"))
     });
+    // Mac is independent of Aqua: macOS 27-inspired modern light/dark materials.
+    static MAC: std::sync::LazyLock<Theme> = std::sync::LazyLock::new(|| {
+        crate::themefile::builtin("mac", include_str!("../assets/themes/mac.toml"))
+    });
     [
         &CLASSIC,
         &HIGH_CONTRAST,
@@ -665,6 +669,7 @@ pub fn builtins() -> [&'static Theme; 10] {
         &AQUA,
         &FLUENT,
         &WIN,
+        &MAC,
     ]
 }
 
@@ -858,7 +863,15 @@ mod tests {
         let ids: Vec<&str> = selectable_builtins().map(|t| t.id.as_ref()).collect();
         assert_eq!(
             ids,
-            ["classic", "high-contrast", "metro", "aqua", "fluent", "win"]
+            [
+                "classic",
+                "high-contrast",
+                "metro",
+                "aqua",
+                "fluent",
+                "win",
+                "mac"
+            ]
         );
         for id in ["native", "adwaita", "breeze", "luna", "aero"] {
             assert!(retired_theme(id));
@@ -897,6 +910,7 @@ mod tests {
                 include_str!("../assets/themes/fluent.toml"),
             ),
             ("win", "Win", include_str!("../assets/themes/win.toml")),
+            ("mac", "Mac", include_str!("../assets/themes/mac.toml")),
         ] {
             let v: serde_json::Value = toml::from_str(text).unwrap();
             let l = crate::themefile::parse(id, &v, |_| {
@@ -920,6 +934,14 @@ mod tests {
         assert_eq!(fluent.controls.button, ButtonLook::Fluent);
         assert_eq!(fluent.controls.scroll, ScrollLook::Overlay);
         assert_eq!(fluent.metrics.list_row, 43.0);
+        let mac = builtins()[10];
+        assert_eq!(mac.id, "mac");
+        assert_eq!(mac.name, "Mac");
+        assert_eq!(mac.icon_set.as_deref(), Some("metro"));
+        assert_eq!(mac.controls.button, ButtonLook::Fluent);
+        assert_eq!(mac.controls.scroll, ScrollLook::Overlay);
+        assert_eq!(mac.controls.caption, CaptionLook::System);
+        assert!(mac.dark.dark && !mac.light.dark);
         let win = builtins()[9];
         assert_eq!(win.id, "win");
         assert_eq!(win.name, "Win");

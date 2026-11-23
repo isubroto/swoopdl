@@ -1469,6 +1469,24 @@ fn fluent_command_image(icon: Icon, ink: Color32) -> Option<egui::Image<'static>
 // retain their original appearance. Draw via the clipped tree painter.
 fn fluent_category_ink(role: &str) -> Color32 {
     let dark = crate::theme::dark();
+    // Independent Mac sidebar palette: only selected when the Mac theme is active.
+    if crate::theme::current().id == "mac" {
+        return match (dark, role) {
+            (true, "cat-compressed" | "cat-unfinished") => rgb(255, 197, 98),
+            (false, "cat-compressed" | "cat-unfinished") => rgb(147, 91, 0),
+            (true, "cat-documents") => rgb(118, 182, 255),
+            (false, "cat-documents") => rgb(0, 102, 204),
+            (true, "cat-music") => rgb(255, 139, 181),
+            (false, "cat-music") => rgb(174, 40, 94),
+            (true, "cat-programs" | "cat-torrents") => rgb(95, 219, 194),
+            (false, "cat-programs" | "cat-torrents") => rgb(0, 126, 100),
+            (true, "cat-video" | "cat-queues") => rgb(187, 157, 255),
+            (false, "cat-video" | "cat-queues") => rgb(103, 66, 185),
+            (true, "cat-finished") => rgb(116, 222, 151),
+            (false, "cat-finished") => rgb(28, 125, 62),
+            _ => crate::theme::colors().accent,
+        };
+    }
     match (dark, role) {
         (true, "cat-compressed") => rgb(243, 191, 110),
         (false, "cat-compressed") => rgb(139, 92, 14),
@@ -1526,7 +1544,7 @@ pub enum ToolbarEvent {
 /// Paint the etch (y 20, 21) and the toolbar band (y 22–91).
 /// Client y where the panes (Categories, list) start: below the toolbar band, in both modes.
 pub fn pane_top() -> f32 {
-    if crate::theme::current().id == "fluent" {
+    if matches!(crate::theme::current().id.as_ref(), "fluent" | "mac") {
         64.0
     } else if crate::theme::modern_layout() {
         90.0
@@ -1694,7 +1712,7 @@ pub fn toolbar(
     width: f32,
     buttons: &[(Icon, &str, bool)],
 ) -> Option<ToolbarEvent> {
-    if crate::theme::current().id == "fluent" {
+    if matches!(crate::theme::current().id.as_ref(), "fluent" | "mac") {
         return fluent_toolbar_compact(ui, o, width, buttons);
     }
     let p = ui.painter().clone();
@@ -1711,7 +1729,7 @@ pub fn toolbar(
     );
     // Spacious presets use the UI font; compact presets retain Tahoma labels.
     let fluent = crate::theme::modern_layout();
-    let branded = crate::theme::current().id == "fluent";
+    let branded = matches!(crate::theme::current().id.as_ref(), "fluent" | "mac");
     let font = if fluent {
         winui::segoe()
     } else {
@@ -2069,7 +2087,7 @@ pub fn categories(
 ) -> Option<TreeEvent> {
     let p = ui.painter().clone();
     let fluent = crate::theme::modern_layout();
-    let branded = crate::theme::current().id == "fluent";
+    let branded = matches!(crate::theme::current().id.as_ref(), "fluent" | "mac");
     let row_h = if fluent { 39.0 } else { 16.0 };
     let inset = (row_h - 16.0) / 2.0;
     let heading_h = if fluent { 44.0 } else { 18.0 };

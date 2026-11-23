@@ -1,0 +1,251 @@
+# Swoopdl Mac: independent macOS 27 "Golden Gate"-inspired appearance.
+# Original design tokens; does not distribute Apple system assets or proprietary fonts.
+# Full native Liquid Glass, traffic-light chrome and system materials are future phases.
+#
+# What macOS 27 changed from Tahoe, and where it lands here:
+#   - Less default transparency, better diffusion  -> every surface is solid and tinted.
+#   - One uniform toolbar / window surface          -> menubar, caption, toolbar, egui.window share `background`.
+#   - Edge-to-edge sidebar, darker when active      -> `tree` is its own tint, framed by a hairline only.
+#   - Uniform, concentric corner radii              -> popup 14 > menu-item 8 (14 - 6 inset); capsule buttons.
+#   - Neutral Apple grays, accent only for state    -> blue appears only on selection, primary action, progress, focus.
+#   - Selected row = solid accent + white text; window/list unfocused = neutral gray.
+# Approximate system values (Apple says they drift between releases): systemBlue #007AFF / #0A84FF,
+# grays #E5E5EA #D1D1D6 #8E8E93 (light) and #48484A #3A3A3C #2C2C2E #1C1C1E (dark).
+name = "Mac"
+inherits = "classic"
+icon-set = "metro"
+icons = "mono"
+
+[controls]
+button = "fluent"
+check = "fluent"
+field-focus = "ring"
+progress = "line"
+scroll = "overlay"
+caption = "system"
+focus = "ring"
+
+[sizes]
+radius = 10
+"radius.button" = 14   # >= half the button height reads as the macOS 26/27 capsule; lower it if your painter does not clamp.
+"radius.part" = 8
+"radius.check" = 5
+"radius.flyout" = 14
+"radius.menu-item" = 8
+"radius.egui" = 14
+"radius.popup" = 14
+"list.row" = 40
+"list.header" = 30
+"font.ui" = 14
+"font.ui.bold" = 14
+"font.body" = 14
+"font.small" = 12
+
+[seeds.light]
+background = "#F2F2F2"
+surface = "#FFFFFF"
+header = "#F7F7F7"
+text = "#262626"
+accent = "#007AFF"
+selection = "#0063E1"
+error = "#D70015"
+warning = "#C93400"
+success = "#248A3D"
+
+[seeds.dark]
+background = "#2C2C2E"
+surface = "#1E1E1E"
+header = "#262628"
+text = "#ECECEE"
+accent = "#0A84FF"
+selection = "#0A5CD6"
+error = "#FF453A"
+warning = "#FF9F0A"
+success = "#30D158"
+
+[light]
+tree-chevrons = true
+# Sidebar and content
+tree = "#EFEFF1"
+"tree.frame" = "#D9D9DC"
+"list.frame" = "#D9D9DC"
+"list.grid" = "#EDEDEF"
+"table.line" = "#EDEDEF"
+"tab.page" = "#FFFFFF"
+"group.line" = "#DDDDE0"
+header = "#F7F7F7"
+"header.sep" = "#DDDDE0"
+"header.sorted" = "#EDEDEF"
+
+# Selected rows: solid accent, white text. Unfocused: neutral gray.
+selection = "#0063E1"
+"selection.inactive" = "#7A7A7F"
+"selection.text" = "#FFFFFF"
+"selection.muted" = "#E8F0FC"
+"text.muted" = "#6C6C70"
+"highlight.hot" = "#E4EFFE"
+"subtle.hot" = "#EEEEF0"
+
+# One uniform window / toolbar surface
+caption = "#F2F2F2"
+menubar = "#F2F2F2"
+"menubar.bottom" = "#F2F2F2"
+"menubar.line" = "#DEDEE1"
+"menubar.hot" = "#E3E3E6"
+"menubar.open" = "#D6D6DA"
+menu = "#F6F6F6"
+"menu.item" = "#F6F6F6"
+"menu.hot" = "#D6E7FD"
+"menu.border" = "#D2D2D6"
+"toolbar.hot" = "#E6E6E9"
+"toolbar.hot.faint" = "#EEEEF0"
+"toolbar.pressed" = "#D9D9DD"
+"toolbar.hot.border" = "#D2D2D6"
+"toolbar.hot.edge" = "#D2D2D6"
+"egui.window" = "#F2F2F2"
+"egui.panel" = "#F2F2F2"
+"egui.widget" = "#FFFFFF"
+"egui.widget.border" = "#D9D9DC"
+
+# Fields
+field = "#FFFFFF"
+"field.border" = "#A9A9AE"
+"field.bottom" = "#A9A9AE"
+
+# Secondary button: white, hairline edge
+button = "#FFFFFF"
+"button.hot" = "#F7F7F8"
+"button.pressed" = "#E9E9EB"
+"button.border" = "#D1D1D6"
+"button.bottom" = "#D1D1D6"
+"button.text" = "#262626"
+"button.text.pressed" = "#262626"
+"button.disabled" = "#F2F2F2"
+"button.disabled.border" = "#E3E3E6"
+# Primary button: accent fill, white label
+"button.accent" = "#007AFF"
+"button.accent.hot" = "#0A72EE"
+"button.accent.pressed" = "#0062CC"
+"button.accent.bottom" = "#0062CC"
+"button.accent.text" = "#FFFFFF"
+"button.accent.text.pressed" = "#E6F0FF"
+"button.default.border" = "#0062CC"
+"button.default.bottom" = "#0062CC"
+
+# Check boxes and radios
+check = "#FFFFFF"
+"check.hot" = "#F5F5F6"
+"check.pressed" = "#E8E8EA"
+"check.border" = "#B9B9BE"
+"check.border.hot" = "#A0A0A5"
+"check.border.pressed" = "#8E8E93"
+"check.border.disabled" = "#D6D6D9"
+"check.on" = "#007AFF"
+"check.on.hot" = "#0A72EE"
+"check.on.pressed" = "#0062CC"
+"check.on.disabled" = "#A9C9F2"
+"check.mark" = "#FFFFFF"
+
+# Progress, focus, links
+"progress.bar" = "#007AFF"
+"meter.fill" = "#007AFF"
+"meter.track" = "#E5E5EA"
+"meter.edge" = "#D1D1D6"
+"focus.ring" = "#5AA3FF"
+link = "#0068DA"
+
+# Overlay scrollbars: no visible track
+"scroll.track" = "#FFFFFF"
+"scroll.corner" = "#FFFFFF"
+"scroll.thumb" = "#B4B4B8"
+"scroll.thumb.hot" = "#9E9EA3"
+"scroll.thumb.pressed" = "#86868B"
+
+[dark]
+tree-chevrons = true
+tree = "#242426"
+"tree.frame" = "#3A3A3C"
+"list.frame" = "#3A3A3C"
+"list.grid" = "#2A2A2C"
+"table.line" = "#2A2A2C"
+"tab.page" = "#1E1E1E"
+"group.line" = "#3A3A3C"
+header = "#262628"
+"header.sep" = "#3A3A3C"
+"header.sorted" = "#303033"
+
+selection = "#0A5CD6"
+"selection.inactive" = "#48484A"
+"selection.text" = "#FFFFFF"
+"selection.muted" = "#D4E3FA"
+"text.muted" = "#98989D"
+"highlight.hot" = "#26374D"
+"subtle.hot" = "#2A2A2C"
+
+caption = "#2C2C2E"
+menubar = "#2C2C2E"
+"menubar.bottom" = "#2C2C2E"
+"menubar.line" = "#3A3A3C"
+"menubar.hot" = "#3A3A3C"
+"menubar.open" = "#48484A"
+menu = "#323234"
+"menu.item" = "#323234"
+"menu.hot" = "#1D4777"
+"menu.border" = "#48484A"
+"toolbar.hot" = "#3A3A3C"
+"toolbar.hot.faint" = "#323234"
+"toolbar.pressed" = "#48484A"
+"toolbar.hot.border" = "#555558"
+"toolbar.hot.edge" = "#555558"
+"egui.window" = "#323234"
+"egui.panel" = "#2C2C2E"
+"egui.widget" = "#3A3A3C"
+"egui.widget.border" = "#48484A"
+
+field = "#2A2A2C"
+"field.border" = "#6E6E73"
+"field.bottom" = "#6E6E73"
+
+button = "#48484A"
+"button.hot" = "#545456"
+"button.pressed" = "#636366"
+"button.border" = "#5E5E62"
+"button.bottom" = "#5E5E62"
+"button.text" = "#F2F2F2"
+"button.text.pressed" = "#FFFFFF"
+"button.disabled" = "#2E2E30"
+"button.disabled.border" = "#3A3A3C"
+"button.accent" = "#0A84FF"
+"button.accent.hot" = "#2B95FF"
+"button.accent.pressed" = "#0070E0"
+"button.accent.bottom" = "#0070E0"
+"button.accent.text" = "#FFFFFF"
+"button.accent.text.pressed" = "#E6F0FF"
+"button.default.border" = "#0070E0"
+"button.default.bottom" = "#0070E0"
+
+check = "#3A3A3C"
+"check.hot" = "#444446"
+"check.pressed" = "#505052"
+"check.border" = "#636366"
+"check.border.hot" = "#78787C"
+"check.border.pressed" = "#8E8E93"
+"check.border.disabled" = "#48484A"
+"check.on" = "#0A84FF"
+"check.on.hot" = "#2B95FF"
+"check.on.pressed" = "#0070E0"
+"check.on.disabled" = "#2F4F78"
+"check.mark" = "#FFFFFF"
+
+"progress.bar" = "#0A84FF"
+"meter.fill" = "#0A84FF"
+"meter.track" = "#3A3A3C"
+"meter.edge" = "#48484A"
+"focus.ring" = "#6BB0FF"
+link = "#419CFF"
+
+"scroll.track" = "#1E1E1E"
+"scroll.corner" = "#1E1E1E"
+"scroll.thumb" = "#6E6E73"
+"scroll.thumb.hot" = "#86868B"
+"scroll.thumb.pressed" = "#9C9CA1"

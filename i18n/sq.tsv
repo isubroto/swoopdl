@@ -186,7 +186,7 @@
 #. text in the Options window
 #. Options → Accounts: what these accounts are, and the services' rule against sharing
 #, machine
-	A debrid service downloads a file host's link with your own paid account and gives Swoopdl a direct link. Use only your own account: sharing an account or its links breaks the services' terms and can get it suspended. Downloads the browser already started stay as they are.	Një shërbim debrid shkarkon një lidhje të hostit të skedarit me llogarinë tuaj të paguar dhe i jep MDM-së një lidhje të drejtpërdrejtë. Përdorni vetëm llogarinë tuaj: ndarja e një llogarie ose lidhjeve të saj shkel kushtet e shërbimeve dhe mund të çojë në pezullimin e saj. Shkarkimet që shfletuesi ka nisur tashmë mbeten siç janë.
+	A debrid service downloads a file host's link with your own paid account and gives Swoopdl a direct link. Use only your own account: sharing an account or its links breaks the services' terms and can get it suspended. Downloads the browser already started stay as they are.	Një shërbim debrid shkarkon një lidhje të hostit të skedarit me llogarinë tuaj të paguar dhe i jep SDL-së një lidhje të drejtpërdrejtë. Përdorni vetëm llogarinë tuaj: ndarja e një llogarie ose lidhjeve të saj shkel kushtet e shërbimeve dhe mund të çojë në pezullimin e saj. Shkarkimet që shfletuesi ka nisur tashmë mbeten siç janë.
 #. text in errors.rs
 #. a torrent through a debrid service: one of its files has a name that would be written outside its folder; nothing was written. {name} the file's name as the service gave it
 #. {name} = a file name (keep the braces as they are)
@@ -823,7 +823,7 @@
 #. text in the Options window
 #. tooltip of the close-setting: checked keeps Swoopdl running when the window closes, in the notification area when available or else the taskbar; downloads continue; unchecked closing quits
 #, machine
-	Checked, closing the window keeps Swoopdl running: it hides in the notification area when available, or minimizes to the taskbar otherwise, and downloads continue; unchecked, closing quits Swoopdl	Kur zgjidhet, mbyllja e dritares e mban MDM-në në punë: fshihet në zonën e njoftimeve kur është e mundur, ose minimizohet në shiritin e detyrave, dhe shkarkimet vazhdojnë; kur nuk zgjidhet, mbyllja e ndalon MDM-në.
+	Checked, closing the window keeps Swoopdl running: it hides in the notification area when available, or minimizes to the taskbar otherwise, and downloads continue; unchecked, closing quits Swoopdl	Kur zgjidhet, mbyllja e dritares e mban SDL-në në punë: fshihet në zonën e njoftimeve kur është e mundur, ose minimizohet në shiritin e detyrave, dhe shkarkimet vazhdojnë; kur nuk zgjidhet, mbyllja e ndalon SDL-në.
 #. message or event log entry in the main window
 #. event log entry after Recheck: {have} and {total} are sizes ("1.2 GB of 4 GB there")
 #, machine
@@ -1041,10 +1041,10 @@
 	Customize keys to prevent or force downloading with Swoopdl	Personalizo çelësat për të parandaluar ose detyruar shkarkimin me Swoopdl
 #. text in the Options window
 #, machine
-	Customize Swoopdl Download panels in browsers	Personalizo panelet e shkarkimit të MDM-së në shfletues
+	Customize Swoopdl Download panels in browsers	Personalizo panelet e shkarkimit të SDL-së në shfletues
 #. text in the Options window
 #, machine
-	Customize Swoopdl menu items in context menu of browsers	Personalizo artikujt e menysë së MDM-së në menynë e kontekstit të shfletuesve
+	Customize Swoopdl menu items in context menu of browsers	Personalizo artikujt e menysë së SDL-së në menynë e kontekstit të shfletuesve
 #. text in countries.rs
 #. a country's name (where a download's server is)
 #, machine
@@ -1419,7 +1419,7 @@
 #. text in crashui.rs
 #. crash report window button: end the frozen Swoopdl and start it again
 #, machine
-	End and restart Swoopdl	Mbyllni dhe rinisni MDM-në
+	End and restart Swoopdl	Mbyllni dhe rinisni SDL-në
 #. text in the Add torrent window
 #, machine
 	Enter a magnet link or choose a .torrent file	Vendosni një lidhje magnet ose zgjidhni një skedar .torrent
@@ -2261,7 +2261,7 @@
 #. checkbox in the Options window
 #. Options → Remote check box (off by default)
 #, machine
-	Let phones and computers on the local network control Swoopdl	Lejo që telefonat dhe kompjuterat në rrjetin lokal të kontrollojnë MDM-në
+	Let phones and computers on the local network control Swoopdl	Lejo që telefonat dhe kompjuterat në rrjetin lokal të kontrollojnë SDL-në
 #. option (radio button) in the Batch download window
 #. the * in the address runs through letters
 #, machine
@@ -2479,32 +2479,32 @@
 #. text in the Options window
 #. Options → Remote → Pair a device: the remote control isn't listening (no network, port taken): the Remote page says why
 #, machine
-	Swoopdl can't be reached on the network now: Options → Remote says why.	MDM-ja s’mund të arrihet në rrjet tani: Opsionet → Në distancë tregon pse.
+	Swoopdl can't be reached on the network now: Options → Remote says why.	SDL-ja s’mund të arrihet në rrjet tani: Opsionet → Në distancë tregon pse.
 #. text in remote.rs
 #. remote control page (on a phone): the address typed isn't one Swoopdl downloads (not http, https, ftp or magnet)
 #, machine
-	Swoopdl cannot download this address.	MDM-ja s’mund ta shkarkojë këtë adresë.
+	Swoopdl cannot download this address.	SDL-ja s’mund ta shkarkojë këtë adresë.
 #. text in remote.rs
 #. remote control page (on a phone): adding a download failed
 #, machine
-	Swoopdl could not add it.	MDM-ja s’mundi ta shtonte.
+	Swoopdl could not add it.	SDL-ja s’mundi ta shtonte.
 #. text in remote.rs
 #. remote control page (on a phone): an action failed
 #, machine
-	Swoopdl could not do it.	MDM-ja s’mundi ta kryente.
+	Swoopdl could not do it.	SDL-ja s’mundi ta kryente.
 #. text in remote.rs
 #. remote control page (on a phone): Swoopdl can't be reached while pairing
 #, machine
-	Swoopdl does not answer. Check that it is running and on the same network.	MDM-ja s’përgjigjet. Kontrolloni që po funksionon dhe është në të njëjtin rrjet.
+	Swoopdl does not answer. Check that it is running and on the same network.	SDL-ja s’përgjigjet. Kontrolloni që po funksionon dhe është në të njëjtin rrjet.
 #. text in remote.rs
 #. remote control page (on a phone): Swoopdl can't be reached now; the page keeps trying by itself
 #. the trailing ... means it is still going on: keep it
 #, machine
-	Swoopdl does not answer. Trying again...	MDM-ja s’përgjigjet. Po provohet sërish...
+	Swoopdl does not answer. Trying again...	SDL-ja s’përgjigjet. Po provohet sërish...
 #. text in remote.rs
 #. remote control page (on a phone): no pairing code is shown in Swoopdl; "Pair a device" is Swoopdl's button
 #, machine
-	Swoopdl shows no code now. Click Pair a device there first.	MDM-ja s’tregon asnjë kod tani. Klikoni Çifto një pajisje aty fillimisht.
+	Swoopdl shows no code now. Click Pair a device there first.	SDL-ja s’tregon asnjë kod tani. Klikoni Çifto një pajisje aty fillimisht.
 #. text in whereis.rs
 #. how far a download's server is, by its round trip (60 to 150 ms)
 #, machine
@@ -2860,7 +2860,7 @@
 #. text in the Options window
 #. Options → Accounts: no system keyring/keychain answered (none runs, e.g. a desktop without one), so the sign-ins stay in Swoopdl's settings folder, which only the user's account may read
 #, machine
-	No system keyring answered, so sign-ins and passwords are kept in Swoopdl's settings, which only you can read.	Asnjë zinxhir çelësash i sistemit nuk u përgjigj, ndaj hyrjet dhe fjalëkalimet ruhen te cilësimet e MDM-së, të cilat mund t’i lexosh vetëm ti.
+	No system keyring answered, so sign-ins and passwords are kept in Swoopdl's settings, which only you can read.	Asnjë zinxhir çelësash i sistemit nuk u përgjigj, ndaj hyrjet dhe fjalëkalimet ruhen te cilësimet e SDL-së, të cilat mund t’i lexosh vetëm ti.
 #. message or event log entry in the main window
 #. event log entry: Add trackers changed nothing, the torrent had them all
 #, machine
@@ -2991,7 +2991,7 @@
 #. text in the Options window
 #. Options → Remote → Status: the remote control is off
 #, machine
-	Off: nothing on the network can reach Swoopdl.	Fikur: asgjë në rrjet s’mund të arrijë MDM-në.
+	Off: nothing on the network can reach Swoopdl.	Fikur: asgjë në rrjet s’mund të arrijë SDL-në.
 #. text in the Options window
 #, machine
 	Offer to download links copied to the clipboard	Ofroni shkarkimin e lidhjeve të kopjuara në kujtesë
@@ -3067,7 +3067,7 @@
 #. text in the Options window
 #. Options → Remote, at the bottom of the page
 #, machine
-	Only paired devices see or change anything. The first time, the phone's browser warns about Swoopdl's own certificate: its fingerprint is the one above.	Vetëm pajisjet e çiftuara shohin ose ndryshojnë diçka. Herën e parë, shfletuesi i telefonit paralajmëron për certifikatën e MDM-së: gjurma e saj është ajo më sipër.
+	Only paired devices see or change anything. The first time, the phone's browser warns about Swoopdl's own certificate: its fingerprint is the one above.	Vetëm pajisjet e çiftuara shohin ose ndryshojnë diçka. Herën e parë, shfletuesi i telefonit paralajmëron për certifikatën e SDL-së: gjurma e saj është ajo më sipër.
 #. text in playlistdlg.rs
 #. in Download video, a list longer than Swoopdl lists: only its first {n} videos are shown
 #. {n} = a number (keep the braces as they are)
@@ -3478,7 +3478,7 @@
 #. text in crashui.rs
 #. crash report window button: start Swoopdl again
 #, machine
-	Restart Swoopdl	Rinis MDM-në
+	Restart Swoopdl	Rinis SDL-në
 #. button in the Options window; text in the Options window
 #, machine
 	Restore the built-in categories	Rikthe kategoritë e integruara
@@ -4114,7 +4114,7 @@
 	Sunday	E diel
 #. link (opens a web page) in the Help menu's windows (About, updates, shortcuts, Tell a friend)
 #, machine
-	Support Swoopdl on GitHub Sponsors	Mbështet MDM-në te GitHub Sponsors
+	Support Swoopdl on GitHub Sponsors	Mbështet SDL-në te GitHub Sponsors
 #. text in countries.rs
 #. a country's name (where a download's server is)
 #, machine
@@ -4376,7 +4376,7 @@
 #, machine
 	the FTP server answered {code} {reply}	serveri FTP u përgjigj {code} {reply}
 #. text in extension.rs
-#. a check of Test browser integration: the browsers are set up, but the small helper program they start (misterdownloadmanager-nmhost) is gone
+#. a check of Test browser integration: the browsers are set up, but the small helper program they start (swoopdl-nmhost) is gone
 #, machine
 	The helper program the browsers start is missing	Programi ndihmës që shfletuesit nisin mungon
 #. message or event log entry in the main window
@@ -4463,7 +4463,7 @@
 #. text in the Options window
 #. Options → Accounts (Linux): the system keyring is locked (Swoopdl never unlocks it: that would ask for its password), so the sign-ins stay in Swoopdl's settings folder, which only the user's account may read
 #, machine
-	The system keyring is locked and Swoopdl doesn't unlock it, so sign-ins and passwords are kept in Swoopdl's settings, which only you can read.	Zinxhiri i çelësave të sistemit është i kyçur dhe Swoopdl nuk e zhbllokon, kështu që hyrjet dhe fjalëkalimet ruhen në cilësimet e MDM-së, të cilat mund t'i lexoni vetëm ju.
+	The system keyring is locked and Swoopdl doesn't unlock it, so sign-ins and passwords are kept in Swoopdl's settings, which only you can read.	Zinxhiri i çelësave të sistemit është i kyçur dhe Swoopdl nuk e zhbllokon, kështu që hyrjet dhe fjalëkalimet ruhen në cilësimet e SDL-së, të cilat mund t'i lexoni vetëm ju.
 #. text in the Options window
 #. Options → Connection → DNS: the operating system's own DNS (the default)
 #, machine
@@ -4943,7 +4943,7 @@
 #. button in helpers.rs
 #. Video helpers: button: go back to the copy Swoopdl downloads and checks itself
 #, machine
-	Use Swoopdl's own copy	Përdor kopjen e MDM-së
+	Use Swoopdl's own copy	Përdor kopjen e SDL-së
 #. text in the Batch download window
 #. why Batch download's OK is greyed
 #, machine
@@ -5139,7 +5139,7 @@
 #. text in the Options window
 #. Options → Accounts: Windows Credential Manager didn't answer, so the sign-ins stay in Swoopdl's settings, encrypted so that only this Windows account can read them
 #, machine
-	Windows Credential Manager didn't answer, so sign-ins and passwords are kept in Swoopdl's settings, encrypted for your Windows account.	Menaxheri i Kredencialeve të Windows-it nuk u përgjigj, kështu që hyrjet dhe fjalëkalimet ruhen në cilësimet e MDM-së, të koduara për llogarinë tuaj të Windows-it.
+	Windows Credential Manager didn't answer, so sign-ins and passwords are kept in Swoopdl's settings, encrypted for your Windows account.	Menaxheri i Kredencialeve të Windows-it nuk u përgjigj, kështu që hyrjet dhe fjalëkalimet ruhen në cilësimet e SDL-së, të koduara për llogarinë tuaj të Windows-it.
 #. text in a dialog box
 #. why the computer could not be put to sleep (fills {error})
 #, machine
@@ -5229,7 +5229,7 @@
 #. Video helpers: the person's own gallery-dl is too old and not used; {version} = its version, {oldest} = the oldest Swoopdl can use
 #. {version} = a version number (keep the braces as they are)
 #, machine
-	Your own program ({version}) is too old: Swoopdl needs {oldest} or newer	Programi juaj ({version}) është shumë i vjetër: MDM-i ka nevojë për {oldest} ose më të ri
+	Your own program ({version}) is too old: Swoopdl needs {oldest} or newer	Programi juaj ({version}) është shumë i vjetër: SDL-i ka nevojë për {oldest} ose më të ri
 #. text in helpers.rs
 #. Video helpers: {path} = the program the person chose, {version} = its version
 #. {version} = a version number (keep the braces as they are)
@@ -5419,7 +5419,7 @@
 #. error: a program chosen as a helper is too old; {name} = gallery-dl, {version} = its version, {oldest} = the oldest one Swoopdl can use
 #. {name} = a file name; {version} = a version number (keep the braces as they are)
 #, machine
-	{name} {version} is too old: Swoopdl needs {oldest} or newer	{name} {version} është shumë i vjetër: MDM-i ka nevojë për {oldest} ose më të ri
+	{name} {version} is too old: Swoopdl needs {oldest} or newer	{name} {version} është shumë i vjetër: SDL-i ka nevojë për {oldest} ose më të ri
 #. text in the Options window
 #. a number of connections the app learned by itself for a server
 #. {n} = a number (keep the braces as they are)
@@ -5768,9 +5768,9 @@ extension	Not reached. Open its address once in this browser and accept its cert
 #, machine
 extension	Open it	Hapeni
 #. text in the browser extension
-#. help under the pairing boxes; Options, Remote and Pair a device are the app's window, tab and button; keep misterdownloadmanager-cli pair as it is
+#. help under the pairing boxes; Options, Remote and Pair a device are the app's window, tab and button; keep swoopdl-cli pair as it is
 #, machine
-extension	Open its address once and accept its certificate, then enter a code from its Options, Remote, Pair a device (or misterdownloadmanager-cli pair).	Hapeni adresën e tij një herë dhe pranoni certifikatën e tij, pastaj vendosni një kod nga Opsionet, Remote, Çifto një pajisje (ose misterdownloadmanager-cli pair).
+extension	Open its address once and accept its certificate, then enter a code from its Options, Remote, Pair a device (or swoopdl-cli pair).	Hapeni adresën e tij një herë dhe pranoni certifikatën e tij, pastaj vendosni një kod nga Opsionet, Remote, Çifto një pajisje (ose swoopdl-cli pair).
 #. text in the browser extension
 #. button in the toolbar button's popup; keep the name Swoopdl as it is
 #, machine
@@ -5819,7 +5819,7 @@ extension	Sent to Swoopdl	U dërgua te Swoopdl
 #. text in the browser extension
 #. link at the foot of the toolbar button's popup to the creator's GitHub Sponsors page (Swoopdl is free; this is an optional donation)
 #, machine
-extension	Support Swoopdl	Mbështet MDM-në
+extension	Support Swoopdl	Mbështet SDL-në
 #. text in the browser extension
 #. check box in the toolbar button's popup: on, downloads go to the app; off, the browser keeps them
 #, machine
@@ -6476,7 +6476,7 @@ menu	Stop Download	Ndalo shkarkimin
 #. menu command in the main window
 #. & marks the keyboard shortcut letter: keep one & before a letter of the translation
 #, machine
-menu	Support &Swoopdl	Mbështet &MDM-në
+menu	Support &Swoopdl	Mbështet &SDL-në
 #. menu command in the main window
 #. & marks the keyboard shortcut letter: keep one & before a letter of the translation
 #, machine

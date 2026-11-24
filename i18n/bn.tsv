@@ -186,7 +186,7 @@
 #. text in the Options window
 #. Options → Accounts: what these accounts are, and the services' rule against sharing
 #, machine
-	A debrid service downloads a file host's link with your own paid account and gives Swoopdl a direct link. Use only your own account: sharing an account or its links breaks the services' terms and can get it suspended. Downloads the browser already started stay as they are.	একটি ডিব্রিড পরিষেবা আপনার নিজস্ব অর্থপ্রদত্ত অ্যাকাউন্ট ব্যবহার করে একটি ফাইল হোস্টের লিঙ্ক ডাউনলোড করে এবং MDM-কে একটি সরাসরি লিঙ্ক দেয়। শুধুমাত্র আপনার নিজস্ব অ্যাকাউন্ট ব্যবহার করুন: একটি অ্যাকাউন্ট বা এর লিঙ্কগুলি শেয়ার করলে পরিষেবার শর্তাবলী লঙ্ঘন হয় এবং এটি স্থগিত হতে পারে। ব্রাউজার দ্বারা ইতিমধ্যে শুরু করা ডাউনলোডগুলি যেমন আছে তেমনই থাকবে।
+	A debrid service downloads a file host's link with your own paid account and gives Swoopdl a direct link. Use only your own account: sharing an account or its links breaks the services' terms and can get it suspended. Downloads the browser already started stay as they are.	একটি ডিব্রিড পরিষেবা আপনার নিজস্ব অর্থপ্রদত্ত অ্যাকাউন্ট ব্যবহার করে একটি ফাইল হোস্টের লিঙ্ক ডাউনলোড করে এবং SDL-কে একটি সরাসরি লিঙ্ক দেয়। শুধুমাত্র আপনার নিজস্ব অ্যাকাউন্ট ব্যবহার করুন: একটি অ্যাকাউন্ট বা এর লিঙ্কগুলি শেয়ার করলে পরিষেবার শর্তাবলী লঙ্ঘন হয় এবং এটি স্থগিত হতে পারে। ব্রাউজার দ্বারা ইতিমধ্যে শুরু করা ডাউনলোডগুলি যেমন আছে তেমনই থাকবে।
 #. text in errors.rs
 #. a torrent through a debrid service: one of its files has a name that would be written outside its folder; nothing was written. {name} the file's name as the service gave it
 #. {name} = a file name (keep the braces as they are)
@@ -2860,7 +2860,7 @@
 #. text in the Options window
 #. Options → Accounts: no system keyring/keychain answered (none runs, e.g. a desktop without one), so the sign-ins stay in Swoopdl's settings folder, which only the user's account may read
 #, machine
-	No system keyring answered, so sign-ins and passwords are kept in Swoopdl's settings, which only you can read.	কোনো সিস্টেম কী-রিং সাড়া দেয়নি, তাই সাইন-ইন এবং পাসওয়ার্ড MDM-এর সেটিংসে রাখা হয়েছে, যা শুধু আপনি পড়তে পারবেন।
+	No system keyring answered, so sign-ins and passwords are kept in Swoopdl's settings, which only you can read.	কোনো সিস্টেম কী-রিং সাড়া দেয়নি, তাই সাইন-ইন এবং পাসওয়ার্ড SDL-এর সেটিংসে রাখা হয়েছে, যা শুধু আপনি পড়তে পারবেন।
 #. message or event log entry in the main window
 #. event log entry: Add trackers changed nothing, the torrent had them all
 #, machine
@@ -2991,7 +2991,7 @@
 #. text in the Options window
 #. Options → Remote → Status: the remote control is off
 #, machine
-	Off: nothing on the network can reach Swoopdl.	বন্ধ: নেটওয়ার্কে কিছুই MDM-এ পৌঁছাতে পারে না।
+	Off: nothing on the network can reach Swoopdl.	বন্ধ: নেটওয়ার্কে কিছুই SDL-এ পৌঁছাতে পারে না।
 #. text in the Options window
 #, machine
 	Offer to download links copied to the clipboard	ক্লিপবোর্ডে কপি করা লিঙ্কগুলি ডাউনলোড করার অফার করুন
@@ -3067,7 +3067,7 @@
 #. text in the Options window
 #. Options → Remote, at the bottom of the page
 #, machine
-	Only paired devices see or change anything. The first time, the phone's browser warns about Swoopdl's own certificate: its fingerprint is the one above.	শুধুমাত্র জোড়া করা ডিভাইসগুলি কিছু দেখতে বা পরিবর্তন করতে পারে। প্রথমবার, ফোনের ব্রাউজার MDM-এর নিজস্ব শংসাপত্র সম্পর্কে সতর্ক করবে: এর ফিঙ্গারপ্রিন্ট উপরেরটি।
+	Only paired devices see or change anything. The first time, the phone's browser warns about Swoopdl's own certificate: its fingerprint is the one above.	শুধুমাত্র জোড়া করা ডিভাইসগুলি কিছু দেখতে বা পরিবর্তন করতে পারে। প্রথমবার, ফোনের ব্রাউজার SDL-এর নিজস্ব শংসাপত্র সম্পর্কে সতর্ক করবে: এর ফিঙ্গারপ্রিন্ট উপরেরটি।
 #. text in playlistdlg.rs
 #. in Download video, a list longer than Swoopdl lists: only its first {n} videos are shown
 #. {n} = a number (keep the braces as they are)
@@ -4376,7 +4376,7 @@
 #, machine
 	the FTP server answered {code} {reply}	FTP সার্ভার {code} {reply} উত্তর দিয়েছে
 #. text in extension.rs
-#. a check of Test browser integration: the browsers are set up, but the small helper program they start (misterdownloadmanager-nmhost) is gone
+#. a check of Test browser integration: the browsers are set up, but the small helper program they start (swoopdl-nmhost) is gone
 #, machine
 	The helper program the browsers start is missing	ব্রাউজারগুলো যে সহায়ক প্রোগ্রাম শুরু করে তা অনুপস্থিত
 #. message or event log entry in the main window
@@ -4463,7 +4463,7 @@
 #. text in the Options window
 #. Options → Accounts (Linux): the system keyring is locked (Swoopdl never unlocks it: that would ask for its password), so the sign-ins stay in Swoopdl's settings folder, which only the user's account may read
 #, machine
-	The system keyring is locked and Swoopdl doesn't unlock it, so sign-ins and passwords are kept in Swoopdl's settings, which only you can read.	সিস্টেম কী-রিং লক করা আছে এবং Swoopdl এটি আনলক করে না, তাই সাইন-ইন এবং পাসওয়ার্ডগুলি MDM-এর সেটিংসে রাখা হয়েছে, যা শুধুমাত্র আপনি পড়তে পারবেন।
+	The system keyring is locked and Swoopdl doesn't unlock it, so sign-ins and passwords are kept in Swoopdl's settings, which only you can read.	সিস্টেম কী-রিং লক করা আছে এবং Swoopdl এটি আনলক করে না, তাই সাইন-ইন এবং পাসওয়ার্ডগুলি SDL-এর সেটিংসে রাখা হয়েছে, যা শুধুমাত্র আপনি পড়তে পারবেন।
 #. text in the Options window
 #. Options → Connection → DNS: the operating system's own DNS (the default)
 #, machine
@@ -4943,7 +4943,7 @@
 #. button in helpers.rs
 #. Video helpers: button: go back to the copy Swoopdl downloads and checks itself
 #, machine
-	Use Swoopdl's own copy	MDM-এর নিজস্ব কপি ব্যবহার করুন
+	Use Swoopdl's own copy	SDL-এর নিজস্ব কপি ব্যবহার করুন
 #. text in the Batch download window
 #. why Batch download's OK is greyed
 #, machine
@@ -5139,7 +5139,7 @@
 #. text in the Options window
 #. Options → Accounts: Windows Credential Manager didn't answer, so the sign-ins stay in Swoopdl's settings, encrypted so that only this Windows account can read them
 #, machine
-	Windows Credential Manager didn't answer, so sign-ins and passwords are kept in Swoopdl's settings, encrypted for your Windows account.	Windows ক্রেডেনশিয়াল ম্যানেজার উত্তর দেয়নি, তাই সাইন-ইন এবং পাসওয়ার্ডগুলি MDM-এর সেটিংসে রাখা হয়েছে, যা আপনার Windows অ্যাকাউন্টের জন্য এনক্রিপ্ট করা হয়েছে।
+	Windows Credential Manager didn't answer, so sign-ins and passwords are kept in Swoopdl's settings, encrypted for your Windows account.	Windows ক্রেডেনশিয়াল ম্যানেজার উত্তর দেয়নি, তাই সাইন-ইন এবং পাসওয়ার্ডগুলি SDL-এর সেটিংসে রাখা হয়েছে, যা আপনার Windows অ্যাকাউন্টের জন্য এনক্রিপ্ট করা হয়েছে।
 #. text in a dialog box
 #. why the computer could not be put to sleep (fills {error})
 #, machine
@@ -5171,7 +5171,7 @@
 #. text in remote.rs
 #. remote control page (on a phone): pairing failed and the code is void now
 #, machine
-	Wrong code. Show a new code in Swoopdl and try again.	ভুল কোড। MDM-এ একটি নতুন কোড দেখান এবং আবার চেষ্টা করুন।
+	Wrong code. Show a new code in Swoopdl and try again.	ভুল কোড। SDL-এ একটি নতুন কোড দেখান এবং আবার চেষ্টা করুন।
 #. text in remote.rs
 #. remote control page (on a phone): pairing failed; {n} = how many more codes may be tried
 #. {n} = a number (keep the braces as they are)
@@ -5229,7 +5229,7 @@
 #. Video helpers: the person's own gallery-dl is too old and not used; {version} = its version, {oldest} = the oldest Swoopdl can use
 #. {version} = a version number (keep the braces as they are)
 #, machine
-	Your own program ({version}) is too old: Swoopdl needs {oldest} or newer	আপনার নিজস্ব প্রোগ্রাম ({version}) অনেক পুরোনো: MDM-এর {oldest} বা নতুন সংস্করণ প্রয়োজন
+	Your own program ({version}) is too old: Swoopdl needs {oldest} or newer	আপনার নিজস্ব প্রোগ্রাম ({version}) অনেক পুরোনো: SDL-এর {oldest} বা নতুন সংস্করণ প্রয়োজন
 #. text in helpers.rs
 #. Video helpers: {path} = the program the person chose, {version} = its version
 #. {version} = a version number (keep the braces as they are)
@@ -5419,7 +5419,7 @@
 #. error: a program chosen as a helper is too old; {name} = gallery-dl, {version} = its version, {oldest} = the oldest one Swoopdl can use
 #. {name} = a file name; {version} = a version number (keep the braces as they are)
 #, machine
-	{name} {version} is too old: Swoopdl needs {oldest} or newer	{name} {version} অনেক পুরোনো: MDM-এর {oldest} বা নতুন সংস্করণ প্রয়োজন
+	{name} {version} is too old: Swoopdl needs {oldest} or newer	{name} {version} অনেক পুরোনো: SDL-এর {oldest} বা নতুন সংস্করণ প্রয়োজন
 #. text in the Options window
 #. a number of connections the app learned by itself for a server
 #. {n} = a number (keep the braces as they are)
@@ -5768,9 +5768,9 @@ extension	Not reached. Open its address once in this browser and accept its cert
 #, machine
 extension	Open it	এটি খুলুন
 #. text in the browser extension
-#. help under the pairing boxes; Options, Remote and Pair a device are the app's window, tab and button; keep misterdownloadmanager-cli pair as it is
+#. help under the pairing boxes; Options, Remote and Pair a device are the app's window, tab and button; keep swoopdl-cli pair as it is
 #, machine
-extension	Open its address once and accept its certificate, then enter a code from its Options, Remote, Pair a device (or misterdownloadmanager-cli pair).	এর ঠিকানা একবার খুলুন এবং এর সার্টিফিকেট গ্রহণ করুন, তারপর এর অপশন, রিমোট, পেয়ার এ ডিভাইস (অথবা misterdownloadmanager-cli pair) থেকে একটি কোড লিখুন।
+extension	Open its address once and accept its certificate, then enter a code from its Options, Remote, Pair a device (or swoopdl-cli pair).	এর ঠিকানা একবার খুলুন এবং এর সার্টিফিকেট গ্রহণ করুন, তারপর এর অপশন, রিমোট, পেয়ার এ ডিভাইস (অথবা swoopdl-cli pair) থেকে একটি কোড লিখুন।
 #. text in the browser extension
 #. button in the toolbar button's popup; keep the name Swoopdl as it is
 #, machine
@@ -5819,7 +5819,7 @@ extension	Sent to Swoopdl	Swoopdl-এ পাঠানো হয়েছে
 #. text in the browser extension
 #. link at the foot of the toolbar button's popup to the creator's GitHub Sponsors page (Swoopdl is free; this is an optional donation)
 #, machine
-extension	Support Swoopdl	MDM-কে সহায়তা করুন
+extension	Support Swoopdl	SDL-কে সহায়তা করুন
 #. text in the browser extension
 #. check box in the toolbar button's popup: on, downloads go to the app; off, the browser keeps them
 #, machine

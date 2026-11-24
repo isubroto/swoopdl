@@ -122,7 +122,7 @@ Other programs can ask the running app what it is downloading, and pause, start,
 
 An unknown question or action is answered `{"error": "…"}`, as is a question while the API is off (then with `"code": "api-off"`, for programs to check: the error text may change). A wrong token is answered `denied`.
 
-Every request and answer is described, field by field, in a JSON Schema: [automation-api.schema.json](automation-api.schema.json) (also at `https://misterdownloadmanager.com/automation-api.schema.json`). It is made from the code the app answers with, so it stays exact; programs can check what they send and read against it, or generate their types from it.
+Every request and answer is described, field by field, in a JSON Schema: [automation-api.schema.json](automation-api.schema.json). It is made from the code the app answers with, so it stays exact; programs can check what they send and read against it, or generate their types from it.
 
 ### Examples
 

@@ -3244,7 +3244,7 @@
 #. {code} is the FTP server's reply number (such as 550), {reply} the words it sent with it (left as sent)
 	the FTP server answered {code} {reply}	il server FTP ha risposto {code} {reply}
 #. text in extension.rs
-#. a check of Test browser integration: the browsers are set up, but the small helper program they start (misterdownloadmanager-nmhost) is gone
+#. a check of Test browser integration: the browsers are set up, but the small helper program they start (swoopdl-nmhost) is gone
 	The helper program the browsers start is missing	Manca il programma di supporto che i browser avviano
 #. message or event log entry in the main window
 #. {error} = an error message (keep the braces as they are)
@@ -4288,8 +4288,8 @@ extension	Not reached. Open its address once in this browser and accept its cert
 #. button: open the other Swoopdl's address in a tab (to accept its certificate once)
 extension	Open it	Aprilo
 #. text in the browser extension
-#. help under the pairing boxes; Options, Remote and Pair a device are the app's window, tab and button; keep misterdownloadmanager-cli pair as it is
-extension	Open its address once and accept its certificate, then enter a code from its Options, Remote, Pair a device (or misterdownloadmanager-cli pair).	Apri una volta il suo indirizzo e accetta il suo certificato, poi inserisci un codice da Opzioni → Remoto → Associa un dispositivo (o misterdownloadmanager-cli pair).
+#. help under the pairing boxes; Options, Remote and Pair a device are the app's window, tab and button; keep swoopdl-cli pair as it is
+extension	Open its address once and accept its certificate, then enter a code from its Options, Remote, Pair a device (or swoopdl-cli pair).	Apri una volta il suo indirizzo e accetta il suo certificato, poi inserisci un codice da Opzioni → Remoto → Associa un dispositivo (o swoopdl-cli pair).
 #. text in the browser extension
 #. button in the toolbar button's popup; keep the name Swoopdl as it is
 extension	Open Swoopdl	Apri Swoopdl

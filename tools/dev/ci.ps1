@@ -9,17 +9,18 @@ param(
     [ValidateSet('rust', 'extension', 'website', 'pictures')]
     [string]$Job = 'rust',
     [ValidateRange(1, 128)]
-    [int]$BuildJobs = 2,
+    [int]$BuildJobs = 1,
     [switch]$DryRun
 )
 $ErrorActionPreference = 'Stop'
 $PSNativeCommandUseErrorActionPreference = $false
 $root = Split-Path -Parent (Split-Path -Parent $PSScriptRoot)
 $tools = Join-Path $root 'target/local-ci/tools'
-$localNode = Join-Path $tools 'node-v22.23.5-win-x64'
+$localNode = Join-Path $tools 'node-v26.13.1-win-x64'
 $oldPath = $env:PATH
 $oldUtf8 = $env:PYTHONUTF8
 $oldBuildJobs = $env:CARGO_BUILD_JOBS
+$oldTestDebug = $env:CARGO_PROFILE_TEST_DEBUG
 $log = Join-Path $root ("target/local-ci/logs/{0}-{1}.log" -f (Get-Date -Format 'yyyyMMdd-HHmmss-fff'), $PID)
 $script:failures = @()
 
@@ -38,6 +39,7 @@ Push-Location $root
 try {
     $env:PYTHONUTF8 = '1'
     $env:CARGO_BUILD_JOBS = "$BuildJobs"
+    $env:CARGO_PROFILE_TEST_DEBUG = 'line-tables-only'
     if (Test-Path $localNode) { $env:PATH = "$localNode$([IO.Path]::PathSeparator)$env:PATH" }
     if (-not $DryRun) { New-Item -ItemType Directory -Force (Split-Path $log) | Out-Null }
     if ($Linux) {
@@ -68,12 +70,17 @@ try {
                     # --check compares without rewriting the developer's catalog.
                     Invoke-Check 'English catalog' python @('tools/i18n/extract.py', '--check')
                     Invoke-Check 'Clippy' cargo @('clippy', '--workspace', '--all-targets', '--locked', '--', '-D', 'warnings')
-                    Invoke-Check 'Tests' cargo @('test', '--workspace', '--locked')
+                    if ($IsWindows) {
+                        # Match CI's serial Windows harness without changing workspace features.
+                        Invoke-Check 'Tests' cargo @('test', '--workspace', '--locked', '--', '--test-threads=1')
+                    } else {
+                        Invoke-Check 'Tests' cargo @('test', '--workspace', '--locked')
+                    }
                 }
                 'extension' {
                     if (-not $DryRun) {
                         $major = & node -p 'process.versions.node.split(".")[0]'
-                        if ($LASTEXITCODE -or $major -ne '22') { throw 'Node 22 required. Run tools/dev/setup-ci.ps1.' }
+                        if ($LASTEXITCODE -or $major -ne '26') { throw 'Node 26 required. Run tools/dev/setup-ci.ps1.' }
                     }
                     Invoke-Check 'Extension logic' node @('tools/extension/test.mjs')
                     Invoke-Check 'Extension packaging' pwsh @('-NoProfile', '-File', 'tools/extension/pack.ps1')
@@ -102,5 +109,6 @@ try {
     $env:PATH = $oldPath
     $env:PYTHONUTF8 = $oldUtf8
     $env:CARGO_BUILD_JOBS = $oldBuildJobs
+    $env:CARGO_PROFILE_TEST_DEBUG = $oldTestDebug
     Pop-Location
 }

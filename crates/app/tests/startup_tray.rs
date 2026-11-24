@@ -247,7 +247,7 @@ fn a_start_with_the_session_waits_in_the_tray() {
         // uses; port 9 on this computer: nothing answers, nothing leaves it): Download File
         // Info opens (#145, #173).
         let status = env(&mut Command::new(APP), &data, &startup)
-            .args(["/d", "http://127.0.0.1:9/mdm-test-226.zip"])
+            .args(["/d", "http://127.0.0.1:9/sdl-test-226.zip"])
             .status()
             .unwrap();
         assert!(status.success());

@@ -186,7 +186,7 @@
 #. text in the Options window
 #. Options → Accounts: what these accounts are, and the services' rule against sharing
 #, machine
-	A debrid service downloads a file host's link with your own paid account and gives Swoopdl a direct link. Use only your own account: sharing an account or its links breaks the services' terms and can get it suspended. Downloads the browser already started stay as they are.	ഒരു ഡീബ്രിഡ് സേവനം നിങ്ങളുടെ സ്വന്തം പണമടച്ച അക്കൗണ്ട് ഉപയോഗിച്ച് ഒരു ഫയൽ ഹോസ്റ്റിന്റെ ലിങ്ക് ഡൗൺലോഡ് ചെയ്യുകയും MDM-ന് നേരിട്ടുള്ള ലിങ്ക് നൽകുകയും ചെയ്യുന്നു. നിങ്ങളുടെ സ്വന്തം അക്കൗണ്ട് മാത്രം ഉപയോഗിക്കുക: അക്കൗണ്ടോ അതിന്റെ ലിങ്കുകളോ പങ്കിടുന്നത് സേവനങ്ങളുടെ നിബന്ധനകൾ ലംഘിക്കുകയും അക്കൗണ്ട് താൽക്കാലികമായി നിർത്തിവയ്ക്കപ്പെടാൻ ഇടയാക്കുകയും ചെയ്യും. ബ്രൗസർ ഇതിനകം ആരംഭിച്ച ഡൗൺലോഡുകൾ അതേപടി തുടരും.
+	A debrid service downloads a file host's link with your own paid account and gives Swoopdl a direct link. Use only your own account: sharing an account or its links breaks the services' terms and can get it suspended. Downloads the browser already started stay as they are.	ഒരു ഡീബ്രിഡ് സേവനം നിങ്ങളുടെ സ്വന്തം പണമടച്ച അക്കൗണ്ട് ഉപയോഗിച്ച് ഒരു ഫയൽ ഹോസ്റ്റിന്റെ ലിങ്ക് ഡൗൺലോഡ് ചെയ്യുകയും SDL-ന് നേരിട്ടുള്ള ലിങ്ക് നൽകുകയും ചെയ്യുന്നു. നിങ്ങളുടെ സ്വന്തം അക്കൗണ്ട് മാത്രം ഉപയോഗിക്കുക: അക്കൗണ്ടോ അതിന്റെ ലിങ്കുകളോ പങ്കിടുന്നത് സേവനങ്ങളുടെ നിബന്ധനകൾ ലംഘിക്കുകയും അക്കൗണ്ട് താൽക്കാലികമായി നിർത്തിവയ്ക്കപ്പെടാൻ ഇടയാക്കുകയും ചെയ്യും. ബ്രൗസർ ഇതിനകം ആരംഭിച്ച ഡൗൺലോഡുകൾ അതേപടി തുടരും.
 #. text in errors.rs
 #. a torrent through a debrid service: one of its files has a name that would be written outside its folder; nothing was written. {name} the file's name as the service gave it
 #. {name} = a file name (keep the braces as they are)
@@ -2479,19 +2479,19 @@
 #. text in the Options window
 #. Options → Remote → Pair a device: the remote control isn't listening (no network, port taken): the Remote page says why
 #, machine
-	Swoopdl can't be reached on the network now: Options → Remote says why.	MDM-നെ ഇപ്പോൾ നെറ്റ്‌വർക്കിൽ എത്തിച്ചേരാൻ കഴിയില്ല: ഓപ്ഷനുകൾ → റിമോട്ട് എന്തുകൊണ്ടെന്ന് പറയുന്നു.
+	Swoopdl can't be reached on the network now: Options → Remote says why.	SDL-നെ ഇപ്പോൾ നെറ്റ്‌വർക്കിൽ എത്തിച്ചേരാൻ കഴിയില്ല: ഓപ്ഷനുകൾ → റിമോട്ട് എന്തുകൊണ്ടെന്ന് പറയുന്നു.
 #. text in remote.rs
 #. remote control page (on a phone): the address typed isn't one Swoopdl downloads (not http, https, ftp or magnet)
 #, machine
-	Swoopdl cannot download this address.	MDM-ന് ഈ വിലാസം ഡൗൺലോഡ് ചെയ്യാൻ കഴിയില്ല.
+	Swoopdl cannot download this address.	SDL-ന് ഈ വിലാസം ഡൗൺലോഡ് ചെയ്യാൻ കഴിയില്ല.
 #. text in remote.rs
 #. remote control page (on a phone): adding a download failed
 #, machine
-	Swoopdl could not add it.	MDM-ന് ഇത് ചേർക്കാൻ കഴിഞ്ഞില്ല.
+	Swoopdl could not add it.	SDL-ന് ഇത് ചേർക്കാൻ കഴിഞ്ഞില്ല.
 #. text in remote.rs
 #. remote control page (on a phone): an action failed
 #, machine
-	Swoopdl could not do it.	MDM-ന് അത് ചെയ്യാൻ കഴിഞ്ഞില്ല.
+	Swoopdl could not do it.	SDL-ന് അത് ചെയ്യാൻ കഴിഞ്ഞില്ല.
 #. text in remote.rs
 #. remote control page (on a phone): Swoopdl can't be reached while pairing
 #, machine
@@ -2790,7 +2790,7 @@
 #. text in extension.rs
 #. a check of Test browser integration (Linux, macOS): Swoopdl found no browser it can connect to (one installed as a Flatpak isn't found)
 #, machine
-	No browser Swoopdl can connect to was found	MDM-ന് കണക്റ്റ് ചെയ്യാൻ കഴിയുന്ന ബ്രൗസറുകളൊന്നും കണ്ടെത്തിയില്ല
+	No browser Swoopdl can connect to was found	SDL-ന് കണക്റ്റ് ചെയ്യാൻ കഴിയുന്ന ബ്രൗസറുകളൊന്നും കണ്ടെത്തിയില്ല
 #. text in extension.rs
 #. a check of Test browser integration: no browser's extension has reached Swoopdl
 #, machine
@@ -2860,7 +2860,7 @@
 #. text in the Options window
 #. Options → Accounts: no system keyring/keychain answered (none runs, e.g. a desktop without one), so the sign-ins stay in Swoopdl's settings folder, which only the user's account may read
 #, machine
-	No system keyring answered, so sign-ins and passwords are kept in Swoopdl's settings, which only you can read.	സിസ്റ്റം കീറിംഗ് പ്രതികരിച്ചില്ല, അതിനാൽ സൈൻ-ഇന്നുകളും പാസ്‌വേഡുകളും MDM-ന്റെ ക്രമീകരണങ്ങളിൽ സൂക്ഷിച്ചിരിക്കുന്നു, അത് നിങ്ങൾക്ക് മാത്രമേ വായിക്കാൻ കഴിയൂ.
+	No system keyring answered, so sign-ins and passwords are kept in Swoopdl's settings, which only you can read.	സിസ്റ്റം കീറിംഗ് പ്രതികരിച്ചില്ല, അതിനാൽ സൈൻ-ഇന്നുകളും പാസ്‌വേഡുകളും SDL-ന്റെ ക്രമീകരണങ്ങളിൽ സൂക്ഷിച്ചിരിക്കുന്നു, അത് നിങ്ങൾക്ക് മാത്രമേ വായിക്കാൻ കഴിയൂ.
 #. message or event log entry in the main window
 #. event log entry: Add trackers changed nothing, the torrent had them all
 #, machine
@@ -2991,7 +2991,7 @@
 #. text in the Options window
 #. Options → Remote → Status: the remote control is off
 #, machine
-	Off: nothing on the network can reach Swoopdl.	ഓഫ്: നെറ്റ്‌വർക്കിൽ ഒന്നിനും MDM-നെ സമീപിക്കാൻ കഴിയില്ല.
+	Off: nothing on the network can reach Swoopdl.	ഓഫ്: നെറ്റ്‌വർക്കിൽ ഒന്നിനും SDL-നെ സമീപിക്കാൻ കഴിയില്ല.
 #. text in the Options window
 #, machine
 	Offer to download links copied to the clipboard	ക്ലിപ്പ്ബോർഡിലേക്ക് പകർത്തിയ ലിങ്കുകൾ ഡൗൺലോഡ് ചെയ്യാൻ വാഗ്ദാനം ചെയ്യുക
@@ -3067,7 +3067,7 @@
 #. text in the Options window
 #. Options → Remote, at the bottom of the page
 #, machine
-	Only paired devices see or change anything. The first time, the phone's browser warns about Swoopdl's own certificate: its fingerprint is the one above.	ജോടിയാക്കിയ ഉപകരണങ്ങൾക്ക് മാത്രമേ എന്തെങ്കിലും കാണാനോ മാറ്റാനോ കഴിയൂ. ആദ്യമായി, ഫോണിന്റെ ബ്രൗസർ MDM-ന്റെ സ്വന്തം സർട്ടിഫിക്കറ്റിനെക്കുറിച്ച് മുന്നറിയിപ്പ് നൽകുന്നു: അതിന്റെ ഫിംഗർപ്രിന്റ് മുകളിലുള്ളതാണ്.
+	Only paired devices see or change anything. The first time, the phone's browser warns about Swoopdl's own certificate: its fingerprint is the one above.	ജോടിയാക്കിയ ഉപകരണങ്ങൾക്ക് മാത്രമേ എന്തെങ്കിലും കാണാനോ മാറ്റാനോ കഴിയൂ. ആദ്യമായി, ഫോണിന്റെ ബ്രൗസർ SDL-ന്റെ സ്വന്തം സർട്ടിഫിക്കറ്റിനെക്കുറിച്ച് മുന്നറിയിപ്പ് നൽകുന്നു: അതിന്റെ ഫിംഗർപ്രിന്റ് മുകളിലുള്ളതാണ്.
 #. text in playlistdlg.rs
 #. in Download video, a list longer than Swoopdl lists: only its first {n} videos are shown
 #. {n} = a number (keep the braces as they are)
@@ -4114,7 +4114,7 @@
 	Sunday	ഞായർ
 #. link (opens a web page) in the Help menu's windows (About, updates, shortcuts, Tell a friend)
 #, machine
-	Support Swoopdl on GitHub Sponsors	GitHub സ്പോൺസർമാരിൽ MDM-നെ പിന്തുണയ്ക്കുക
+	Support Swoopdl on GitHub Sponsors	GitHub സ്പോൺസർമാരിൽ SDL-നെ പിന്തുണയ്ക്കുക
 #. text in countries.rs
 #. a country's name (where a download's server is)
 #, machine
@@ -4376,7 +4376,7 @@
 #, machine
 	the FTP server answered {code} {reply}	FTP സെർവർ {code} {reply} എന്ന് മറുപടി നൽകി
 #. text in extension.rs
-#. a check of Test browser integration: the browsers are set up, but the small helper program they start (misterdownloadmanager-nmhost) is gone
+#. a check of Test browser integration: the browsers are set up, but the small helper program they start (swoopdl-nmhost) is gone
 #, machine
 	The helper program the browsers start is missing	ബ്രൗസറുകൾ ആരംഭിക്കുന്ന സഹായ പ്രോഗ്രാം കാണുന്നില്ല
 #. message or event log entry in the main window
@@ -4846,7 +4846,7 @@
 #. Options → Add an account: waiting while the user types the code at the service's page; {page} its address, {time} minutes:seconds left
 #. {time} = a time of day (keep the braces as they are)
 #, machine
-	Type this code at {page} and allow Swoopdl; waiting for you (the code expires in {time}).	{page} എന്നതിൽ ഈ കോഡ് ടൈപ്പ് ചെയ്ത് MDM-ന് അനുമതി നൽകുക; നിങ്ങൾക്കായി കാത്തിരിക്കുന്നു (കോഡ് {time} സമയത്തിനുള്ളിൽ കാലഹരണപ്പെടും).
+	Type this code at {page} and allow Swoopdl; waiting for you (the code expires in {time}).	{page} എന്നതിൽ ഈ കോഡ് ടൈപ്പ് ചെയ്ത് SDL-ന് അനുമതി നൽകുക; നിങ്ങൾക്കായി കാത്തിരിക്കുന്നു (കോഡ് {time} സമയത്തിനുള്ളിൽ കാലഹരണപ്പെടും).
 #. tooltip (why a control is greyed) in the Find window
 #. tooltip of the greyed Find button
 #, machine
@@ -4943,7 +4943,7 @@
 #. button in helpers.rs
 #. Video helpers: button: go back to the copy Swoopdl downloads and checks itself
 #, machine
-	Use Swoopdl's own copy	MDM-ന്റെ സ്വന്തം പകർപ്പ് ഉപയോഗിക്കുക
+	Use Swoopdl's own copy	SDL-ന്റെ സ്വന്തം പകർപ്പ് ഉപയോഗിക്കുക
 #. text in the Batch download window
 #. why Batch download's OK is greyed
 #, machine
@@ -5139,7 +5139,7 @@
 #. text in the Options window
 #. Options → Accounts: Windows Credential Manager didn't answer, so the sign-ins stay in Swoopdl's settings, encrypted so that only this Windows account can read them
 #, machine
-	Windows Credential Manager didn't answer, so sign-ins and passwords are kept in Swoopdl's settings, encrypted for your Windows account.	Windows ക്രെഡൻഷ്യൽ മാനേജർ പ്രതികരിച്ചില്ല, അതിനാൽ സൈൻ-ഇന്നുകളും പാസ്‌വേഡുകളും നിങ്ങളുടെ Windows അക്കൗണ്ടിന് മാത്രം വായിക്കാനാകുന്ന വിധത്തിൽ എൻക്രിപ്റ്റ് ചെയ്ത് MDM-ന്റെ ക്രമീകരണങ്ങളിൽ സൂക്ഷിച്ചിരിക്കുന്നു.
+	Windows Credential Manager didn't answer, so sign-ins and passwords are kept in Swoopdl's settings, encrypted for your Windows account.	Windows ക്രെഡൻഷ്യൽ മാനേജർ പ്രതികരിച്ചില്ല, അതിനാൽ സൈൻ-ഇന്നുകളും പാസ്‌വേഡുകളും നിങ്ങളുടെ Windows അക്കൗണ്ടിന് മാത്രം വായിക്കാനാകുന്ന വിധത്തിൽ എൻക്രിപ്റ്റ് ചെയ്ത് SDL-ന്റെ ക്രമീകരണങ്ങളിൽ സൂക്ഷിച്ചിരിക്കുന്നു.
 #. text in a dialog box
 #. why the computer could not be put to sleep (fills {error})
 #, machine
@@ -5171,7 +5171,7 @@
 #. text in remote.rs
 #. remote control page (on a phone): pairing failed and the code is void now
 #, machine
-	Wrong code. Show a new code in Swoopdl and try again.	തെറ്റായ കോഡ്. MDM-ൽ ഒരു പുതിയ കോഡ് കാണിച്ച് വീണ്ടും ശ്രമിക്കുക.
+	Wrong code. Show a new code in Swoopdl and try again.	തെറ്റായ കോഡ്. SDL-ൽ ഒരു പുതിയ കോഡ് കാണിച്ച് വീണ്ടും ശ്രമിക്കുക.
 #. text in remote.rs
 #. remote control page (on a phone): pairing failed; {n} = how many more codes may be tried
 #. {n} = a number (keep the braces as they are)
@@ -5229,7 +5229,7 @@
 #. Video helpers: the person's own gallery-dl is too old and not used; {version} = its version, {oldest} = the oldest Swoopdl can use
 #. {version} = a version number (keep the braces as they are)
 #, machine
-	Your own program ({version}) is too old: Swoopdl needs {oldest} or newer	നിങ്ങളുടെ സ്വന്തം പ്രോഗ്രാം ({version}) വളരെ പഴയതാണ്: MDM-ന് {oldest} അല്ലെങ്കിൽ പുതിയത് ആവശ്യമാണ്
+	Your own program ({version}) is too old: Swoopdl needs {oldest} or newer	നിങ്ങളുടെ സ്വന്തം പ്രോഗ്രാം ({version}) വളരെ പഴയതാണ്: SDL-ന് {oldest} അല്ലെങ്കിൽ പുതിയത് ആവശ്യമാണ്
 #. text in helpers.rs
 #. Video helpers: {path} = the program the person chose, {version} = its version
 #. {version} = a version number (keep the braces as they are)
@@ -5419,7 +5419,7 @@
 #. error: a program chosen as a helper is too old; {name} = gallery-dl, {version} = its version, {oldest} = the oldest one Swoopdl can use
 #. {name} = a file name; {version} = a version number (keep the braces as they are)
 #, machine
-	{name} {version} is too old: Swoopdl needs {oldest} or newer	{name} {version} വളരെ പഴയതാണ്: MDM-ന് {oldest} അല്ലെങ്കിൽ പുതിയത് ആവശ്യമാണ്
+	{name} {version} is too old: Swoopdl needs {oldest} or newer	{name} {version} വളരെ പഴയതാണ്: SDL-ന് {oldest} അല്ലെങ്കിൽ പുതിയത് ആവശ്യമാണ്
 #. text in the Options window
 #. a number of connections the app learned by itself for a server
 #. {n} = a number (keep the braces as they are)
@@ -5768,9 +5768,9 @@ extension	Not reached. Open its address once in this browser and accept its cert
 #, machine
 extension	Open it	തുറക്കുക
 #. text in the browser extension
-#. help under the pairing boxes; Options, Remote and Pair a device are the app's window, tab and button; keep misterdownloadmanager-cli pair as it is
+#. help under the pairing boxes; Options, Remote and Pair a device are the app's window, tab and button; keep swoopdl-cli pair as it is
 #, machine
-extension	Open its address once and accept its certificate, then enter a code from its Options, Remote, Pair a device (or misterdownloadmanager-cli pair).	അതിൻ്റെ വിലാസം ഒരിക്കൽ തുറന്ന് അതിൻ്റെ സർട്ടിഫിക്കറ്റ് സ്വീകരിക്കുക, തുടർന്ന് അതിൻ്റെ ഓപ്ഷനുകൾ, റിമോട്ട്, ഒരു ഉപകരണം ജോടിയാക്കുക (അല്ലെങ്കിൽ misterdownloadmanager-cli pair) എന്നിവയിൽ നിന്ന് ഒരു കോഡ് നൽകുക.
+extension	Open its address once and accept its certificate, then enter a code from its Options, Remote, Pair a device (or swoopdl-cli pair).	അതിൻ്റെ വിലാസം ഒരിക്കൽ തുറന്ന് അതിൻ്റെ സർട്ടിഫിക്കറ്റ് സ്വീകരിക്കുക, തുടർന്ന് അതിൻ്റെ ഓപ്ഷനുകൾ, റിമോട്ട്, ഒരു ഉപകരണം ജോടിയാക്കുക (അല്ലെങ്കിൽ swoopdl-cli pair) എന്നിവയിൽ നിന്ന് ഒരു കോഡ് നൽകുക.
 #. text in the browser extension
 #. button in the toolbar button's popup; keep the name Swoopdl as it is
 #, machine
@@ -5819,7 +5819,7 @@ extension	Sent to Swoopdl	Swoopdl ലേക്ക് അയച്ചു
 #. text in the browser extension
 #. link at the foot of the toolbar button's popup to the creator's GitHub Sponsors page (Swoopdl is free; this is an optional donation)
 #, machine
-extension	Support Swoopdl	MDM-നെ പിന്തുണയ്ക്കുക
+extension	Support Swoopdl	SDL-നെ പിന്തുണയ്ക്കുക
 #. text in the browser extension
 #. check box in the toolbar button's popup: on, downloads go to the app; off, the browser keeps them
 #, machine
@@ -6476,7 +6476,7 @@ menu	Stop Download	ഡൗൺലോഡ് നിർത്തുക
 #. menu command in the main window
 #. & marks the keyboard shortcut letter: keep one & before a letter of the translation
 #, machine
-menu	Support &Swoopdl	MDM-നെ പിന്തുണയ്ക്കുക(&M)
+menu	Support &Swoopdl	SDL-നെ പിന്തുണയ്ക്കുക(&M)
 #. menu command in the main window
 #. & marks the keyboard shortcut letter: keep one & before a letter of the translation
 #, machine

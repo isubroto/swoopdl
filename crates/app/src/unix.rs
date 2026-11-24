@@ -173,30 +173,13 @@ pub fn update_run_at_startup() {
 const HOST: &str = "swoopdl-nmhost";
 /// The manifest it writes in each browser's folder.
 const MANIFEST: &str = "com.swoopdl.host.json";
-/// How long the helper's `--register` has at a start (it writes a few small files).
-const REGISTER_LIMIT: std::time::Duration = std::time::Duration::from_secs(20);
 /// Why the last registration failed, in the system's words (Test browser integration says it);
 /// None once one succeeded.
 static REGISTER_ERROR: std::sync::Mutex<Option<String>> = std::sync::Mutex::new(None);
 
-/// Browser integration: the host's manifests in every installed browser's folder. There is no
-/// installer step on Linux and macOS, so this runs at each start, on a thread of its own: a
-/// moved app, a browser installed since, or a helper copy that went missing is repaired.
-///
-/// From an AppImage, whose programs sit in a mount that is gone once it quits, the host is first
-/// copied to the data folder with the AppImage's path beside it (`app-path`: the host starts
-/// that when SDL isn't running), and registered from there (#253).
-pub fn register_browsers() {
-    let started = std::thread::Builder::new()
-        .name("register-browsers".into())
-        .spawn(|| register_browsers_now(REGISTER_LIMIT));
-    if let Err(e) = started {
-        tracing::warn!("browser integration: not set up, no thread for it: {e}");
-    }
-}
-
-/// `register_browsers`, waiting for it to finish, up to `limit` (Test browser integration's Set
-/// it up, on a thread of its own: extension::set_up). Every failure is logged and kept for Test
+/// Register the browser helper, waiting for it to finish, up to `limit` (Test browser integration's
+/// Set it up, on a thread of its own: extension::set_up). From an AppImage, copy the helper to the
+/// data folder first, since its mount disappears at exit. Every failure is logged and kept for Test
 /// browser integration ([`register_error`]).
 pub fn register_browsers_now(limit: std::time::Duration) {
     let result = host_program().and_then(|host| run_register(&host, limit));
@@ -337,7 +320,7 @@ pub fn host_registration() -> crate::extension::Registration {
     }
 }
 
-/// The helper `register_browsers` registers, without copying anything: beside this program, or
+/// The helper `register_browsers_now` registers, without copying anything: beside this program, or
 /// from an AppImage its copy in the data folder.
 fn registered_host() -> Option<PathBuf> {
     if std::env::var_os("APPIMAGE").is_some_and(|i| !i.is_empty()) {

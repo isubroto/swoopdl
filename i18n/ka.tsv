@@ -186,7 +186,7 @@
 #. text in the Options window
 #. Options → Accounts: what these accounts are, and the services' rule against sharing
 #, machine
-	A debrid service downloads a file host's link with your own paid account and gives Swoopdl a direct link. Use only your own account: sharing an account or its links breaks the services' terms and can get it suspended. Downloads the browser already started stay as they are.	დეზაბრიდირების სერვისი ჩამოტვირთავს ფაილის ჰოსტის ბმულს თქვენი საკუთარი ფასიანი ანგარიშით და MDM-ს აძლევს პირდაპირ ბმულს. გამოიყენეთ მხოლოდ თქვენი საკუთარი ანგარიში: ანგარიშის ან მისი ბმულების გაზიარება არღვევს სერვისების პირობებს და შეიძლება გამოიწვიოს მისი შეჩერება. ბრაუზერის მიერ უკვე დაწყებული ჩამოტვირთვები რჩება ისე, როგორც არის.
+	A debrid service downloads a file host's link with your own paid account and gives Swoopdl a direct link. Use only your own account: sharing an account or its links breaks the services' terms and can get it suspended. Downloads the browser already started stay as they are.	დეზაბრიდირების სერვისი ჩამოტვირთავს ფაილის ჰოსტის ბმულს თქვენი საკუთარი ფასიანი ანგარიშით და SDL-ს აძლევს პირდაპირ ბმულს. გამოიყენეთ მხოლოდ თქვენი საკუთარი ანგარიში: ანგარიშის ან მისი ბმულების გაზიარება არღვევს სერვისების პირობებს და შეიძლება გამოიწვიოს მისი შეჩერება. ბრაუზერის მიერ უკვე დაწყებული ჩამოტვირთვები რჩება ისე, როგორც არის.
 #. text in errors.rs
 #. a torrent through a debrid service: one of its files has a name that would be written outside its folder; nothing was written. {name} the file's name as the service gave it
 #. {name} = a file name (keep the braces as they are)
@@ -1038,7 +1038,7 @@
 	Customize "Download progress" dialog	„ჩამოტვირთვის პროგრესის“ დიალოგის მორგება
 #. text in the Options window
 #, machine
-	Customize keys to prevent or force downloading with Swoopdl	MDM-ით ჩამოტვირთვის თავიდან ასაცილებლად ან ჩამოტვირთვის იძულებისთვის კლავიშების მორგება
+	Customize keys to prevent or force downloading with Swoopdl	SDL-ით ჩამოტვირთვის თავიდან ასაცილებლად ან ჩამოტვირთვის იძულებისთვის კლავიშების მორგება
 #. text in the Options window
 #, machine
 	Customize Swoopdl Download panels in browsers	ბრაუზერებში Swoopdl ჩამოტვირთვის პანელების მორგება
@@ -1419,7 +1419,7 @@
 #. text in crashui.rs
 #. crash report window button: end the frozen Swoopdl and start it again
 #, machine
-	End and restart Swoopdl	MDM-ის დასრულება და გადატვირთვა
+	End and restart Swoopdl	SDL-ის დასრულება და გადატვირთვა
 #. text in the Add torrent window
 #, machine
 	Enter a magnet link or choose a .torrent file	შეიყვანეთ მაგნიტური ბმული ან აირჩიეთ .torrent ფაილი
@@ -2479,19 +2479,19 @@
 #. text in the Options window
 #. Options → Remote → Pair a device: the remote control isn't listening (no network, port taken): the Remote page says why
 #, machine
-	Swoopdl can't be reached on the network now: Options → Remote says why.	MDM-თან დაკავშირება ქსელში ახლა შეუძლებელია: პარამეტრები → დისტანციური მართვა გეტყვით მიზეზს.
+	Swoopdl can't be reached on the network now: Options → Remote says why.	SDL-თან დაკავშირება ქსელში ახლა შეუძლებელია: პარამეტრები → დისტანციური მართვა გეტყვით მიზეზს.
 #. text in remote.rs
 #. remote control page (on a phone): the address typed isn't one Swoopdl downloads (not http, https, ftp or magnet)
 #, machine
-	Swoopdl cannot download this address.	MDM-ს არ შეუძლია ამ მისამართის ჩამოტვირთვა.
+	Swoopdl cannot download this address.	SDL-ს არ შეუძლია ამ მისამართის ჩამოტვირთვა.
 #. text in remote.rs
 #. remote control page (on a phone): adding a download failed
 #, machine
-	Swoopdl could not add it.	MDM-მა ვერ დაამატა.
+	Swoopdl could not add it.	SDL-მა ვერ დაამატა.
 #. text in remote.rs
 #. remote control page (on a phone): an action failed
 #, machine
-	Swoopdl could not do it.	MDM-მა ვერ შეასრულა.
+	Swoopdl could not do it.	SDL-მა ვერ შეასრულა.
 #. text in remote.rs
 #. remote control page (on a phone): Swoopdl can't be reached while pairing
 #, machine
@@ -2790,7 +2790,7 @@
 #. text in extension.rs
 #. a check of Test browser integration (Linux, macOS): Swoopdl found no browser it can connect to (one installed as a Flatpak isn't found)
 #, machine
-	No browser Swoopdl can connect to was found	ვერ მოიძებნა ბრაუზერი, რომელთანაც MDM-ს შეუძლია დაკავშირება
+	No browser Swoopdl can connect to was found	ვერ მოიძებნა ბრაუზერი, რომელთანაც SDL-ს შეუძლია დაკავშირება
 #. text in extension.rs
 #. a check of Test browser integration: no browser's extension has reached Swoopdl
 #, machine
@@ -2860,7 +2860,7 @@
 #. text in the Options window
 #. Options → Accounts: no system keyring/keychain answered (none runs, e.g. a desktop without one), so the sign-ins stay in Swoopdl's settings folder, which only the user's account may read
 #, machine
-	No system keyring answered, so sign-ins and passwords are kept in Swoopdl's settings, which only you can read.	სისტემის საკვანძო რგოლმა არ უპასუხა, ამიტომ შესვლის მონაცემები და პაროლები ინახება MDM-ის პარამეტრებში, რომელთა წაკითხვა მხოლოდ თქვენ შეგიძლიათ.
+	No system keyring answered, so sign-ins and passwords are kept in Swoopdl's settings, which only you can read.	სისტემის საკვანძო რგოლმა არ უპასუხა, ამიტომ შესვლის მონაცემები და პაროლები ინახება SDL-ის პარამეტრებში, რომელთა წაკითხვა მხოლოდ თქვენ შეგიძლიათ.
 #. message or event log entry in the main window
 #. event log entry: Add trackers changed nothing, the torrent had them all
 #, machine
@@ -2991,7 +2991,7 @@
 #. text in the Options window
 #. Options → Remote → Status: the remote control is off
 #, machine
-	Off: nothing on the network can reach Swoopdl.	გამორთულია: ქსელში არაფერი ვერ მიწვდება MDM-ს.
+	Off: nothing on the network can reach Swoopdl.	გამორთულია: ქსელში არაფერი ვერ მიწვდება SDL-ს.
 #. text in the Options window
 #, machine
 	Offer to download links copied to the clipboard	შემოთავაზება ბუფერში კოპირებული ბმულების ჩამოსატვირთად
@@ -3067,7 +3067,7 @@
 #. text in the Options window
 #. Options → Remote, at the bottom of the page
 #, machine
-	Only paired devices see or change anything. The first time, the phone's browser warns about Swoopdl's own certificate: its fingerprint is the one above.	მხოლოდ დაწყვილებული მოწყობილობები ხედავენ ან ცვლიან რამეს. პირველად, ტელეფონის ბრაუზერი გაფრთხილებთ MDM-ის საკუთარი სერტიფიკატის შესახებ: მისი თითის ანაბეჭდი ზემოთ მოცემულია.
+	Only paired devices see or change anything. The first time, the phone's browser warns about Swoopdl's own certificate: its fingerprint is the one above.	მხოლოდ დაწყვილებული მოწყობილობები ხედავენ ან ცვლიან რამეს. პირველად, ტელეფონის ბრაუზერი გაფრთხილებთ SDL-ის საკუთარი სერტიფიკატის შესახებ: მისი თითის ანაბეჭდი ზემოთ მოცემულია.
 #. text in playlistdlg.rs
 #. in Download video, a list longer than Swoopdl lists: only its first {n} videos are shown
 #. {n} = a number (keep the braces as they are)
@@ -3478,7 +3478,7 @@
 #. text in crashui.rs
 #. crash report window button: start Swoopdl again
 #, machine
-	Restart Swoopdl	MDM-ის გადატვირთვა
+	Restart Swoopdl	SDL-ის გადატვირთვა
 #. button in the Options window; text in the Options window
 #, machine
 	Restore the built-in categories	ჩაშენებული კატეგორიების აღდგენა
@@ -4114,7 +4114,7 @@
 	Sunday	კვირა
 #. link (opens a web page) in the Help menu's windows (About, updates, shortcuts, Tell a friend)
 #, machine
-	Support Swoopdl on GitHub Sponsors	MDM-ის მხარდაჭერა GitHub Sponsors-ზე
+	Support Swoopdl on GitHub Sponsors	SDL-ის მხარდაჭერა GitHub Sponsors-ზე
 #. text in countries.rs
 #. a country's name (where a download's server is)
 #, machine
@@ -4300,7 +4300,7 @@
 #. message or event log entry in the main window
 #. {error} = an error message (keep the braces as they are)
 #, machine
-	The download list could not be saved: {error}. Changes are kept while Swoopdl runs.	ჩამოტვირთვის სია ვერ შეინახა: {error}. ცვლილებები შენარჩუნებულია MDM-ის მუშაობისას.
+	The download list could not be saved: {error}. Changes are kept while Swoopdl runs.	ჩამოტვირთვის სია ვერ შეინახა: {error}. ცვლილებები შენარჩუნებულია SDL-ის მუშაობისას.
 #. text in the Help menu's windows (About, updates, shortcuts, Tell a friend)
 #, machine
 	The download manager you already know, rebuilt to be faster. Free and open source under the GNU GPL, version 3 or later. Videos are found by yt-dlp; torrents run on librqbit.	ჩამოტვირთვის მენეჯერი, რომელიც უკვე იცით, ხელახლა აშენდა უფრო სწრაფად. უფასო და ღია წყარო GNU GPL, ვერსია 3 ან უფრო გვიანდელი ლიცენზიით. ვიდეოებს პოულობს yt-dlp; ტორენტები მუშაობს librqbit-ზე.
@@ -4376,7 +4376,7 @@
 #, machine
 	the FTP server answered {code} {reply}	FTP სერვერმა უპასუხა {code} {reply}
 #. text in extension.rs
-#. a check of Test browser integration: the browsers are set up, but the small helper program they start (misterdownloadmanager-nmhost) is gone
+#. a check of Test browser integration: the browsers are set up, but the small helper program they start (swoopdl-nmhost) is gone
 #, machine
 	The helper program the browsers start is missing	დამხმარე პროგრამა, რომელსაც ბრაუზერები იწყებენ, დაკარგულია
 #. message or event log entry in the main window
@@ -4463,7 +4463,7 @@
 #. text in the Options window
 #. Options → Accounts (Linux): the system keyring is locked (Swoopdl never unlocks it: that would ask for its password), so the sign-ins stay in Swoopdl's settings folder, which only the user's account may read
 #, machine
-	The system keyring is locked and Swoopdl doesn't unlock it, so sign-ins and passwords are kept in Swoopdl's settings, which only you can read.	სისტემის საკვანძო რგოლი დაბლოკილია და Swoopdl მას არ ხსნის, ამიტომ შესვლის მონაცემები და პაროლები MDM-ის პარამეტრების საქაღალდეში ინახება, რომლის წაკითხვაც მხოლოდ თქვენ შეგიძლიათ.
+	The system keyring is locked and Swoopdl doesn't unlock it, so sign-ins and passwords are kept in Swoopdl's settings, which only you can read.	სისტემის საკვანძო რგოლი დაბლოკილია და Swoopdl მას არ ხსნის, ამიტომ შესვლის მონაცემები და პაროლები SDL-ის პარამეტრების საქაღალდეში ინახება, რომლის წაკითხვაც მხოლოდ თქვენ შეგიძლიათ.
 #. text in the Options window
 #. Options → Connection → DNS: the operating system's own DNS (the default)
 #, machine
@@ -4943,7 +4943,7 @@
 #. button in helpers.rs
 #. Video helpers: button: go back to the copy Swoopdl downloads and checks itself
 #, machine
-	Use Swoopdl's own copy	MDM-ის საკუთარი ასლის გამოყენება
+	Use Swoopdl's own copy	SDL-ის საკუთარი ასლის გამოყენება
 #. text in the Batch download window
 #. why Batch download's OK is greyed
 #, machine
@@ -5139,7 +5139,7 @@
 #. text in the Options window
 #. Options → Accounts: Windows Credential Manager didn't answer, so the sign-ins stay in Swoopdl's settings, encrypted so that only this Windows account can read them
 #, machine
-	Windows Credential Manager didn't answer, so sign-ins and passwords are kept in Swoopdl's settings, encrypted for your Windows account.	Windows-ის სერთიფიკატების მენეჯერმა არ უპასუხა, ამიტომ შესვლის მონაცემები და პაროლები ინახება MDM-ის პარამეტრებში, დაშიფრული თქვენი Windows ანგარიშისთვის.
+	Windows Credential Manager didn't answer, so sign-ins and passwords are kept in Swoopdl's settings, encrypted for your Windows account.	Windows-ის სერთიფიკატების მენეჯერმა არ უპასუხა, ამიტომ შესვლის მონაცემები და პაროლები ინახება SDL-ის პარამეტრებში, დაშიფრული თქვენი Windows ანგარიშისთვის.
 #. text in a dialog box
 #. why the computer could not be put to sleep (fills {error})
 #, machine
@@ -5171,7 +5171,7 @@
 #. text in remote.rs
 #. remote control page (on a phone): pairing failed and the code is void now
 #, machine
-	Wrong code. Show a new code in Swoopdl and try again.	არასწორი კოდი. აჩვენეთ ახალი კოდი MDM-ში და სცადეთ ხელახლა.
+	Wrong code. Show a new code in Swoopdl and try again.	არასწორი კოდი. აჩვენეთ ახალი კოდი SDL-ში და სცადეთ ხელახლა.
 #. text in remote.rs
 #. remote control page (on a phone): pairing failed; {n} = how many more codes may be tried
 #. {n} = a number (keep the braces as they are)
@@ -5229,7 +5229,7 @@
 #. Video helpers: the person's own gallery-dl is too old and not used; {version} = its version, {oldest} = the oldest Swoopdl can use
 #. {version} = a version number (keep the braces as they are)
 #, machine
-	Your own program ({version}) is too old: Swoopdl needs {oldest} or newer	თქვენი პროგრამა ({version}) ძალიან ძველია: MDM-ს სჭირდება {oldest} ან უფრო ახალი
+	Your own program ({version}) is too old: Swoopdl needs {oldest} or newer	თქვენი პროგრამა ({version}) ძალიან ძველია: SDL-ს სჭირდება {oldest} ან უფრო ახალი
 #. text in helpers.rs
 #. Video helpers: {path} = the program the person chose, {version} = its version
 #. {version} = a version number (keep the braces as they are)
@@ -5324,7 +5324,7 @@
 #. text in the Options window
 #. Options → Remote → Pair a device: done; {device} = the name it was given
 #, machine
-	{device} is paired. It can control Swoopdl now.	{device} დაწყვილებულია. მას შეუძლია MDM-ის მართვა.
+	{device} is paired. It can control Swoopdl now.	{device} დაწყვილებულია. მას შეუძლია SDL-ის მართვა.
 #. text in remote.rs
 #. remote control page (on a phone): progress; {done} and {size} are sizes ("1.2 MB of 7.5 MB")
 #. {size} = a file size such as "4.2 MB" (keep the braces as they are)
@@ -5419,7 +5419,7 @@
 #. error: a program chosen as a helper is too old; {name} = gallery-dl, {version} = its version, {oldest} = the oldest one Swoopdl can use
 #. {name} = a file name; {version} = a version number (keep the braces as they are)
 #, machine
-	{name} {version} is too old: Swoopdl needs {oldest} or newer	{name} {version} ძალიან ძველია: MDM-ს სჭირდება {oldest} ან უფრო ახალი
+	{name} {version} is too old: Swoopdl needs {oldest} or newer	{name} {version} ძალიან ძველია: SDL-ს სჭირდება {oldest} ან უფრო ახალი
 #. text in the Options window
 #. a number of connections the app learned by itself for a server
 #. {n} = a number (keep the braces as they are)
@@ -5768,9 +5768,9 @@ extension	Not reached. Open its address once in this browser and accept its cert
 #, machine
 extension	Open it	გახსნა
 #. text in the browser extension
-#. help under the pairing boxes; Options, Remote and Pair a device are the app's window, tab and button; keep misterdownloadmanager-cli pair as it is
+#. help under the pairing boxes; Options, Remote and Pair a device are the app's window, tab and button; keep swoopdl-cli pair as it is
 #, machine
-extension	Open its address once and accept its certificate, then enter a code from its Options, Remote, Pair a device (or misterdownloadmanager-cli pair).	გახსენით მისი მისამართი ერთხელ და მიიღეთ მისი სერტიფიკატი, შემდეგ შეიყვანეთ კოდი მისი „პარამეტრები“, „დისტანციური“, „მოწყობილობის დაწყვილება“-დან (ან misterdownloadmanager-cli pair).
+extension	Open its address once and accept its certificate, then enter a code from its Options, Remote, Pair a device (or swoopdl-cli pair).	გახსენით მისი მისამართი ერთხელ და მიიღეთ მისი სერტიფიკატი, შემდეგ შეიყვანეთ კოდი მისი „პარამეტრები“, „დისტანციური“, „მოწყობილობის დაწყვილება“-დან (ან swoopdl-cli pair).
 #. text in the browser extension
 #. button in the toolbar button's popup; keep the name Swoopdl as it is
 #, machine
@@ -5819,7 +5819,7 @@ extension	Sent to Swoopdl	გაგზავნილია Swoopdl-ში
 #. text in the browser extension
 #. link at the foot of the toolbar button's popup to the creator's GitHub Sponsors page (Swoopdl is free; this is an optional donation)
 #, machine
-extension	Support Swoopdl	MDM-ის მხარდაჭერა
+extension	Support Swoopdl	SDL-ის მხარდაჭერა
 #. text in the browser extension
 #. check box in the toolbar button's popup: on, downloads go to the app; off, the browser keeps them
 #, machine
@@ -6134,7 +6134,7 @@ menu	Aero	Aero
 #. menu command in the main window
 #. View → Draw with: a greyed note under the choices; the choice takes effect when Swoopdl is started again
 #, machine
-menu	Applies the next time Swoopdl starts	გამოიყენება MDM-ის შემდეგი გაშვებისას
+menu	Applies the next time Swoopdl starts	გამოიყენება SDL-ის შემდეგი გაშვებისას
 #. menu command in the main window
 #. View → Theme: a style theme's name (Mac OS X's look), a name: keep "Aqua" as written
 #, machine
@@ -6476,7 +6476,7 @@ menu	Stop Download	ჩამოტვირთვის შეჩერება
 #. menu command in the main window
 #. & marks the keyboard shortcut letter: keep one & before a letter of the translation
 #, machine
-menu	Support &Swoopdl	MDM-ის მხარ&დაჭერა
+menu	Support &Swoopdl	SDL-ის მხარ&დაჭერა
 #. menu command in the main window
 #. & marks the keyboard shortcut letter: keep one & before a letter of the translation
 #, machine

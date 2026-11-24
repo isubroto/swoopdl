@@ -196,16 +196,6 @@ alt = "Options, General: Use advanced browser integration and the list of browse
 caption = "1 must be on, and 2 your browser ticked."
 
 [[shot]]
-id = "video-button"
-page = "browser-integration.md"
-under = "The download button over videos"
-from = "docs/images/video-button-youtube.webp"
-crop = [400, 0, 720, 405]
-lossy = 90
-alt = "The Download video button over a YouTube video in Chrome"
-caption = "The button over a video. Drag it where you like; it stays there."
-
-[[shot]]
 id = "download-panels"
 page = "browser-integration.md"
 under = "The download button over videos"

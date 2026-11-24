@@ -1041,10 +1041,10 @@
 	Customize keys to prevent or force downloading with Swoopdl	Tilpass tastar for å hindre eller tvinge nedlasting med Swoopdl
 #. text in the Options window
 #, machine
-	Customize Swoopdl Download panels in browsers	Tilpass MDM-nedlastingspanel i nettlesarar
+	Customize Swoopdl Download panels in browsers	Tilpass SDL-nedlastingspanel i nettlesarar
 #. text in the Options window
 #, machine
-	Customize Swoopdl menu items in context menu of browsers	Tilpass MDM-menyelement i kontekstmenyen til nettlesarar
+	Customize Swoopdl menu items in context menu of browsers	Tilpass SDL-menyelement i kontekstmenyen til nettlesarar
 #. text in countries.rs
 #. a country's name (where a download's server is)
 #, machine
@@ -2122,7 +2122,7 @@
 #. text in the Batch download window
 #. \\n starts a new line: break lines where they fit the translation
 #, machine
-	It's possible to add a group of sequential file names like img001.jpg, img002.jpg, etc.,\nimg100.jpg to Swoopdl download queue. Use the asterisk wildcard for the file name pattern.	Det er mogleg å leggje til ei gruppe sekvensielle filnamn som img001.jpg, img002.jpg, osb.,\nimg100.jpg i MDM-nedlastingskøen. Bruk stjerne-jokerteiknet for filnamnmønsteret.
+	It's possible to add a group of sequential file names like img001.jpg, img002.jpg, etc.,\nimg100.jpg to Swoopdl download queue. Use the asterisk wildcard for the file name pattern.	Det er mogleg å leggje til ei gruppe sekvensielle filnamn som img001.jpg, img002.jpg, osb.,\nimg100.jpg i SDL-nedlastingskøen. Bruk stjerne-jokerteiknet for filnamnmønsteret.
 #. text in countries.rs
 #. a country's name (where a download's server is)
 #, machine
@@ -3067,7 +3067,7 @@
 #. text in the Options window
 #. Options → Remote, at the bottom of the page
 #, machine
-	Only paired devices see or change anything. The first time, the phone's browser warns about Swoopdl's own certificate: its fingerprint is the one above.	Berre para einheiter ser eller endrar noko. Første gongen åtvarar telefonens nettlesar om MDMs eige sertifikat: fingeravtrykket er det over.
+	Only paired devices see or change anything. The first time, the phone's browser warns about Swoopdl's own certificate: its fingerprint is the one above.	Berre para einheiter ser eller endrar noko. Første gongen åtvarar telefonens nettlesar om SDLs eige sertifikat: fingeravtrykket er det over.
 #. text in playlistdlg.rs
 #. in Download video, a list longer than Swoopdl lists: only its first {n} videos are shown
 #. {n} = a number (keep the braces as they are)
@@ -4376,7 +4376,7 @@
 #, machine
 	the FTP server answered {code} {reply}	FTP-tenaren svara {code} {reply}
 #. text in extension.rs
-#. a check of Test browser integration: the browsers are set up, but the small helper program they start (misterdownloadmanager-nmhost) is gone
+#. a check of Test browser integration: the browsers are set up, but the small helper program they start (swoopdl-nmhost) is gone
 #, machine
 	The helper program the browsers start is missing	Hjelpeprogrammet som nettlesarane startar, manglar
 #. message or event log entry in the main window
@@ -5768,9 +5768,9 @@ extension	Not reached. Open its address once in this browser and accept its cert
 #, machine
 extension	Open it	Opne han
 #. text in the browser extension
-#. help under the pairing boxes; Options, Remote and Pair a device are the app's window, tab and button; keep misterdownloadmanager-cli pair as it is
+#. help under the pairing boxes; Options, Remote and Pair a device are the app's window, tab and button; keep swoopdl-cli pair as it is
 #, machine
-extension	Open its address once and accept its certificate, then enter a code from its Options, Remote, Pair a device (or misterdownloadmanager-cli pair).	Opne adressa hans éin gong og godta sertifikatet, og skriv så inn ein kode frå «Val», «Fjernstyring», «Par ein eining» (eller misterdownloadmanager-cli pair).
+extension	Open its address once and accept its certificate, then enter a code from its Options, Remote, Pair a device (or swoopdl-cli pair).	Opne adressa hans éin gong og godta sertifikatet, og skriv så inn ein kode frå «Val», «Fjernstyring», «Par ein eining» (eller swoopdl-cli pair).
 #. text in the browser extension
 #. button in the toolbar button's popup; keep the name Swoopdl as it is
 #, machine

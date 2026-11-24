@@ -186,7 +186,7 @@
 #. text in the Options window
 #. Options → Accounts: what these accounts are, and the services' rule against sharing
 #, machine
-	A debrid service downloads a file host's link with your own paid account and gives Swoopdl a direct link. Use only your own account: sharing an account or its links breaks the services' terms and can get it suspended. Downloads the browser already started stay as they are.	Storitev debrid prenese povezavo gostitelja datotek z vašim plačljivim računom in MDM-ju posreduje neposredno povezavo. Uporabljajte samo svoj račun: skupna raba računa ali njegovih povezav krši pogoje storitev in lahko povzroči njegovo začasno ukinitev. Prenosi, ki jih je brskalnik že začel, ostanejo nespremenjeni.
+	A debrid service downloads a file host's link with your own paid account and gives Swoopdl a direct link. Use only your own account: sharing an account or its links breaks the services' terms and can get it suspended. Downloads the browser already started stay as they are.	Storitev debrid prenese povezavo gostitelja datotek z vašim plačljivim računom in SDL-ju posreduje neposredno povezavo. Uporabljajte samo svoj račun: skupna raba računa ali njegovih povezav krši pogoje storitev in lahko povzroči njegovo začasno ukinitev. Prenosi, ki jih je brskalnik že začel, ostanejo nespremenjeni.
 #. text in errors.rs
 #. a torrent through a debrid service: one of its files has a name that would be written outside its folder; nothing was written. {name} the file's name as the service gave it
 #. {name} = a file name (keep the braces as they are)
@@ -2261,7 +2261,7 @@
 #. checkbox in the Options window
 #. Options → Remote check box (off by default)
 #, machine
-	Let phones and computers on the local network control Swoopdl	Dovoli telefonom in računalnikom v lokalnem omrežju nadzor MDM-ja
+	Let phones and computers on the local network control Swoopdl	Dovoli telefonom in računalnikom v lokalnem omrežju nadzor SDL-ja
 #. option (radio button) in the Batch download window
 #. the * in the address runs through letters
 #, machine
@@ -2991,7 +2991,7 @@
 #. text in the Options window
 #. Options → Remote → Status: the remote control is off
 #, machine
-	Off: nothing on the network can reach Swoopdl.	Izklopljeno: nič v omrežju ne more doseči MDM-ja.
+	Off: nothing on the network can reach Swoopdl.	Izklopljeno: nič v omrežju ne more doseči SDL-ja.
 #. text in the Options window
 #, machine
 	Offer to download links copied to the clipboard	Ponudi prenos povezav, kopiranih v odložišče
@@ -3067,7 +3067,7 @@
 #. text in the Options window
 #. Options → Remote, at the bottom of the page
 #, machine
-	Only paired devices see or change anything. The first time, the phone's browser warns about Swoopdl's own certificate: its fingerprint is the one above.	Samo seznanjene naprave vidijo ali spremenijo karkoli. Prvič bo brskalnik telefona opozoril na lastno potrdilo MDM-ja: njegov prstni odtis je tisti zgoraj.
+	Only paired devices see or change anything. The first time, the phone's browser warns about Swoopdl's own certificate: its fingerprint is the one above.	Samo seznanjene naprave vidijo ali spremenijo karkoli. Prvič bo brskalnik telefona opozoril na lastno potrdilo SDL-ja: njegov prstni odtis je tisti zgoraj.
 #. text in playlistdlg.rs
 #. in Download video, a list longer than Swoopdl lists: only its first {n} videos are shown
 #. {n} = a number (keep the braces as they are)
@@ -4376,7 +4376,7 @@
 #, machine
 	the FTP server answered {code} {reply}	strežnik FTP je odgovoril {code} {reply}
 #. text in extension.rs
-#. a check of Test browser integration: the browsers are set up, but the small helper program they start (misterdownloadmanager-nmhost) is gone
+#. a check of Test browser integration: the browsers are set up, but the small helper program they start (swoopdl-nmhost) is gone
 #, machine
 	The helper program the browsers start is missing	Pomožni program, ki ga brskalniki zaženejo, manjka
 #. message or event log entry in the main window
@@ -5768,9 +5768,9 @@ extension	Not reached. Open its address once in this browser and accept its cert
 #, machine
 extension	Open it	Odpri
 #. text in the browser extension
-#. help under the pairing boxes; Options, Remote and Pair a device are the app's window, tab and button; keep misterdownloadmanager-cli pair as it is
+#. help under the pairing boxes; Options, Remote and Pair a device are the app's window, tab and button; keep swoopdl-cli pair as it is
 #, machine
-extension	Open its address once and accept its certificate, then enter a code from its Options, Remote, Pair a device (or misterdownloadmanager-cli pair).	Enkrat odprite njegov naslov in sprejmite njegovo potrdilo, nato vnesite kodo iz možnosti, oddaljeno, seznani napravo (ali misterdownloadmanager-cli pair).
+extension	Open its address once and accept its certificate, then enter a code from its Options, Remote, Pair a device (or swoopdl-cli pair).	Enkrat odprite njegov naslov in sprejmite njegovo potrdilo, nato vnesite kodo iz možnosti, oddaljeno, seznani napravo (ali swoopdl-cli pair).
 #. text in the browser extension
 #. button in the toolbar button's popup; keep the name Swoopdl as it is
 #, machine

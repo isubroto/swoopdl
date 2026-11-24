@@ -1044,7 +1044,7 @@
 	Customize Swoopdl Download panels in browsers	Pasmaak Swoopdl Aflaai-panele in blaaiers
 #. text in the Options window
 #, machine
-	Customize Swoopdl menu items in context menu of browsers	Pasmaak MDM-kieslysitems in blaaiers se kontekskieslyste
+	Customize Swoopdl menu items in context menu of browsers	Pasmaak SDL-kieslysitems in blaaiers se kontekskieslyste
 #. text in countries.rs
 #. a country's name (where a download's server is)
 #, machine
@@ -2122,7 +2122,7 @@
 #. text in the Batch download window
 #. \\n starts a new line: break lines where they fit the translation
 #, machine
-	It's possible to add a group of sequential file names like img001.jpg, img002.jpg, etc.,\nimg100.jpg to Swoopdl download queue. Use the asterisk wildcard for the file name pattern.	Dit is moontlik om 'n groep opeenvolgende lêername soos img001.jpg, img002.jpg, ens.,\nimg100.jpg by die MDM-aflaaiwachtry te voeg. Gebruik die asterisk-jokerteken vir die lêernaampatroon.
+	It's possible to add a group of sequential file names like img001.jpg, img002.jpg, etc.,\nimg100.jpg to Swoopdl download queue. Use the asterisk wildcard for the file name pattern.	Dit is moontlik om 'n groep opeenvolgende lêername soos img001.jpg, img002.jpg, ens.,\nimg100.jpg by die SDL-aflaaiwachtry te voeg. Gebruik die asterisk-jokerteken vir die lêernaampatroon.
 #. text in countries.rs
 #. a country's name (where a download's server is)
 #, machine
@@ -4376,7 +4376,7 @@
 #, machine
 	the FTP server answered {code} {reply}	die FTP-bediener het {code} {reply} geantwoord
 #. text in extension.rs
-#. a check of Test browser integration: the browsers are set up, but the small helper program they start (misterdownloadmanager-nmhost) is gone
+#. a check of Test browser integration: the browsers are set up, but the small helper program they start (swoopdl-nmhost) is gone
 #, machine
 	The helper program the browsers start is missing	Die helperprogram wat die blaaiers begin, ontbreek
 #. message or event log entry in the main window
@@ -5768,9 +5768,9 @@ extension	Not reached. Open its address once in this browser and accept its cert
 #, machine
 extension	Open it	Maak dit oop
 #. text in the browser extension
-#. help under the pairing boxes; Options, Remote and Pair a device are the app's window, tab and button; keep misterdownloadmanager-cli pair as it is
+#. help under the pairing boxes; Options, Remote and Pair a device are the app's window, tab and button; keep swoopdl-cli pair as it is
 #, machine
-extension	Open its address once and accept its certificate, then enter a code from its Options, Remote, Pair a device (or misterdownloadmanager-cli pair).	Maak sy adres een keer oop en aanvaar sy sertifikaat, voer dan 'n kode in vanaf sy Opsies, Afstandbeheer, Koppel 'n toestel (of misterdownloadmanager-cli pair).
+extension	Open its address once and accept its certificate, then enter a code from its Options, Remote, Pair a device (or swoopdl-cli pair).	Maak sy adres een keer oop en aanvaar sy sertifikaat, voer dan 'n kode in vanaf sy Opsies, Afstandbeheer, Koppel 'n toestel (of swoopdl-cli pair).
 #. text in the browser extension
 #. button in the toolbar button's popup; keep the name Swoopdl as it is
 #, machine

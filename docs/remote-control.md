@@ -39,7 +39,6 @@ A code works once, for ten minutes, and not after five wrong tries: click **New 
 another. To keep the page one tap away, add it to the phone's home screen (the browser's menu:
 **Add to Home screen**).
 
-![The page on a phone](images/remote-phone.webp)
 
 ## What the page does
 

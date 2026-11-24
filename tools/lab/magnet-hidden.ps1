@@ -35,7 +35,7 @@ param(
   [string]$Send = "magnet",
   [string]$Renderer = "",
   [string]$Magnet = "magnet:?xt=urn:btih:5b4f0c3a9e1d27f86c0b3a4e9d1f2a7c6e8b0d14&dn=SDL%20test%20145",
-  [string]$Url = "http://127.0.0.1:9/mdm-test-145.zip",
+  [string]$Url = "http://127.0.0.1:9/sdl-test-145.zip",
   [int]$WaitSec = 6,
   [switch]$NoTorrentEngine,
   [switch]$Keep,
@@ -109,7 +109,7 @@ function Native-Message([hashtable]$Message) {
   try {
     [IO.File]::WriteAllBytes($msg, [BitConverter]::GetBytes([uint32]$json.Length) + $json)
     $manifest = Join-Path (Split-Path $Exe) "firefox-host.json"
-    $p = Start-Process -FilePath "cmd.exe" -PassThru -WindowStyle Hidden -ArgumentList "/d /c `"`"$Host_`" `"$manifest`" integration@misterdownloadmanager.com < `"$msg`" > `"$out`"`""
+    $p = Start-Process -FilePath "cmd.exe" -PassThru -WindowStyle Hidden -ArgumentList "/d /c `"`"$Host_`" `"$manifest`" integration@swoopdl.example < `"$msg`" > `"$out`"`""
     if (-not $p.WaitForExit(15000)) { throw "the native host didn't quit" }
     $bytes = [IO.File]::ReadAllBytes($out)
     if ($bytes.Length -lt 4) { return "(no reply)" }

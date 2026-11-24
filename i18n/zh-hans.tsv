@@ -4300,7 +4300,7 @@
 #. message or event log entry in the main window
 #. {error} = an error message (keep the braces as they are)
 #, machine
-	The download list could not be saved: {error}. Changes are kept while Swoopdl runs.	无法保存下载列表：{error}。MDM运行时将保留更改。
+	The download list could not be saved: {error}. Changes are kept while Swoopdl runs.	无法保存下载列表：{error}。SDL运行时将保留更改。
 #. text in the Help menu's windows (About, updates, shortcuts, Tell a friend)
 #, machine
 	The download manager you already know, rebuilt to be faster. Free and open source under the GNU GPL, version 3 or later. Videos are found by yt-dlp; torrents run on librqbit.	您熟悉的下载管理器，经过重建，速度更快。基于 GNU GPL 第 3 版或更高版本免费开源。视频由 yt-dlp 查找；种子由 librqbit 处理。
@@ -4376,7 +4376,7 @@
 #, machine
 	the FTP server answered {code} {reply}	FTP 服务器响应 {code} {reply}
 #. text in extension.rs
-#. a check of Test browser integration: the browsers are set up, but the small helper program they start (misterdownloadmanager-nmhost) is gone
+#. a check of Test browser integration: the browsers are set up, but the small helper program they start (swoopdl-nmhost) is gone
 #, machine
 	The helper program the browsers start is missing	浏览器启动的帮助程序缺失
 #. message or event log entry in the main window
@@ -5768,9 +5768,9 @@ extension	Not reached. Open its address once in this browser and accept its cert
 #, machine
 extension	Open it	打开它
 #. text in the browser extension
-#. help under the pairing boxes; Options, Remote and Pair a device are the app's window, tab and button; keep misterdownloadmanager-cli pair as it is
+#. help under the pairing boxes; Options, Remote and Pair a device are the app's window, tab and button; keep swoopdl-cli pair as it is
 #, machine
-extension	Open its address once and accept its certificate, then enter a code from its Options, Remote, Pair a device (or misterdownloadmanager-cli pair).	请先打开其地址并接受其证书，然后从其“选项”、“远程”、“配对设备”中输入代码（或 misterdownloadmanager-cli pair）。
+extension	Open its address once and accept its certificate, then enter a code from its Options, Remote, Pair a device (or swoopdl-cli pair).	请先打开其地址并接受其证书，然后从其“选项”、“远程”、“配对设备”中输入代码（或 swoopdl-cli pair）。
 #. text in the browser extension
 #. button in the toolbar button's popup; keep the name Swoopdl as it is
 #, machine

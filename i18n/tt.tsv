@@ -186,7 +186,7 @@
 #. text in the Options window
 #. Options → Accounts: what these accounts are, and the services' rule against sharing
 #, machine
-	A debrid service downloads a file host's link with your own paid account and gives Swoopdl a direct link. Use only your own account: sharing an account or its links breaks the services' terms and can get it suspended. Downloads the browser already started stay as they are.	Дебрид хезмәте файл хостының сылтамасын сезнең түләүле хисап язмагыз белән йөкләп ала һәм MDMга туры сылтама бирә. Үзегезнең хисап язмагызны гына кулланыгыз: хисап язмасын яки аның сылтамаларын уртаклашу хезмәтләрнең шартларын боза һәм аның туктатылуына китерергә мөмкин. Браузер инде башлаган йөкләмәләр үзгәрешсез кала.
+	A debrid service downloads a file host's link with your own paid account and gives Swoopdl a direct link. Use only your own account: sharing an account or its links breaks the services' terms and can get it suspended. Downloads the browser already started stay as they are.	Дебрид хезмәте файл хостының сылтамасын сезнең түләүле хисап язмагыз белән йөкләп ала һәм SDLга туры сылтама бирә. Үзегезнең хисап язмагызны гына кулланыгыз: хисап язмасын яки аның сылтамаларын уртаклашу хезмәтләрнең шартларын боза һәм аның туктатылуына китерергә мөмкин. Браузер инде башлаган йөкләмәләр үзгәрешсез кала.
 #. text in errors.rs
 #. a torrent through a debrid service: one of its files has a name that would be written outside its folder; nothing was written. {name} the file's name as the service gave it
 #. {name} = a file name (keep the braces as they are)
@@ -1419,7 +1419,7 @@
 #. text in crashui.rs
 #. crash report window button: end the frozen Swoopdl and start it again
 #, machine
-	End and restart Swoopdl	MDMны тәмамлау һәм яңадан башлау
+	End and restart Swoopdl	SDLны тәмамлау һәм яңадан башлау
 #. text in the Add torrent window
 #, machine
 	Enter a magnet link or choose a .torrent file	Магнит сылтамасын кертегез яки .torrent файлын сайлагыз
@@ -2991,7 +2991,7 @@
 #. text in the Options window
 #. Options → Remote → Status: the remote control is off
 #, machine
-	Off: nothing on the network can reach Swoopdl.	Сүндерелгән: челтәрдә бернәрсә дә MDMга ирешә алмый.
+	Off: nothing on the network can reach Swoopdl.	Сүндерелгән: челтәрдә бернәрсә дә SDLга ирешә алмый.
 #. text in the Options window
 #, machine
 	Offer to download links copied to the clipboard	Буфер алмашу тактасына күчерелгән сылтамаларны йөкләүне тәкъдим итәргә
@@ -3067,7 +3067,7 @@
 #. text in the Options window
 #. Options → Remote, at the bottom of the page
 #, machine
-	Only paired devices see or change anything. The first time, the phone's browser warns about Swoopdl's own certificate: its fingerprint is the one above.	Бары тик парлы җайланмалар гына берәр нәрсәне күрә яки үзгәртә ала. Беренче тапкыр, телефон браузеры MDMның үз сертификаты турында кисәтә: аның бармак эзе өстәге кебек.
+	Only paired devices see or change anything. The first time, the phone's browser warns about Swoopdl's own certificate: its fingerprint is the one above.	Бары тик парлы җайланмалар гына берәр нәрсәне күрә яки үзгәртә ала. Беренче тапкыр, телефон браузеры SDLның үз сертификаты турында кисәтә: аның бармак эзе өстәге кебек.
 #. text in playlistdlg.rs
 #. in Download video, a list longer than Swoopdl lists: only its first {n} videos are shown
 #. {n} = a number (keep the braces as they are)
@@ -3478,7 +3478,7 @@
 #. text in crashui.rs
 #. crash report window button: start Swoopdl again
 #, machine
-	Restart Swoopdl	MDMны яңадан башлау
+	Restart Swoopdl	SDLны яңадан башлау
 #. button in the Options window; text in the Options window
 #, machine
 	Restore the built-in categories	Урнаштырылган категорияләрне торгызу
@@ -4376,7 +4376,7 @@
 #, machine
 	the FTP server answered {code} {reply}	FTP серверы {code} {reply} дип җавап бирде
 #. text in extension.rs
-#. a check of Test browser integration: the browsers are set up, but the small helper program they start (misterdownloadmanager-nmhost) is gone
+#. a check of Test browser integration: the browsers are set up, but the small helper program they start (swoopdl-nmhost) is gone
 #, machine
 	The helper program the browsers start is missing	Браузерлар эшләтеп җибәрә торган ярдәмче программа юк
 #. message or event log entry in the main window
@@ -4846,7 +4846,7 @@
 #. Options → Add an account: waiting while the user types the code at the service's page; {page} its address, {time} minutes:seconds left
 #. {time} = a time of day (keep the braces as they are)
 #, machine
-	Type this code at {page} and allow Swoopdl; waiting for you (the code expires in {time}).	Бу кодны {page} битенә кертегез һәм MDMга рөхсәт итегез; сезне көтәм (кодның вакыты {time} эчендә бетә).
+	Type this code at {page} and allow Swoopdl; waiting for you (the code expires in {time}).	Бу кодны {page} битенә кертегез һәм SDLга рөхсәт итегез; сезне көтәм (кодның вакыты {time} эчендә бетә).
 #. tooltip (why a control is greyed) in the Find window
 #. tooltip of the greyed Find button
 #, machine
@@ -4943,7 +4943,7 @@
 #. button in helpers.rs
 #. Video helpers: button: go back to the copy Swoopdl downloads and checks itself
 #, machine
-	Use Swoopdl's own copy	MDMның үз күчермәсен кулланыгыз
+	Use Swoopdl's own copy	SDLның үз күчермәсен кулланыгыз
 #. text in the Batch download window
 #. why Batch download's OK is greyed
 #, machine
@@ -5768,9 +5768,9 @@ extension	Not reached. Open its address once in this browser and accept its cert
 #, machine
 extension	Open it	Ачу
 #. text in the browser extension
-#. help under the pairing boxes; Options, Remote and Pair a device are the app's window, tab and button; keep misterdownloadmanager-cli pair as it is
+#. help under the pairing boxes; Options, Remote and Pair a device are the app's window, tab and button; keep swoopdl-cli pair as it is
 #, machine
-extension	Open its address once and accept its certificate, then enter a code from its Options, Remote, Pair a device (or misterdownloadmanager-cli pair).	Аның адресын бер тапкыр ачыгыз һәм сертификатын кабул итегез, аннары аның «Параметрлар», «Ерактан» бүлегеннән, «Җайланманы тоташтыру» төймәсеннән (яки misterdownloadmanager-cli pair) код кертегез.
+extension	Open its address once and accept its certificate, then enter a code from its Options, Remote, Pair a device (or swoopdl-cli pair).	Аның адресын бер тапкыр ачыгыз һәм сертификатын кабул итегез, аннары аның «Параметрлар», «Ерактан» бүлегеннән, «Җайланманы тоташтыру» төймәсеннән (яки swoopdl-cli pair) код кертегез.
 #. text in the browser extension
 #. button in the toolbar button's popup; keep the name Swoopdl as it is
 #, machine

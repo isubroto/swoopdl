@@ -186,7 +186,7 @@
 #. text in the Options window
 #. Options → Accounts: what these accounts are, and the services' rule against sharing
 #, machine
-	A debrid service downloads a file host's link with your own paid account and gives Swoopdl a direct link. Use only your own account: sharing an account or its links breaks the services' terms and can get it suspended. Downloads the browser already started stay as they are.	Desbridatze-zerbitzu batek fitxategi-ostatu baten esteka deskargatzen du zure ordainpeko kontuarekin eta esteka zuzen bat ematen dio MDMri. Erabili zure kontua soilik: kontu bat edo haren estekak partekatzeak zerbitzuen baldintzak hausten ditu eta kontua eten dezake. Nabigatzaileak dagoeneko hasitako deskargak bere horretan geratzen dira.
+	A debrid service downloads a file host's link with your own paid account and gives Swoopdl a direct link. Use only your own account: sharing an account or its links breaks the services' terms and can get it suspended. Downloads the browser already started stay as they are.	Desbridatze-zerbitzu batek fitxategi-ostatu baten esteka deskargatzen du zure ordainpeko kontuarekin eta esteka zuzen bat ematen dio SDLri. Erabili zure kontua soilik: kontu bat edo haren estekak partekatzeak zerbitzuen baldintzak hausten ditu eta kontua eten dezake. Nabigatzaileak dagoeneko hasitako deskargak bere horretan geratzen dira.
 #. text in errors.rs
 #. a torrent through a debrid service: one of its files has a name that would be written outside its folder; nothing was written. {name} the file's name as the service gave it
 #. {name} = a file name (keep the braces as they are)
@@ -652,7 +652,7 @@
 	Bosnia and Herzegovina	Bosnia eta Herzegovina
 #. text in helpers.rs
 #, machine
-	Both are open source. Swoopdl gets them from their official releases with its own downloader and checks each file's signature before it runs. About 100 MB, once.	Biak kode irekikoak dira. MDM-k haien bertsio ofizialetatik lortzen ditu bere deskargatzailearekin eta fitxategi bakoitzaren sinadura egiaztatzen du exekutatu aurretik. Gutxi gorabehera 100 MB, behin.
+	Both are open source. Swoopdl gets them from their official releases with its own downloader and checks each file's signature before it runs. About 100 MB, once.	Biak kode irekikoak dira. SDL-k haien bertsio ofizialetatik lortzen ditu bere deskargatzailearekin eta fitxategi bakoitzaren sinadura egiaztatzen du exekutatu aurretik. Gutxi gorabehera 100 MB, behin.
 #. text in countries.rs
 #. a country's name (where a download's server is)
 #, machine
@@ -823,7 +823,7 @@
 #. text in the Options window
 #. tooltip of the close-setting: checked keeps Swoopdl running when the window closes, in the notification area when available or else the taskbar; downloads continue; unchecked closing quits
 #, machine
-	Checked, closing the window keeps Swoopdl running: it hides in the notification area when available, or minimizes to the taskbar otherwise, and downloads continue; unchecked, closing quits Swoopdl	Markatuta badago, leihoa ixten denean Swoopdl martxan mantentzen da: jakinarazpen-eremuan ezkutatzen da erabilgarri badago, edo ataza-barran minimizatzen da bestela, eta deskargak jarraitzen dute; markatu gabe badago, ixten denean MDM-tik irteten da.
+	Checked, closing the window keeps Swoopdl running: it hides in the notification area when available, or minimizes to the taskbar otherwise, and downloads continue; unchecked, closing quits Swoopdl	Markatuta badago, leihoa ixten denean Swoopdl martxan mantentzen da: jakinarazpen-eremuan ezkutatzen da erabilgarri badago, edo ataza-barran minimizatzen da bestela, eta deskargak jarraitzen dute; markatu gabe badago, ixten denean SDL-tik irteten da.
 #. message or event log entry in the main window
 #. event log entry after Recheck: {have} and {total} are sizes ("1.2 GB of 4 GB there")
 #, machine
@@ -1038,7 +1038,7 @@
 	Customize "Download progress" dialog	Pertsonalizatu «Deskargaren aurrerapena» elkarrizketa-koadroa
 #. text in the Options window
 #, machine
-	Customize keys to prevent or force downloading with Swoopdl	Pertsonalizatu MDM-rekin deskargatzea eragozteko edo behartzeko teklak
+	Customize keys to prevent or force downloading with Swoopdl	Pertsonalizatu SDL-rekin deskargatzea eragozteko edo behartzeko teklak
 #. text in the Options window
 #, machine
 	Customize Swoopdl Download panels in browsers	Pertsonalizatu arakatzaileetako Swoopdl deskarga-panelak
@@ -2101,7 +2101,7 @@
 #. text in extracting archives (a download's log, the Archive password window)
 #. why an archive wasn't extracted (after "Couldn't extract {name}: ")
 #, machine
-	it is not an archive Swoopdl extracts	MDMk ateratzen ez duen artxiboa da
+	it is not an archive Swoopdl extracts	SDLk ateratzen ez duen artxiboa da
 #. text in extracting archives (a download's log, the Archive password window)
 #. why an archive wasn't extracted (after "Couldn't extract {name}: ")
 #, machine
@@ -2122,7 +2122,7 @@
 #. text in the Batch download window
 #. \\n starts a new line: break lines where they fit the translation
 #, machine
-	It's possible to add a group of sequential file names like img001.jpg, img002.jpg, etc.,\nimg100.jpg to Swoopdl download queue. Use the asterisk wildcard for the file name pattern.	Fitxategi-izen sekuentzialen talde bat gehitu daiteke, hala nola img001.jpg, img002.jpg, etab.,\nimg100.jpg, MDMren deskarga-ilaran. Erabili izartxoaren komodina fitxategi-izenaren ereduan.
+	It's possible to add a group of sequential file names like img001.jpg, img002.jpg, etc.,\nimg100.jpg to Swoopdl download queue. Use the asterisk wildcard for the file name pattern.	Fitxategi-izen sekuentzialen talde bat gehitu daiteke, hala nola img001.jpg, img002.jpg, etab.,\nimg100.jpg, SDLren deskarga-ilaran. Erabili izartxoaren komodina fitxategi-izenaren ereduan.
 #. text in countries.rs
 #. a country's name (where a download's server is)
 #, machine
@@ -2483,28 +2483,28 @@
 #. text in remote.rs
 #. remote control page (on a phone): the address typed isn't one Swoopdl downloads (not http, https, ftp or magnet)
 #, machine
-	Swoopdl cannot download this address.	MDM-k ezin du helbide hau deskargatu.
+	Swoopdl cannot download this address.	SDL-k ezin du helbide hau deskargatu.
 #. text in remote.rs
 #. remote control page (on a phone): adding a download failed
 #, machine
-	Swoopdl could not add it.	MDM-k ezin izan du gehitu.
+	Swoopdl could not add it.	SDL-k ezin izan du gehitu.
 #. text in remote.rs
 #. remote control page (on a phone): an action failed
 #, machine
-	Swoopdl could not do it.	MDM-k ezin izan du egin.
+	Swoopdl could not do it.	SDL-k ezin izan du egin.
 #. text in remote.rs
 #. remote control page (on a phone): Swoopdl can't be reached while pairing
 #, machine
-	Swoopdl does not answer. Check that it is running and on the same network.	MDM-k ez du erantzuten. Egiaztatu martxan dagoela eta sare berean.
+	Swoopdl does not answer. Check that it is running and on the same network.	SDL-k ez du erantzuten. Egiaztatu martxan dagoela eta sare berean.
 #. text in remote.rs
 #. remote control page (on a phone): Swoopdl can't be reached now; the page keeps trying by itself
 #. the trailing ... means it is still going on: keep it
 #, machine
-	Swoopdl does not answer. Trying again...	MDM-k ez du erantzuten. Berriro saiatzen...
+	Swoopdl does not answer. Trying again...	SDL-k ez du erantzuten. Berriro saiatzen...
 #. text in remote.rs
 #. remote control page (on a phone): no pairing code is shown in Swoopdl; "Pair a device" is Swoopdl's button
 #, machine
-	Swoopdl shows no code now. Click Pair a device there first.	MDM-k ez du koderik erakusten orain. Egin klik lehenik Parekatu gailu bat botoian.
+	Swoopdl shows no code now. Click Pair a device there first.	SDL-k ez du koderik erakusten orain. Egin klik lehenik Parekatu gailu bat botoian.
 #. text in whereis.rs
 #. how far a download's server is, by its round trip (60 to 150 ms)
 #, machine
@@ -2860,7 +2860,7 @@
 #. text in the Options window
 #. Options → Accounts: no system keyring/keychain answered (none runs, e.g. a desktop without one), so the sign-ins stay in Swoopdl's settings folder, which only the user's account may read
 #, machine
-	No system keyring answered, so sign-ins and passwords are kept in Swoopdl's settings, which only you can read.	Sistemaren giltza-sortak ez du erantzun, beraz, saio-hasierak eta pasahitzak MDMren ezarpenetan gordetzen dira, zuk bakarrik irakur ditzakezunetan.
+	No system keyring answered, so sign-ins and passwords are kept in Swoopdl's settings, which only you can read.	Sistemaren giltza-sortak ez du erantzun, beraz, saio-hasierak eta pasahitzak SDLren ezarpenetan gordetzen dira, zuk bakarrik irakur ditzakezunetan.
 #. message or event log entry in the main window
 #. event log entry: Add trackers changed nothing, the torrent had them all
 #, machine
@@ -2991,7 +2991,7 @@
 #. text in the Options window
 #. Options → Remote → Status: the remote control is off
 #, machine
-	Off: nothing on the network can reach Swoopdl.	Desaktibatuta: sarean ezerk ezin du MDM-ra iritsi.
+	Off: nothing on the network can reach Swoopdl.	Desaktibatuta: sarean ezerk ezin du SDL-ra iritsi.
 #. text in the Options window
 #, machine
 	Offer to download links copied to the clipboard	Kopiatutako estekak arbelean deskargatzeko eskaini
@@ -3067,7 +3067,7 @@
 #. text in the Options window
 #. Options → Remote, at the bottom of the page
 #, machine
-	Only paired devices see or change anything. The first time, the phone's browser warns about Swoopdl's own certificate: its fingerprint is the one above.	Parekatu diren gailuek bakarrik ikusi edo alda dezakete ezer. Lehen aldiz, telefonoaren nabigatzaileak MDM-ren ziurtagiriari buruz ohartaraziko du: bere hatz-marka goiko hori da.
+	Only paired devices see or change anything. The first time, the phone's browser warns about Swoopdl's own certificate: its fingerprint is the one above.	Parekatu diren gailuek bakarrik ikusi edo alda dezakete ezer. Lehen aldiz, telefonoaren nabigatzaileak SDL-ren ziurtagiriari buruz ohartaraziko du: bere hatz-marka goiko hori da.
 #. text in playlistdlg.rs
 #. in Download video, a list longer than Swoopdl lists: only its first {n} videos are shown
 #. {n} = a number (keep the braces as they are)
@@ -3865,7 +3865,7 @@
 	Sites Logins	Guneen saioak
 #. text in helpers.rs
 #, machine
-	Sites send their best quality as separate video and audio, and ffmpeg joins them. On this system Swoopdl uses yours: install ffmpeg with your package manager.	Guneek kalitate onena bideo eta audio bereizita bidaltzen dute, eta ffmpeg-ek batzen ditu. Sistema honetan MDM-k zurea erabiltzen du: instalatu ffmpeg zure pakete-kudeatzailearekin.
+	Sites send their best quality as separate video and audio, and ffmpeg joins them. On this system Swoopdl uses yours: install ffmpeg with your package manager.	Guneek kalitate onena bideo eta audio bereizita bidaltzen dute, eta ffmpeg-ek batzen ditu. Sistema honetan SDL-k zurea erabiltzen du: instalatu ffmpeg zure pakete-kudeatzailearekin.
 #. text in helpers.rs
 #, machine
 	Sites send their best quality as separate video and audio. ffmpeg puts them together into one file that plays anywhere.	Guneek kalitate onena bideo eta audio bereizita bidaltzen dute. ffmpeg-ek fitxategi bakar batean batzen ditu, edonon erreproduzitzeko.
@@ -4114,7 +4114,7 @@
 	Sunday	Igandea
 #. link (opens a web page) in the Help menu's windows (About, updates, shortcuts, Tell a friend)
 #, machine
-	Support Swoopdl on GitHub Sponsors	Lagundu MDMri GitHub Sponsors-en
+	Support Swoopdl on GitHub Sponsors	Lagundu SDLri GitHub Sponsors-en
 #. text in countries.rs
 #. a country's name (where a download's server is)
 #, machine
@@ -4376,7 +4376,7 @@
 #, machine
 	the FTP server answered {code} {reply}	FTP zerbitzariak {code} {reply} erantzun du
 #. text in extension.rs
-#. a check of Test browser integration: the browsers are set up, but the small helper program they start (misterdownloadmanager-nmhost) is gone
+#. a check of Test browser integration: the browsers are set up, but the small helper program they start (swoopdl-nmhost) is gone
 #, machine
 	The helper program the browsers start is missing	Arakatzaileek abiarazten duten laguntzaile-programa falta da
 #. message or event log entry in the main window
@@ -4463,7 +4463,7 @@
 #. text in the Options window
 #. Options → Accounts (Linux): the system keyring is locked (Swoopdl never unlocks it: that would ask for its password), so the sign-ins stay in Swoopdl's settings folder, which only the user's account may read
 #, machine
-	The system keyring is locked and Swoopdl doesn't unlock it, so sign-ins and passwords are kept in Swoopdl's settings, which only you can read.	Sistemaren giltza-sorta blokeatuta dago eta MDMk ez du desblokeatzen, beraz, saio-hasierak eta pasahitzak MDMren ezarpenetan gordetzen dira, zuk bakarrik irakur ditzakezunetan.
+	The system keyring is locked and Swoopdl doesn't unlock it, so sign-ins and passwords are kept in Swoopdl's settings, which only you can read.	Sistemaren giltza-sorta blokeatuta dago eta SDLk ez du desblokeatzen, beraz, saio-hasierak eta pasahitzak SDLren ezarpenetan gordetzen dira, zuk bakarrik irakur ditzakezunetan.
 #. text in the Options window
 #. Options → Connection → DNS: the operating system's own DNS (the default)
 #, machine
@@ -4653,7 +4653,7 @@
 #. message or event log entry in the main window
 #. event log: a torrent goes through the user's debrid account, not to peers; {service} its name ("Real-Debrid")
 #, machine
-	Through {service}: the service downloads the torrent, then Swoopdl its files	{service} bidez: zerbitzuak torrenta deskargatzen du, eta gero MDMk haren fitxategiak deskargatzen ditu
+	Through {service}: the service downloads the torrent, then Swoopdl its files	{service} bidez: zerbitzuak torrenta deskargatzen du, eta gero SDLk haren fitxategiak deskargatzen ditu
 #. text in the Scheduler window
 #, machine
 	Thursday	Osteguna
@@ -4943,7 +4943,7 @@
 #. button in helpers.rs
 #. Video helpers: button: go back to the copy Swoopdl downloads and checks itself
 #, machine
-	Use Swoopdl's own copy	Erabili MDMren kopia propioa
+	Use Swoopdl's own copy	Erabili SDLren kopia propioa
 #. text in the Batch download window
 #. why Batch download's OK is greyed
 #, machine
@@ -5139,7 +5139,7 @@
 #. text in the Options window
 #. Options → Accounts: Windows Credential Manager didn't answer, so the sign-ins stay in Swoopdl's settings, encrypted so that only this Windows account can read them
 #, machine
-	Windows Credential Manager didn't answer, so sign-ins and passwords are kept in Swoopdl's settings, encrypted for your Windows account.	Windows Kredentzial Kudeatzaileak ez du erantzun, beraz, saio-hasierak eta pasahitzak MDMren ezarpenetan gordetzen dira, zure Windows konturako enkriptatuta.
+	Windows Credential Manager didn't answer, so sign-ins and passwords are kept in Swoopdl's settings, encrypted for your Windows account.	Windows Kredentzial Kudeatzaileak ez du erantzun, beraz, saio-hasierak eta pasahitzak SDLren ezarpenetan gordetzen dira, zure Windows konturako enkriptatuta.
 #. text in a dialog box
 #. why the computer could not be put to sleep (fills {error})
 #, machine
@@ -5171,7 +5171,7 @@
 #. text in remote.rs
 #. remote control page (on a phone): pairing failed and the code is void now
 #, machine
-	Wrong code. Show a new code in Swoopdl and try again.	Kode okerra. Erakutsi kode berri bat MDM-n eta saiatu berriro.
+	Wrong code. Show a new code in Swoopdl and try again.	Kode okerra. Erakutsi kode berri bat SDL-n eta saiatu berriro.
 #. text in remote.rs
 #. remote control page (on a phone): pairing failed; {n} = how many more codes may be tried
 #. {n} = a number (keep the braces as they are)
@@ -5229,7 +5229,7 @@
 #. Video helpers: the person's own gallery-dl is too old and not used; {version} = its version, {oldest} = the oldest Swoopdl can use
 #. {version} = a version number (keep the braces as they are)
 #, machine
-	Your own program ({version}) is too old: Swoopdl needs {oldest} or newer	Zure programa ({version}) zaharkituta dago: MDM-k {oldest} edo berriagoa behar du
+	Your own program ({version}) is too old: Swoopdl needs {oldest} or newer	Zure programa ({version}) zaharkituta dago: SDL-k {oldest} edo berriagoa behar du
 #. text in helpers.rs
 #. Video helpers: {path} = the program the person chose, {version} = its version
 #. {version} = a version number (keep the braces as they are)
@@ -5404,7 +5404,7 @@
 #. in the "7-Zip needed" window: {name} is the archive's file name; 7-Zip is a program's name
 #. {name} = a file name (keep the braces as they are)
 #, machine
-	{name} is a 7z or RAR archive. Swoopdl extracts those with 7-Zip, which isn't installed.	{name} 7z edo RAR artxibo bat da. MDMk 7-Zip-ekin ateratzen ditu artxibo horiek, baina 7-Zip ez dago instalatuta.
+	{name} is a 7z or RAR archive. Swoopdl extracts those with 7-Zip, which isn't installed.	{name} 7z edo RAR artxibo bat da. SDLk 7-Zip-ekin ateratzen ditu artxibo horiek, baina 7-Zip ez dago instalatuta.
 #. text in extracting archives (a download's log, the Archive password window)
 #. in Archive password: {name} is the archive's file name
 #. {name} = a file name (keep the braces as they are)
@@ -5419,7 +5419,7 @@
 #. error: a program chosen as a helper is too old; {name} = gallery-dl, {version} = its version, {oldest} = the oldest one Swoopdl can use
 #. {name} = a file name; {version} = a version number (keep the braces as they are)
 #, machine
-	{name} {version} is too old: Swoopdl needs {oldest} or newer	{name} {version} zaharkituta dago: MDM-k {oldest} edo berriagoa behar du
+	{name} {version} is too old: Swoopdl needs {oldest} or newer	{name} {version} zaharkituta dago: SDL-k {oldest} edo berriagoa behar du
 #. text in the Options window
 #. a number of connections the app learned by itself for a server
 #. {n} = a number (keep the braces as they are)
@@ -5768,9 +5768,9 @@ extension	Not reached. Open its address once in this browser and accept its cert
 #, machine
 extension	Open it	Ireki
 #. text in the browser extension
-#. help under the pairing boxes; Options, Remote and Pair a device are the app's window, tab and button; keep misterdownloadmanager-cli pair as it is
+#. help under the pairing boxes; Options, Remote and Pair a device are the app's window, tab and button; keep swoopdl-cli pair as it is
 #, machine
-extension	Open its address once and accept its certificate, then enter a code from its Options, Remote, Pair a device (or misterdownloadmanager-cli pair).	Ireki bere helbidea behin eta onartu bere ziurtagiria, eta sartu kode bat bere Aukerak, Urrunekoa, Parekatu gailu bat (edo misterdownloadmanager-cli pair) atalean.
+extension	Open its address once and accept its certificate, then enter a code from its Options, Remote, Pair a device (or swoopdl-cli pair).	Ireki bere helbidea behin eta onartu bere ziurtagiria, eta sartu kode bat bere Aukerak, Urrunekoa, Parekatu gailu bat (edo swoopdl-cli pair) atalean.
 #. text in the browser extension
 #. button in the toolbar button's popup; keep the name Swoopdl as it is
 #, machine
@@ -5819,7 +5819,7 @@ extension	Sent to Swoopdl	Swoopdl aplikaziora bidali da
 #. text in the browser extension
 #. link at the foot of the toolbar button's popup to the creator's GitHub Sponsors page (Swoopdl is free; this is an optional donation)
 #, machine
-extension	Support Swoopdl	Lagundu MDMri
+extension	Support Swoopdl	Lagundu SDLri
 #. text in the browser extension
 #. check box in the toolbar button's popup: on, downloads go to the app; off, the browser keeps them
 #, machine
@@ -6476,7 +6476,7 @@ menu	Stop Download	Gelditu deskarga
 #. menu command in the main window
 #. & marks the keyboard shortcut letter: keep one & before a letter of the translation
 #, machine
-menu	Support &Swoopdl	Lagundu &MDMri
+menu	Support &Swoopdl	Lagundu &SDLri
 #. menu command in the main window
 #. & marks the keyboard shortcut letter: keep one & before a letter of the translation
 #, machine

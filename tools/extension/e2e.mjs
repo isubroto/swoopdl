@@ -2,7 +2,7 @@
 // headless with its own new profile and loads the extension (target/extension, from pack.ps1);
 // the native messaging host (target/release) hands what it sends to a separate Mister Download
 // Manager instance (its own data folder, SDL_DATA_DIR; off the screens, SDL_OFFSCREEN). Each case
-// checks what MDM received (the lab server's request log, the files in MDM's folders, its list
+// checks what SDL received (the lab server's request log, the files in SDL's folders, its list
 // through the automation API, its Download video window through UI Automation) and that the
 // browser kept nothing.
 //
@@ -25,9 +25,9 @@
 // streams found only when asked, by the button and the media list, a text decoy never), media (the
 // toolbar button's list of the media a tab loaded: streams, files, a protected stream; #38), video (shown, clicked, dragged,
 // kept; "never on the site" in the last browser), videoFocus (mouse idle/fullscreen and keyboard
-// focus, #480), start (MDM not running: the host starts it),
-// remote (Send downloads to → Another MDM, #157: paired from the popup, a link downloaded by a
-// headless MDM; E2E_REMOTE_URL for one running elsewhere, such as the Docker image: remoteServer).
+// focus, #480), start (SDL not running: the host starts it),
+// remote (Send downloads to → Another SDL, #157: paired from the popup, a link downloaded by a
+// headless SDL; E2E_REMOTE_URL for one running elsewhere, such as the Docker image: remoteServer).
 //
 // Windows: the host is registered for the current user while it runs (nmhost --register, as the
 // installer does) and unregistered at the end. Every registry key that touches (the browsers'
@@ -61,10 +61,10 @@ export const exe = (name) => path.join(release, process.platform === "win32" ? `
 const work = process.env.E2E_WORK ? path.resolve(process.env.E2E_WORK) : path.join(root, "target", "e2e");
 const PORT = 8101;
 const LAB = `http://127.0.0.1:${PORT}`;
-// The proxy case (#42): a proxy on 127.0.0.1 that alone knows the name lab.mdm.test (the lab
+// The proxy case (#42): a proxy on 127.0.0.1 that alone knows the name lab.sdl.test (the lab
 // server), standing for a VPN extension's proxy.
 const PROXY_PORT = 8102;
-const PROXY_HOST = "lab.mdm.test";
+const PROXY_HOST = "lab.sdl.test";
 const proxyLog = [];
 // The same proxy as a PAC script (Chromium's case: inline, or by its address on that proxy).
 const PAC = `function FindProxyForURL(url, host) { return host === "${PROXY_HOST}" ? "PROXY 127.0.0.1:${PROXY_PORT}" : "DIRECT"; }`;
@@ -320,7 +320,7 @@ async function chromium(bin, profile, dl, page, ready) {
     const pill = async () => {
       const { root: doc } = await cdp.send("DOM.getDocument", { depth: -1, pierce: true }, sessionId);
       const find = (n) => {
-        if (n.nodeName === "MDM-VIDEO-BUTTON") return n;
+        if (n.nodeName === "SDL-VIDEO-BUTTON") return n;
         for (const c of [...(n.children || []), ...(n.shadowRoots || []), ...(n.contentDocument ? [n.contentDocument] : [])]) {
           const f = find(c);
           if (f) return f;
@@ -425,7 +425,7 @@ async function firefox(bin, profile, dl, page, ready) {
       // An extension's host permissions are granted without asking (MV3 asks the user).
       pref("extensions.originControls.grantByDefault", true),
       // Alt+click saves the link, as in Chromium (Firefox's default ignores an Alt+click on a
-      // link: then nothing is downloaded at all, by the browser or MDM).
+      // link: then nothing is downloaded at all, by the browser or SDL).
       pref("browser.altClickSave", true),
       // The extension's address, known in advance (its popup opened in a tab).
       pref("extensions.webextensions.uuids", JSON.stringify({ [FIREFOX_ID]: FIREFOX_UUID })),
@@ -497,7 +497,7 @@ async function firefox(bin, profile, dl, page, ready) {
     // The pill, through the closed shadow root BiDi serializes with includeShadowTree "all".
     const pill = async () => {
       const r = await bidi.send("script.evaluate", {
-        expression: `document.querySelector("mdm-video-button")`,
+        expression: `document.querySelector("sdl-video-button")`,
         target: { context },
         awaitPromise: false,
         resultOwnership: "root",
@@ -610,7 +610,7 @@ async function firefox(bin, profile, dl, page, ready) {
   }
 }
 
-// ---- the test instance of Mister Download Manager ----------------------------------------------
+// ---- the test instance of Swoopdl ----------------------------------------------
 
 let data = "";
 let downloads = "";
@@ -637,7 +637,7 @@ function ipc(cmd, dir = data) {
 }
 
 // The instance's list (the automation API, on in the test settings).
-async function mdmList() {
+async function sdlList() {
   const a = JSON.parse(await ipc({ query: "list" }));
   if (!a.downloads) throw new Error(`the automation API: ${JSON.stringify(a)}`);
   return a.downloads;
@@ -686,7 +686,7 @@ async function startApp() {
   if (ourPids().length) return;
   fs.rmSync(path.join(data, "ipc.json"), { force: true });
   spawn(appExe, [], { env: process.env, stdio: "ignore", detached: false });
-  await until("the test instance", 20000, () => mdmList().then(() => true, () => false));
+  await until("the test instance", 20000, () => sdlList().then(() => true, () => false));
 }
 
 // Saved and quit through its channel; stopped if it doesn't.
@@ -700,25 +700,25 @@ async function stopApp() {
   }
 }
 
-// The download named `file` in MDM's `sub` folder (under the test's Downloads), complete in its
+// The download named `file` in SDL's `sub` folder (under the test's Downloads), complete in its
 // list and on disk with `size` bytes; its list entry.
 async function arrived(file, size, sub = "Compressed", ms = 45000) {
   const want = path.join(downloads, sub, file);
   let last = null;
   try {
-    return await until(`${file} in Mister Download Manager`, ms, async () => {
-      const item = (await mdmList().catch(() => [])).find((d) => d.file === file);
+    return await until(`${file} in Swoopdl`, ms, async () => {
+      const item = (await sdlList().catch(() => [])).find((d) => d.file === file);
       last = item || last;
-      if (item && item.status === "Error") throw new Error(`${file}: MDM's download failed: ${item.error}`);
+      if (item && item.status === "Error") throw new Error(`${file}: SDL's download failed: ${item.error}`);
       if (!item || item.status !== "Complete") return null;
       if (path.resolve(item.path) !== path.resolve(want)) throw new Error(`${file} saved as ${item.path}, not ${want}`);
       return fs.existsSync(want) && fs.statSync(want).size === size && item;
     });
   } catch (e) {
-    if (last && !/MDM's|saved as/.test(e.message)) e.message += ` (MDM: ${last.status} ${last.downloaded}/${last.size} ${last.path})`;
+    if (last && !/SDL's|saved as/.test(e.message)) e.message += ` (SDL: ${last.status} ${last.downloaded}/${last.size} ${last.path})`;
     if (!last) {
-      const list = await mdmList().catch(() => []);
-      e.message += ` (MDM's latest: ${list.slice(-2).map((d) => `${d.file} ${d.status} ${d.path}`).join("; ") || "none"})`;
+      const list = await sdlList().catch(() => []);
+      e.message += ` (SDL's latest: ${list.slice(-2).map((d) => `${d.file} ${d.status} ${d.path}`).join("; ") || "none"})`;
     }
     throw e;
   }
@@ -732,11 +732,11 @@ async function requests(p) {
 const clearLog = () => fetch(`${LAB}/_log`, { method: "DELETE" });
 const brief = (e) => `${e.method} ${e.status} ${e.outcome} ${e.range || "-"}`;
 
-// ---- another Mister Download Manager (the remote case, #157) -------------------------------------
+// ---- another Swoopdl (the remote case, #157) -------------------------------------
 
 // The server the remote case sends downloads to: E2E_REMOTE_URL names one already running (the
-// Docker image: E2E_REMOTE_PAIR is a command printing a pairing code, `docker exec mdm
-// misterdownloadmanager-cli pair`, and E2E_REMOTE_DOWNLOADS the folder its downloads land in, as
+// Docker image: E2E_REMOTE_PAIR is a command printing a pairing code, `docker exec sdl
+// swoopdl-cli pair`, and E2E_REMOTE_DOWNLOADS the folder its downloads land in, as
 // seen from here); else target/release's app runs headless here, on 127.0.0.1, with its own data
 // and download folders under target/e2e.
 const REMOTE_PORT = 18463;
@@ -768,13 +768,13 @@ async function remoteServer() {
     return a.code;
   };
   remote = { url: `https://127.0.0.1:${REMOTE_PORT}/`, downloads, code, proc, data: rdata };
-  await until("the headless MDM", 20000, () => code().then(() => true, () => false));
+  await until("the headless SDL", 20000, () => code().then(() => true, () => false));
   return remote;
 }
 async function stopRemote() {
   if (!remote || !remote.proc) return;
   await ipc({ exit: true }, remote.data).catch(() => {});
-  await until("the headless MDM to quit", 15000, () => remote.proc.exitCode !== null).catch(() => killTree(remote.proc));
+  await until("the headless SDL to quit", 15000, () => remote.proc.exitCode !== null).catch(() => killTree(remote.proc));
 }
 // The file `name` of `size` bytes somewhere in `dir` (a category's folder): its path.
 function findFile(dir, name, size) {
@@ -950,7 +950,7 @@ const near = (a, b, what) => {
 // An element's rectangle (the button's only while shown).
 const rect = (session, sel) =>
   session.evaluate(`(() => { const e = document.querySelector(${JSON.stringify(sel)});
-    if (!e || (e.localName === "mdm-video-button" && e.style.display !== "block")) return null;
+    if (!e || (e.localName === "sdl-video-button" && e.style.display !== "block")) return null;
     const r = e.getBoundingClientRect(); return { l: r.left, t: r.top, r: r.right, b: r.bottom }; })()`);
 
 // #480: a mouse-focused player must still fade, including after entering fullscreen. Run
@@ -975,7 +975,7 @@ export async function videoFocus(session) {
   })()`);
   const focused = (id) => session.evaluate(`document.activeElement?.id === ${JSON.stringify(id)}`);
   const keyboard = () => session.evaluate('document.querySelector("#focus-player").matches(":focus-visible")');
-  const shown = () => rect(session, "mdm-video-button");
+  const shown = () => rect(session, "sdl-video-button");
   const idle = () => sleep(3100); // 2600 ms idle + the 180 ms fade, with room for a slow frame.
   const v = await rect(session, "#video");
   await session.mouse((v.l + v.r) / 2, (v.t + v.b) / 2, "click");
@@ -989,7 +989,7 @@ export async function videoFocus(session) {
   const fs = await rect(session, "#video");
   await session.mouse((fs.l + fs.r) / 2, (fs.t + fs.b) / 2);
   await until("the fullscreen video button", 5000, shown);
-  if (!(await session.evaluate('document.querySelector("mdm-video-button").parentNode === document.fullscreenElement'))) throw new Error("button is outside fullscreen player");
+  if (!(await session.evaluate('document.querySelector("sdl-video-button").parentNode === document.fullscreenElement'))) throw new Error("button is outside fullscreen player");
   await idle();
   if (await shown()) throw new Error("#480: mouse focus keeps the fullscreen video button visible after idle");
   await session.evaluate("document.exitFullscreen()");
@@ -1008,7 +1008,7 @@ export async function videoFocus(session) {
   await idle();
   if (!(await shown())) throw new Error("keyboard-focused player lost its video button");
   await session.key("Tab");
-  if (!(await session.evaluate('document.activeElement?.localName === "mdm-video-button"'))) throw new Error("Tab skipped the video button");
+  if (!(await session.evaluate('document.activeElement?.localName === "sdl-video-button"'))) throw new Error("Tab skipped the video button");
   await idle();
   if (!(await shown())) throw new Error("keyboard-focused video button faded");
   await session.key("Tab"); // Back through the player to the next page control.
@@ -1025,7 +1025,7 @@ export async function videoFocus(session) {
   await session.mouse((v.l + v.r) / 2 + 1, (v.t + v.b) / 2);
   await until("the hovered video button", 5000, shown);
   await session.key("Tab");
-  if (!(await session.evaluate('document.activeElement?.localName === "mdm-video-button"'))) throw new Error("Tab from a mouse-focused player skipped the video button");
+  if (!(await session.evaluate('document.activeElement?.localName === "sdl-video-button"'))) throw new Error("Tab from a mouse-focused player skipped the video button");
   return "mouse focus fades in normal view and fullscreen; keyboard focus stays, Tab enters and leaves, switching to the mouse fades again";
 }
 
@@ -1033,7 +1033,7 @@ export async function videoFocus(session) {
 async function hover(session, v) {
   for (let i = 0; i < 40; i++) {
     await session.mouse((v.l + v.r) / 2 + (i % 2), (v.t + v.b) / 2);
-    const b = await rect(session, "mdm-video-button");
+    const b = await rect(session, "sdl-video-button");
     if (b) return b;
     await sleep(200);
   }
@@ -1072,7 +1072,7 @@ async function videoButton(session, never) {
   await session.mouse(v.l + 40, v.b - 30);
   await session.mouse(v.l + 40, v.b - 30, "up");
   await sleep(300);
-  b = await rect(session, "mdm-video-button");
+  b = await rect(session, "sdl-video-button");
   near(b.l, v.l + 10, "dragged: left edge");
   near(b.b, v.b - 10, "dragged: bottom");
   if (appWindows(appPid()).includes(VIDEO_WINDOW)) throw new Error("a drag opened the video window");
@@ -1091,7 +1091,7 @@ async function videoButton(session, never) {
   await session.key("ArrowDown");
   await session.key("Enter");
   await sleep(500);
-  if (await rect(session, "mdm-video-button")) throw new Error("Never on the site: the button is still shown after the menu command");
+  if (await rect(session, "sdl-video-button")) throw new Error("Never on the site: the button is still shown after the menu command");
   await until("the site in the app's list", 15000, () => {
     try {
       const s = JSON.parse(fs.readFileSync(path.join(data, "downloads.json"), "utf8").replace(/^\uFEFF/, "")).settings;
@@ -1111,12 +1111,12 @@ async function videoButton(session, never) {
 class Skip extends Error {}
 
 // A forward proxy on 127.0.0.1 (#42): plain requests in absolute form and CONNECT tunnels, the
-// name lab.mdm.test sent to the lab server, every request logged ({method, target}).
+// name lab.sdl.test sent to the lab server, every request logged ({method, target}).
 function startProxy() {
   const to = (host, port) => (host === PROXY_HOST ? ["127.0.0.1", PORT] : [host, Number(port) || 80]);
   const server = http.createServer((req, res) => {
     // Its PAC script, as a VPN extension may set one by its address (Chromium's pac_script.url).
-    if (req.url === "/mdm.pac") {
+    if (req.url === "/sdl.pac") {
       res.writeHead(200, { "content-type": "application/x-ns-proxy-autoconfig" }).end(PAC);
       return;
     }
@@ -1159,15 +1159,15 @@ async function clickLink(t, link) {
   await t.session.evaluate("document.getElementById('link').click()");
 }
 
-// The requests MDM made for `p`: all but the browser's own first one.
-async function mdmRequests(p) {
+// The requests SDL made for `p`: all but the browser's own first one.
+async function sdlRequests(p) {
   const all = await requests(p);
   if (all.length < 2) throw new Error(`${p}: only the browser's request reached the server (${all.map(brief).join("; ")})`);
   return all.slice(1);
 }
 
-// One file through the lab's host (lab.mdm.test, known to the test proxy only): how many of its
-// requests went through the proxy (the browser's own first; MDM's when it got the proxy).
+// One file through the lab's host (lab.sdl.test, known to the test proxy only): how many of its
+// requests went through the proxy (the browser's own first; SDL's when it got the proxy).
 async function throughProxy(t, label, wantMdm) {
   proxyLog.length = 0;
   const file = `e2e-proxy-${t.name}-${label}.xz`;
@@ -1179,7 +1179,7 @@ async function throughProxy(t, label, wantMdm) {
 }
 
 // With the switch on and a proxy set: an ordinary .zip link on the lab's own address (127.0.0.1,
-// which the browser itself never sends to a proxy) still reaches MDM. How many of its requests
+// which the browser itself never sends to a proxy) still reaches SDL. How many of its requests
 // went through the proxy.
 async function plainWhileProxied(t) {
   proxyLog.length = 0;
@@ -1197,14 +1197,14 @@ function vpnExtension() {
   fs.mkdirSync(dir, { recursive: true });
   fs.writeFileSync(
     path.join(dir, "manifest.json"),
-    JSON.stringify({ manifest_version: 3, name: "MDM e2e stand-in VPN", version: "1.0", permissions: ["proxy"] }),
+    JSON.stringify({ manifest_version: 3, name: "SDL e2e stand-in VPN", version: "1.0", permissions: ["proxy"] }),
   );
   // Its page, driven over DevTools by e2e.mjs.
   fs.writeFileSync(path.join(dir, "page.html"), "<!doctype html><title>stand-in VPN</title>");
   return dir;
 }
 
-// Firefox's stand-in VPN add-on: it sends the lab's host (lab.mdm.test) through the test proxy
+// Firefox's stand-in VPN add-on: it sends the lab's host (lab.sdl.test) through the test proxy
 // per request (proxy.onRequest), leaving the browser's proxy settings alone.
 function firefoxVpnExtension() {
   const dir = path.join(work, "vpn-addon");
@@ -1213,11 +1213,11 @@ function firefoxVpnExtension() {
     path.join(dir, "manifest.json"),
     JSON.stringify({
       manifest_version: 2,
-      name: "MDM e2e stand-in VPN",
+      name: "SDL e2e stand-in VPN",
       version: "1.0",
       permissions: ["proxy", "<all_urls>"],
       background: { scripts: ["background.js"] },
-      browser_specific_settings: { gecko: { id: "vpn-e2e@misterdownloadmanager.com" } },
+      browser_specific_settings: { gecko: { id: "vpn-e2e@swoopdl.com" } },
     }),
   );
   fs.writeFileSync(
@@ -1230,8 +1230,8 @@ function firefoxVpnExtension() {
 // #42 in Chrome and the other Chromium browsers: "proxy" is required there (Chrome can't make it
 // optional), and the popup's switch is the extension's own setting, off as installed. A stand-in
 // VPN extension sets the browser's proxy: a fixed server, then a PAC script (inline, then by its
-// address). Off, MDM gets nothing of it (only the browser's request goes through the proxy); on,
-// MDM downloads through the same proxy. Also: what Chrome warns about on install and update is
+// address). Off, SDL gets nothing of it (only the browser's request goes through the proxy); on,
+// SDL downloads through the same proxy. Also: what Chrome warns about on install and update is
 // the same with and without "proxy" (Chrome counts it as access to every site, which the
 // extension already has), so the update doesn't switch the extension off to ask.
 async function proxyInChromium(t) {
@@ -1241,7 +1241,7 @@ async function proxyInChromium(t) {
     await s.inExtension(`(async () => {
       const m = chrome.runtime.getManifest();
       // As a manifest on its own: its name in plain text, no locale folder to read.
-      const plain = (perms, hosts = m.host_permissions) => JSON.stringify({ manifest_version: 3, name: "MDM", version: m.version, permissions: perms, host_permissions: hosts });
+      const plain = (perms, hosts = m.host_permissions) => JSON.stringify({ manifest_version: 3, name: "SDL", version: m.version, permissions: perms, host_permissions: hosts });
       const warn = (...a) => new Promise((r) => chrome.management.getPermissionWarningsByManifest(plain(...a), r));
       const without = m.permissions.filter((p) => p !== "proxy");
       return JSON.stringify({ api: typeof chrome.proxy, perms: m.permissions, optional: m.optional_permissions || [], with: await warn(m.permissions), without: await warn(without), alone: await warn(["proxy"], []) });
@@ -1283,7 +1283,7 @@ async function proxyInChromium(t) {
     await until("the switch on", 5000, async () => (await popup.evaluate("chrome.storage.local.get('proxyOn').then((v) => v.proxyOn === true)")));
     const on = await throughProxy(t, "on", true);
     if (on < 2) throw new Error(`on: only ${on} request(s) through the proxy`);
-    done.push(`on, a fixed server: ${on} requests through it (the browser's, then MDM's)`);
+    done.push(`on, a fixed server: ${on} requests through it (the browser's, then SDL's)`);
     const local = await plainWhileProxied(t);
     if (local) throw new Error(`on: ${local} request(s) for 127.0.0.1 through the proxy (Chromium sends none there)`);
     done.push("on: an ordinary link on 127.0.0.1 taken, straight (the proxy bypassed, as the browser does)");
@@ -1293,7 +1293,7 @@ async function proxyInChromium(t) {
     if (pacData < 2) throw new Error(`a PAC script (inline): only ${pacData} request(s) through the proxy`);
     done.push(`an inline PAC script: ${pacData} requests through its proxy`);
 
-    await setProxy({ mode: "pac_script", pacScript: { url: `http://127.0.0.1:${PROXY_PORT}/mdm.pac` } });
+    await setProxy({ mode: "pac_script", pacScript: { url: `http://127.0.0.1:${PROXY_PORT}/sdl.pac` } });
     const pacUrl = await throughProxy(t, "pac-url", true);
     if (pacUrl < 2) throw new Error(`a PAC script (by its address): only ${pacUrl} request(s) through the proxy`);
     done.push(`a PAC script by its address: ${pacUrl} requests through its proxy`);
@@ -1322,8 +1322,8 @@ async function proxyInChromium(t) {
 }
 
 const CASES = {
-  // #42: the browser behind a proxy (a VPN or proxy extension's). The file's host (lab.mdm.test) is
-  // known to that proxy only, so MDM can download it only through the same proxy, which the
+  // #42: the browser behind a proxy (a VPN or proxy extension's). The file's host (lab.sdl.test) is
+  // known to that proxy only, so SDL can download it only through the same proxy, which the
   // extension hands over with the download, once the user switched that on: the popup's switch
   // asks for the optional "proxy" permission (Firefox). Chrome can't make it optional, so its
   // extension has it from the install and the switch is its own setting (proxyInChromium).
@@ -1339,7 +1339,7 @@ const CASES = {
     const popupUrl = `${s.base}popup.html`;
     const granted = async (popup) => popup.evaluate("browser.permissions.contains({ permissions: ['proxy'] })");
     // One file through the lab's host: how many of its requests went through the proxy (the
-    // browser's own first; MDM's when it got the proxy) after `wait` ms.
+    // browser's own first; SDL's when it got the proxy) after `wait` ms.
     const fetchFile = async (label, wantMdm) => {
       proxyLog.length = 0;
       const file = `e2e-proxy-${t.name}-${label}.xz`;
@@ -1384,21 +1384,21 @@ const CASES = {
         if (no !== 1) throw new Error(`refused: ${no} requests through the proxy`);
         done.push(`refused at the prompt (${ids.join(", ")}): off, the browser's request only`);
 
-        // Granted: the switch on, MDM downloads through the same proxy.
+        // Granted: the switch on, SDL downloads through the same proxy.
         await pref("extensions.webextOptionalPermissionPrompts", false);
         await popup.click("#proxy");
         await until("the permission granted", 10000, () => granted(popup));
         await until("the switch on", 5000, () => popup.evaluate("document.getElementById('proxy').checked"));
         const on = await fetchFile("on", true);
         if (on < 2) throw new Error(`granted: only ${on} request(s) through the proxy`);
-        done.push(`granted: ${on} requests through the browser's proxy (the browser's, then MDM's)`);
-        // An ordinary link on 127.0.0.1 is still taken (Firefox itself never proxies it; MDM
+        done.push(`granted: ${on} requests through the browser's proxy (the browser's, then SDL's)`);
+        // An ordinary link on 127.0.0.1 is still taken (Firefox itself never proxies it; SDL
         // may, the test proxy passes it on: said, not failed).
         const local = await plainWhileProxied(t);
         done.push(`granted: an ordinary link on 127.0.0.1 taken (${local} of its requests through the proxy)`);
 
         // Granted, the proxy set per request by a VPN extension (proxy.onRequest, as Firefox's
-        // proxy and VPN add-ons do) rather than in the browser's settings: MDM gets that one too.
+        // proxy and VPN add-ons do) rather than in the browser's settings: SDL gets that one too.
         await pref("network.proxy.type", 0);
         // A failure here is said at the end, after the other steps.
         const vpn = await s.install(firefoxVpnExtension());
@@ -1438,7 +1438,7 @@ const CASES = {
     }
   },
 
-  // A .zip link, throttled (the browser's download is held while MDM is asked: Firefox pauses it)
+  // A .zip link, throttled (the browser's download is held while SDL is asked: Firefox pauses it)
   // and at full speed.
   async link(t) {
     const done = [];
@@ -1488,7 +1488,7 @@ const CASES = {
       // The browser's own request (the first) was stopped before it had the file.
       const [own] = (await requests(`/gen/2M/${file}`)).filter((e) => e.method === "GET");
       if (!own || own.bytes_sent >= size) throw new Error(`the browser downloaded the file itself: ${own ? brief(own) : "no request"}`);
-      return `no dialog, MDM has it, the browser's request stopped after ${own.bytes_sent} bytes`;
+      return `no dialog, SDL has it, the browser's request stopped after ${own.bytes_sent} bytes`;
     } finally {
       await s.inBrowser(`(Services.prefs.setBoolPref(${always}, ${was === true}), "set")`).catch(() => {});
     }
@@ -1502,15 +1502,15 @@ const CASES = {
     const link = `/gen/1M/${file}?require_cookie=sid%3D1&require_referer=${encodeURIComponent(prefix)}`;
     await clickLink(t, link);
     await arrived(file, 1 << 20);
-    const mdm = await mdmRequests(`/gen/1M/${file}`);
-    for (const e of mdm) {
-      if (!/(^|;\s*)sid=1(;|$)/.test(e.cookie || "")) throw new Error(`MDM's request without the cookie: ${brief(e)} cookie=${e.cookie}`);
-      if (!(e.referer || "").startsWith(prefix)) throw new Error(`MDM's request without the referrer: ${brief(e)} referer=${e.referer}`);
-      if (e.user_agent !== t.ua) throw new Error(`MDM's User-Agent ${e.user_agent} is not the browser's ${t.ua}`);
-      if (e.status >= 400) throw new Error(`MDM's request refused: ${brief(e)}`);
+    const sdl = await sdlRequests(`/gen/1M/${file}`);
+    for (const e of sdl) {
+      if (!/(^|;\s*)sid=1(;|$)/.test(e.cookie || "")) throw new Error(`SDL's request without the cookie: ${brief(e)} cookie=${e.cookie}`);
+      if (!(e.referer || "").startsWith(prefix)) throw new Error(`SDL's request without the referrer: ${brief(e)} referer=${e.referer}`);
+      if (e.user_agent !== t.ua) throw new Error(`SDL's User-Agent ${e.user_agent} is not the browser's ${t.ua}`);
+      if (e.status >= 400) throw new Error(`SDL's request refused: ${brief(e)}`);
     }
     await keptNothing(t.dl);
-    return `${mdm.length} request(s) with sid=1, the page as referrer, the browser's User-Agent`;
+    return `${sdl.length} request(s) with sid=1, the page as referrer, the browser's User-Agent`;
   },
 
   // Names from Content-Disposition: filename= and filename*= (UTF-8).
@@ -1533,42 +1533,42 @@ const CASES = {
     return `${plain}, ${star}, ${raw}`;
   },
 
-  // A redirect: MDM keeps the address clicked (it asks it again to renew the link).
+  // A redirect: SDL keeps the address clicked (it asks it again to renew the link).
   async redirect(t) {
     const file = `e2e-r-${t.name}.zip`;
     const link = `/redirect?to=${encodeURIComponent(`/gen/2M/${file}`)}`;
     await clickLink(t, link);
     const item = await arrived(file, 2 << 20);
-    if (item.url !== LAB + link) throw new Error(`MDM's address is ${item.url}, not the one clicked (${LAB + link})`);
-    await mdmRequests(`/gen/2M/${file}`);
+    if (item.url !== LAB + link) throw new Error(`SDL's address is ${item.url}, not the one clicked (${LAB + link})`);
+    await sdlRequests(`/gen/2M/${file}`);
     await keptNothing(t.dl);
     return "the address clicked kept, the file from its target";
   },
 
-  // A page that goes to the file by script (#374): MDM gets the file's address, not the page's.
+  // A page that goes to the file by script (#374): SDL gets the file's address, not the page's.
   async leadon(t) {
     const file = `e2e-leadon-${t.name}.zip`;
     const page = `/leadon?to=${encodeURIComponent(`/gen/2M/${file}`)}`;
     await t.session.navigate(`${LAB}${page}`);
     const item = await arrived(file, 2 << 20);
-    if (item.url !== `${LAB}/gen/2M/${file}`) throw new Error(`MDM's address is ${item.url}, not the file's`);
+    if (item.url !== `${LAB}/gen/2M/${file}`) throw new Error(`SDL's address is ${item.url}, not the file's`);
     const asked = await requests(page.split("?")[0]);
     if (asked.length !== 1) throw new Error(`the page was asked ${asked.length} times (only the browser's expected)`);
     await keptNothing(t.dl);
     return "the file's address, the page asked by the browser only";
   },
 
-  // A form's download: MDM posts it again with the form's body; one answered 303 too.
+  // A form's download: SDL posts it again with the form's body; one answered 303 too.
   async form(t) {
     const name = `e2e-form-${t.name}.zip`;
     await t.session.navigate(`${LAB}/formpage?size=1M&name=${encodeURIComponent(name)}`);
     await t.session.evaluate("document.getElementById('submit-form').click()");
     await arrived(name, 1 << 20);
-    const posts = await mdmRequests(`/form/1M/${name}`);
+    const posts = await sdlRequests(`/form/1M/${name}`);
     for (const e of posts) {
-      if (e.method !== "POST") throw new Error(`MDM didn't post the form again: ${brief(e)}`);
-      if (!/(^|&)token=abc(&|$)/.test(e.req_body_head || "")) throw new Error(`MDM's post without token=abc: ${e.req_body_head}`);
-      if (e.status >= 400) throw new Error(`MDM's post refused: ${brief(e)}`);
+      if (e.method !== "POST") throw new Error(`SDL didn't post the form again: ${brief(e)}`);
+      if (!/(^|&)token=abc(&|$)/.test(e.req_body_head || "")) throw new Error(`SDL's post without token=abc: ${e.req_body_head}`);
+      if (e.status >= 400) throw new Error(`SDL's post refused: ${brief(e)}`);
     }
     await keptNothing(t.dl);
     // Posted, answered "303 See Other" with the file's address.
@@ -1581,7 +1581,7 @@ const CASES = {
     return `posted again with token=abc (${posts.length} request(s)); 303: ${seen.map((e) => `${e.method} ${e.path.split("/")[1]} ${e.status}`).join(", ")}`;
   },
 
-  // Alt+click: the browser keeps the download, MDM gets nothing.
+  // Alt+click: the browser keeps the download, SDL gets nothing.
   async alt(t) {
     const file = `e2e-alt-${t.name}.zip`;
     const p = `/gen/1M/${file}`;
@@ -1595,21 +1595,21 @@ const CASES = {
         return names.length === 1 && names[0] === file && fs.statSync(kept).size === 1 << 20;
       });
     } catch (e) {
-      const item = (await mdmList()).find((d) => d.file === file);
+      const item = (await sdlList()).find((d) => d.file === file);
       const tab = await t.session.evaluate("location.href").catch((x) => x.message);
-      e.message += ` (MDM: ${item ? `${item.status} ${item.path}` : "nothing"}; the tab: ${tab}; requests: ${(await requests(p)).map(brief).join("; ") || "none"}; the browser's folder: ${fs.readdirSync(t.dl).join(", ") || "empty"})`;
+      e.message += ` (SDL: ${item ? `${item.status} ${item.path}` : "nothing"}; the tab: ${tab}; requests: ${(await requests(p)).map(brief).join("; ") || "none"}; the browser's folder: ${fs.readdirSync(t.dl).join(", ") || "empty"})`;
       throw e;
     }
     await sleep(1500);
-    const item = (await mdmList()).find((d) => d.file === file);
-    if (item) throw new Error(`MDM got it too: ${item.status} ${item.path}`);
+    const item = (await sdlList()).find((d) => d.file === file);
+    if (item) throw new Error(`SDL got it too: ${item.status} ${item.path}`);
     const all = await requests(p);
     if (all.length !== 1) throw new Error(`${all.length} requests for it (only the browser's expected): ${all.map(brief).join("; ")}`);
     fs.rmSync(kept);
-    return "the browser's own download, MDM untouched";
+    return "the browser's own download, SDL untouched";
   },
 
-  // Files the browser would show or play, made downloads, MDM's (Chromium 128+, Firefox): typed
+  // Files the browser would show or play, made downloads, SDL's (Chromium 128+, Firefox): typed
   // into the address bar, the tab stays on its page. A PDF sent with "Content-Disposition:
   // inline; filename=..." (as many servers do), one sent without it, an MP3 sent inline.
   async opened(t) {
@@ -1717,18 +1717,18 @@ const CASES = {
       await until(`${stop}: the page's preview stopped`, 3000, () => t.session.evaluate(`document.body.dataset.preview === "stopped"`));
       await sleep(500);
       await shoot(stop);
-      const kept = await rect(t.session, "mdm-video-button");
+      const kept = await rect(t.session, "sdl-video-button");
       if (!kept) throw new Error(`${stop}: the button went with the preview`);
       near(kept.l, b.l, `${stop}: kept, left edge`);
       near(kept.t, b.t, `${stop}: kept, top`);
       // Still there with the pointer resting on it, past the time the pointer is given to reach it.
       await sleep(2000);
-      if (!(await rect(t.session, "mdm-video-button"))) throw new Error(`${stop}: the button went while the pointer rested on it`);
+      if (!(await rect(t.session, "sdl-video-button"))) throw new Error(`${stop}: the button went while the pointer rested on it`);
       const address = await clickButton(t.session, kept);
       if (address !== `${LAB}/gen/1M/clip.mp4`) throw new Error(`${stop}: the video window got ${address}`);
       // The pointer leaves: it fades, as over any video.
       await t.session.mouse(5, 5);
-      await until(`${stop}: the button gone after the pointer left`, 3000, async () => !(await rect(t.session, "mdm-video-button")));
+      await until(`${stop}: the button gone after the pointer left`, 3000, async () => !(await rect(t.session, "sdl-video-button")));
       done.push(`${stop}: kept, sent ${address.replace(LAB, "")}, gone after`);
     }
     return done.join("; ");
@@ -1748,7 +1748,7 @@ const CASES = {
     return `sent ${address.replace(LAB, "")}`;
   },
 
-  // #155: an HLS or DASH player (playing from a blob:) handed to MDM, by the button over it, the
+  // #155: an HLS or DASH player (playing from a blob:) handed to SDL, by the button over it, the
   // right-click menu and the toolbar button's media list: yt-dlp gets the stream's manifest, with
   // the cookie and the page as referrer, and reads it. Needs a yt-dlp (E2E_YTDLP, else one on
   // PATH): the test instance uses it as the person's own copy (Helpers).
@@ -1789,7 +1789,7 @@ const CASES = {
       // The right-click menu on the player (Firefox: its menu can be driven headless).
       if (t.session.menu) {
         done.push(await named(`${kind} menu`, () => streamLookedUp(async () => {
-          const r = await t.session.menu((v.l + v.r) / 2, (v.t + v.b) / 2, "Download with Mister Download Manager");
+          const r = await t.session.menu((v.l + v.r) / 2, (v.t + v.b) / 2, "Download with Swoopdl");
           if (!String(r).startsWith("chosen")) throw new Error(`the right-click menu: ${r}`);
           if (process.env.E2E_DEBUG) console.error("menu:", r);
         }, manifest, page, cookie)));
@@ -1872,7 +1872,7 @@ const CASES = {
   // #38: the toolbar button's list of what the tab loaded. A page plays a video file (behind a
   // cookie and hotlink protection), a sound, an HLS stream, a DASH stream and a DRM-protected
   // one; the popup (its page, in a tab of its own) lists the five, each stream once with its
-  // qualities, the protected one without a Download button. The file downloads in MDM with the
+  // qualities, the protected one without a Download button. The file downloads in SDL with the
   // page's cookies and referrer; each stream opens the Download video window for its manifest.
   async media(t) {
     await t.session.navigate(`${LAB}/cookie?set=msid=7`);
@@ -1914,15 +1914,15 @@ const CASES = {
       const click = (name) =>
         popup.evaluate(`(() => { const li = [...document.querySelectorAll("#media-list li")].find((x) => x.querySelector(".name").textContent === ${JSON.stringify(name)});
           li.querySelector("button").click(); return true; })()`);
-      // The file: MDM downloads it with the page's cookie and referrer and the browser's UA.
+      // The file: SDL downloads it with the page's cookie and referrer and the browser's UA.
       await click(file);
       await arrived(file, 1 << 20, "Video");
-      const mdm = (await requests(`/gen/1M/${file}`)).filter((e) => e.user_agent === t.ua && e.status < 400);
+      const sdl = (await requests(`/gen/1M/${file}`)).filter((e) => e.user_agent === t.ua && e.status < 400);
       const theirs = (await requests(`/gen/1M/${file}`)).filter((e) => e.status >= 400);
       if (theirs.length) throw new Error(`refused: ${theirs.map(brief).join("; ")}`);
-      if (!mdm.length) throw new Error("no request for the file");
+      if (!sdl.length) throw new Error("no request for the file");
       const said = await until("the popup's word", 5000, () => popup.evaluate(`document.getElementById("media-said").textContent`));
-      if (!/Sent to Mister Download Manager/.test(said)) throw new Error(`the popup said "${said}"`);
+      if (!/Sent to Swoopdl/.test(said)) throw new Error(`the popup said "${said}"`);
       // Each stream: the Download video window, for its manifest.
       const pid = appPid();
       const opened = [];
@@ -1970,7 +1970,7 @@ const CASES = {
     return videoButton(t.session, t.last);
   },
 
-  // MDM not running: the host starts it (off the screens, with the test's data folder: both
+  // SDL not running: the host starts it (off the screens, with the test's data folder: both
   // reach it through the browser's environment) and hands the download over.
   async start(t) {
     await stopApp();
@@ -1987,9 +1987,9 @@ const CASES = {
     return `started by the host (pid ${pids[0]})${WIN ? ", off the screens" : ""}, stopped`;
   },
 
-  // #157: Send downloads to → Another Mister Download Manager. The popup pairs with a server (its
+  // #157: Send downloads to → Another Swoopdl. The popup pairs with a server (its
   // address and a code); a link clicked then downloads there, into the server's folders, the
-  // browser's cookies not sent: neither the browser nor this computer's MDM keeps it. The popup
+  // browser's cookies not sent: neither the browser nor this computer's SDL keeps it. The popup
   // goes back to This computer at the end.
   async remote(t) {
     const r = await remoteServer();
@@ -1999,7 +1999,7 @@ const CASES = {
     try {
       await until("the popup", 10000, () => popup.evaluate(`document.readyState === "complete" && Boolean(document.getElementById("to-remote"))`).catch(() => false));
       await sleep(300);
-      // Another MDM chosen: its address and code boxes show (the popup's script may still be
+      // Another SDL chosen: its address and code boxes show (the popup's script may still be
       // starting: chosen again until they do).
       await until("the address and code boxes", 10000, () =>
         popup.evaluate(`(document.getElementById("remote-form").hidden && document.getElementById("to-remote").click(), !document.getElementById("remote-form").hidden)`),
@@ -2031,7 +2031,7 @@ const CASES = {
       const theirs = (await requests(`/gen/1M/${file}`)).filter((e) => e.user_agent !== t.ua);
       if (!theirs.length) throw new Error("no request from the server");
       if (theirs.some((e) => (e.cookie || "").length)) throw new Error(`a cookie went to the server's download: ${theirs.map((e) => e.cookie).join("; ")}`);
-      if ((await mdmList().catch(() => [])).some((d) => d.file === file)) throw new Error("this computer's MDM got it too");
+      if ((await sdlList().catch(() => [])).some((d) => d.file === file)) throw new Error("this computer's SDL got it too");
       await keptNothing(t.dl);
       return `paired (${said}); ${file} downloaded by the server into ${path.relative(r.downloads, at)} (${theirs.length} request(s), no cookie), not by this computer`;
     } finally {
@@ -2141,7 +2141,7 @@ export function regRestore(before, dir, written = []) {
   return { changed, differ: differ.map((b) => b.key) };
 }
 
-// E2E_HOST_NAME=com.mdm.sometest (Windows): the host is registered under that test name only, for
+// E2E_HOST_NAME=com.sdl.sometest (Windows): the host is registered under that test name only, for
 // this run's browsers only (per user), instead of `nmhost --register`'s every browser under the
 // real name: a browser you have open never reaches the test's host. The extensions loaded are
 // pack.ps1's with that name in background.js (Firefox's family: its folder, as a temporary
@@ -2175,7 +2175,7 @@ function testHost(name, browsers, nmhost) {
   const write = (kind, more) => {
     const file = path.join(work, "host", `${name}.${kind}.json`);
     fs.mkdirSync(path.dirname(file), { recursive: true });
-    fs.writeFileSync(file, JSON.stringify({ name, description: "Mister Download Manager (test)", path: nmhost, type: "stdio", ...more }, null, 2));
+    fs.writeFileSync(file, JSON.stringify({ name, description: "Swoopdl (test)", path: nmhost, type: "stdio", ...more }, null, 2));
     manifests[kind] = file;
   };
   if (kinds.has("chromium")) {
@@ -2338,13 +2338,13 @@ async function run() {
   let testLeft = [];
   try {
     await until("the lab server", 10000, () => fetch(`${LAB}/`).then((r) => r.ok, () => false));
-    // An installed Mister Download Manager's registration is never replaced or removed.
+    // An installed Swoopdl's registration is never replaced or removed.
     // Linux and macOS: its manifests (files) are put back byte for byte at the end, so a lab
     // machine's (E2E_REPLACE_HOST=1) may be replaced while the run lasts.
     const key = "HKCU\\Software\\Google\\Chrome\\NativeMessagingHosts\\com.swoopdl.host";
     const installed = WIN ? spawnSync("reg", ["query", key], { stdio: "ignore" }).status === 0 : regSnapshot().some((m) => m.bytes) && process.env.E2E_REPLACE_HOST !== "1";
     if (installed) {
-      throw new Error("Mister Download Manager's host is already registered (an installed copy): not touching it");
+      throw new Error("Swoopdl's host is already registered (an installed copy): not touching it");
     }
     regBefore = regSnapshot(path.join(work, "registry", "before"));
     if (process.env.E2E_HOST_NAME) {
@@ -2360,9 +2360,9 @@ async function run() {
       const bin = candidates.find((p) => fs.existsSync(p));
       // A Snap (Ubuntu's Firefox) reads its profile only from its own folder, and starts the host
       // through the desktop portal, without the browser's environment (SDL_DATA_DIR): the host
-      // would reach this computer's own MDM, not the test instance, so only the remote case runs.
+      // would reach this computer's own SDL, not the test instance, so only the remote case runs.
       const snap = Boolean(bin) && bin.startsWith("/snap/");
-      const profile = snap ? path.join(process.env.HOME, "snap", name, "common", "mdm-e2e-profile") : path.join(work, `profile-${name}`);
+      const profile = snap ? path.join(process.env.HOME, "snap", name, "common", "sdl-e2e-profile") : path.join(work, `profile-${name}`);
       const dl = path.join(work, `browser-${name}`);
       fs.rmSync(profile, { recursive: true, force: true });
       fs.mkdirSync(profile, { recursive: true });
@@ -2407,7 +2407,7 @@ async function run() {
         const asks = session.inBrowser
           ? `, asks for new types: ${await session.inBrowser(`Services.prefs.getBoolPref("browser.download.always_ask_before_handling_new_types", false)`)}`
           : "";
-        results.push([name, "browser", "ok", `${kind} ${session.major} (to MDM: ${seenAs}), extension ${session.extension}${asks}`, Date.now() - started]);
+        results.push([name, "browser", "ok", `${kind} ${session.major} (to SDL: ${seenAs}), extension ${session.extension}${asks}`, Date.now() - started]);
         for (const [label, fn] of Object.entries(CASES)) {
           if (only.length && !only.includes(label)) continue;
           const at = Date.now();

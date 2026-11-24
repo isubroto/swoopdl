@@ -34,10 +34,10 @@ if (-not (Test-Path $act)) {
     Install-VerifiedZip 'act' 'https://github.com/nektos/act/releases/download/v0.2.98/act_Windows_x86_64.zip' `
         'd0d868ee2b33bb710f4df82d69345ce3a10d2f9fc7bbee9522bf36a15779ada0' (Split-Path $act)
 }
-$node = Join-Path $tools 'node-v22.23.5-win-x64/node.exe'
+$node = Join-Path $tools 'node-v26.13.1-win-x64/node.exe'
 if (-not (Test-Path $node)) {
-    Install-VerifiedZip 'node' 'https://nodejs.org/dist/v22.23.5/node-v22.23.5-win-x64.zip' `
-        '4a191082e9706866830379d577d2cc8a50c776fcd9436a8d061b063ed0d9a0e3' $tools
+    Install-VerifiedZip 'node' 'https://nodejs.org/dist/v26.13.1/node-v26.13.1-win-x64.zip' `
+        'e2edda75bfb089654705cf65a13b58933bfd5f57148e8ebda916f58a2474f1f7' $tools
 }
 & $act --version
 if ($LASTEXITCODE) { throw 'act is not usable' }

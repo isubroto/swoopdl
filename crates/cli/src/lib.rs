@@ -21,7 +21,7 @@ use serde_json::json;
     about = "Swoopdl command line",
     long_about = "Swoopdl command line: downloads, videos and torrents without the \
                   window, and the running app's automation API. Guide: \
-                  https://misterdownloadmanager.com/help/command-line.html"
+                  https://isubroto.github.io/swoopdl/help/command-line.html"
 )]
 struct Cli {
     /// Print JSON for programs: one object per line (`progress` events, then `done`, `paused`

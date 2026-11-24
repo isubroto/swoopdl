@@ -16,7 +16,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
                 "swoopdl-mcp: Swoopdl's MCP server, for AI \
                  assistants. The assistant starts it (no arguments) and talks to it on stdin and \
                  stdout. Setup: \
-                 https://misterdownloadmanager.com/help/ai-assistants.html"
+                 https://isubroto.github.io/swoopdl/help/ai-assistants.html"
             ),
         }
         return Ok(());

@@ -186,7 +186,7 @@
 #. text in the Options window
 #. Options → Accounts: what these accounts are, and the services' rule against sharing
 #, machine
-	A debrid service downloads a file host's link with your own paid account and gives Swoopdl a direct link. Use only your own account: sharing an account or its links breaks the services' terms and can get it suspended. Downloads the browser already started stay as they are.	Debrid-teenus laadib failimajutusteenuse lingi alla teie enda tasulise kontoga ja annab MDM-ile otse lingi. Kasutage ainult oma kontot: konto või selle linkide jagamine rikub teenuste tingimusi ja võib viia konto peatamiseni. Allalaadimised, mille brauser on juba alustanud, jäävad samaks.
+	A debrid service downloads a file host's link with your own paid account and gives Swoopdl a direct link. Use only your own account: sharing an account or its links breaks the services' terms and can get it suspended. Downloads the browser already started stay as they are.	Debrid-teenus laadib failimajutusteenuse lingi alla teie enda tasulise kontoga ja annab SDL-ile otse lingi. Kasutage ainult oma kontot: konto või selle linkide jagamine rikub teenuste tingimusi ja võib viia konto peatamiseni. Allalaadimised, mille brauser on juba alustanud, jäävad samaks.
 #. text in errors.rs
 #. a torrent through a debrid service: one of its files has a name that would be written outside its folder; nothing was written. {name} the file's name as the service gave it
 #. {name} = a file name (keep the braces as they are)
@@ -1038,13 +1038,13 @@
 	Customize "Download progress" dialog	Kohanda dialoogi „Allalaadimise edenemine”
 #. text in the Options window
 #, machine
-	Customize keys to prevent or force downloading with Swoopdl	Kohanda klahve, et MDM-iga allalaadimist vältida või sundida
+	Customize keys to prevent or force downloading with Swoopdl	Kohanda klahve, et SDL-iga allalaadimist vältida või sundida
 #. text in the Options window
 #, machine
-	Customize Swoopdl Download panels in browsers	Kohanda MDM-i allalaadimispaneele brauserites
+	Customize Swoopdl Download panels in browsers	Kohanda SDL-i allalaadimispaneele brauserites
 #. text in the Options window
 #, machine
-	Customize Swoopdl menu items in context menu of browsers	Kohanda MDM-i menüüelemente brauserite kontekstimenüüs
+	Customize Swoopdl menu items in context menu of browsers	Kohanda SDL-i menüüelemente brauserite kontekstimenüüs
 #. text in countries.rs
 #. a country's name (where a download's server is)
 #, machine
@@ -2122,7 +2122,7 @@
 #. text in the Batch download window
 #. \\n starts a new line: break lines where they fit the translation
 #, machine
-	It's possible to add a group of sequential file names like img001.jpg, img002.jpg, etc.,\nimg100.jpg to Swoopdl download queue. Use the asterisk wildcard for the file name pattern.	MDM-i allalaadimisjärjekorda on võimalik lisada järjestikuste failinimede rühm, nt img001.jpg, img002.jpg jne,\nimg100.jpg. Kasutage failinime mustri jaoks tärni asendusmärki.
+	It's possible to add a group of sequential file names like img001.jpg, img002.jpg, etc.,\nimg100.jpg to Swoopdl download queue. Use the asterisk wildcard for the file name pattern.	SDL-i allalaadimisjärjekorda on võimalik lisada järjestikuste failinimede rühm, nt img001.jpg, img002.jpg jne,\nimg100.jpg. Kasutage failinime mustri jaoks tärni asendusmärki.
 #. text in countries.rs
 #. a country's name (where a download's server is)
 #, machine
@@ -2261,7 +2261,7 @@
 #. checkbox in the Options window
 #. Options → Remote check box (off by default)
 #, machine
-	Let phones and computers on the local network control Swoopdl	Luba kohaliku võrgu telefonidel ja arvutitel MDM-i juhtida
+	Let phones and computers on the local network control Swoopdl	Luba kohaliku võrgu telefonidel ja arvutitel SDL-i juhtida
 #. option (radio button) in the Batch download window
 #. the * in the address runs through letters
 #, machine
@@ -2479,7 +2479,7 @@
 #. text in the Options window
 #. Options → Remote → Pair a device: the remote control isn't listening (no network, port taken): the Remote page says why
 #, machine
-	Swoopdl can't be reached on the network now: Options → Remote says why.	MDM-i ei saa praegu võrgus kätte: valikud → Kaugjuhtimine ütleb miks.
+	Swoopdl can't be reached on the network now: Options → Remote says why.	SDL-i ei saa praegu võrgus kätte: valikud → Kaugjuhtimine ütleb miks.
 #. text in remote.rs
 #. remote control page (on a phone): the address typed isn't one Swoopdl downloads (not http, https, ftp or magnet)
 #, machine
@@ -2860,7 +2860,7 @@
 #. text in the Options window
 #. Options → Accounts: no system keyring/keychain answered (none runs, e.g. a desktop without one), so the sign-ins stay in Swoopdl's settings folder, which only the user's account may read
 #, machine
-	No system keyring answered, so sign-ins and passwords are kept in Swoopdl's settings, which only you can read.	Süsteemi võtmehoidja ei vastanud, seega hoitakse sisselogimisandmeid ja paroole MDM-i seadetes, millele pääsete juurde ainult teie.
+	No system keyring answered, so sign-ins and passwords are kept in Swoopdl's settings, which only you can read.	Süsteemi võtmehoidja ei vastanud, seega hoitakse sisselogimisandmeid ja paroole SDL-i seadetes, millele pääsete juurde ainult teie.
 #. message or event log entry in the main window
 #. event log entry: Add trackers changed nothing, the torrent had them all
 #, machine
@@ -2991,7 +2991,7 @@
 #. text in the Options window
 #. Options → Remote → Status: the remote control is off
 #, machine
-	Off: nothing on the network can reach Swoopdl.	Väljas: miski võrgus ei saa MDM-i kätte.
+	Off: nothing on the network can reach Swoopdl.	Väljas: miski võrgus ei saa SDL-i kätte.
 #. text in the Options window
 #, machine
 	Offer to download links copied to the clipboard	Paku allalaadimiseks lõikelauale kopeeritud linke
@@ -3067,7 +3067,7 @@
 #. text in the Options window
 #. Options → Remote, at the bottom of the page
 #, machine
-	Only paired devices see or change anything. The first time, the phone's browser warns about Swoopdl's own certificate: its fingerprint is the one above.	Ainult paarisolevad seadmed näevad või muudavad midagi. Esimest korda hoiatab telefoni brauser MDM-i enda sertifikaadi kohta: selle sõrmejälg on ülaltoodud.
+	Only paired devices see or change anything. The first time, the phone's browser warns about Swoopdl's own certificate: its fingerprint is the one above.	Ainult paarisolevad seadmed näevad või muudavad midagi. Esimest korda hoiatab telefoni brauser SDL-i enda sertifikaadi kohta: selle sõrmejälg on ülaltoodud.
 #. text in playlistdlg.rs
 #. in Download video, a list longer than Swoopdl lists: only its first {n} videos are shown
 #. {n} = a number (keep the braces as they are)
@@ -4114,7 +4114,7 @@
 	Sunday	Pühapäev
 #. link (opens a web page) in the Help menu's windows (About, updates, shortcuts, Tell a friend)
 #, machine
-	Support Swoopdl on GitHub Sponsors	Toetage MDM-i GitHub Sponsorsis
+	Support Swoopdl on GitHub Sponsors	Toetage SDL-i GitHub Sponsorsis
 #. text in countries.rs
 #. a country's name (where a download's server is)
 #, machine
@@ -4300,7 +4300,7 @@
 #. message or event log entry in the main window
 #. {error} = an error message (keep the braces as they are)
 #, machine
-	The download list could not be saved: {error}. Changes are kept while Swoopdl runs.	Allalaadimisloendit ei saanud salvestada: {error}. Muudatused säilivad MDM-i töötamise ajal.
+	The download list could not be saved: {error}. Changes are kept while Swoopdl runs.	Allalaadimisloendit ei saanud salvestada: {error}. Muudatused säilivad SDL-i töötamise ajal.
 #. text in the Help menu's windows (About, updates, shortcuts, Tell a friend)
 #, machine
 	The download manager you already know, rebuilt to be faster. Free and open source under the GNU GPL, version 3 or later. Videos are found by yt-dlp; torrents run on librqbit.	Allalaadimishaldur, mida te juba tunnete, on uuesti ehitatud kiiremaks. Tasuta ja avatud lähtekoodiga GNU GPL versiooni 3 või uuema alusel. Videod leitakse yt-dlp abil; torrenteid käitab librqbit.
@@ -4376,7 +4376,7 @@
 #, machine
 	the FTP server answered {code} {reply}	FTP-server vastas {code} {reply}
 #. text in extension.rs
-#. a check of Test browser integration: the browsers are set up, but the small helper program they start (misterdownloadmanager-nmhost) is gone
+#. a check of Test browser integration: the browsers are set up, but the small helper program they start (swoopdl-nmhost) is gone
 #, machine
 	The helper program the browsers start is missing	Brauserite käivitatav abiprogramm on puudu
 #. message or event log entry in the main window
@@ -4463,7 +4463,7 @@
 #. text in the Options window
 #. Options → Accounts (Linux): the system keyring is locked (Swoopdl never unlocks it: that would ask for its password), so the sign-ins stay in Swoopdl's settings folder, which only the user's account may read
 #, machine
-	The system keyring is locked and Swoopdl doesn't unlock it, so sign-ins and passwords are kept in Swoopdl's settings, which only you can read.	Süsteemi võtmehoidja on lukustatud ja Swoopdl seda ei ava, seega hoitakse sisselogimisi ja paroole MDM-i seadetes, mida saate lugeda ainult teie.
+	The system keyring is locked and Swoopdl doesn't unlock it, so sign-ins and passwords are kept in Swoopdl's settings, which only you can read.	Süsteemi võtmehoidja on lukustatud ja Swoopdl seda ei ava, seega hoitakse sisselogimisi ja paroole SDL-i seadetes, mida saate lugeda ainult teie.
 #. text in the Options window
 #. Options → Connection → DNS: the operating system's own DNS (the default)
 #, machine
@@ -4943,7 +4943,7 @@
 #. button in helpers.rs
 #. Video helpers: button: go back to the copy Swoopdl downloads and checks itself
 #, machine
-	Use Swoopdl's own copy	Kasuta MDM-i enda koopiat
+	Use Swoopdl's own copy	Kasuta SDL-i enda koopiat
 #. text in the Batch download window
 #. why Batch download's OK is greyed
 #, machine
@@ -5139,7 +5139,7 @@
 #. text in the Options window
 #. Options → Accounts: Windows Credential Manager didn't answer, so the sign-ins stay in Swoopdl's settings, encrypted so that only this Windows account can read them
 #, machine
-	Windows Credential Manager didn't answer, so sign-ins and passwords are kept in Swoopdl's settings, encrypted for your Windows account.	Windowsi mandaadihaldur ei vastanud, seega hoitakse sisselogimisi ja paroole MDM-i seadetes, krüpteerituna teie Windowsi konto jaoks.
+	Windows Credential Manager didn't answer, so sign-ins and passwords are kept in Swoopdl's settings, encrypted for your Windows account.	Windowsi mandaadihaldur ei vastanud, seega hoitakse sisselogimisi ja paroole SDL-i seadetes, krüpteerituna teie Windowsi konto jaoks.
 #. text in a dialog box
 #. why the computer could not be put to sleep (fills {error})
 #, machine
@@ -5171,7 +5171,7 @@
 #. text in remote.rs
 #. remote control page (on a phone): pairing failed and the code is void now
 #, machine
-	Wrong code. Show a new code in Swoopdl and try again.	Vale kood. Näidake MDM-is uut koodi ja proovige uuesti.
+	Wrong code. Show a new code in Swoopdl and try again.	Vale kood. Näidake SDL-is uut koodi ja proovige uuesti.
 #. text in remote.rs
 #. remote control page (on a phone): pairing failed; {n} = how many more codes may be tried
 #. {n} = a number (keep the braces as they are)
@@ -5324,7 +5324,7 @@
 #. text in the Options window
 #. Options → Remote → Pair a device: done; {device} = the name it was given
 #, machine
-	{device} is paired. It can control Swoopdl now.	{device} on seotud. See saab nüüd MDM-i juhtida.
+	{device} is paired. It can control Swoopdl now.	{device} on seotud. See saab nüüd SDL-i juhtida.
 #. text in remote.rs
 #. remote control page (on a phone): progress; {done} and {size} are sizes ("1.2 MB of 7.5 MB")
 #. {size} = a file size such as "4.2 MB" (keep the braces as they are)
@@ -5768,9 +5768,9 @@ extension	Not reached. Open its address once in this browser and accept its cert
 #, machine
 extension	Open it	Ava see
 #. text in the browser extension
-#. help under the pairing boxes; Options, Remote and Pair a device are the app's window, tab and button; keep misterdownloadmanager-cli pair as it is
+#. help under the pairing boxes; Options, Remote and Pair a device are the app's window, tab and button; keep swoopdl-cli pair as it is
 #, machine
-extension	Open its address once and accept its certificate, then enter a code from its Options, Remote, Pair a device (or misterdownloadmanager-cli pair).	Avage selle aadress üks kord ja aktsepteerige selle sertifikaat, seejärel sisestage kood selle valikutest Options, Remote, Pair a device (või misterdownloadmanager-cli pair).
+extension	Open its address once and accept its certificate, then enter a code from its Options, Remote, Pair a device (or swoopdl-cli pair).	Avage selle aadress üks kord ja aktsepteerige selle sertifikaat, seejärel sisestage kood selle valikutest Options, Remote, Pair a device (või swoopdl-cli pair).
 #. text in the browser extension
 #. button in the toolbar button's popup; keep the name Swoopdl as it is
 #, machine
@@ -5819,7 +5819,7 @@ extension	Sent to Swoopdl	Saadetud rakendusse Swoopdl
 #. text in the browser extension
 #. link at the foot of the toolbar button's popup to the creator's GitHub Sponsors page (Swoopdl is free; this is an optional donation)
 #, machine
-extension	Support Swoopdl	Toeta MDM-i
+extension	Support Swoopdl	Toeta SDL-i
 #. text in the browser extension
 #. check box in the toolbar button's popup: on, downloads go to the app; off, the browser keeps them
 #, machine
@@ -6134,7 +6134,7 @@ menu	Aero	Aero
 #. menu command in the main window
 #. View → Draw with: a greyed note under the choices; the choice takes effect when Swoopdl is started again
 #, machine
-menu	Applies the next time Swoopdl starts	Rakendub MDM-i järgmisel käivitamisel
+menu	Applies the next time Swoopdl starts	Rakendub SDL-i järgmisel käivitamisel
 #. menu command in the main window
 #. View → Theme: a style theme's name (Mac OS X's look), a name: keep "Aqua" as written
 #, machine
@@ -6476,7 +6476,7 @@ menu	Stop Download	Peata allalaadimine
 #. menu command in the main window
 #. & marks the keyboard shortcut letter: keep one & before a letter of the translation
 #, machine
-menu	Support &Swoopdl	Toeta &MDM-i
+menu	Support &Swoopdl	Toeta &SDL-i
 #. menu command in the main window
 #. & marks the keyboard shortcut letter: keep one & before a letter of the translation
 #, machine

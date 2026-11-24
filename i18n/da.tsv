@@ -1041,10 +1041,10 @@
 	Customize keys to prevent or force downloading with Swoopdl	Tilpas taster for at forhindre eller gennemtvinge download med Swoopdl
 #. text in the Options window
 #, machine
-	Customize Swoopdl Download panels in browsers	Tilpas MDM-downloadpaneler i browsere
+	Customize Swoopdl Download panels in browsers	Tilpas SDL-downloadpaneler i browsere
 #. text in the Options window
 #, machine
-	Customize Swoopdl menu items in context menu of browsers	Tilpas MDM-menupunkter i browseres genvejsmenu
+	Customize Swoopdl menu items in context menu of browsers	Tilpas SDL-menupunkter i browseres genvejsmenu
 #. text in countries.rs
 #. a country's name (where a download's server is)
 #, machine
@@ -2122,7 +2122,7 @@
 #. text in the Batch download window
 #. \\n starts a new line: break lines where they fit the translation
 #, machine
-	It's possible to add a group of sequential file names like img001.jpg, img002.jpg, etc.,\nimg100.jpg to Swoopdl download queue. Use the asterisk wildcard for the file name pattern.	Det er muligt at tilføje en gruppe sekventielle filnavne som img001.jpg, img002.jpg osv.,\nimg100.jpg til MDM-downloadkøen. Brug jokertegnet stjerne til filnavnemønsteret.
+	It's possible to add a group of sequential file names like img001.jpg, img002.jpg, etc.,\nimg100.jpg to Swoopdl download queue. Use the asterisk wildcard for the file name pattern.	Det er muligt at tilføje en gruppe sekventielle filnavne som img001.jpg, img002.jpg osv.,\nimg100.jpg til SDL-downloadkøen. Brug jokertegnet stjerne til filnavnemønsteret.
 #. text in countries.rs
 #. a country's name (where a download's server is)
 #, machine
@@ -4376,7 +4376,7 @@
 #, machine
 	the FTP server answered {code} {reply}	FTP-serveren svarede {code} {reply}
 #. text in extension.rs
-#. a check of Test browser integration: the browsers are set up, but the small helper program they start (misterdownloadmanager-nmhost) is gone
+#. a check of Test browser integration: the browsers are set up, but the small helper program they start (swoopdl-nmhost) is gone
 #, machine
 	The helper program the browsers start is missing	Hjælpeprogrammet, som browserne starter, mangler
 #. message or event log entry in the main window
@@ -5768,9 +5768,9 @@ extension	Not reached. Open its address once in this browser and accept its cert
 #, machine
 extension	Open it	Åbn den
 #. text in the browser extension
-#. help under the pairing boxes; Options, Remote and Pair a device are the app's window, tab and button; keep misterdownloadmanager-cli pair as it is
+#. help under the pairing boxes; Options, Remote and Pair a device are the app's window, tab and button; keep swoopdl-cli pair as it is
 #, machine
-extension	Open its address once and accept its certificate, then enter a code from its Options, Remote, Pair a device (or misterdownloadmanager-cli pair).	Åbn dens adresse én gang, og acceptér dens certifikat, og angiv derefter en kode fra dens Indstillinger, Fjernbetjening, Par en enhed (eller misterdownloadmanager-cli pair).
+extension	Open its address once and accept its certificate, then enter a code from its Options, Remote, Pair a device (or swoopdl-cli pair).	Åbn dens adresse én gang, og acceptér dens certifikat, og angiv derefter en kode fra dens Indstillinger, Fjernbetjening, Par en enhed (eller swoopdl-cli pair).
 #. text in the browser extension
 #. button in the toolbar button's popup; keep the name Swoopdl as it is
 #, machine

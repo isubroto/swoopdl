@@ -14,7 +14,7 @@ pwsh -File tools/dev/setup-ci.ps1
 pwsh -File tools/dev/ci.ps1
 ```
 
-Setup downloads checksum-verified act 0.2.98 and Node 22.23.5 under
+Setup downloads checksum-verified act 0.2.98 and Node 26.13.1 under
 `target/local-ci/tools`, installs rustfmt/Clippy in the existing Rust toolchain,
 and builds `swoopdl-ci:local`. It does not change the global PATH. The initial
 Docker build downloads several GB; later runs reuse Docker and Cargo caches.
@@ -41,9 +41,11 @@ translation guard. Cargo uses `--locked`. The English check uses the extractor's
 before checking translations; a missing base is an error. Checks compare with the
 local base ref and do not fetch automatically. A failed check produces a nonzero
 exit code. Command output is saved under `target/local-ci/logs`.
-Cargo defaults to two concurrent compiler jobs to keep native builds and Docker
-within a development machine's memory. Override with `-BuildJobs 4` (or `1` on a
-smaller machine). The runner restores its temporary environment changes on exit.
+Cargo defaults to one compiler job and line-table test debug information to keep builds
+within a development machine's memory. Use `-BuildJobs 2` or `4` on larger machines.
+The runner restores its temporary environment changes on exit.
+Windows Rust tests use a serial harness to avoid native heap crashes between concurrent UI
+tests. Linux and macOS retain the default test concurrency.
 
 ## Run the actual Linux workflow jobs
 
@@ -64,7 +66,7 @@ output is not copied into the container because `target/` is gitignored.
 
 For Linux/macOS hosts, install act and PowerShell 7, build the same image with
 `docker build -t swoopdl-ci:local tools/dev/ci`, and use the same `-Linux` commands.
-Native checks also work with Python exposed as `python` and Node 22 on PATH.
+Native checks also work with Python exposed as `python` and Node 26 on PATH.
 
 ## Scope
 

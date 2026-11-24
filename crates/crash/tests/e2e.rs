@@ -7,17 +7,41 @@ use std::process::Command;
 use std::time::{Duration, Instant};
 
 fn crashy() -> PathBuf {
-    // target/<profile>/deps/e2e-… → target/<profile>/examples/crashy
-    let mut p = std::env::current_exe().unwrap();
-    p.pop();
-    p.pop();
-    p.push("examples");
-    p.push(if cfg!(windows) {
-        "crashy.exe"
-    } else {
-        "crashy"
-    });
-    p
+    // Cargo keeps examples under the profile directory, but its test binaries can live in
+    // either deps/ or build/<package>/<hash>/out/. Find the shared profile ancestor.
+    let exe = std::env::current_exe().unwrap();
+    example_from(&exe).unwrap_or_else(|| {
+        panic!(
+            "examples/crashy not found above {}; build the examples first",
+            exe.display()
+        )
+    })
+}
+
+fn example_from(exe: &std::path::Path) -> Option<PathBuf> {
+    let name = format!("crashy{}", std::env::consts::EXE_SUFFIX);
+    exe.ancestors()
+        .skip(1)
+        .map(|dir| dir.join("examples").join(&name))
+        .find(|path| path.is_file())
+}
+
+#[test]
+fn helper_is_found_in_both_cargo_test_layouts() {
+    let target = tempfile::tempdir().unwrap();
+    let profile = target.path().join("debug");
+    let expected = profile
+        .join("examples")
+        .join(format!("crashy{}", std::env::consts::EXE_SUFFIX));
+    std::fs::create_dir_all(expected.parent().unwrap()).unwrap();
+    std::fs::write(&expected, []).unwrap();
+    for relative in ["deps/e2e-hash", "build/sdl-crash/hash/out/e2e-hash"] {
+        assert_eq!(
+            example_from(&profile.join(relative)),
+            Some(expected.clone())
+        );
+    }
+    assert_eq!(example_from(&target.path().join("elsewhere/e2e")), None);
 }
 
 /// Run crashy in `mode` and wait (up to 90 s: reading the dump's symbols takes a while in a

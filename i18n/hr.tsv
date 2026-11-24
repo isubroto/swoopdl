@@ -186,7 +186,7 @@
 #. text in the Options window
 #. Options → Accounts: what these accounts are, and the services' rule against sharing
 #, machine
-	A debrid service downloads a file host's link with your own paid account and gives Swoopdl a direct link. Use only your own account: sharing an account or its links breaks the services' terms and can get it suspended. Downloads the browser already started stay as they are.	Usluga debridinga preuzima vezu davatelja datoteka s vašim plaćenim računom i daje MDM-u izravnu vezu. Koristite samo vlastiti račun: dijeljenje računa ili njegovih veza krši uvjete usluge i može dovesti do suspenzije. Preuzimanja koja je preglednik već započeo ostaju nepromijenjena.
+	A debrid service downloads a file host's link with your own paid account and gives Swoopdl a direct link. Use only your own account: sharing an account or its links breaks the services' terms and can get it suspended. Downloads the browser already started stay as they are.	Usluga debridinga preuzima vezu davatelja datoteka s vašim plaćenim računom i daje SDL-u izravnu vezu. Koristite samo vlastiti račun: dijeljenje računa ili njegovih veza krši uvjete usluge i može dovesti do suspenzije. Preuzimanja koja je preglednik već započeo ostaju nepromijenjena.
 #. text in errors.rs
 #. a torrent through a debrid service: one of its files has a name that would be written outside its folder; nothing was written. {name} the file's name as the service gave it
 #. {name} = a file name (keep the braces as they are)
@@ -1038,13 +1038,13 @@
 	Customize "Download progress" dialog	Prilagodi dijaloški okvir „Napredak preuzimanja”
 #. text in the Options window
 #, machine
-	Customize keys to prevent or force downloading with Swoopdl	Prilagodi tipke za sprječavanje ili prisilno preuzimanje s MDM-om
+	Customize keys to prevent or force downloading with Swoopdl	Prilagodi tipke za sprječavanje ili prisilno preuzimanje s SDL-om
 #. text in the Options window
 #, machine
 	Customize Swoopdl Download panels in browsers	Prilagodi Swoopdl ploče za preuzimanje u preglednicima
 #. text in the Options window
 #, machine
-	Customize Swoopdl menu items in context menu of browsers	Prilagodi stavke izbornika MDM-a u kontekstnom izborniku preglednika
+	Customize Swoopdl menu items in context menu of browsers	Prilagodi stavke izbornika SDL-a u kontekstnom izborniku preglednika
 #. text in countries.rs
 #. a country's name (where a download's server is)
 #, machine
@@ -2122,7 +2122,7 @@
 #. text in the Batch download window
 #. \\n starts a new line: break lines where they fit the translation
 #, machine
-	It's possible to add a group of sequential file names like img001.jpg, img002.jpg, etc.,\nimg100.jpg to Swoopdl download queue. Use the asterisk wildcard for the file name pattern.	Moguće je dodati grupu uzastopnih naziva datoteka kao što su img001.jpg, img002.jpg itd.,\nimg100.jpg u red čekanja za preuzimanje MDM-a. Koristite zamjenski znak zvjezdice za uzorak naziva datoteke.
+	It's possible to add a group of sequential file names like img001.jpg, img002.jpg, etc.,\nimg100.jpg to Swoopdl download queue. Use the asterisk wildcard for the file name pattern.	Moguće je dodati grupu uzastopnih naziva datoteka kao što su img001.jpg, img002.jpg itd.,\nimg100.jpg u red čekanja za preuzimanje SDL-a. Koristite zamjenski znak zvjezdice za uzorak naziva datoteke.
 #. text in countries.rs
 #. a country's name (where a download's server is)
 #, machine
@@ -2261,7 +2261,7 @@
 #. checkbox in the Options window
 #. Options → Remote check box (off by default)
 #, machine
-	Let phones and computers on the local network control Swoopdl	Dopusti telefonima i računalima na lokalnoj mreži da upravljaju MDM-om
+	Let phones and computers on the local network control Swoopdl	Dopusti telefonima i računalima na lokalnoj mreži da upravljaju SDL-om
 #. option (radio button) in the Batch download window
 #. the * in the address runs through letters
 #, machine
@@ -2860,7 +2860,7 @@
 #. text in the Options window
 #. Options → Accounts: no system keyring/keychain answered (none runs, e.g. a desktop without one), so the sign-ins stay in Swoopdl's settings folder, which only the user's account may read
 #, machine
-	No system keyring answered, so sign-ins and passwords are kept in Swoopdl's settings, which only you can read.	Nije odgovorio nijedan sistemski privjesak za ključeve, pa se podaci za prijavu i lozinke čuvaju u postavkama MDM-a, koje samo vi možete čitati.
+	No system keyring answered, so sign-ins and passwords are kept in Swoopdl's settings, which only you can read.	Nije odgovorio nijedan sistemski privjesak za ključeve, pa se podaci za prijavu i lozinke čuvaju u postavkama SDL-a, koje samo vi možete čitati.
 #. message or event log entry in the main window
 #. event log entry: Add trackers changed nothing, the torrent had them all
 #, machine
@@ -2991,7 +2991,7 @@
 #. text in the Options window
 #. Options → Remote → Status: the remote control is off
 #, machine
-	Off: nothing on the network can reach Swoopdl.	Isključeno: ništa na mreži ne može doći do MDM-a.
+	Off: nothing on the network can reach Swoopdl.	Isključeno: ništa na mreži ne može doći do SDL-a.
 #. text in the Options window
 #, machine
 	Offer to download links copied to the clipboard	Ponudi preuzimanje veza kopiranih u međuspremnik
@@ -3067,7 +3067,7 @@
 #. text in the Options window
 #. Options → Remote, at the bottom of the page
 #, machine
-	Only paired devices see or change anything. The first time, the phone's browser warns about Swoopdl's own certificate: its fingerprint is the one above.	Samo upareni uređaji vide ili mijenjaju bilo što. Prvi put će preglednik telefona upozoriti na MDM-ov vlastiti certifikat: njegov otisak prsta je onaj gore.
+	Only paired devices see or change anything. The first time, the phone's browser warns about Swoopdl's own certificate: its fingerprint is the one above.	Samo upareni uređaji vide ili mijenjaju bilo što. Prvi put će preglednik telefona upozoriti na SDL-ov vlastiti certifikat: njegov otisak prsta je onaj gore.
 #. text in playlistdlg.rs
 #. in Download video, a list longer than Swoopdl lists: only its first {n} videos are shown
 #. {n} = a number (keep the braces as they are)
@@ -4376,7 +4376,7 @@
 #, machine
 	the FTP server answered {code} {reply}	FTP poslužitelj odgovorio je {code} {reply}
 #. text in extension.rs
-#. a check of Test browser integration: the browsers are set up, but the small helper program they start (misterdownloadmanager-nmhost) is gone
+#. a check of Test browser integration: the browsers are set up, but the small helper program they start (swoopdl-nmhost) is gone
 #, machine
 	The helper program the browsers start is missing	Nedostaje pomoćni program koji pokreću preglednici
 #. message or event log entry in the main window
@@ -4463,7 +4463,7 @@
 #. text in the Options window
 #. Options → Accounts (Linux): the system keyring is locked (Swoopdl never unlocks it: that would ask for its password), so the sign-ins stay in Swoopdl's settings folder, which only the user's account may read
 #, machine
-	The system keyring is locked and Swoopdl doesn't unlock it, so sign-ins and passwords are kept in Swoopdl's settings, which only you can read.	Sistemski privjesak za ključeve je zaključan i Swoopdl ga ne otključava, pa se podaci za prijavu i lozinke čuvaju u postavkama MDM-a, koje samo vi možete čitati.
+	The system keyring is locked and Swoopdl doesn't unlock it, so sign-ins and passwords are kept in Swoopdl's settings, which only you can read.	Sistemski privjesak za ključeve je zaključan i Swoopdl ga ne otključava, pa se podaci za prijavu i lozinke čuvaju u postavkama SDL-a, koje samo vi možete čitati.
 #. text in the Options window
 #. Options → Connection → DNS: the operating system's own DNS (the default)
 #, machine
@@ -4943,7 +4943,7 @@
 #. button in helpers.rs
 #. Video helpers: button: go back to the copy Swoopdl downloads and checks itself
 #, machine
-	Use Swoopdl's own copy	Koristi MDM-ovu vlastitu kopiju
+	Use Swoopdl's own copy	Koristi SDL-ovu vlastitu kopiju
 #. text in the Batch download window
 #. why Batch download's OK is greyed
 #, machine
@@ -5139,7 +5139,7 @@
 #. text in the Options window
 #. Options → Accounts: Windows Credential Manager didn't answer, so the sign-ins stay in Swoopdl's settings, encrypted so that only this Windows account can read them
 #, machine
-	Windows Credential Manager didn't answer, so sign-ins and passwords are kept in Swoopdl's settings, encrypted for your Windows account.	Upravitelj vjerodajnica sustava Windows nije odgovorio, pa se podaci za prijavu i lozinke čuvaju u postavkama MDM-a, šifriranim za vaš Windows račun.
+	Windows Credential Manager didn't answer, so sign-ins and passwords are kept in Swoopdl's settings, encrypted for your Windows account.	Upravitelj vjerodajnica sustava Windows nije odgovorio, pa se podaci za prijavu i lozinke čuvaju u postavkama SDL-a, šifriranim za vaš Windows račun.
 #. text in a dialog box
 #. why the computer could not be put to sleep (fills {error})
 #, machine
@@ -5171,7 +5171,7 @@
 #. text in remote.rs
 #. remote control page (on a phone): pairing failed and the code is void now
 #, machine
-	Wrong code. Show a new code in Swoopdl and try again.	Pogrešan kôd. Prikažite novi kôd u MDM-u i pokušajte ponovno.
+	Wrong code. Show a new code in Swoopdl and try again.	Pogrešan kôd. Prikažite novi kôd u SDL-u i pokušajte ponovno.
 #. text in remote.rs
 #. remote control page (on a phone): pairing failed; {n} = how many more codes may be tried
 #. {n} = a number (keep the braces as they are)
@@ -5324,7 +5324,7 @@
 #. text in the Options window
 #. Options → Remote → Pair a device: done; {device} = the name it was given
 #, machine
-	{device} is paired. It can control Swoopdl now.	{device} je uparen. Sada može upravljati MDM-om.
+	{device} is paired. It can control Swoopdl now.	{device} je uparen. Sada može upravljati SDL-om.
 #. text in remote.rs
 #. remote control page (on a phone): progress; {done} and {size} are sizes ("1.2 MB of 7.5 MB")
 #. {size} = a file size such as "4.2 MB" (keep the braces as they are)
@@ -5768,9 +5768,9 @@ extension	Not reached. Open its address once in this browser and accept its cert
 #, machine
 extension	Open it	Otvori
 #. text in the browser extension
-#. help under the pairing boxes; Options, Remote and Pair a device are the app's window, tab and button; keep misterdownloadmanager-cli pair as it is
+#. help under the pairing boxes; Options, Remote and Pair a device are the app's window, tab and button; keep swoopdl-cli pair as it is
 #, machine
-extension	Open its address once and accept its certificate, then enter a code from its Options, Remote, Pair a device (or misterdownloadmanager-cli pair).	Otvorite njegovu adresu jednom i prihvatite njegov certifikat, a zatim unesite kôd iz njegovih Mogućnosti, Daljinski, Uparite uređaj (ili misterdownloadmanager-cli pair).
+extension	Open its address once and accept its certificate, then enter a code from its Options, Remote, Pair a device (or swoopdl-cli pair).	Otvorite njegovu adresu jednom i prihvatite njegov certifikat, a zatim unesite kôd iz njegovih Mogućnosti, Daljinski, Uparite uređaj (ili swoopdl-cli pair).
 #. text in the browser extension
 #. button in the toolbar button's popup; keep the name Swoopdl as it is
 #, machine

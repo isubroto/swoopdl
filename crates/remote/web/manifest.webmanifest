@@ -1,6 +1,6 @@
 {
-  "name": "Mister Download Manager",
-  "short_name": "MDM",
+  "name": "Swoopdl",
+  "short_name": "SDL",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",

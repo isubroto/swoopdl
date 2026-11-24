@@ -29,13 +29,9 @@ of these files (up to version 0.2.4, their names end in `-experimental`, as in
 | `...-linux-x86_64.AppImage` | Runs on most distributions: make it executable (`chmod +x`) and run it. It updates itself in place (**Help → Check for updates**). |
 | `...-linux-x86_64.tar.gz` | The plain programs, for any distribution. |
 
-![SDL's main window on Ubuntu 24.04's GNOME desktop: the categories and a list of downloads, each with the desktop's icon for its type](images/main-linux.webp)
-*SDL on Ubuntu's GNOME desktop, with the desktop's own file icons.*
 
 For browser integration, run **Swoopdl Browser Setup** from the applications menu after installing a .deb/.rpm, or use the extracted package's `extension/install-local.sh`. AppImage users must extract to a permanent folder first. See [Browser integration](browser-integration.md#linux) and [sandboxed browser limits](browser-help.md#linux-sandbox).
 
-![The window that offers the browser extension on Linux: Google Chrome and Mozilla Firefox, each with Add the extension](images/browser-offer-linux.webp)
-*Development browser connection window; use the local setup helper for installation.*
 
 In a Wayland session the windows go through XWayland (below). Not there yet on Linux: screen
 readers (Orca) don't read SDL's windows; browsers installed as a Flatpak can't reach SDL (Firefox
@@ -44,32 +40,7 @@ Draw with → Vulkan** is a choice, OpenGL stays the default.
 
 In a Wayland session (GNOME, KDE Plasma and others), SDL's windows run through XWayland when it is there: Wayland doesn't let a program place its own windows, so SDL's menus and drop-down lists would open in the middle of the screen. To run on Wayland itself anyway, start it with `SDL_WAYLAND=1 swoopdl`. If the system lacks a library X11 windows need (such as libxkbcommon-x11, which the .deb and .rpm bring but the AppImage and the tar.gz can't), SDL opens on Wayland instead; with no window system it can use, it names what's missing and the command that installs it.
 
-The windows are the ones described in this help, with the desktop's fonts, file icons and title
-bars:
-
-<!-- pictures -->
-
-- ![Add URL on Linux, with its address box](images/add-url-linux.webp)
-  *Add URL.*
-- ![A download's progress window on Linux: its speed, time left and connections](images/progress-linux.webp)
-  *A download's progress.*
-- ![Add torrent on Linux, with the torrent's files](images/add-torrent-linux.webp)
-  *Add torrent.*
-- ![The Scheduler on Linux](images/scheduler-linux.webp)
-  *The Scheduler.*
-- ![Options on its Connection page, on Linux](images/options-linux.webp)
-  *Options.*
-
-And on the other desktops it was checked on:
-
-<!-- pictures -->
-
-- ![SDL's main window on KDE Plasma](images/kde-main-linux.webp)
-  *KDE Plasma.*
-- ![SDL's main window on Cinnamon](images/cinnamon-main-linux.webp)
-  *Cinnamon.*
-- ![SDL's main window on Xfce](images/xfce-main-linux.webp)
-  *Xfce.*
+The windows use the desktop's fonts, file icons and title bars.
 
 #### Uninstall on Linux {#uninstall-linux}
 
@@ -240,8 +211,6 @@ Closing the main window doesn't quit SDL. It hides in the notification area, and
 
 On Linux this needs a tray, which most desktops have (KDE Plasma, Xfce, Cinnamon, Ubuntu's GNOME or GNOME with the AppIndicator extension, waybar's tray). On a desktop without one (some tiling window managers), closing the window quits SDL, since there would be nowhere to bring it back from.
 
-![SDL's icon in the top bar of Ubuntu's GNOME, its menu open: Open Swoopdl, Add new download, Add batch download, Downloads in progress, Speed Limiter, Scheduler, the main queue, Options and Exit](images/tray-linux.webp)
-*The tray icon's menu on Ubuntu's GNOME.*
 
 - Click the tray icon to bring the window back.
 - Right-click it for **Add new download**, **Add batch download**, **Downloads in progress**, **Speed Limiter**, **Scheduler**, the main download queue, **Options** and **Exit**.

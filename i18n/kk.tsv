@@ -186,7 +186,7 @@
 #. text in the Options window
 #. Options → Accounts: what these accounts are, and the services' rule against sharing
 #, machine
-	A debrid service downloads a file host's link with your own paid account and gives Swoopdl a direct link. Use only your own account: sharing an account or its links breaks the services' terms and can get it suspended. Downloads the browser already started stay as they are.	Дебрид қызметі файл хостының сілтемесін сіздің төленген есептік жазбаңызбен жүктеп алып, MDM-ге тікелей сілтеме береді. Тек өзіңіздің есептік жазбаңызды пайдаланыңыз: есептік жазбаны немесе оның сілтемелерін бөлісу қызметтердің шарттарын бұзады және оның тоқтатылуына әкелуі мүмкін. Браузер бастаған жүктеулер өзгеріссіз қалады.
+	A debrid service downloads a file host's link with your own paid account and gives Swoopdl a direct link. Use only your own account: sharing an account or its links breaks the services' terms and can get it suspended. Downloads the browser already started stay as they are.	Дебрид қызметі файл хостының сілтемесін сіздің төленген есептік жазбаңызбен жүктеп алып, SDL-ге тікелей сілтеме береді. Тек өзіңіздің есептік жазбаңызды пайдаланыңыз: есептік жазбаны немесе оның сілтемелерін бөлісу қызметтердің шарттарын бұзады және оның тоқтатылуына әкелуі мүмкін. Браузер бастаған жүктеулер өзгеріссіз қалады.
 #. text in errors.rs
 #. a torrent through a debrid service: one of its files has a name that would be written outside its folder; nothing was written. {name} the file's name as the service gave it
 #. {name} = a file name (keep the braces as they are)
@@ -1419,7 +1419,7 @@
 #. text in crashui.rs
 #. crash report window button: end the frozen Swoopdl and start it again
 #, machine
-	End and restart Swoopdl	MDM-ді аяқтау және қайта іске қосу
+	End and restart Swoopdl	SDL-ді аяқтау және қайта іске қосу
 #. text in the Add torrent window
 #, machine
 	Enter a magnet link or choose a .torrent file	Магнит сілтемесін енгізіңіз немесе .torrent файлын таңдаңыз
@@ -2261,7 +2261,7 @@
 #. checkbox in the Options window
 #. Options → Remote check box (off by default)
 #, machine
-	Let phones and computers on the local network control Swoopdl	Жергілікті желідегі телефондар мен компьютерлерге MDM-ді басқаруға рұқсат беру
+	Let phones and computers on the local network control Swoopdl	Жергілікті желідегі телефондар мен компьютерлерге SDL-ді басқаруға рұқсат беру
 #. option (radio button) in the Batch download window
 #. the * in the address runs through letters
 #, machine
@@ -2991,7 +2991,7 @@
 #. text in the Options window
 #. Options → Remote → Status: the remote control is off
 #, machine
-	Off: nothing on the network can reach Swoopdl.	Өшірулі: желідегі ешнәрсе MDM-ге жете алмайды.
+	Off: nothing on the network can reach Swoopdl.	Өшірулі: желідегі ешнәрсе SDL-ге жете алмайды.
 #. text in the Options window
 #, machine
 	Offer to download links copied to the clipboard	Алмасу буферіне көшірілген сілтемелерді жүктеп алуды ұсыну
@@ -3067,7 +3067,7 @@
 #. text in the Options window
 #. Options → Remote, at the bottom of the page
 #, machine
-	Only paired devices see or change anything. The first time, the phone's browser warns about Swoopdl's own certificate: its fingerprint is the one above.	Тек жұптастырылған құрылғылар ғана көре алады немесе өзгерте алады. Бірінші рет телефон браузері MDM-нің жеке сертификаты туралы ескертеді: оның саусақ ізі жоғарыдағымен бірдей.
+	Only paired devices see or change anything. The first time, the phone's browser warns about Swoopdl's own certificate: its fingerprint is the one above.	Тек жұптастырылған құрылғылар ғана көре алады немесе өзгерте алады. Бірінші рет телефон браузері SDL-нің жеке сертификаты туралы ескертеді: оның саусақ ізі жоғарыдағымен бірдей.
 #. text in playlistdlg.rs
 #. in Download video, a list longer than Swoopdl lists: only its first {n} videos are shown
 #. {n} = a number (keep the braces as they are)
@@ -3478,7 +3478,7 @@
 #. text in crashui.rs
 #. crash report window button: start Swoopdl again
 #, machine
-	Restart Swoopdl	MDM-ді қайта іске қосу
+	Restart Swoopdl	SDL-ді қайта іске қосу
 #. button in the Options window; text in the Options window
 #, machine
 	Restore the built-in categories	Кірістірілген санаттарды қалпына келтіру
@@ -4114,7 +4114,7 @@
 	Sunday	Жексенбі
 #. link (opens a web page) in the Help menu's windows (About, updates, shortcuts, Tell a friend)
 #, machine
-	Support Swoopdl on GitHub Sponsors	GitHub Sponsors-та MDM-ді қолдау
+	Support Swoopdl on GitHub Sponsors	GitHub Sponsors-та SDL-ді қолдау
 #. text in countries.rs
 #. a country's name (where a download's server is)
 #, machine
@@ -4376,7 +4376,7 @@
 #, machine
 	the FTP server answered {code} {reply}	FTP сервері {code} {reply} деп жауап берді
 #. text in extension.rs
-#. a check of Test browser integration: the browsers are set up, but the small helper program they start (misterdownloadmanager-nmhost) is gone
+#. a check of Test browser integration: the browsers are set up, but the small helper program they start (swoopdl-nmhost) is gone
 #, machine
 	The helper program the browsers start is missing	Браузерлер іске қосатын көмекші бағдарлама жоқ
 #. message or event log entry in the main window
@@ -4846,7 +4846,7 @@
 #. Options → Add an account: waiting while the user types the code at the service's page; {page} its address, {time} minutes:seconds left
 #. {time} = a time of day (keep the braces as they are)
 #, machine
-	Type this code at {page} and allow Swoopdl; waiting for you (the code expires in {time}).	Бұл кодты {page} мекенжайында енгізіп, MDM-ге рұқсат беріңіз; сізді күтіп отырмыз (кодтың мерзімі {time} ішінде аяқталады).
+	Type this code at {page} and allow Swoopdl; waiting for you (the code expires in {time}).	Бұл кодты {page} мекенжайында енгізіп, SDL-ге рұқсат беріңіз; сізді күтіп отырмыз (кодтың мерзімі {time} ішінде аяқталады).
 #. tooltip (why a control is greyed) in the Find window
 #. tooltip of the greyed Find button
 #, machine
@@ -4943,7 +4943,7 @@
 #. button in helpers.rs
 #. Video helpers: button: go back to the copy Swoopdl downloads and checks itself
 #, machine
-	Use Swoopdl's own copy	MDM-нің өз көшірмесін пайдалану
+	Use Swoopdl's own copy	SDL-нің өз көшірмесін пайдалану
 #. text in the Batch download window
 #. why Batch download's OK is greyed
 #, machine
@@ -5171,7 +5171,7 @@
 #. text in remote.rs
 #. remote control page (on a phone): pairing failed and the code is void now
 #, machine
-	Wrong code. Show a new code in Swoopdl and try again.	Қате код. MDM-де жаңа кодты көрсетіп, қайталап көріңіз.
+	Wrong code. Show a new code in Swoopdl and try again.	Қате код. SDL-де жаңа кодты көрсетіп, қайталап көріңіз.
 #. text in remote.rs
 #. remote control page (on a phone): pairing failed; {n} = how many more codes may be tried
 #. {n} = a number (keep the braces as they are)
@@ -5229,7 +5229,7 @@
 #. Video helpers: the person's own gallery-dl is too old and not used; {version} = its version, {oldest} = the oldest Swoopdl can use
 #. {version} = a version number (keep the braces as they are)
 #, machine
-	Your own program ({version}) is too old: Swoopdl needs {oldest} or newer	Өз бағдарламаңыз ({version}) ескірген: MDM-ге {oldest} немесе одан жаңа нұсқа қажет
+	Your own program ({version}) is too old: Swoopdl needs {oldest} or newer	Өз бағдарламаңыз ({version}) ескірген: SDL-ге {oldest} немесе одан жаңа нұсқа қажет
 #. text in helpers.rs
 #. Video helpers: {path} = the program the person chose, {version} = its version
 #. {version} = a version number (keep the braces as they are)
@@ -5324,7 +5324,7 @@
 #. text in the Options window
 #. Options → Remote → Pair a device: done; {device} = the name it was given
 #, machine
-	{device} is paired. It can control Swoopdl now.	{device} жұптастырылды. Ол енді MDM-ді басқара алады.
+	{device} is paired. It can control Swoopdl now.	{device} жұптастырылды. Ол енді SDL-ді басқара алады.
 #. text in remote.rs
 #. remote control page (on a phone): progress; {done} and {size} are sizes ("1.2 MB of 7.5 MB")
 #. {size} = a file size such as "4.2 MB" (keep the braces as they are)
@@ -5419,7 +5419,7 @@
 #. error: a program chosen as a helper is too old; {name} = gallery-dl, {version} = its version, {oldest} = the oldest one Swoopdl can use
 #. {name} = a file name; {version} = a version number (keep the braces as they are)
 #, machine
-	{name} {version} is too old: Swoopdl needs {oldest} or newer	{name} {version} ескірген: MDM-ге {oldest} немесе одан жаңа нұсқа қажет
+	{name} {version} is too old: Swoopdl needs {oldest} or newer	{name} {version} ескірген: SDL-ге {oldest} немесе одан жаңа нұсқа қажет
 #. text in the Options window
 #. a number of connections the app learned by itself for a server
 #. {n} = a number (keep the braces as they are)
@@ -5768,9 +5768,9 @@ extension	Not reached. Open its address once in this browser and accept its cert
 #, machine
 extension	Open it	Ашу
 #. text in the browser extension
-#. help under the pairing boxes; Options, Remote and Pair a device are the app's window, tab and button; keep misterdownloadmanager-cli pair as it is
+#. help under the pairing boxes; Options, Remote and Pair a device are the app's window, tab and button; keep swoopdl-cli pair as it is
 #, machine
-extension	Open its address once and accept its certificate, then enter a code from its Options, Remote, Pair a device (or misterdownloadmanager-cli pair).	Оның мекенжайын бір рет ашып, сертификатын қабылдаңыз, содан кейін Опциялар, Қашықтан басқару, Құрылғыны жұптау (немесе misterdownloadmanager-cli pair) бөлімінен кодты енгізіңіз.
+extension	Open its address once and accept its certificate, then enter a code from its Options, Remote, Pair a device (or swoopdl-cli pair).	Оның мекенжайын бір рет ашып, сертификатын қабылдаңыз, содан кейін Опциялар, Қашықтан басқару, Құрылғыны жұптау (немесе swoopdl-cli pair) бөлімінен кодты енгізіңіз.
 #. text in the browser extension
 #. button in the toolbar button's popup; keep the name Swoopdl as it is
 #, machine
@@ -6476,7 +6476,7 @@ menu	Stop Download	Жүктеп алуды тоқтату
 #. menu command in the main window
 #. & marks the keyboard shortcut letter: keep one & before a letter of the translation
 #, machine
-menu	Support &Swoopdl	MDM-ге &қолдау көрсету
+menu	Support &Swoopdl	SDL-ге &қолдау көрсету
 #. menu command in the main window
 #. & marks the keyboard shortcut letter: keep one & before a letter of the translation
 #, machine

@@ -9,14 +9,14 @@ torrents. You control it with the [remote control's page](remote-control.md) (fr
 computer on your network), the browser extension pointed at it, or its command line.
 
 > **New:** the server mode is new in this version. Please
-> [tell us how it goes](https://github.com/anefzaoui/misterdownloadmanager/issues).
+> [tell us how it goes](https://github.com/isubroto/swoopdl/issues).
 
 ## With Docker
 
 Build the image from SDL's source (a published image comes later):
 
 ```sh
-git clone https://github.com/anefzaoui/misterdownloadmanager
+git clone https://github.com/isubroto/swoopdl
 cd swoopdl
 docker build -t swoopdl .
 ```

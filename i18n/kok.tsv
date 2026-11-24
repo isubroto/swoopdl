@@ -4376,7 +4376,7 @@
 #, machine
 	the FTP server answered {code} {reply}	FTP सर्वरान {code} {reply} जाप दिली
 #. text in extension.rs
-#. a check of Test browser integration: the browsers are set up, but the small helper program they start (misterdownloadmanager-nmhost) is gone
+#. a check of Test browser integration: the browsers are set up, but the small helper program they start (swoopdl-nmhost) is gone
 #, machine
 	The helper program the browsers start is missing	ब्राउझर सुरू करपी मदतगार प्रोग्राम मेळना
 #. message or event log entry in the main window
@@ -5229,7 +5229,7 @@
 #. Video helpers: the person's own gallery-dl is too old and not used; {version} = its version, {oldest} = the oldest Swoopdl can use
 #. {version} = a version number (keep the braces as they are)
 #, machine
-	Your own program ({version}) is too old: Swoopdl needs {oldest} or newer	तुमचो स्वताचो प्रोग्राम ({version}) खूब पोरनो आसा: MDM-क {oldest} वा ताचे परस नवो जाय पडटा
+	Your own program ({version}) is too old: Swoopdl needs {oldest} or newer	तुमचो स्वताचो प्रोग्राम ({version}) खूब पोरनो आसा: SDL-क {oldest} वा ताचे परस नवो जाय पडटा
 #. text in helpers.rs
 #. Video helpers: {path} = the program the person chose, {version} = its version
 #. {version} = a version number (keep the braces as they are)
@@ -5419,7 +5419,7 @@
 #. error: a program chosen as a helper is too old; {name} = gallery-dl, {version} = its version, {oldest} = the oldest one Swoopdl can use
 #. {name} = a file name; {version} = a version number (keep the braces as they are)
 #, machine
-	{name} {version} is too old: Swoopdl needs {oldest} or newer	{name} {version} खूब पोरनो आसा: MDM-क {oldest} वा ताचे परस नवो जाय पडटा
+	{name} {version} is too old: Swoopdl needs {oldest} or newer	{name} {version} खूब पोरनो आसा: SDL-क {oldest} वा ताचे परस नवो जाय पडटा
 #. text in the Options window
 #. a number of connections the app learned by itself for a server
 #. {n} = a number (keep the braces as they are)
@@ -5768,9 +5768,9 @@ extension	Not reached. Open its address once in this browser and accept its cert
 #, machine
 extension	Open it	तें उगडात
 #. text in the browser extension
-#. help under the pairing boxes; Options, Remote and Pair a device are the app's window, tab and button; keep misterdownloadmanager-cli pair as it is
+#. help under the pairing boxes; Options, Remote and Pair a device are the app's window, tab and button; keep swoopdl-cli pair as it is
 #, machine
-extension	Open its address once and accept its certificate, then enter a code from its Options, Remote, Pair a device (or misterdownloadmanager-cli pair).	ताचो पत्तो एक फावट उगडून ताचें प्रमाणपत्र मान्य करात, मागीर ताच्या ऑप्शन्स, रिमोट, पेअर अ डिव्हाइस (वा misterdownloadmanager-cli pair) कडल्यान एक कोड घाला.
+extension	Open its address once and accept its certificate, then enter a code from its Options, Remote, Pair a device (or swoopdl-cli pair).	ताचो पत्तो एक फावट उगडून ताचें प्रमाणपत्र मान्य करात, मागीर ताच्या ऑप्शन्स, रिमोट, पेअर अ डिव्हाइस (वा swoopdl-cli pair) कडल्यान एक कोड घाला.
 #. text in the browser extension
 #. button in the toolbar button's popup; keep the name Swoopdl as it is
 #, machine

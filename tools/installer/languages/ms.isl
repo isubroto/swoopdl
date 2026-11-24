@@ -1,4 +1,4 @@
-﻿; Mister Download Manager's installer in Malay: tools/installer/languages.py
+﻿; Swoopdl's installer in Malay: tools/installer/languages.py
 ; (machine-translated; a native speaker may correct any line).
 
 [LangOptions]
@@ -291,8 +291,8 @@ ShutdownBlockReasonUninstallingApp=Menyahpasang %1.
 
 [CustomMessages]
 TaskBrowser=Sediakan integrasi &pelayar (Chrome, Edge, Brave, Firefox)
-TaskTorrents=Buka fail .&torrent dan pautan magnet dengan Mister Download Manager
-TaskStartup=Mula Mister Download Manager apabila &Windows bermula
+TaskTorrents=Buka fail .&torrent dan pautan magnet dengan Swoopdl
+TaskStartup=Mula Swoopdl apabila &Windows bermula
 TaskGroupOther=Lain-lain:
-Launch=Mula Mister Download Manager
+Launch=Mula Swoopdl
 KeepData=Padam juga senarai muat turun dan tetapan anda?%n%nFail yang dimuat turun tidak akan disentuh walau apa pun.

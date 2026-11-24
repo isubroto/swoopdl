@@ -186,7 +186,7 @@
 #. text in the Options window
 #. Options → Accounts: what these accounts are, and the services' rule against sharing
 #, machine
-	A debrid service downloads a file host's link with your own paid account and gives Swoopdl a direct link. Use only your own account: sharing an account or its links breaks the services' terms and can get it suspended. Downloads the browser already started stay as they are.	டீப்ரிட் சேவை, உங்கள் சொந்தக் கட்டணக் கணக்கைப் பயன்படுத்தி கோப்பு ஹோஸ்டின் இணைப்பிலிருந்து கோப்பைப் பதிவிறக்கி, MDM-க்கு நேரடி இணைப்பை வழங்குகிறது. உங்கள் சொந்தக் கணக்கை மட்டுமே பயன்படுத்தவும்: கணக்கையோ அதன் இணைப்புகளையோ பகிர்வது சேவைகளின் விதிமுறைகளை மீறும், மேலும் உங்கள் கணக்கு இடைநிறுத்தப்படலாம். உலாவி ஏற்கனவே தொடங்கிய பதிவிறக்கங்கள் அப்படியே இருக்கும்.
+	A debrid service downloads a file host's link with your own paid account and gives Swoopdl a direct link. Use only your own account: sharing an account or its links breaks the services' terms and can get it suspended. Downloads the browser already started stay as they are.	டீப்ரிட் சேவை, உங்கள் சொந்தக் கட்டணக் கணக்கைப் பயன்படுத்தி கோப்பு ஹோஸ்டின் இணைப்பிலிருந்து கோப்பைப் பதிவிறக்கி, SDL-க்கு நேரடி இணைப்பை வழங்குகிறது. உங்கள் சொந்தக் கணக்கை மட்டுமே பயன்படுத்தவும்: கணக்கையோ அதன் இணைப்புகளையோ பகிர்வது சேவைகளின் விதிமுறைகளை மீறும், மேலும் உங்கள் கணக்கு இடைநிறுத்தப்படலாம். உலாவி ஏற்கனவே தொடங்கிய பதிவிறக்கங்கள் அப்படியே இருக்கும்.
 #. text in errors.rs
 #. a torrent through a debrid service: one of its files has a name that would be written outside its folder; nothing was written. {name} the file's name as the service gave it
 #. {name} = a file name (keep the braces as they are)
@@ -1419,7 +1419,7 @@
 #. text in crashui.rs
 #. crash report window button: end the frozen Swoopdl and start it again
 #, machine
-	End and restart Swoopdl	MDM-ஐ முடித்து மீண்டும் தொடங்கு
+	End and restart Swoopdl	SDL-ஐ முடித்து மீண்டும் தொடங்கு
 #. text in the Add torrent window
 #, machine
 	Enter a magnet link or choose a .torrent file	ஒரு மேக்னட் இணைப்பை உள்ளிடவும் அல்லது .torrent கோப்பைத் தேர்ந்தெடுக்கவும்
@@ -2261,7 +2261,7 @@
 #. checkbox in the Options window
 #. Options → Remote check box (off by default)
 #, machine
-	Let phones and computers on the local network control Swoopdl	உள்ளூர் பிணையத்திலுள்ள தொலைபேசிகள் மற்றும் கணினிகள் MDM-ஐக் கட்டுப்படுத்த அனுமதிக்கவும்
+	Let phones and computers on the local network control Swoopdl	உள்ளூர் பிணையத்திலுள்ள தொலைபேசிகள் மற்றும் கணினிகள் SDL-ஐக் கட்டுப்படுத்த அனுமதிக்கவும்
 #. option (radio button) in the Batch download window
 #. the * in the address runs through letters
 #, machine
@@ -2479,7 +2479,7 @@
 #. text in the Options window
 #. Options → Remote → Pair a device: the remote control isn't listening (no network, port taken): the Remote page says why
 #, machine
-	Swoopdl can't be reached on the network now: Options → Remote says why.	MDM-ஐ இப்போது பிணையத்தில் அணுக முடியாது: விருப்பத்தேர்வுகள் → ரிமோட் ஏன் என்று கூறுகிறது.
+	Swoopdl can't be reached on the network now: Options → Remote says why.	SDL-ஐ இப்போது பிணையத்தில் அணுக முடியாது: விருப்பத்தேர்வுகள் → ரிமோட் ஏன் என்று கூறுகிறது.
 #. text in remote.rs
 #. remote control page (on a phone): the address typed isn't one Swoopdl downloads (not http, https, ftp or magnet)
 #, machine
@@ -2991,7 +2991,7 @@
 #. text in the Options window
 #. Options → Remote → Status: the remote control is off
 #, machine
-	Off: nothing on the network can reach Swoopdl.	ஆஃப்: பிணையத்தில் எதுவும் MDM-ஐ அடைய முடியாது.
+	Off: nothing on the network can reach Swoopdl.	ஆஃப்: பிணையத்தில் எதுவும் SDL-ஐ அடைய முடியாது.
 #. text in the Options window
 #, machine
 	Offer to download links copied to the clipboard	கிளிப்போர்டுக்கு நகலெடுக்கப்பட்ட இணைப்புகளைப் பதிவிறக்க வழங்கவும்
@@ -3067,7 +3067,7 @@
 #. text in the Options window
 #. Options → Remote, at the bottom of the page
 #, machine
-	Only paired devices see or change anything. The first time, the phone's browser warns about Swoopdl's own certificate: its fingerprint is the one above.	இணைக்கப்பட்ட சாதனங்கள் மட்டுமே எதையும் பார்க்கவோ அல்லது மாற்றவோ முடியும். முதல் முறையாக, தொலைபேசியின் உலாவி MDM-இன் சொந்தச் சான்றிதழ் பற்றி எச்சரிக்கும்: அதன் கைரேகை மேலே உள்ளதாகும்.
+	Only paired devices see or change anything. The first time, the phone's browser warns about Swoopdl's own certificate: its fingerprint is the one above.	இணைக்கப்பட்ட சாதனங்கள் மட்டுமே எதையும் பார்க்கவோ அல்லது மாற்றவோ முடியும். முதல் முறையாக, தொலைபேசியின் உலாவி SDL-இன் சொந்தச் சான்றிதழ் பற்றி எச்சரிக்கும்: அதன் கைரேகை மேலே உள்ளதாகும்.
 #. text in playlistdlg.rs
 #. in Download video, a list longer than Swoopdl lists: only its first {n} videos are shown
 #. {n} = a number (keep the braces as they are)
@@ -3478,7 +3478,7 @@
 #. text in crashui.rs
 #. crash report window button: start Swoopdl again
 #, machine
-	Restart Swoopdl	MDM-ஐ மீண்டும் தொடங்கவும்
+	Restart Swoopdl	SDL-ஐ மீண்டும் தொடங்கவும்
 #. button in the Options window; text in the Options window
 #, machine
 	Restore the built-in categories	உள்ளமைக்கப்பட்ட வகைகளை மீட்டமைக்கவும்
@@ -4114,7 +4114,7 @@
 	Sunday	ஞாயிறு
 #. link (opens a web page) in the Help menu's windows (About, updates, shortcuts, Tell a friend)
 #, machine
-	Support Swoopdl on GitHub Sponsors	GitHub Sponsors-இல் MDM-ஐ ஆதரியுங்கள்
+	Support Swoopdl on GitHub Sponsors	GitHub Sponsors-இல் SDL-ஐ ஆதரியுங்கள்
 #. text in countries.rs
 #. a country's name (where a download's server is)
 #, machine
@@ -4376,7 +4376,7 @@
 #, machine
 	the FTP server answered {code} {reply}	FTP சேவையகம் {code} {reply} எனப் பதிலளித்தது
 #. text in extension.rs
-#. a check of Test browser integration: the browsers are set up, but the small helper program they start (misterdownloadmanager-nmhost) is gone
+#. a check of Test browser integration: the browsers are set up, but the small helper program they start (swoopdl-nmhost) is gone
 #, machine
 	The helper program the browsers start is missing	உலாவி தொடங்கும் உதவி நிரல் இல்லை
 #. message or event log entry in the main window
@@ -4846,7 +4846,7 @@
 #. Options → Add an account: waiting while the user types the code at the service's page; {page} its address, {time} minutes:seconds left
 #. {time} = a time of day (keep the braces as they are)
 #, machine
-	Type this code at {page} and allow Swoopdl; waiting for you (the code expires in {time}).	{page} இல் இந்த குறியீட்டை உள்ளிட்டு MDM-ஐ அனுமதிக்கவும்; உங்களுக்காக காத்திருக்கிறது (குறியீடு {time} இல் காலாவதியாகிறது).
+	Type this code at {page} and allow Swoopdl; waiting for you (the code expires in {time}).	{page} இல் இந்த குறியீட்டை உள்ளிட்டு SDL-ஐ அனுமதிக்கவும்; உங்களுக்காக காத்திருக்கிறது (குறியீடு {time} இல் காலாவதியாகிறது).
 #. tooltip (why a control is greyed) in the Find window
 #. tooltip of the greyed Find button
 #, machine
@@ -5229,7 +5229,7 @@
 #. Video helpers: the person's own gallery-dl is too old and not used; {version} = its version, {oldest} = the oldest Swoopdl can use
 #. {version} = a version number (keep the braces as they are)
 #, machine
-	Your own program ({version}) is too old: Swoopdl needs {oldest} or newer	உங்கள் சொந்த நிரல் ({version}) மிகவும் பழையது: MDM-க்கு {oldest} அல்லது புதியது தேவை
+	Your own program ({version}) is too old: Swoopdl needs {oldest} or newer	உங்கள் சொந்த நிரல் ({version}) மிகவும் பழையது: SDL-க்கு {oldest} அல்லது புதியது தேவை
 #. text in helpers.rs
 #. Video helpers: {path} = the program the person chose, {version} = its version
 #. {version} = a version number (keep the braces as they are)
@@ -5419,7 +5419,7 @@
 #. error: a program chosen as a helper is too old; {name} = gallery-dl, {version} = its version, {oldest} = the oldest one Swoopdl can use
 #. {name} = a file name; {version} = a version number (keep the braces as they are)
 #, machine
-	{name} {version} is too old: Swoopdl needs {oldest} or newer	{name} {version} மிகவும் பழையது: MDM-க்கு {oldest} அல்லது புதியது தேவை
+	{name} {version} is too old: Swoopdl needs {oldest} or newer	{name} {version} மிகவும் பழையது: SDL-க்கு {oldest} அல்லது புதியது தேவை
 #. text in the Options window
 #. a number of connections the app learned by itself for a server
 #. {n} = a number (keep the braces as they are)
@@ -5768,9 +5768,9 @@ extension	Not reached. Open its address once in this browser and accept its cert
 #, machine
 extension	Open it	திறக்கவும்
 #. text in the browser extension
-#. help under the pairing boxes; Options, Remote and Pair a device are the app's window, tab and button; keep misterdownloadmanager-cli pair as it is
+#. help under the pairing boxes; Options, Remote and Pair a device are the app's window, tab and button; keep swoopdl-cli pair as it is
 #, machine
-extension	Open its address once and accept its certificate, then enter a code from its Options, Remote, Pair a device (or misterdownloadmanager-cli pair).	அதன் முகவரியை ஒருமுறை திறந்து அதன் சான்றிதழை ஏற்றுக்கொண்டு, அதன் விருப்பத்தேர்வுகள், ரிமோட், சாதனத்தை இணை (அல்லது misterdownloadmanager-cli pair) என்பதிலிருந்து ஒரு குறியீட்டை உள்ளிடவும்.
+extension	Open its address once and accept its certificate, then enter a code from its Options, Remote, Pair a device (or swoopdl-cli pair).	அதன் முகவரியை ஒருமுறை திறந்து அதன் சான்றிதழை ஏற்றுக்கொண்டு, அதன் விருப்பத்தேர்வுகள், ரிமோட், சாதனத்தை இணை (அல்லது swoopdl-cli pair) என்பதிலிருந்து ஒரு குறியீட்டை உள்ளிடவும்.
 #. text in the browser extension
 #. button in the toolbar button's popup; keep the name Swoopdl as it is
 #, machine
@@ -5819,7 +5819,7 @@ extension	Sent to Swoopdl	Swoopdlக்கு அனுப்பப்பட்�
 #. text in the browser extension
 #. link at the foot of the toolbar button's popup to the creator's GitHub Sponsors page (Swoopdl is free; this is an optional donation)
 #, machine
-extension	Support Swoopdl	MDM-ஐ ஆதரிக்கவும்
+extension	Support Swoopdl	SDL-ஐ ஆதரிக்கவும்
 #. text in the browser extension
 #. check box in the toolbar button's popup: on, downloads go to the app; off, the browser keeps them
 #, machine
@@ -6476,7 +6476,7 @@ menu	Stop Download	பதிவிறக்கத்தை நிறுத்த
 #. menu command in the main window
 #. & marks the keyboard shortcut letter: keep one & before a letter of the translation
 #, machine
-menu	Support &Swoopdl	MDM-ஐ ஆ&தரிக்கவும்
+menu	Support &Swoopdl	SDL-ஐ ஆ&தரிக்கவும்
 #. menu command in the main window
 #. & marks the keyboard shortcut letter: keep one & before a letter of the translation
 #, machine

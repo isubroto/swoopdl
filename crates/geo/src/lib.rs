@@ -107,7 +107,7 @@ fn load() -> Option<Table> {
     lzma_rust2::XzReader::new(TABLE, false)
         .read_to_end(&mut data)
         .ok()?;
-    if data.get(..7)? != b"MDMGEO\x01" {
+    if data.get(..7)? != b"SDLGEO\x01" {
         return None;
     }
     let n = *data.get(7)? as usize;

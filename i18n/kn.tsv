@@ -4376,7 +4376,7 @@
 #, machine
 	the FTP server answered {code} {reply}	FTP ಸರ್ವರ್ {code} {reply} ಎಂದು ಉತ್ತರಿಸಿದೆ
 #. text in extension.rs
-#. a check of Test browser integration: the browsers are set up, but the small helper program they start (misterdownloadmanager-nmhost) is gone
+#. a check of Test browser integration: the browsers are set up, but the small helper program they start (swoopdl-nmhost) is gone
 #, machine
 	The helper program the browsers start is missing	ಬ್ರೌಸರ್‌ಗಳು ಪ್ರಾರಂಭಿಸುವ ಸಹಾಯಕ ಪ್ರೋಗ್ರಾಂ ಕಾಣೆಯಾಗಿದೆ
 #. message or event log entry in the main window
@@ -5768,9 +5768,9 @@ extension	Not reached. Open its address once in this browser and accept its cert
 #, machine
 extension	Open it	ಅದನ್ನು ತೆರೆಯಿರಿ
 #. text in the browser extension
-#. help under the pairing boxes; Options, Remote and Pair a device are the app's window, tab and button; keep misterdownloadmanager-cli pair as it is
+#. help under the pairing boxes; Options, Remote and Pair a device are the app's window, tab and button; keep swoopdl-cli pair as it is
 #, machine
-extension	Open its address once and accept its certificate, then enter a code from its Options, Remote, Pair a device (or misterdownloadmanager-cli pair).	ಅದರ ವಿಳಾಸವನ್ನು ಒಮ್ಮೆ ತೆರೆಯಿರಿ ಮತ್ತು ಅದರ ಪ್ರಮಾಣಪತ್ರವನ್ನು ಸ್ವೀಕರಿಸಿ, ನಂತರ ಅದರ ಆಯ್ಕೆಗಳು, ರಿಮೋಟ್, ಸಾಧನವನ್ನು ಜೋಡಿಸಿ (ಅಥವಾ misterdownloadmanager-cli pair) ನಿಂದ ಕೋಡ್ ಅನ್ನು ನಮೂದಿಸಿ.
+extension	Open its address once and accept its certificate, then enter a code from its Options, Remote, Pair a device (or swoopdl-cli pair).	ಅದರ ವಿಳಾಸವನ್ನು ಒಮ್ಮೆ ತೆರೆಯಿರಿ ಮತ್ತು ಅದರ ಪ್ರಮಾಣಪತ್ರವನ್ನು ಸ್ವೀಕರಿಸಿ, ನಂತರ ಅದರ ಆಯ್ಕೆಗಳು, ರಿಮೋಟ್, ಸಾಧನವನ್ನು ಜೋಡಿಸಿ (ಅಥವಾ swoopdl-cli pair) ನಿಂದ ಕೋಡ್ ಅನ್ನು ನಮೂದಿಸಿ.
 #. text in the browser extension
 #. button in the toolbar button's popup; keep the name Swoopdl as it is
 #, machine

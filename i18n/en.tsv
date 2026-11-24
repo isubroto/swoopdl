@@ -194,6 +194,8 @@
 #. text in the Options window
 #. tab title: the user's debrid service accounts (Real-Debrid…)
 	Accounts	Accounts
+#. text in the Options window
+	Accounts are checked in list order. Select one to remove or change its priority.	Accounts are checked in list order. Select one to remove or change its priority.
 #. text in remote.rs
 #. remote control page (on a phone): button: add the download
 	Add	Add
@@ -205,7 +207,7 @@
 #. title of the file dialog of View → Theme → Add a theme file
 #. title of the message when View → Theme → Add a theme file fails
 	Add a theme file	Add a theme file
-#. window title in the Options window
+#. window title in the Options window; text in the Options window
 #. window title: adding a debrid service account (Real-Debrid…)
 	Add an account	Add an account
 #. text in the tray icon's menu
@@ -271,7 +273,7 @@
 #. text in remote.rs
 #. remote control page (on a phone): a magnet link or .torrent file was added; SDL reads the torrent's files first
 	Added. SDL is reading the torrent: it joins the list in a moment.	Added. SDL is reading the torrent: it joins the list in a moment.
-#. text in the Batch download window; text in a dialog box; label in the Options window; text in a download's progress window
+#. text in the Batch download window; text in a dialog box; text in the Options window; label in the Options window; text in a download's progress window
 #. noun: the web address (URL)
 #. column title: the web address (URL)
 	Address	Address
@@ -389,11 +391,11 @@
 #. what a screen reader calls the Archive password window's box
 #. what a screen reader calls Link grabber's password box
 	Archive password	Archive password
-#. group box title in the Options window; text in the Options window
+#. text in the Options window; group box title in the Options window
 #. Options → Archives: group box title
 #. tab title: extracting downloaded archives, and Link grabber
 	Archives	Archives
-#. text in the Options window
+#. page title in the Options window; text in the Options window
 #. Options page title: extracting downloaded archives, and Link grabber
 	Archives and Link grabber	Archives and Link grabber
 #. text in a dialog box
@@ -445,6 +447,8 @@
 #. text in remote.rs
 #. remote control page (on a phone): category choice: the category follows the file's type
 	Automatic (by file type)	Automatic (by file type)
+#. text in the Options window
+	Automatic configuration script	Automatic configuration script
 #. text in the Options window
 #. {category} = a category name such as "Music" (keep the braces as they are)
 	Automatically put in "{category}" category the following file types:	Automatically put in "{category}" category the following file types:
@@ -526,6 +530,8 @@
 	Browser download controls	Browser download controls
 #. text in extension.rs
 	Browser integration isn't set up on this computer, so no browser can reach Swoopdl yet.	Browser integration isn't set up on this computer, so no browser can reach Swoopdl yet.
+#. text in the Options window
+	Browser proxy and system settings	Browser proxy and system settings
 #. text in countries.rs
 #. a country's name (where a download's server is)
 	Brunei	Brunei
@@ -611,6 +617,8 @@
 #. text in the Options window
 #. {category} = a category name such as "Music" (keep the braces as they are)
 	Change folder for "{category}" category on last selected	Change folder for "{category}" category on last selected
+#. text in the Options window
+	Changes are saved when you select OK	Changes are saved when you select OK
 #. text in the Link grabber window
 #. Link grabber button (IDM's): tick every link
 	Check all	Check all
@@ -751,7 +759,7 @@
 #. text in countries.rs
 #. a country's name (where a download's server is)
 	Cook Islands	Cook Islands
-#. group box title in the Options window
+#. text in the Options window; group box title in the Options window
 #. Options → Sites Logins: group box title: yt-dlp signs in to video sites with a browser's cookies
 	Cookies for video sites	Cookies for video sites
 #. text in the Help menu's windows (About, updates, shortcuts, Tell a friend)
@@ -813,7 +821,7 @@
 #. text in the Options window
 #. a date's order: day first (30/10/2026)
 	Day, month, year	Day, month, year
-#. page title in the Options window
+#. page title in the Options window; text in the Options window
 	Debrid service accounts	Debrid service accounts
 #. text in the Scheduler window
 	December	December
@@ -963,6 +971,10 @@
 #. checkbox in the Options window
 #. Options → Accounts: checkbox: links of the file hosts these services support are downloaded through the accounts
 	Download supported file-host links through these accounts	Download supported file-host links through these accounts
+#. text in a download's progress window
+	Download telemetry	Download telemetry
+#. text in the Options window
+	Download through accounts	Download through accounts
 #. text in a dialog box
 #. Download File Info: a check box, ticked when the download goes through the user's debrid account; {service} the service and the account, "Real-Debrid (labuser)". Unticked: downloaded directly
 	Download through {service}	Download through {service}
@@ -1495,7 +1507,7 @@
 	If a duplicate download link is added:	If a duplicate download link is added:
 #. text in the Options window
 	If existing file is complete, show download complete dialog; otherwise resume it.	If existing file is complete, show download complete dialog; otherwise resume it.
-#. text in the Options window
+#. checkbox in the Options window; text in the Options window
 #. Options → DNS settings: checkbox: when the chosen DNS can't be reached, use the system's instead
 	If it can't be reached, use the system's DNS	If it can't be reached, use the system's DNS
 #. checkbox in the Options window
@@ -1518,6 +1530,8 @@
 #. text in countries.rs
 #. a country's name (where a download's server is)
 	India	India
+#. text in a download's progress window
+	Individual connection statistics are unavailable for this download.	Individual connection statistics are unavailable for this download.
 #. text in countries.rs
 #. a country's name (where a download's server is)
 	Indonesia	Indonesia
@@ -1645,6 +1659,8 @@
 #. text in the Add torrent window
 #. Add trackers: under the box
 	Kept with the torrent, after the trackers it has.	Kept with the torrent, after the trackers it has.
+#. text in the Options window
+	Keyboard controls	Keyboard controls
 #. window title in the Help menu's windows (About, updates, shortcuts, Tell a friend)
 	Keyboard shortcuts	Keyboard shortcuts
 #. window title in the Options window
@@ -1725,7 +1741,7 @@
 #. text in the Add torrent window
 #. Torrent settings: an upload speed limit for all torrents together, followed by a box with the speed and "KBytes/sec"
 	Limit uploading for all torrents to	Limit uploading for all torrents to
-#. window title in the Link grabber window; text in the Link grabber window; group box title in the Options window
+#. window title in the Link grabber window; text in the Link grabber window; text in the Options window; group box title in the Options window
 #. Options → Archives: group box title
 	Link grabber	Link grabber
 #. text in the Link grabber window
@@ -1822,6 +1838,8 @@
 	Malta	Malta
 #. message or event log entry in the main window
 	Manage downloaded files, queues and transfers	Manage downloaded files, queues and transfers
+#. text in a download's progress window
+	Managed by	Managed by
 #. text in the Options window
 	Manual proxy/socks configuration	Manual proxy/socks configuration
 #. checkbox in the Add torrent window
@@ -1845,7 +1863,7 @@
 #. text in countries.rs
 #. a country's name (where a download's server is)
 	Mauritius	Mauritius
-#. group box title in the Options window
+#. group box title in the Options window; text in the Options window
 	Max. connections number	Max. connections number
 #. text in standard windows
 #. a window's title-bar button: makes the window fill the screen
@@ -1956,7 +1974,7 @@
 #. text in rssdlg.rs
 #. RSS feeds window, Download rules: words that make the rule skip an article
 	Must not contain:	Must not contain:
-#. option (radio button) in the Options window
+#. option (radio button) in the Options window; text in the Options window
 	My own way:	My own way:
 #. text in countries.rs
 #. a country's name (where a download's server is)
@@ -1992,6 +2010,8 @@
 #. text in countries.rs
 #. a country's name (where a download's server is)
 	Netherlands	Netherlands
+#. text in the Options window
+	Network adapter	Network adapter
 #. text in the Options window
 	Network adapter:	Network adapter:
 #. text in errors.rs
@@ -2032,6 +2052,9 @@
 	Niue	Niue
 #. button in a dialog box; text in a download's progress window
 	No	No
+#. message or event log entry in the main window
+#. the status strip when no transfer is currently running.
+	No active transfers	No active transfers
 #. text in a dialog box
 	No addresses yet	No addresses yet
 #. text in extension.rs
@@ -2333,7 +2356,7 @@
 #. text in countries.rs
 #. a country's name (where a download's server is)
 	Paraguay	Paraguay
-#. text in the Batch download window; text in a dialog box; label in the Options window; text in the Options window; text in a download's Properties window
+#. text in the Batch download window; text in a dialog box; text in the Options window; label in the Options window; text in a download's Properties window
 	Password	Password
 #. text in the Link grabber window; text in the Options window
 #. Link grabber: the package's archives' password (a label before its box)
@@ -2393,7 +2416,7 @@
 #. text in countries.rs
 #. a country's name (where a download's server is)
 	Poland	Poland
-#. label in the Options window
+#. text in the Options window; label in the Options window
 	Port	Port
 #. text in the Options window
 #. Options → Remote → Status: another program uses the port; {port} = its number
@@ -2431,10 +2454,12 @@
 	Proxy / Socks	Proxy / Socks
 #. page title in the Options window
 	Proxy / socks configuration	Proxy / socks configuration
+#. text in the Options window
+	Proxy mode	Proxy mode
 #. text in the settings
 #. the proxy's password in the system's keychain (Credential Manager, the keyring): its name there, followed by the proxy's address
 	proxy server	proxy server
-#. label in the Options window
+#. text in the Options window; label in the Options window
 	Proxy server address	Proxy server address
 #. text in countries.rs
 #. a country's name (where a download's server is)
@@ -2520,6 +2545,8 @@
 #. tab title: control SDL from a phone or another computer on the local network
 	Remote	Remote
 #. text in the Options window
+	Remote connection	Remote connection
+#. page title in the Options window; text in the Options window
 #. Options page title: control SDL from a phone or another computer on the local network
 	Remote control	Remote control
 #. button in the Options window; text in remote.rs; button in rssdlg.rs
@@ -2626,7 +2653,7 @@
 #. text in gallerydlg.rs; text in the Options window; text in the Add torrent window; text in the Download video window
 #. tab title: where downloads are saved
 	Save to	Save to
-#. group box title in the Options window
+#. group box title in the Options window; text in the Options window
 #. the trailing ... means it is still going on: keep it
 	Save To...	Save To...
 #. text in a download's progress window; text in a download's Properties window
@@ -2638,6 +2665,8 @@
 #. text in a download's progress window
 #. label before the folder the torrent is saved in
 	Saved in	Saved in
+#. text in the Options window
+	Saved site logins	Saved site logins
 #. tab in the Scheduler window
 #. noun: tab title; when the queue starts and stops
 	Schedule	Schedule
@@ -2671,6 +2700,8 @@
 	Search:	Search:
 #. text in the Batch download window
 	Second file:	Second file:
+#. text in the Options window
+	Security and service limitations	Security and service limitations
 #. text in a dialog box
 #. title of the folder picker
 	Select a folder	Select a folder
@@ -2679,6 +2710,8 @@
 	Select all	Select all
 #. what a keyboard shortcut does in the Help menu's windows (About, updates, shortcuts, Tell a friend)
 	Select all downloads	Select all downloads
+#. text in the Options window
+	Select an event to browse for its sound or play the currently assigned file.	Select an event to browse for its sound or play the currently assigned file.
 #. what a keyboard shortcut does in the Help menu's windows (About, updates, shortcuts, Tell a friend)
 	Select every download up to this one	Select every download up to this one
 #. button in playlistdlg.rs; button in the Add torrent window
@@ -2688,7 +2721,7 @@
 	Select or unselect one more download	Select or unselect one more download
 #. what a keyboard shortcut does in the Help menu's windows (About, updates, shortcuts, Tell a friend)
 	Select or unselect the download with the dotted outline	Select or unselect the download with the dotted outline
-#. group box title in the Options window
+#. text in the Options window; group box title in the Options window
 	Select sounds for Swoopdl events	Select sounds for Swoopdl events
 #. what a keyboard shortcut does in the Help menu's windows (About, updates, shortcuts, Tell a friend)
 	Select the downloads in the box	Select the downloads in the box
@@ -2705,7 +2738,7 @@
 	Send on GitHub	Send on GitHub
 #. text in the Help menu's windows (About, updates, shortcuts, Tell a friend)
 	Send this to a friend:	Send this to a friend:
-#. text in the Options window
+#. checkbox in the Options window; text in the Options window
 #. Options → Accounts: checkbox: magnet links and .torrent files go to the first account's service, which downloads them; SDL then downloads the files from it (no connections to peers)
 	Send torrents and magnet links to the first account instead of to peers	Send torrents and magnet links to the first account instead of to peers
 #. text in countries.rs
@@ -2908,6 +2941,8 @@
 #. text in countries.rs
 #. a country's name (where a download's server is)
 	South Sudan	South Sudan
+#. text in the Options window
+	Space toggles an event; Enter or double-click selects a WAV file; Delete clears the selected sound.	Space toggles an event; Enter or double-click selects a WAV file; Delete clears the selected sound.
 #. text in countries.rs
 #. a country's name (where a download's server is)
 	Spain	Spain
@@ -2965,7 +3000,7 @@
 #. text in the Options window
 #. column title: the account's state (premium, days left)
 	State	State
-#. text in the Link grabber window; group box title in the Options window; text in a download's progress window; text in the Scheduler window
+#. text in the Link grabber window; text in the Options window; group box title in the Options window; text in a download's progress window; text in the Scheduler window
 #. noun: label before the download's state
 #. column title: the download's state
 	Status	Status
@@ -3109,7 +3144,7 @@
 	Tasks → Link grabber, or the browser's "Download all links": a split\narchive's volumes are one package, the other links of a page another.	Tasks → Link grabber, or the browser's "Download all links": a split\narchive's volumes are one package, the other links of a page another.
 #. window title in the Help menu's windows (About, updates, shortcuts, Tell a friend)
 	Tell a friend	Tell a friend
-#. group box title in the Options window
+#. group box title in the Options window; text in the Options window
 	Temporary directory	Temporary directory
 #. button in the Options window
 #. button: asks the chosen DNS for an address, to see it works
@@ -3725,7 +3760,7 @@
 	User-Agent for manually added downloads:	User-Agent for manually added downloads:
 #. text in the Options window
 	User:	User:
-#. label in the Options window
+#. text in the Options window; label in the Options window
 	UserName	UserName
 #. text in countries.rs
 #. a country's name (where a download's server is)
@@ -3793,6 +3828,8 @@
 #. a download's status (state it is in, not a command): waiting in a queue for its turn
 #. a download's status (state it is in, not a command): waiting in a queue
 	Waiting	Waiting
+#. text in a download's progress window
+	Waiting for connection information	Waiting for connection information
 #. text in the Options window
 #. Options → Remote → Pair a device: how long the code stays valid; {time} = minutes:seconds ("9:58")
 #. {time} = a time of day (keep the braces as they are)
@@ -3853,7 +3890,7 @@
 #. text in rssdlg.rs
 #. RSS feeds window, Download rules: under the boxes; | separates alternatives, * and ? are wildcards, 1x2 is season 1 episode 2
 	Words: all of them; | between alternatives; * and ?. Episodes: 1x2;1x5-8;2x1-. Each episode once.	Words: all of them; | between alternatives; * and ?. Episodes: 1x2;1x5-8;2x1-. Each episode once.
-#. group box title in the Options window
+#. text in the Options window; group box title in the Options window
 	Write dates and times	Write dates and times
 #. text in remote.rs
 #. remote control page (on a phone): pairing failed and the code is void now
@@ -4716,6 +4753,8 @@ menu	Its first frame didn't show within 10 seconds	Its first frame didn't show w
 #. menu command in the main window
 #. View → Draw with: a greyed note under "… didn't start here"; why: SDL crashed or was closed while starting with it
 menu	Its last start ended before its first frame	Its last start ended before its first frame
+#. menu command in the main window
+menu	Mac	Mac
 #. menu command in the main window
 #. View → Draw with: a graphics system's name (Apple's), usually kept as is
 menu	Metal	Metal

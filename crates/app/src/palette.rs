@@ -933,7 +933,7 @@ mod tests {
         assert_eq!(fluent.icon_set.as_deref(), Some("metro"));
         assert_eq!(fluent.controls.button, ButtonLook::Fluent);
         assert_eq!(fluent.controls.scroll, ScrollLook::Overlay);
-        assert_eq!(fluent.metrics.list_row, 43.0);
+        assert_eq!(fluent.metrics.list_row, 40.0);
         let mac = builtins()[10];
         assert_eq!(mac.id, "mac");
         assert_eq!(mac.name, "Mac");
@@ -994,10 +994,7 @@ mod tests {
         ] {
             let t = builtins()[i];
             assert_eq!(t.id, id);
-            assert_eq!(
-                t.icon_set.as_deref(),
-                Some(if id == "aqua" { "metro" } else { id })
-            );
+            assert_eq!(t.icon_set.as_deref(), Some(id));
             assert_eq!(t.controls.button, button, "{id}");
             assert_eq!(t.controls.check, check, "{id}");
             assert_eq!(t.controls.progress, progress, "{id}");

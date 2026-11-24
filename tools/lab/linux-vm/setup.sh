@@ -20,7 +20,7 @@ while [ $# -gt 0 ]; do
   shift
 done
 
-repo_url=https://github.com/anefzaoui/misterdownloadmanager.git
+repo_url=https://github.com/isubroto/swoopdl.git
 checkout="$HOME/sdl"
 # sudo_ takes the password from SDL_SUDO_PASSWORD when set (through stdin, so never pipe into it).
 sudo_() { if [ -n "${SDL_SUDO_PASSWORD:-}" ]; then echo "$SDL_SUDO_PASSWORD" | sudo -S -p '' "$@"; else sudo "$@"; fi; }

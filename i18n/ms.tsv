@@ -4376,7 +4376,7 @@
 #, machine
 	the FTP server answered {code} {reply}	pelayan FTP menjawab {code} {reply}
 #. text in extension.rs
-#. a check of Test browser integration: the browsers are set up, but the small helper program they start (misterdownloadmanager-nmhost) is gone
+#. a check of Test browser integration: the browsers are set up, but the small helper program they start (swoopdl-nmhost) is gone
 #, machine
 	The helper program the browsers start is missing	Program pembantu yang dimulakan oleh pelayar tiada
 #. message or event log entry in the main window
@@ -5757,9 +5757,9 @@ extension	Not reached. Open its address once in this browser and accept its cert
 #, machine
 extension	Open it	Buka
 #. text in the browser extension
-#. help under the pairing boxes; Options, Remote and Pair a device are the app's window, tab and button; keep misterdownloadmanager-cli pair as it is
+#. help under the pairing boxes; Options, Remote and Pair a device are the app's window, tab and button; keep swoopdl-cli pair as it is
 #, machine
-extension	Open its address once and accept its certificate, then enter a code from its Options, Remote, Pair a device (or misterdownloadmanager-cli pair).	Buka alamatnya sekali dan terima sijilnya, kemudian masukkan kod dari Pilihannya, Jauh, Pasangkan peranti (atau misterdownloadmanager-cli pair).
+extension	Open its address once and accept its certificate, then enter a code from its Options, Remote, Pair a device (or swoopdl-cli pair).	Buka alamatnya sekali dan terima sijilnya, kemudian masukkan kod dari Pilihannya, Jauh, Pasangkan peranti (atau swoopdl-cli pair).
 #. text in the browser extension
 #. button in the toolbar button's popup; keep the name Swoopdl as it is
 #, machine

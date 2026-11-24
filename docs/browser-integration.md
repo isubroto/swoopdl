@@ -206,8 +206,6 @@ If SDL can't be reached when you choose one of these, the help page opens at the
 
 ## The download button over videos
 
-![The Download video button over a YouTube video in Chrome](images/help/video-button.webp)
-*The button over a video. Drag it where you like; it stays there.*
 
 Point at a video on a web page and a small **Download video** button appears at its edge. Click it and SDL's **Download video from a page** window opens and looks up the qualities it can download. It takes the video you clicked: its own file when it plays one, or the stream the player loaded (HLS or DASH), else the page. When the button can't tell which one you mean, the toolbar button's [Media on this page](#media-on-this-page) lists them all. Embedded players work too, and your sign-in for the site, the page that embeds the player and your browser's User-Agent go with it, so videos for members, or that play only on the site that embeds them, can be downloaded. Sound players get the button too.
 

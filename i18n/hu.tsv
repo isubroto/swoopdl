@@ -186,7 +186,7 @@
 #. text in the Options window
 #. Options → Accounts: what these accounts are, and the services' rule against sharing
 #, machine
-	A debrid service downloads a file host's link with your own paid account and gives Swoopdl a direct link. Use only your own account: sharing an account or its links breaks the services' terms and can get it suspended. Downloads the browser already started stay as they are.	A debrid szolgáltatás letölti egy fájlmegosztó linkjét a saját fizetős fiókjával, és közvetlen linket ad az MDM-nek. Csak a saját fiókját használja: a fiók vagy a linkek megosztása sérti a szolgáltatások feltételeit, és felfüggesztéshez vezethet. A böngésző által már elindított letöltések változatlanok maradnak.
+	A debrid service downloads a file host's link with your own paid account and gives Swoopdl a direct link. Use only your own account: sharing an account or its links breaks the services' terms and can get it suspended. Downloads the browser already started stay as they are.	A debrid szolgáltatás letölti egy fájlmegosztó linkjét a saját fizetős fiókjával, és közvetlen linket ad az SDL-nek. Csak a saját fiókját használja: a fiók vagy a linkek megosztása sérti a szolgáltatások feltételeit, és felfüggesztéshez vezethet. A böngésző által már elindított letöltések változatlanok maradnak.
 #. text in errors.rs
 #. a torrent through a debrid service: one of its files has a name that would be written outside its folder; nothing was written. {name} the file's name as the service gave it
 #. {name} = a file name (keep the braces as they are)
@@ -1038,7 +1038,7 @@
 	Customize "Download progress" dialog	„Letöltési folyamat” párbeszédpanel testreszabása
 #. text in the Options window
 #, machine
-	Customize keys to prevent or force downloading with Swoopdl	A letöltés megakadályozására vagy az MDM-mel történő letöltés kényszerítésére szolgáló billentyűk testreszabása
+	Customize keys to prevent or force downloading with Swoopdl	A letöltés megakadályozására vagy az SDL-mel történő letöltés kényszerítésére szolgáló billentyűk testreszabása
 #. text in the Options window
 #, machine
 	Customize Swoopdl Download panels in browsers	Az Swoopdl letöltési paneljeinek testreszabása a böngészőkben
@@ -2991,7 +2991,7 @@
 #. text in the Options window
 #. Options → Remote → Status: the remote control is off
 #, machine
-	Off: nothing on the network can reach Swoopdl.	Ki: semmi a hálózaton nem érheti el az MDM-et.
+	Off: nothing on the network can reach Swoopdl.	Ki: semmi a hálózaton nem érheti el az SDL-et.
 #. text in the Options window
 #, machine
 	Offer to download links copied to the clipboard	Felajánlja a vágólapra másolt hivatkozások letöltését
@@ -4114,7 +4114,7 @@
 	Sunday	vasárnap
 #. link (opens a web page) in the Help menu's windows (About, updates, shortcuts, Tell a friend)
 #, machine
-	Support Swoopdl on GitHub Sponsors	Támogassa az MDM-et a GitHub Sponsors oldalon
+	Support Swoopdl on GitHub Sponsors	Támogassa az SDL-et a GitHub Sponsors oldalon
 #. text in countries.rs
 #. a country's name (where a download's server is)
 #, machine
@@ -4376,7 +4376,7 @@
 #, machine
 	the FTP server answered {code} {reply}	az FTP-kiszolgáló válasza: {code} {reply}
 #. text in extension.rs
-#. a check of Test browser integration: the browsers are set up, but the small helper program they start (misterdownloadmanager-nmhost) is gone
+#. a check of Test browser integration: the browsers are set up, but the small helper program they start (swoopdl-nmhost) is gone
 #, machine
 	The helper program the browsers start is missing	Hiányzik a böngészők által indított segédprogram
 #. message or event log entry in the main window
@@ -4846,7 +4846,7 @@
 #. Options → Add an account: waiting while the user types the code at the service's page; {page} its address, {time} minutes:seconds left
 #. {time} = a time of day (keep the braces as they are)
 #, machine
-	Type this code at {page} and allow Swoopdl; waiting for you (the code expires in {time}).	Írja be ezt a kódot a {page} oldalon, és engedélyezze az MDM-et; várakozás (a kód {time} múlva lejár).
+	Type this code at {page} and allow Swoopdl; waiting for you (the code expires in {time}).	Írja be ezt a kódot a {page} oldalon, és engedélyezze az SDL-et; várakozás (a kód {time} múlva lejár).
 #. tooltip (why a control is greyed) in the Find window
 #. tooltip of the greyed Find button
 #, machine
@@ -5171,7 +5171,7 @@
 #. text in remote.rs
 #. remote control page (on a phone): pairing failed and the code is void now
 #, machine
-	Wrong code. Show a new code in Swoopdl and try again.	Hibás kód. Mutasson új kódot az MDM-ben, és próbálja újra.
+	Wrong code. Show a new code in Swoopdl and try again.	Hibás kód. Mutasson új kódot az SDL-ben, és próbálja újra.
 #. text in remote.rs
 #. remote control page (on a phone): pairing failed; {n} = how many more codes may be tried
 #. {n} = a number (keep the braces as they are)
@@ -5229,7 +5229,7 @@
 #. Video helpers: the person's own gallery-dl is too old and not used; {version} = its version, {oldest} = the oldest Swoopdl can use
 #. {version} = a version number (keep the braces as they are)
 #, machine
-	Your own program ({version}) is too old: Swoopdl needs {oldest} or newer	A programja ({version}) túl régi: az MDM-nek {oldest} vagy újabb verzió szükséges
+	Your own program ({version}) is too old: Swoopdl needs {oldest} or newer	A programja ({version}) túl régi: az SDL-nek {oldest} vagy újabb verzió szükséges
 #. text in helpers.rs
 #. Video helpers: {path} = the program the person chose, {version} = its version
 #. {version} = a version number (keep the braces as they are)
@@ -5324,7 +5324,7 @@
 #. text in the Options window
 #. Options → Remote → Pair a device: done; {device} = the name it was given
 #, machine
-	{device} is paired. It can control Swoopdl now.	A(z) {device} párosítva van. Mostantól vezérelheti az MDM-et.
+	{device} is paired. It can control Swoopdl now.	A(z) {device} párosítva van. Mostantól vezérelheti az SDL-et.
 #. text in remote.rs
 #. remote control page (on a phone): progress; {done} and {size} are sizes ("1.2 MB of 7.5 MB")
 #. {size} = a file size such as "4.2 MB" (keep the braces as they are)
@@ -5419,7 +5419,7 @@
 #. error: a program chosen as a helper is too old; {name} = gallery-dl, {version} = its version, {oldest} = the oldest one Swoopdl can use
 #. {name} = a file name; {version} = a version number (keep the braces as they are)
 #, machine
-	{name} {version} is too old: Swoopdl needs {oldest} or newer	A(z) {name} {version} túl régi: az MDM-nek {oldest} vagy újabb verzió szükséges
+	{name} {version} is too old: Swoopdl needs {oldest} or newer	A(z) {name} {version} túl régi: az SDL-nek {oldest} vagy újabb verzió szükséges
 #. text in the Options window
 #. a number of connections the app learned by itself for a server
 #. {n} = a number (keep the braces as they are)
@@ -5768,9 +5768,9 @@ extension	Not reached. Open its address once in this browser and accept its cert
 #, machine
 extension	Open it	Megnyitás
 #. text in the browser extension
-#. help under the pairing boxes; Options, Remote and Pair a device are the app's window, tab and button; keep misterdownloadmanager-cli pair as it is
+#. help under the pairing boxes; Options, Remote and Pair a device are the app's window, tab and button; keep swoopdl-cli pair as it is
 #, machine
-extension	Open its address once and accept its certificate, then enter a code from its Options, Remote, Pair a device (or misterdownloadmanager-cli pair).	Nyissa meg egyszer a címét, és fogadja el a tanúsítványát, majd adja meg a kódot a Beállítások, Távoli, Eszköz párosítása (vagy misterdownloadmanager-cli pair) menüpontból.
+extension	Open its address once and accept its certificate, then enter a code from its Options, Remote, Pair a device (or swoopdl-cli pair).	Nyissa meg egyszer a címét, és fogadja el a tanúsítványát, majd adja meg a kódot a Beállítások, Távoli, Eszköz párosítása (vagy swoopdl-cli pair) menüpontból.
 #. text in the browser extension
 #. button in the toolbar button's popup; keep the name Swoopdl as it is
 #, machine

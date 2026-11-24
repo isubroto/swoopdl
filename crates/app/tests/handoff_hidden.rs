@@ -99,7 +99,7 @@ fn hand_overs_while(away: &str) {
         second_launch(data, &["/show", away]);
         std::thread::sleep(Duration::from_millis(1500));
         // Port 9 on this computer: nothing answers, and nothing leaves it.
-        second_launch(data, &["/d", "http://127.0.0.1:9/mdm-test-145.zip"]);
+        second_launch(data, &["/d", "http://127.0.0.1:9/sdl-test-145.zip"]);
         wait_for(&mut app, data, "window opened: file-info", wait);
 
         // Still running a moment later (the dialogs drew their first frames).

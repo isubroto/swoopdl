@@ -13,7 +13,7 @@
 set -euo pipefail
 [ "$(id -u)" = 0 ] || { echo "run as root: wsl -d sdl-lab -u root -- bash $0" >&2; exit 2; }
 user=lab
-repo_url=https://github.com/anefzaoui/misterdownloadmanager.git
+repo_url=https://github.com/isubroto/swoopdl.git
 export DEBIAN_FRONTEND=noninteractive
 
 # --- The distribution's own settings (per distribution; .wslconfig is global and stays as it is).

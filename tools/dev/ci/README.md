@@ -5,7 +5,7 @@ including uncommitted changes. They do not install a Git hook or push anything.
 
 ## Windows setup
 
-Prerequisites: stable Rust with MSVC C++ build tools and CMake, Python 3.11+,
+Prerequisites: Rustup with MSVC C++ build tools and CMake, Python 3.11+,
 PowerShell 7, Git (including Git Bash), and Docker Desktop running Linux containers
 for Linux workflow execution.
 
@@ -15,10 +15,13 @@ pwsh -File tools/dev/ci.ps1
 ```
 
 Setup downloads checksum-verified act 0.2.98 and Node 26.13.1 under
-`target/local-ci/tools`, installs rustfmt/Clippy in the existing Rust toolchain,
+`target/local-ci/tools`, installs the repository-pinned Rust toolchain with rustfmt/Clippy,
 and builds `swoopdl-ci:local`. It does not change the global PATH. The initial
 Docker build downloads several GB; later runs reuse Docker and Cargo caches.
 Use `setup-ci.ps1 -SkipDocker` if only native checks are needed.
+Local Cargo and GitHub Actions read the same `rust-toolchain.toml`, pinned to Rust 1.99.1.
+The bootstrap passes that version to the Linux image too, so a newer `stable` release does
+not silently change the compiler used for checks.
 The native checks use the installed Python; Linux workflows select Python 3.12
 where specified by the original workflow. No Python packages are needed by these checks.
 

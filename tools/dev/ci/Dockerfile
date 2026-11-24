@@ -12,7 +12,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 
 ENV RUSTUP_HOME=/opt/rustup CARGO_HOME=/opt/cargo
 ENV PATH="/opt/cargo/bin:${PATH}"
+ARG RUST_TOOLCHAIN=1.99.1
 RUN curl --proto '=https' --tlsv1.2 -fsSL https://sh.rustup.rs -o /tmp/rustup.sh \
-    && sh /tmp/rustup.sh -y --profile minimal --default-toolchain stable --component rustfmt,clippy \
+    && sh /tmp/rustup.sh -y --profile minimal --default-toolchain "$RUST_TOOLCHAIN" --component rustfmt,clippy \
     && rm /tmp/rustup.sh \
     && cargo --version && pwsh --version && python3 --version

@@ -56,9 +56,12 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      # rust-toolchain.toml picks stable with rustfmt and clippy.
+      # rust-toolchain.toml pins the same Rust, rustfmt and Clippy used locally.
       - name: Toolchain
-        run: rustup show active-toolchain || rustup toolchain install
+        run: |
+          rustup show active-toolchain || rustup toolchain install
+          rustc --version
+          cargo --version
 
       - uses: actions/cache@v4
         with:
@@ -66,8 +69,8 @@ jobs:
             ~/.cargo/registry
             ~/.cargo/git
             target
-          key: ${{ runner.os }}-cargo-${{ hashFiles('Cargo.lock') }}
-          restore-keys: ${{ runner.os }}-cargo-
+          key: ${{ runner.os }}-cargo-${{ hashFiles('rust-toolchain.toml') }}-${{ hashFiles('Cargo.lock') }}
+          restore-keys: ${{ runner.os }}-cargo-${{ hashFiles('rust-toolchain.toml') }}-
 
       - name: Linux libraries
         if: runner.os == 'Linux'
@@ -106,7 +109,7 @@ jobs:
         if: runner.os == 'macOS'
         run: |
           cargo build --release -p sdl-nmhost --locked
-          tools/safari/selftest.sh target/release/swoopdl-nmhost
+          bash tools/safari/selftest.sh target/release/swoopdl-nmhost
 
   # A translator's reviewed rows (no "#, machine" line) must survive every pull request: no
   # tool or merge may drop them or hand them back to machine translation.

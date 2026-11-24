@@ -26,8 +26,10 @@ foreach ($command in 'git', 'python', 'rustup', 'cargo', 'pwsh') {
 }
 & python -c 'import sys; assert sys.version_info >= (3, 11), "Python 3.11+ required"'
 if ($LASTEXITCODE) { throw 'Python 3.11+ is required' }
-& rustup component add --toolchain stable rustfmt clippy
-if ($LASTEXITCODE) { throw 'Installing Rust components failed' }
+$rustChannel = & python -c 'import pathlib, sys, tomllib; print(tomllib.loads(pathlib.Path(sys.argv[1]).read_text())["toolchain"]["channel"])' (Join-Path $root 'rust-toolchain.toml')
+if ($LASTEXITCODE) { throw 'Reading the repository Rust toolchain failed' }
+& rustup toolchain install $rustChannel --profile minimal --component rustfmt,clippy
+if ($LASTEXITCODE) { throw 'Installing the repository Rust toolchain failed' }
 
 $act = Join-Path $tools 'act/act.exe'
 if (-not (Test-Path $act)) {
@@ -46,7 +48,7 @@ if ($LASTEXITCODE) { throw 'Node is not usable' }
 if (-not $SkipDocker) {
     $dockerOs = & docker info --format '{{.OSType}}'
     if ($LASTEXITCODE -or $dockerOs -ne 'linux') { throw 'Start Docker Desktop with Linux containers, then rerun setup' }
-    & docker build --tag swoopdl-ci:local (Join-Path $PSScriptRoot 'ci')
+    & docker build --build-arg "RUST_TOOLCHAIN=$rustChannel" --tag swoopdl-ci:local (Join-Path $PSScriptRoot 'ci')
     if ($LASTEXITCODE) { throw 'Building local CI image failed' }
 }
 Write-Host 'Ready: pwsh -File tools/dev/ci.ps1'

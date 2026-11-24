@@ -10,12 +10,12 @@ There are several ways to give SDL something to download. Most of them end in th
 2. Click **Add URL** on the toolbar, choose **Tasks → Add new download**, or press **Ctrl+N**.
 3. **Enter new address to download** opens. If the clipboard holds a web address, it is already filled in. The arrow at the end of **Address** lists the last 20 addresses you entered; pick one to use it again. Right-click the box for **Cut**, **Copy**, **Paste**, **Delete** and **Select all**.
 4. If the server needs a user name and password, tick **Use authorization** and type them.
-5. Click **OK**.
+5. Click **Download**.
 
 SDL takes `http://`, `https://`, `ftp://`, `ftps://`, `ftpes://` and `magnet:` addresses. Anything else gets **Invalid address**.
 
-![Enter new address to download, with the Address box, Use authorization and OK](images/help/add-url.webp)
-*The numbers are the steps above: 3 the address, 4 a login if the server needs one, 5 OK.*
+![Enter new address to download, with the Address box, Use authorization and Download](images/help/add-url.webp)
+*The numbers are the steps above: 3 the address, 4 a login if the server needs one, 5 Download.*
 
 If the address is a video's page (YouTube, Vimeo, TikTok and others), the video window opens instead. See [Video downloads](video.md). A magnet link opens **Add torrent**; see [Torrents](torrents.md).
 

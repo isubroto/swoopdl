@@ -8,7 +8,7 @@ From a copied link to an opened file in a minute or two.
 
 1. In your browser, right-click the link to the file and choose **Copy link**.
 2. In SDL, click **Add URL** on the toolbar (or press **Ctrl+N**). The address is already filled in.
-3. Click **OK**.
+3. Click **Download**.
 4. **Download File Info** shows the file's name, its size and where it will be saved. The folder depends on the file's type: a ZIP goes to `Downloads\Compressed`, a video to `Downloads\Video`, and so on. Change the folder or the category if you like.
 5. Click **Start Download**.
 6. The progress window shows the download: its speed, the time left, and what each connection is doing.
@@ -17,7 +17,7 @@ From a copied link to an opened file in a minute or two.
 <!-- steps -->
 
 1. ![Enter new address to download with the copied address filled in](images/help/first-add-url.webp)
-   *Add URL: the copied address is already there. Click OK.*
+   *Add URL: the copied address is already there. Click Download.*
 2. ![Download File Info with the file's name, size and folder](images/help/first-file-info.webp)
    *Check the folder, then Start Download.*
 3. ![The progress window: speed, time left and each connection's share of the file](images/help/first-progress.webp)

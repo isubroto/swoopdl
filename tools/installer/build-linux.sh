@@ -11,6 +11,9 @@
 #   tools/installer/build-linux.sh [--no-build]
 set -euo pipefail
 root="$(cd "$(dirname "$0")/../.." && pwd)"
+for required in LICENSE ATTRIBUTION.md; do
+  [ -s "$root/$required" ] || { echo "missing required packaging file: $required" >&2; exit 1; }
+done
 dist="$root/target/dist"
 bin="$root/target/release"
 version="$(sed -n 's/^version *= *"\([^"]*\)".*/\1/p' "$root/Cargo.toml" | head -1)"

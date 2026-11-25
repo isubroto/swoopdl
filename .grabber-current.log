@@ -1,0 +1,111 @@
+   Compiling sdl-grabber v0.1.6 (D:\Swoopdl\SwoopdlSource\crates\grabber)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 1m 05s
+     Running unittests src\lib.rs (target\debug\deps\sdl_grabber-b70e462d381193fe.exe)
+
+running 1 test
+test store::bounded_checkpoint_tests::oversized_checkpoint_keeps_the_previous_recoverable_snapshot ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.02s
+
+     Running tests\acceptance.rs (target\debug\deps\acceptance-42901b3a81f0a8eb.exe)
+
+running 9 tests
+test pause_ack_follows_checkpoint ... ok
+test transient_status_retries_three_times_and_pause_interrupts_backoff ... ok
+test capture_publication_failure_never_persists_completed_and_can_resume_offline ... ok
+test retry_after_survives_pause_and_resume ... ok
+test capture_drains_admitted_urls_after_url_limit ... ok
+test mime_whitespace_and_case_cannot_bypass_offline_sanitization ... ok
+test crawl_loop_is_bounded_and_robots_disallow_never_requested ... ok
+test paused_resource_limit_cannot_resume_as_completed ... ok
+test sync_304_uses_verified_body_and_missing_body_refetches ... ok
+
+test result: ok. 9 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 28.66s
+
+     Running tests\crawl.rs (target\debug\deps\crawl-152035da352b8a18.exe)
+
+running 4 tests
+test binary_resources_do_not_consume_the_document_parse_cap ... ok
+test css_tokenization_handles_escapes_and_nested_functions ... ok
+test nested_css_and_srcset_are_discovered ... ok
+test discovery_cannot_exceed_the_100000_url_ceiling ... ok
+
+test result: ok. 4 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 3.17s
+
+     Running tests\credentials.rs (target\debug\deps\credentials-97e3aad739c3a413.exe)
+
+running 1 test
+test serialized_project_contains_only_protected_reference ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests\offline.rs (target\debug\deps\offline-1e1562334e4a15f1.exe)
+
+running 7 tests
+test windows_case_and_reserved_names_do_not_collide ... ok
+test active_svg_cannot_execute_or_fetch_when_opened_directly ... ok
+test uncaptured_link_keeps_absolute_target ... ok
+test captured_assets_and_inline_css_use_local_paths ... ok
+test same_raw_html_different_base_rewrites_separately ... ok
+test symlink_escape_is_rejected ... ok
+test rewrite_output_expansion_is_capped ... ok
+
+test result: ok. 7 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.46s
+
+     Running tests\policy.rs (target\debug\deps\policy-3bd899625bb24c8f.exe)
+
+running 5 tests
+test exclude_wins ... ok
+test seed_depth_is_zero ... ok
+test asset_save_filters_do_not_block_page_traversal ... ok
+test scope_separates_pages_and_assets ... ok
+test normalization_preserves_query_identity ... ok
+
+test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests\recovery.rs (target\debug\deps\recovery-4d6a6eab9f762192.exe)
+
+running 6 tests
+test project_id_cannot_bypass_validation_through_json ... ok
+test missing_destination_is_actionable ... ok
+test restart_charges_uncertain_reservation ... ok
+test deleting_metadata_keeps_captured_files ... ok
+test corrupt_latest_uses_backup ... ok
+test synthetic_100000_url_frontier_checkpoints_and_rejects_overflow ... ok
+
+test result: ok. 6 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 2.46s
+
+     Running tests\robots.rs (target\debug\deps\robots-d79e711ba123ea57.exe)
+
+running 2 tests
+test malformed_percent_before_unicode_does_not_panic ... ok
+test robots_longest_match_allow_tie_and_agent_groups ... ok
+
+test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests\sync.rs (target\debug\deps\sync-3e95070d2e194cf3.exe)
+
+running 1 test
+test manual_pause_suppresses_schedule ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests\transport.rs (target\debug\deps\transport-8901a4709f2f20d5.exe)
+
+running 7 tests
+test dns_rebinding_peer_is_rejected ... ok
+test parallel_retries_share_budget ... ok
+test chunked_body_obeys_budget_and_cleans_partial_file ... ok
+test dns_answer_is_checked_before_connection ... ok
+test redirect_checked_before_request ... ok
+test decoded_gzip_body_obeys_budget ... ok
+test credentials_do_not_cross_origin ... ok
+
+test result: ok. 7 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.37s
+
+   Doc-tests sdl_grabber
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+

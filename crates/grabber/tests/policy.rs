@@ -1,6 +1,35 @@
 use sdl_grabber::{Decision, ProjectConfig, ResourceKind, evaluate, normalize_url};
 use url::Url;
 
+#[test]
+fn asset_save_filters_do_not_block_page_traversal() {
+    let mut config = sdl_grabber::ProjectConfig::new(
+        "Docs",
+        Url::parse("https://example.test/docs/").unwrap(),
+        "output".into(),
+    );
+    config.extensions.insert("png".into());
+    config.mime_types.insert("image/png".into());
+    assert!(sdl_grabber::policy::save_allowed(
+        &config,
+        &config.seed,
+        sdl_grabber::ResourceKind::Page,
+        "text/html"
+    ));
+    assert!(sdl_grabber::policy::save_allowed(
+        &config,
+        &config.seed.join("photo.PNG").unwrap(),
+        sdl_grabber::ResourceKind::Asset,
+        "image/png; charset=utf-8"
+    ));
+    assert!(!sdl_grabber::policy::save_allowed(
+        &config,
+        &config.seed.join("style.css").unwrap(),
+        sdl_grabber::ResourceKind::Asset,
+        "text/css"
+    ));
+}
+
 fn config() -> ProjectConfig {
     ProjectConfig::new(
         "Docs",

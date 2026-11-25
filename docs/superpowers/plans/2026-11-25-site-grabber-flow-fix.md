@@ -1,0 +1,19 @@
+# Site Grabber destination flow fix
+
+Evidence: the user entered a video directory URL, selected E:\ as the destination, passed all four wizard steps, saved a project, then received “Choose an empty capture destination” with zero files/bytes and a Paused status. Step 2 validates only a nonempty string; output ownership is first checked at Start. Errors are unconditionally displayed as Paused. Existing projects have no way to correct this destination.
+
+Design: treat the selected location as a base folder by default and create a safely named project subfolder. Show the exact final destination in setup and review. Keep an explicit option to use the selected folder directly; that folder must be empty. Validate the final folder asynchronously before leaving Step 2 and recheck before persisting a new project. Never loosen output ownership checks or write into unrelated files. Existing projects with no captured resources, generation, or consumed/reserved bytes may change destination without changing crawl settings. Failed setup is Failed, while genuine pause remains Paused.
+
+Plan:
+1. Add failing regressions: nonempty parent with a new child, direct nonempty destination rejected without modification, safe folder naming/path traversal rejection, stale destination checks, failed startup status, and relocation preserving settings and prior output.
+2. Extract a read-only backend destination preflight and share it with wizard/save/relocation checks. Keep all filesystem and picker work on the existing runtime.
+3. Add default subfolder selection, resolved destination preview, asynchronous Step 2 validation and a repair button for uncaptured projects. Preserve active/partial capture restrictions.
+4. Correct failure status propagation and replace the fixed image example with a template-aware hint. Explain video byte limits without silently raising budgets.
+5. Run focused backend and app regressions, app tests, formatting, translations, and scoped Clippy sequentially with CARGO_BUILD_JOBS=1. Reuse the isolated UI build cache. Use local fixtures; no large downloads from the user's media URL. Inspect native screenshots where permitted.
+
+No delegation, unrelated cleanup, commits, pushes, or releases. Original directory contents must remain untouched. Projects with existing capture data cannot be relocated by this repair action. Native button-click automation was previously rejected by automatic approval review; do not retry it through another route.
+Additional ruling: an error transitions to Failed and suspends its pending schedule until manual retry, preserving the prior Paused behavior's protection against repeated failed scheduled starts. Successful manual runs recalculate the configured schedule normally. Media presets keep existing byte limits; show a template-aware hint rather than silently increasing safety ceilings.
+
+Version steering: user requested completion as 0.1.7. Updated workspace package version and verified all 15 local package entries in Cargo.lock at 0.1.7. Installer scripts derive their version from Cargo.toml; third-party dependency versions and independent browser-extension versions are unchanged. Final locked builds and tests must use 0.1.7. Duplicate IDE workspace checks exhausted memory once; verification runs single-job in the isolated cache.
+
+Completed for 0.1.7: full Windows workspace 915 passed, 22 ignored, 0 failed across 71 targets; focused Site Grabber 13/13 and recovery 7/7. Workspace/all-target Clippy -D warnings, fmt, translation and whitespace checks passed. All 15 workspace packages/lock entries and the native executable ProductVersion/FileVersion verified 0.1.7. Four updated native light/dark previews passed visual and accessibility-bounds checks. Supplied media server and E:\ files were not touched. See docs/site-grabber-verification.md. Local build only; no commit, tag, installer publication, or release.

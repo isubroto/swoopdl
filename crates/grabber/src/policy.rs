@@ -11,9 +11,29 @@ pub enum Decision {
     Skip(SkipReason),
 }
 
+/// HTML remains available for navigation; allowlists select published assets.
+pub fn save_allowed(config: &ProjectConfig, url: &Url, kind: ResourceKind, mime: &str) -> bool {
+    if kind == ResourceKind::Page {
+        return true;
+    }
+    let mime = crate::media_type(mime);
+    let extension = url
+        .path()
+        .rsplit_once('.')
+        .map(|(_, ext)| ext.to_ascii_lowercase());
+    (config.mime_types.is_empty()
+        || config
+            .mime_types
+            .iter()
+            .any(|allowed| allowed.eq_ignore_ascii_case(&mime)))
+        && (config.extensions.is_empty()
+            || extension.is_some_and(|ext| config.extensions.contains(&ext)))
+}
+
 pub fn normalize_url(base: &Url, reference: &str) -> Result<Url, PolicyError> {
     let mut u = base.join(reference).map_err(|_| PolicyError)?;
-    if !matches!(u.scheme(), "http" | "https")
+    if u.as_str().len() > 8192
+        || !matches!(u.scheme(), "http" | "https")
         || u.host_str().is_none()
         || !u.username().is_empty()
         || u.password().is_some()

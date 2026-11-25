@@ -533,7 +533,7 @@ impl From<disk::Refusal> for Error {
 /// (cookies, authorization) never follow a redirect to another host or from https down to
 /// http — as reqwest does while it follows the redirect itself — except between one site's own
 /// hosts (`sites::same_party`: a Drive link's cookies go to Drive's file host).
-fn scoped_headers(headers: &HeaderMap, from: &Url, to: &Url) -> HeaderMap {
+pub(crate) fn scoped_headers(headers: &HeaderMap, from: &Url, to: &Url) -> HeaderMap {
     let mut h = headers.clone();
     let same_host = (from.host_str() == to.host_str()
         && from.port_or_known_default() == to.port_or_known_default())
@@ -1328,6 +1328,22 @@ fn client(
     as_get: &AsGet,
     seen: &Arc<crate::server::ServerSeen>,
 ) -> Result<Client, Error> {
+    Ok(client_builder(opts, url, as_get, seen)?.build()?)
+}
+
+pub(crate) fn crawl_client_builder(
+    opts: &Options,
+    url: &Url,
+) -> Result<reqwest::ClientBuilder, Error> {
+    client_builder(opts, url, &AsGet::default(), &Default::default())
+}
+
+fn client_builder(
+    opts: &Options,
+    url: &Url,
+    as_get: &AsGet,
+    seen: &Arc<crate::server::ServerSeen>,
+) -> Result<reqwest::ClientBuilder, Error> {
     let port = url.port_or_known_default().unwrap_or(443);
     let route = &opts.route;
     // An IP address in the URL never reaches the resolver, which drops what the chosen adapter
@@ -1475,8 +1491,7 @@ fn client(
         .read_timeout(opts.read_timeout)
         .pool_max_idle_per_host(opts.connections() as usize)
         .pool_idle_timeout(POOL_IDLE)
-        .tcp_nodelay(true)
-        .build()?)
+        .tcp_nodelay(true))
 }
 
 /// Runs a download body and records its final state.

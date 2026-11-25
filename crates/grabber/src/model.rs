@@ -110,6 +110,9 @@ impl ProjectConfig {
             || l.timeout_secs > 300
             || l.robots_bytes < 512_000
             || l.robots_bytes > 1 << 20
+            || l.body_bytes > (1 << 50)
+            || l.resource_bytes > (1 << 30)
+            || l.interval_ms > 86_400_000
         {
             return Err("Invalid or unsafe crawl limits".into());
         }
@@ -123,13 +126,30 @@ impl ProjectConfig {
                 return Err("Origins must contain only scheme, host and optional port".into());
             }
         }
+        if self.page_origins.len() > 128
+            || self.resource_origins.len() > 128
+            || self.include_prefixes.len() + self.exclude_prefixes.len() > 1000
+        {
+            return Err("Too many origin or filter rules".into());
+        }
         Ok(())
     }
 }
 
 #[derive(Clone, Debug, PartialEq, Eq, PartialOrd, Ord, Serialize, Deserialize)]
-#[serde(transparent)]
+#[serde(try_from = "String", into = "String")]
 pub struct ProjectId(String);
+impl TryFrom<String> for ProjectId {
+    type Error = String;
+    fn try_from(value: String) -> Result<Self, Self::Error> {
+        Self::parse(&value)
+    }
+}
+impl From<ProjectId> for String {
+    fn from(value: ProjectId) -> Self {
+        value.0
+    }
+}
 impl ProjectId {
     pub fn parse(value: &str) -> Result<Self, String> {
         if value.is_empty()
@@ -208,6 +228,18 @@ pub struct ReportEntry {
     pub reason: String,
 }
 #[derive(Clone, Debug, Serialize, Deserialize)]
+pub struct CredentialRef {
+    pub identifier: String,
+    pub origin: String,
+}
+#[derive(Clone, Debug, Serialize, Deserialize)]
+pub struct CalendarSchedule {
+    pub hour: u8,
+    pub minute: u8,
+    pub days: [bool; 7],
+    pub once: Option<(i32, u32, u32)>,
+}
+#[derive(Clone, Debug, Serialize, Deserialize)]
 pub struct ProjectSnapshot {
     pub version: u32,
     pub config: ProjectConfig,
@@ -222,6 +254,16 @@ pub struct ProjectSnapshot {
     pub generation: u64,
     pub next_run: Option<u64>,
     pub sync_interval_secs: Option<u64>,
+    #[serde(default)]
+    pub credential: Option<CredentialRef>,
+    #[serde(default)]
+    pub schedule: Option<CalendarSchedule>,
+    /// Absolute Unix milliseconds; pacing and server retry delays survive restarts.
+    #[serde(default)]
+    pub next_request_after: Option<u64>,
+    /// Latches run limits across pause/restart until an explicit fresh synchronization.
+    #[serde(default)]
+    pub limit_reached: bool,
 }
 impl ProjectSnapshot {
     pub fn new(config: ProjectConfig) -> Self {
@@ -243,6 +285,10 @@ impl ProjectSnapshot {
             generation: 0,
             next_run: None,
             sync_interval_secs: None,
+            credential: None,
+            schedule: None,
+            next_request_after: None,
+            limit_reached: false,
         }
     }
 }

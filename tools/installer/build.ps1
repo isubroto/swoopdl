@@ -12,6 +12,12 @@
 param([switch]$NoBuild, [string]$SignCommand = $env:SDL_SIGN_COMMAND)
 $ErrorActionPreference = "Stop"
 $root = Split-Path -Parent (Split-Path -Parent $PSScriptRoot)
+foreach ($required in 'LICENSE', 'ATTRIBUTION.md') {
+  $requiredPath = Join-Path $root $required
+  if (-not (Test-Path -LiteralPath $requiredPath -PathType Leaf) -or (Get-Item -LiteralPath $requiredPath).Length -eq 0) {
+    throw "missing required packaging file: $required"
+  }
+}
 $dist = Join-Path $root "target\dist"
 $bin = Join-Path $root "target\release"
 

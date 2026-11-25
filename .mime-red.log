@@ -1,0 +1,23 @@
+   Compiling sdl-labserver v0.1.6 (D:\Swoopdl\SwoopdlSource\crates\labserver)
+   Compiling sdl-grabber v0.1.6 (D:\Swoopdl\SwoopdlSource\crates\grabber)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 9.34s
+     Running tests\acceptance.rs (target\debug\deps\acceptance-9c0ed47775849978.exe)
+
+running 1 test
+test mime_whitespace_and_case_cannot_bypass_offline_sanitization ... FAILED
+
+failures:
+
+---- mime_whitespace_and_case_cannot_bypass_offline_sanitization stdout ----
+
+thread 'mime_whitespace_and_case_cannot_bypass_offline_sanitization' (19980) panicked at crates\grabber\tests\acceptance.rs:251:9:
+assertion failed: !html.contains("<script")
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+
+failures:
+    mime_whitespace_and_case_cannot_bypass_offline_sanitization
+
+test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 5 filtered out; finished in 1.24s
+
+error: test failed, to rerun pass `-p sdl-grabber --test acceptance`

@@ -1,0 +1,35 @@
+# Swoopdl feature gaps
+
+Reviewed: 2026-11-24. Requirements reference: the locally supplied `D:\Swoopdl\prompt.md`, especially Phase H and the advanced feature candidates.
+
+This report records functional gaps found by inspecting the current source. It is not a runtime certification or a list of missing documentation. An absent implementation was assessed across the relevant modules, rather than inferred from a missing document. Priorities below are proposals; only Full Site Grabber has been selected for planning.
+
+## Missing or partial functionality
+
+| Feature | Current behavior and gap | Evidence | Proposed priority |
+| --- | --- | --- | --- |
+| **Full Site Grabber** | Implemented saved static-site captures, scoped crawling, budgets, robots policy, offline generations, pause/resume, reports, synchronization, schedules and optional protected credentials. Cross-platform acceptance remains pending. | [Site Grabber](../crates/app/src/site_grabber.rs), [capture backend](../crates/grabber/src/lib.rs), [user guide](site-grabber.md) | [Verification evidence](site-grabber-verification.md); Linux/macOS and manual desktop acceptance pending. |
+| Settings/profile import and export | Download-list import/export exists. A portable settings/profile transfer feature, with explicit treatment of secrets and machine-specific paths, is missing. | [list transfer](../crates/app/src/transfer.rs), [settings](../crates/app/src/settings.rs), [persistence](../crates/app/src/store.rs) | After Site Grabber. |
+| Scheduled bandwidth and connection profiles | Queue start/stop schedules and speed/connection limits exist separately. Profiles that change those limits by time or network are missing. | [queue schedules](../crates/app/src/queue.rs), [download options](../crates/engine/src/download.rs) | After Site Grabber. |
+| Permanent Firefox and packaged Safari integration | The bundled Firefox XPI is unsigned and loaded temporarily. Safari development source exists, but Safari integration is not included in the current browser packages. Chromium supports manual unpacked installation. | [packaged setup instructions](../tools/extension/LOCAL-SETUP.txt), [browser integration](browser-integration.md), [Safari source](../tools/safari/SafariWebExtensionHandler.swift) | Separate distribution work; signing is required for permanent standard Firefox installation. |
+| Guaranteed encrypted credential persistence | System credential stores and Windows DPAPI protection exist. Portable operation or unavailable protection can retain secrets in settings; `settings::seal` can return the original password. Encryption is therefore not guaranteed on every storage path. This does not establish that this PC currently stores plaintext credentials. | [secret-store behavior](../crates/app/src/secrets.rs), [serialization fallback](../crates/app/src/settings.rs) | Address before promising encrypted persistent authentication in new features. |
+
+## Advanced candidates from the supplied requirements
+
+These are additional product options, not failures of the existing basic download feature set.
+
+| Candidate | Gap and existing support | Evidence |
+| --- | --- | --- |
+| User-defined mirror failover | Individual requests have one source URL. A user-managed list of verified fallback mirrors is missing. | [request and probe types](../crates/engine/src/download.rs) |
+| SFTP | HTTP(S), FTP, FTPS, and FTPES are supported; SFTP transport is missing. | [supported schemes](../crates/engine/src/download.rs), [FTP implementation](../crates/engine/src/ftp.rs) |
+| Dedicated WebDAV client | Downloading an ordinary HTTP(S) URL is possible. Dedicated WebDAV collection browsing and synchronization are missing. | [engine](../crates/engine/src/lib.rs), [download transport](../crates/engine/src/download.rs) |
+| Historical download statistics | Live download snapshots exist. Persisted usage history, historical throughput charts, and configurable statistics dashboards are missing. | [snapshots](../crates/engine/src/download.rs), [application persistence](../crates/app/src/store.rs) |
+| Loadable protocol-plugin SDK | CLI, IPC, remote automation, and MCP already exist. A supported mechanism for third-party loadable protocol plugins is missing. | [IPC](../crates/ipc/src/lib.rs), [MCP crate](../crates/mcp/Cargo.toml), [engine modules](../crates/engine/src/lib.rs) |
+
+## Existing capabilities to retain
+
+Do not classify segmented downloads, FTP-family transfers, pause/resume/recovery, queues and schedules, checksum verification, media/gallery tools, Native Messaging, authenticated remote control, BitTorrent, CLI/MCP, or automatic list backups as missing. Full Site Grabber must build on the existing Rust application and preserve Link Grabber and list import/export.
+
+## Tracking rules
+
+A plan does not close a gap. Mark a feature complete only after its acceptance tests pass on the applicable platforms. Keep implementation status, evidence, and known limitations alongside each completed entry. Do not infer overall completion percentages from this inventory.

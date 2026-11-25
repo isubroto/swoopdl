@@ -1,0 +1,11 @@
+    Checking sdl-labserver v0.1.6 (D:\Swoopdl\SwoopdlSource\crates\labserver)
+    Checking sdl-grabber v0.1.6 (D:\Swoopdl\SwoopdlSource\crates\grabber)
+    Checking sdl-engine v0.1.6 (D:\Swoopdl\SwoopdlSource\crates\engine)
+    Checking sdl-app v0.1.6 (D:\Swoopdl\SwoopdlSource\crates\app)
+    Checking sdl-debrid v0.1.6 (D:\Swoopdl\SwoopdlSource\crates\debrid)
+    Checking sdl-tools v0.1.6 (D:\Swoopdl\SwoopdlSource\crates\tools)
+    Checking sdl-torrent v0.1.6 (D:\Swoopdl\SwoopdlSource\crates\torrent)
+    Checking sdl-nmhost v0.1.6 (D:\Swoopdl\SwoopdlSource\crates\nmhost)
+    Checking sdl-remote v0.1.6 (D:\Swoopdl\SwoopdlSource\crates\remote)
+    Checking sdl-ipc v0.1.6 (D:\Swoopdl\SwoopdlSource\crates\ipc)
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 35.00s

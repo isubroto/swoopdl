@@ -1,5 +1,6 @@
 //! Swoopdl download engine. See notes/ENGINE.md.
 
+pub mod crawl_fetch;
 pub mod disk;
 pub mod dns;
 pub mod download;

@@ -2,6 +2,7 @@
 //! Used in-process by Swoopdl's tests and standalone for the behaviour lab (notes/BEHAVIOR-LAB.md).
 
 pub mod content;
+pub mod crawl;
 pub mod debrid;
 pub mod debrid_torrents;
 pub mod drive;

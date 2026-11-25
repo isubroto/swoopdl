@@ -46,7 +46,11 @@ same checkout before creating the installer or archive.
 ## Branding and third-party credits
 
 The Swoopdl visual identity and logo are under `docs/branding/`.
-Swoopdl is based on earlier open-source work. Original authorship, license obligations,
+Swoopdl is an unofficial, independently maintained project based on the source code of
+[Mister Download Manager](https://github.com/anefzaoui/misterdownloadmanager)
+by **Ahmed Nefzaoui and contributors**. Their original code and design work provide
+the foundation for Swoopdl. Swoopdl is not an official release and is not affiliated with
+or endorsed by the original project's maintainers. Full authorship, license obligations,
 and third-party credits are documented in [ATTRIBUTION.md](ATTRIBUTION.md) and
 [docs/UPSTREAM.md](docs/UPSTREAM.md). The original project's releases are **not** Swoopdl releases.
 

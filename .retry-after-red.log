@@ -1,0 +1,26 @@
+    Blocking waiting for file lock on build directory
+   Compiling sdl-labserver v0.1.6 (D:\Swoopdl\SwoopdlSource\crates\labserver)
+   Compiling sdl-grabber v0.1.6 (D:\Swoopdl\SwoopdlSource\crates\grabber)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 3m 51s
+     Running tests\acceptance.rs (target\debug\deps\acceptance-9c0ed47775849978.exe)
+
+running 1 test
+test retry_after_survives_pause_and_resume ... FAILED
+
+failures:
+
+---- retry_after_survives_pause_and_resume stdout ----
+
+thread 'retry_after_survives_pause_and_resume' (31384) panicked at crates\grabber\tests\acceptance.rs:233:5:
+assertion `left == right` failed: A paused retry deadline must not cause new requests on resume
+  left: 3
+ right: 2
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+
+failures:
+    retry_after_survives_pause_and_resume
+
+test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 4 filtered out; finished in 1.66s
+
+error: test failed, to rerun pass `-p sdl-grabber --test acceptance`

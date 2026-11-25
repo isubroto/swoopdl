@@ -1,0 +1,22 @@
+   Compiling sdl-engine v0.1.6 (D:\Swoopdl\SwoopdlSource\crates\engine)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 24.16s
+     Running unittests src\lib.rs (target\debug\deps\sdl_engine-a05d14cd59e6e749.exe)
+
+running 1 test
+test crawl_fetch::decode_budget_tests::transport_future_fits_small_thread_stacks ... FAILED
+
+failures:
+
+---- crawl_fetch::decode_budget_tests::transport_future_fits_small_thread_stacks stdout ----
+
+thread 'crawl_fetch::decode_budget_tests::transport_future_fits_small_thread_stacks' (9036) panicked at crates\engine\src\crawl_fetch.rs:60:9:
+Transport future occupies 69176 stack bytes
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+
+failures:
+    crawl_fetch::decode_budget_tests::transport_future_fits_small_thread_stacks
+
+test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 111 filtered out; finished in 0.00s
+
+error: test failed, to rerun pass `-p sdl-engine --lib`

@@ -7263,7 +7263,7 @@ dependencies = [
 
 [[package]]
 name = "sdl-app"
-version = "0.1.6"
+version = "0.1.7"
 dependencies = [
  "arboard",
  "base64 0.23.1",
@@ -7297,6 +7297,7 @@ dependencies = [
  "sdl-engine",
  "sdl-extract",
  "sdl-geo",
+ "sdl-grabber",
  "sdl-ipc",
  "sdl-labserver",
  "sdl-remote",
@@ -7307,6 +7308,7 @@ dependencies = [
  "serde_json",
  "tempfile",
  "tokio",
+ "tokio-util",
  "toml 1.2.2+spec-1.1.0",
  "tracing",
  "tracing-subscriber",
@@ -7324,7 +7326,7 @@ dependencies = [
 
 [[package]]
 name = "sdl-cli"
-version = "0.1.6"
+version = "0.1.7"
 dependencies = [
  "anyhow",
  "clap",
@@ -7343,7 +7345,7 @@ dependencies = [
 
 [[package]]
 name = "sdl-crash"
-version = "0.1.6"
+version = "0.1.7"
 dependencies = [
  "breakpad-symbols",
  "chrono",
@@ -7368,7 +7370,7 @@ dependencies = [
 
 [[package]]
 name = "sdl-debrid"
-version = "0.1.6"
+version = "0.1.7"
 dependencies = [
  "bytes",
  "futures",
@@ -7387,8 +7389,9 @@ dependencies = [
 
 [[package]]
 name = "sdl-engine"
-version = "0.1.6"
+version = "0.1.7"
 dependencies = [
+ "async-compression",
  "base64 0.23.1",
  "bytes",
  "core-foundation 0.10.1",
@@ -7431,7 +7434,7 @@ dependencies = [
 
 [[package]]
 name = "sdl-extract"
-version = "0.1.6"
+version = "0.1.7"
 dependencies = [
  "flate2",
  "lzma-rust2",
@@ -7444,7 +7447,7 @@ dependencies = [
 
 [[package]]
 name = "sdl-geo"
-version = "0.1.6"
+version = "0.1.7"
 dependencies = [
  "lzma-rust2",
  "png 0.18.1",
@@ -7453,22 +7456,30 @@ dependencies = [
 
 [[package]]
 name = "sdl-grabber"
-version = "0.1.6"
+version = "0.1.7"
 dependencies = [
+ "craft-atomic",
  "cssparser 0.38.0",
+ "futures",
  "hex",
+ "httpdate",
  "lol_html",
+ "reqwest 0.13.5",
+ "sdl-engine",
+ "sdl-labserver",
  "serde",
  "serde_json",
  "sha2",
  "tempfile",
  "thiserror 2.0.21",
+ "tokio",
+ "tokio-util",
  "url",
 ]
 
 [[package]]
 name = "sdl-ipc"
-version = "0.1.6"
+version = "0.1.7"
 dependencies = [
  "craft-atomic",
  "dirs 7.0.0",
@@ -7480,7 +7491,7 @@ dependencies = [
 
 [[package]]
 name = "sdl-labserver"
-version = "0.1.6"
+version = "0.1.7"
 dependencies = [
  "anyhow",
  "axum",
@@ -7505,7 +7516,7 @@ dependencies = [
 
 [[package]]
 name = "sdl-mcp"
-version = "0.1.6"
+version = "0.1.7"
 dependencies = [
  "rmcp",
  "schemars 1.2.3",
@@ -7519,7 +7530,7 @@ dependencies = [
 
 [[package]]
 name = "sdl-nmhost"
-version = "0.1.6"
+version = "0.1.7"
 dependencies = [
  "chrono",
  "sdl-ipc",
@@ -7530,7 +7541,7 @@ dependencies = [
 
 [[package]]
 name = "sdl-remote"
-version = "0.1.6"
+version = "0.1.7"
 dependencies = [
  "aws-lc-rs",
  "axum",
@@ -7551,7 +7562,7 @@ dependencies = [
 
 [[package]]
 name = "sdl-tools"
-version = "0.1.6"
+version = "0.1.7"
 dependencies = [
  "aws-lc-rs",
  "base64 0.23.1",
@@ -7575,7 +7586,7 @@ dependencies = [
 
 [[package]]
 name = "sdl-torrent"
-version = "0.1.6"
+version = "0.1.7"
 dependencies = [
  "flate2",
  "librqbit",

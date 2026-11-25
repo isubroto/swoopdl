@@ -1,0 +1,158 @@
+   Compiling yoke v0.8.4
+   Compiling zerovec v0.11.9
+   Compiling tinystr v0.8.5
+   Compiling icu_locale_core v2.3.0
+   Compiling zerotrie v0.2.5
+   Compiling icu_provider v2.3.1
+   Compiling potential_utf v0.1.6
+   Compiling icu_collections v2.3.0
+   Compiling icu_normalizer v2.3.0
+   Compiling icu_properties v2.3.0
+   Compiling idna_adapter v1.2.2
+   Compiling idna v1.1.0
+   Compiling url v2.5.9
+   Compiling rustls-webpki v0.103.17
+   Compiling rustls v0.23.46
+   Compiling tokio-rustls v0.26.6
+   Compiling compression-codecs v0.4.48
+   Compiling rustls-platform-verifier v0.7.1
+   Compiling async-compression v0.4.52
+   Compiling tower-http v0.6.11
+   Compiling hyper-rustls v0.27.10
+   Compiling reqwest v0.13.5
+   Compiling hickory-proto v0.26.3
+   Compiling h2 v0.4.20
+   Compiling hashbrown v0.16.1
+   Compiling hickory-net v0.26.3
+   Compiling naga-types v30.0.2
+   Compiling hickory-resolver v0.26.3
+   Compiling suppaftp v12.2.2
+   Compiling sdl-engine v0.1.6 (D:\Swoopdl\SwoopdlSource\crates\engine)
+   Compiling naga v30.0.2
+   Compiling librqbit-core v9.1.0 (https://github.com/anefzaoui/rqbit.git?rev=ef50d87f4a9d5be9e3951b74f722433f9b46bd76#ef50d87f)
+   Compiling vello_cpu v0.2.0
+   Compiling wgpu-types v30.0.2
+   Compiling epaint v0.37.0 (https://github.com/anefzaoui/egui.git?rev=d110a3ccf2f1710f3e67db3f910b18003732c1df#d110a3cc)
+   Compiling gpu-allocator v0.28.0
+   Compiling wgpu-naga-bridge v30.0.2
+   Compiling wgpu-hal v30.0.2
+   Compiling egui v0.37.0 (https://github.com/anefzaoui/egui.git?rev=d110a3ccf2f1710f3e67db3f910b18003732c1df#d110a3cc)
+   Compiling zip v9.8.2
+   Compiling phf v0.13.1
+   Compiling wgpu-core-deps-windows-linux-android v30.0.2
+   Compiling accesskit_consumer v0.39.2
+   Compiling serde_html_form v0.2.8
+   Compiling governor v0.10.4
+   Compiling librqbit-tracker-comms v9.1.0 (https://github.com/anefzaoui/rqbit.git?rev=ef50d87f4a9d5be9e3951b74f722433f9b46bd76#ef50d87f)
+   Compiling derive_more v2.1.1
+   Compiling cssparser v0.36.0
+   Compiling librqbit-upnp v9.1.0 (https://github.com/anefzaoui/rqbit.git?rev=ef50d87f4a9d5be9e3951b74f722433f9b46bd76#ef50d87f)
+   Compiling librqbit-dht v9.1.0 (https://github.com/anefzaoui/rqbit.git?rev=ef50d87f4a9d5be9e3951b74f722433f9b46bd76#ef50d87f)
+   Compiling axum-extra v0.12.6
+   Compiling sdl-ipc v0.1.6 (D:\Swoopdl\SwoopdlSource\crates\ipc)
+   Compiling accesskit_windows v0.35.2
+   Compiling wgpu-core v30.0.2
+   Compiling librqbit-peer-protocol v9.1.0 (https://github.com/anefzaoui/rqbit.git?rev=ef50d87f4a9d5be9e3951b74f722433f9b46bd76#ef50d87f)
+   Compiling librqbit-lsd v9.1.0 (https://github.com/anefzaoui/rqbit.git?rev=ef50d87f4a9d5be9e3951b74f722433f9b46bd76#ef50d87f)
+   Compiling selectors v0.37.0
+   Compiling librqbit v9.1.0 (https://github.com/anefzaoui/rqbit.git?rev=ef50d87f4a9d5be9e3951b74f722433f9b46bd76#ef50d87f)
+   Compiling minidump-unwind v0.27.0
+   Compiling phf v0.14.0
+   Compiling icu_locale_fallback v2.3.0
+   Compiling wgpu v30.0.2
+   Compiling accesskit_winit v0.34.2
+   Compiling egui_glow v0.37.0 (https://github.com/anefzaoui/egui.git?rev=d110a3ccf2f1710f3e67db3f910b18003732c1df#d110a3cc)
+   Compiling cssparser v0.38.0
+   Compiling egui-wgpu v0.37.0 (https://github.com/anefzaoui/egui.git?rev=d110a3ccf2f1710f3e67db3f910b18003732c1df#d110a3cc)
+   Compiling sdl-tools v0.1.6 (D:\Swoopdl\SwoopdlSource\crates\tools)
+   Compiling egui-winit v0.37.0 (https://github.com/anefzaoui/egui.git?rev=d110a3ccf2f1710f3e67db3f910b18003732c1df#d110a3cc)
+   Compiling minidump-processor v0.27.0
+   Compiling icu_provider_adapters v2.3.0
+   Compiling sdl-torrent v0.1.6 (D:\Swoopdl\SwoopdlSource\crates\torrent)
+   Compiling lol_html v3.0.3
+   Compiling icu_decimal v2.3.0
+   Compiling icu_plurals v2.3.0
+   Compiling icu_provider_blob v2.3.0
+   Compiling craft-i18n v0.1.0 (https://github.com/storytold/craft-libs?rev=1a11a4897865f7410c40d25ca6e452ce399a1a2c#1a11a489)
+   Compiling eframe v0.37.0 (https://github.com/anefzaoui/egui.git?rev=d110a3ccf2f1710f3e67db3f910b18003732c1df#d110a3cc)
+   Compiling sdl-cli v0.1.6 (D:\Swoopdl\SwoopdlSource\crates\cli)
+   Compiling sdl-crash v0.1.6 (D:\Swoopdl\SwoopdlSource\crates\crash)
+   Compiling sdl-grabber v0.1.6 (D:\Swoopdl\SwoopdlSource\crates\grabber)
+   Compiling egui_extras v0.37.0 (https://github.com/anefzaoui/egui.git?rev=d110a3ccf2f1710f3e67db3f910b18003732c1df#d110a3cc)
+   Compiling sdl-app v0.1.6 (D:\Swoopdl\SwoopdlSource\crates\app)
+   Compiling sdl-extract v0.1.6 (D:\Swoopdl\SwoopdlSource\crates\extract)
+   Compiling sdl-remote v0.1.6 (D:\Swoopdl\SwoopdlSource\crates\remote)
+   Compiling sdl-debrid v0.1.6 (D:\Swoopdl\SwoopdlSource\crates\debrid)
+   Compiling sdl-labserver v0.1.6 (D:\Swoopdl\SwoopdlSource\crates\labserver)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 9m 15s
+     Running unittests src\main.rs (target\debug\deps\swoopdl-afce51b62b24da14.exe)
+
+running 5 tests
+test site_grabber::tests::site_grabber_calendar_reuses_weekday_and_once_rules ... ok
+test site_grabber::tests::site_grabber_invalid_draft_cannot_create ... ok
+test site_grabber::tests::site_grabber_pause_stays_pending_until_durable_result ... ok
+test site_grabber::tests::site_grabber_protected_storage_failure_has_no_plaintext_fallback ... ok
+test site_grabber::tests::site_grabber_repeated_schedule_ticks_do_not_start_paused_project ... ok
+
+test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 328 filtered out; finished in 0.13s
+
+     Running tests\cli_crash.rs (target\debug\deps\cli_crash-d75fd9e54df83c35.exe)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 1 filtered out; finished in 0.00s
+
+     Running tests\cli_json.rs (target\debug\deps\cli_json-93b2c01f89292887.exe)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 2 filtered out; finished in 0.00s
+
+     Running tests\close_without_tray.rs (target\debug\deps\close_without_tray-99794e3b79837893.exe)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 1 filtered out; finished in 0.00s
+
+     Running tests\freeze_report.rs (target\debug\deps\freeze_report-80f680e09ffcf057.exe)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 3 filtered out; finished in 0.00s
+
+     Running tests\handoff_hidden.rs (target\debug\deps\handoff_hidden-c27c7207bd1bdf8b.exe)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 2 filtered out; finished in 0.00s
+
+     Running tests\magnet_while_open.rs (target\debug\deps\magnet_while_open-6668d3f8d59b88af.exe)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 1 filtered out; finished in 0.00s
+
+     Running tests\minimized_clock.rs (target\debug\deps\minimized_clock-106e42c123edffb6.exe)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 1 filtered out; finished in 0.00s
+
+     Running tests\move_many.rs (target\debug\deps\move_many-bdc4ebe6ac0f1573.exe)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 1 filtered out; finished in 0.00s
+
+     Running tests\startup_tray.rs (target\debug\deps\startup_tray-f4064fe29f153cce.exe)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 1 filtered out; finished in 0.00s
+
+     Running tests\wake_timer.rs (target\debug\deps\wake_timer-52d1b6538b3fe978.exe)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 1 filtered out; finished in 0.00s
+

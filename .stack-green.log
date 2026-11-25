@@ -1,0 +1,9 @@
+   Compiling sdl-grabber v0.1.6 (D:\Swoopdl\SwoopdlSource\crates\grabber)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 5.96s
+     Running unittests src\lib.rs (target\debug\deps\sdl_grabber-b70e462d381193fe.exe)
+
+running 1 test
+test crawl::stack_tests::capture_future_fits_small_thread_stacks ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 1 filtered out; finished in 0.00s
+

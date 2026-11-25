@@ -1,0 +1,24 @@
+   Compiling sdl-labserver v0.1.6 (D:\Swoopdl\SwoopdlSource\crates\labserver)
+   Compiling sdl-grabber v0.1.6 (D:\Swoopdl\SwoopdlSource\crates\grabber)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 10.96s
+     Running tests\robots.rs (target\debug\deps\robots-94c0663be254b4c1.exe)
+
+running 2 tests
+test robots_longest_match_allow_tie_and_agent_groups ... ok
+test malformed_percent_before_unicode_does_not_panic ... FAILED
+
+failures:
+
+---- malformed_percent_before_unicode_does_not_panic stdout ----
+
+thread 'malformed_percent_before_unicode_does_not_panic' (24456) panicked at crates\grabber\src\robots.rs:36:92:
+end byte index 4 is not a char boundary; it is inside '€' (bytes 2..5 of string)
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+
+failures:
+    malformed_percent_before_unicode_does_not_panic
+
+test result: FAILED. 1 passed; 1 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+error: test failed, to rerun pass `-p sdl-grabber --test robots`

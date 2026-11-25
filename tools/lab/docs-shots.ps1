@@ -181,7 +181,7 @@ try {
   if ($Zoom -ne 1) { $env:SDL_ZOOM = "$Zoom" } else { Remove-Item Env:SDL_ZOOM -ErrorAction SilentlyContinue }
   $env:SDL_OFFSCREEN = "1"
   if ($At) { $env:SDL_OFFSCREEN_AT = $At }
-  $app = Start-Process -PassThru $Exe
+  $app = Start-Process -PassThru -WindowStyle Hidden $Exe
   Start-Sleep 3
   $main = @(Titles $app.Id | Where-Object { $_ -like "Swoopdl*" })[0]
 

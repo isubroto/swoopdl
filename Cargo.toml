@@ -4,7 +4,7 @@ resolver = "3"
 members = ["crates/*"]
 
 [workspace.package]
-version = "0.1.6"
+version = "0.1.7"
 edition = "2024"
 rust-version = "1.95"
 license = "GPL-3.0-or-later"
@@ -18,6 +18,7 @@ sdl-debrid = { path = "crates/debrid" }
 sdl-engine = { path = "crates/engine" }
 sdl-extract = { path = "crates/extract" }
 sdl-geo = { path = "crates/geo" }
+sdl-grabber = { path = "crates/grabber" }
 sdl-ipc = { path = "crates/ipc" }
 sdl-labserver = { path = "crates/labserver" }
 sdl-mcp = { path = "crates/mcp" }

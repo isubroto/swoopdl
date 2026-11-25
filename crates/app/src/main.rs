@@ -50,6 +50,7 @@ mod scrollbar;
 mod secrets;
 mod selection;
 mod settings;
+mod site_grabber;
 mod store;
 mod theme;
 mod themefile;

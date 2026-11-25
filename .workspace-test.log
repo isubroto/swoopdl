@@ -1,0 +1,1399 @@
+    Blocking waiting for file lock on build directory
+   Compiling indexmap v2.14.2
+   Compiling reqwest v0.13.5
+   Compiling h2 v0.4.20
+   Compiling hickory-net v0.26.3
+   Compiling hickory-resolver v0.26.3
+   Compiling sdl-engine v0.1.6 (D:\Swoopdl\SwoopdlSource\crates\engine)
+   Compiling sdl-labserver v0.1.6 (D:\Swoopdl\SwoopdlSource\crates\labserver)
+   Compiling zip v9.8.2
+   Compiling serde_html_form v0.2.8
+   Compiling librqbit-tracker-comms v9.1.0 (https://github.com/anefzaoui/rqbit.git?rev=ef50d87f4a9d5be9e3951b74f722433f9b46bd76#ef50d87f)
+   Compiling librqbit-upnp v9.1.0 (https://github.com/anefzaoui/rqbit.git?rev=ef50d87f4a9d5be9e3951b74f722433f9b46bd76#ef50d87f)
+   Compiling librqbit-dht v9.1.0 (https://github.com/anefzaoui/rqbit.git?rev=ef50d87f4a9d5be9e3951b74f722433f9b46bd76#ef50d87f)
+   Compiling axum-extra v0.12.6
+   Compiling librqbit v9.1.0 (https://github.com/anefzaoui/rqbit.git?rev=ef50d87f4a9d5be9e3951b74f722433f9b46bd76#ef50d87f)
+   Compiling sdl-tools v0.1.6 (D:\Swoopdl\SwoopdlSource\crates\tools)
+   Compiling sdl-grabber v0.1.6 (D:\Swoopdl\SwoopdlSource\crates\grabber)
+   Compiling sdl-torrent v0.1.6 (D:\Swoopdl\SwoopdlSource\crates\torrent)
+   Compiling naga-types v30.0.2
+   Compiling naga v30.0.2
+   Compiling wgpu-types v30.0.2
+   Compiling gpu-allocator v0.28.0
+   Compiling wgpu-naga-bridge v30.0.2
+   Compiling sdl-debrid v0.1.6 (D:\Swoopdl\SwoopdlSource\crates\debrid)
+   Compiling wgpu-hal v30.0.2
+   Compiling sdl-crash v0.1.6 (D:\Swoopdl\SwoopdlSource\crates\crash)
+   Compiling wgpu-core-deps-windows-linux-android v30.0.2
+   Compiling sdl-cli v0.1.6 (D:\Swoopdl\SwoopdlSource\crates\cli)
+   Compiling accesskit_windows v0.35.2
+   Compiling wgpu-core v30.0.2
+   Compiling wgpu v30.0.2
+   Compiling accesskit_winit v0.34.2
+   Compiling sdl-remote v0.1.6 (D:\Swoopdl\SwoopdlSource\crates\remote)
+   Compiling egui-wgpu v0.37.0 (https://github.com/anefzaoui/egui.git?rev=d110a3ccf2f1710f3e67db3f910b18003732c1df#d110a3cc)
+   Compiling egui-winit v0.37.0 (https://github.com/anefzaoui/egui.git?rev=d110a3ccf2f1710f3e67db3f910b18003732c1df#d110a3cc)
+   Compiling sdl-extract v0.1.6 (D:\Swoopdl\SwoopdlSource\crates\extract)
+   Compiling eframe v0.37.0 (https://github.com/anefzaoui/egui.git?rev=d110a3ccf2f1710f3e67db3f910b18003732c1df#d110a3cc)
+   Compiling sdl-app v0.1.6 (D:\Swoopdl\SwoopdlSource\crates\app)
+   Compiling rmcp v3.11.0
+   Compiling sdl-mcp v0.1.6 (D:\Swoopdl\SwoopdlSource\crates\mcp)
+   Compiling sdl-geo v0.1.6 (D:\Swoopdl\SwoopdlSource\crates\geo)
+   Compiling sdl-nmhost v0.1.6 (D:\Swoopdl\SwoopdlSource\crates\nmhost)
+   Compiling sdl-ipc v0.1.6 (D:\Swoopdl\SwoopdlSource\crates\ipc)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 16m 40s
+     Running unittests src\main.rs (target\debug\deps\swoopdl-f3d7ad7786e2ee10.exe)
+
+running 335 tests
+test app::at_login_tests::the_window_waits_for_the_tray_then_stays_there_or_shows_minimized ... ok
+test app::global_cap_tests::each_side_gets_half_and_what_the_other_leaves ... ok
+test app::mark_finished_tests::a_finished_file_is_marked_and_a_gone_one_is_not_created ... ok
+test app::move_many_tests::a_selection_gets_a_free_name_each ... ok
+test app::page_data_tests::links_take_what_belongs_to_them ... ok
+test app::page_data_tests::no_page_or_nothing_to_take ... ok
+test app::referrer_tests::a_drive_players_button_downloads_the_file ... ok
+test app::referrer_tests::referrers_as_browsers_send_them ... ok
+test app::same_name_tests::a_row_leaves_a_name_another_row_holds ... ok
+test app::same_name_tests::a_video_leaves_a_stem_another_row_holds ... ok
+test app::trim_tests::hidden_memory_is_given_back_at_2_s_2_min_then_every_10_min ... ok
+test app::window_thread_tests::a_stopped_downloads_files_are_removed_together ... ok
+test app::window_thread_tests::a_stuck_clipboard_owner_does_not_hold_the_window ... ok
+test batch::tests::letters_and_invalid_patterns ... ok
+test batch::tests::numbers_with_a_wildcard_size ... ok
+test categories::tests::a_built_in_one_takes_a_name_types_and_folder ... ok
+test categories::tests::a_deleted_built_in_one_takes_no_files_and_restore_brings_it_back ... ok
+test categories::tests::a_new_category_takes_its_files_and_folder ... ok
+test categories::tests::old_settings_without_edits_still_load ... ok
+test categories::tests::torrents_have_a_folder_but_no_file_types ... ok
+test categories::types_tests::typed_extensions_are_made_plain ... ok
+test chrome::label_cap_tests::labels_give_way_only_when_the_toolbar_is_too_wide ... ok
+test chrome::menu_slots_have_consistent_padding_and_gaps ... ok
+test chrome::tests::a_press_elsewhere_a_choice_or_the_focus_lost_closes_the_menu ... ok
+test chrome::tests::a_submenu_closing_with_the_focus_leaves_its_menu_open ... ok
+test chrome::tests::a_title_clicked_after_escape_opens_its_menu_again ... ok
+test chrome::tests::after_a_command_the_pointer_alone_opens_nothing ... ok
+test chrome::tests::another_title_opens_its_menu_from_an_open_one ... ok
+test chrome::tests::clicking_the_open_menus_title_shuts_it ... ok
+test chrome::tests::the_bar_menus_share_one_window_on_x11 ... ok
+test chrome::tests::the_focus_gone_to_another_app_closes_the_menu ... ok
+test chrome::tests::with_a_menu_open_the_pointer_switches_menus ... ok
+test crash::closing_tests::a_runtime_panic_while_closing_is_not_reported ... ok
+test crashui::tests::the_report_fills_fields_the_crash_form_has ... ok
+test derive::tests::oklab_round_trips ... ok
+test derive::tests::readable_reaches_the_ratio ... ok
+test derive::tests::wcag_ratios ... ok
+test dialogs::tests::a_dialog_closed_by_the_window_manager_is_painted_in_its_last_pass ... ok
+test dialogs::tests::a_dialog_gone_without_a_closing_pass_shows_when_it_opens_again ... ok
+test dialogs::tests::add_url_opens_and_takes_the_focus ... ok
+test dialogs::tests::add_url_shows_the_sites_logins_entry_for_its_address ... ok
+test errors::tests::messages_carry_their_data ... ok
+test extension::tests::gecko_rows_are_firefoxs_family ... ok
+test extension::tests::rows_match_the_names_browsers_report ... ok
+test extension::tests::safari_steps_are_complete ... ok
+test extractq::tests::a_split_archive_waits_for_every_volume ... ok
+test extractq::tests::names_of_archives ... ok
+test extractq::tests::only_what_is_asked_for_is_extracted ... ok
+test fileicons::tests::a_download_managers_files_get_their_kind ... ok
+test fileicons::tests::a_lookup_is_asked_once_and_answers_later ... ok
+test fileicons::tests::every_tango_icon_is_there_in_its_three_forms ... ok
+test fileicons::tests::fitting_premultiplies_and_averages ... ok
+test fileicons::tests::the_fallback_is_the_hand_drawn_png_at_16_and_32_else_the_svg ... ok
+test fileicons::tests::the_system_gives_its_icons_at_the_size_asked ... ok
+test find::tests::finds_in_the_chosen_fields_and_wraps_round ... ok
+test grabber::tests::an_idm_export_file_keeps_its_request_context ... ok
+test grabber::tests::checks_are_limited ... ok
+test grabber::tests::packages_by_volumes_then_page_then_various ... ok
+test grabber::tests::same_name_on_two_hosts_is_two_packages ... ok
+test grabber::tests::web_pages_hide_and_stay_out ... ok
+test headless::tests::flags_win_over_the_environment ... ok
+test headless::tests::folders_are_checked_at_start ... ok
+test help::tests::a_release_is_read_from_github ... ok
+test help::tests::every_linked_help_page_and_section_is_in_the_guide ... ok
+test help::tests::help_pages_are_the_websites_in_the_interface_language ... ok
+test help::tests::linked_help_pages_are_on_the_built_site ... ignored, needs the website built, in SDL_SITE_DIR
+test help::tests::notes_become_plain_lines ... ok
+test help::tests::the_report_fills_fields_the_bug_form_has ... ok
+test help::tests::the_site_languages_are_the_websites ... ok
+test help::tests::versions_compare_by_number ... ok
+test i18n::tests::counts_sizes_and_speeds_in_the_interface_language ... ok
+test i18n::tests::data_goes_in_as_isolates ... ok
+test i18n::tests::every_catalog_is_clean_and_offered ... ok
+test i18n::tests::numbers_follow_the_interface_language ... ok
+test i18n::tests::right_to_left_languages ... ok
+test launch::asked_tests::a_call_that_hangs_never_holds_the_window_and_is_asked_once ... ok
+test launch::asked_tests::another_key_has_no_answer_until_its_own ... ok
+test launch::asked_tests::pending_then_done_then_asked_again_when_stale ... ok
+test list::tests::a_layout_saved_before_the_added_columns_still_loads ... ok
+test list::tests::a_layout_saved_before_the_torrent_columns_gets_them ... ok
+test list::tests::a_layout_saved_by_052_keeps_peers_as_peers ... ok
+test list::tests::data_cells_keep_their_own_direction ... ok
+test list::tests::each_titles_slot_names_its_own_column ... ok
+test list::tests::filters_by_values_and_text ... ok
+test list::tests::hidden_columns_keep_their_place ... ok
+test list::tests::moving_a_column_right_and_left ... ok
+test model::address_tests::an_address_without_its_scheme_is_https ... ok
+test model::finished_file_gone_tests::only_a_finished_file_gone_from_a_folder_that_is_there ... ok
+test model::size_tests::a_finished_download_is_as_long_as_what_came_down ... ok
+test model::stamp_tests::english_stamps_follow_the_clock ... ok
+test model::stamp_tests::stamps_read_back_and_sort_by_time ... ok
+test model::tests::a_folder_saved_as_shown_is_under_home ... ok
+test model::tests::a_video_reads_100_only_when_finished ... ok
+test model::tests::categories ... ok
+test model::tests::formatting ... ok
+test model::tests::no_size_no_percentage ... ok
+test native::tests::the_default_blue_is_the_classic_look ... ok
+test native::tests::windows_accent_palette_bytes ... ok
+test options::tests::fluent_navigation_keeps_arrow_keys_and_focus ... ok
+test options::tests::modern_settings_pages_have_scroll_room ... ok
+test options::tests::reflowed_settings_grid_uses_full_content_width ... ok
+test options::tests::sites_round_trip_through_a_file ... ok
+test palette::tests::built_in_theme_files_read_cleanly ... ok
+test palette::tests::built_in_themes_meet_wcag_contrast ... ok
+test palette::tests::classic_dark_texts_read ... ok
+test palette::tests::classic_keeps_the_old_values ... ok
+test palette::tests::dark_variants_draw_no_bright_line_under_the_menu_bar ... ok
+test palette::tests::every_role_and_size_has_one_key ... ok
+test palette::tests::hex_round_trips ... ok
+test palette::tests::selectable_themes_exclude_retired_presets ... ok
+test palette::tests::style_themes_focus_rings_are_seen ... ok
+test playlistdlg::tests::qualities_for_a_list ... ok
+test progress::tests::hide_tab_takes_the_tab_off_the_strip ... ok
+test progress::tests::show_hidden_tabs_brings_them_all_back ... ok
+test progress::tests::the_title_has_a_percentage_only_with_a_size ... ok
+test queue::tests::a_download_stopped_by_hand_is_not_started_again ... ok
+test queue::tests::failed_file_moves_to_the_end ... ok
+test queue::tests::failed_files_wait_and_respect_the_retry_limit ... ok
+test queue::tests::once_at_a_date_or_daily_on_checked_days ... ok
+test queue::tests::schedule_time_crossing ... ok
+test queue::tests::starts_in_order_up_to_the_limit ... ok
+test quota::tests::blocks_at_the_limit_and_frees_when_old_traffic_leaves_the_window ... ok
+test quota::tests::counts_new_bytes_across_downloads ... ok
+test regional::tests::custom_formats_win_over_the_system ... ok
+test regional::tests::dates_and_times_are_written_in_each_order ... ok
+test remote::tests::texts_follow_the_browser ... ok
+test remote::tests::the_page_and_its_texts_agree ... ok
+test renderer::tests::a_plan_says_why ... ok
+test renderer::tests::adapters_in_the_systems_order ... ok
+test renderer::tests::failure_reasons_in_their_file ... ok
+test renderer::tests::override_from_the_command_line ... ok
+test renderer::tests::settings_names ... ok
+test renderer::tests::the_first_frame_clock_leaves_out_sdls_own_work ... ok
+test renderer::tests::the_setting_or_an_override_then_the_other_way ... ok
+test renderer::tests::windows_plans_unchanged ... ok
+test rss::tests::episodes_are_filtered_and_taken_once ... ok
+test rss::tests::only_new_articles_go_through_the_rules ... ok
+test rss::tests::rss_and_atom_are_read ... ok
+test rss::tests::rules_match_words_wildcards_and_regexes ... ok
+test rssdlg::tests::removing_a_feed_including_the_last_one_does_not_panic ... ok
+test rssdlg::tests::typing_in_the_episodes_box_keeps_its_focus ... ok
+test rssdlg::tests::typing_in_the_words_boxes_keeps_their_focus ... ok
+test scale::tests::a_cut_side_makes_room_for_its_scroll_bar ... ok
+test scale::tests::a_window_is_kept_inside_the_work_area ... ok
+test scale::tests::a_window_is_no_larger_than_the_screen ... ok
+test scale::tests::scroll_bars_only_where_needed ... ok
+test scale::tests::sizes_step_like_a_browsers_zoom ... ok
+test scale::tests::the_focused_control_is_scrolled_into_view ... ok
+test scale::tests::the_keys_step_the_size_like_a_browser ... ok
+test scheduler::tests::a_form_round_trips_a_queue ... ok
+test scheduler::tests::months_clamp_their_last_day ... ok
+test scheduler::tests::the_draft_keeps_its_order_and_the_lists_changes ... ok
+test scheduler::tests::unchecked_options_are_off_but_keep_their_values_in_the_form ... ok
+test schemes::tests::a_scheme_is_a_theme_on_the_classic_look ... ok
+test schemes::tests::a_scheme_short_of_aa_is_made_readable ... ok
+test schemes::tests::base16_classic_layout ... ok
+test schemes::tests::base16_malformed_and_missing ... ok
+test schemes::tests::base16_maps_backgrounds_text_and_accents ... ok
+test schemes::tests::base16_palette_keys_outside_palette_are_passed_over ... ok
+test schemes::tests::base16_palette_layout_with_base24_extras ... ok
+test schemes::tests::base16_plain_hash_values_and_three_digits ... ok
+test schemes::tests::contrast_fix_ups_reach_aa_on_every_background ... ok
+test schemes::tests::hex_reads_three_and_six_digits ... ok
+test schemes::tests::pywal_malformed_and_missing ... ok
+test schemes::tests::pywal_reads_and_maps ... ok
+test schemes::tests::readable_schemes_are_left_as_they_are ... ok
+test secrets::tests::a_copied_data_folder_moves_the_secrets_to_its_own_entries ... ok
+test secrets::tests::a_keychain_that_doesnt_answer_is_waited_for_once ... ok
+test secrets::tests::a_keychain_that_fails_keeps_the_secrets_in_the_settings ... ok
+test secrets::tests::a_plain_secret_that_looks_like_a_reference_stays_itself ... ok
+test secrets::tests::a_portable_copy_keeps_its_secrets_in_its_settings ... ok
+test secrets::tests::a_reference_that_cant_be_read_is_written_back_as_it_was ... ok
+test secrets::tests::checking_a_list_asks_no_keychain ... ok
+test secrets::tests::entries_no_longer_named_go_after_the_write_and_only_this_folders ... ok
+test secrets::tests::no_secret_reaches_the_log ... ok
+test secrets::tests::secrets_from_before_move_to_the_keychain_and_read_back ... ok
+test secrets::tests::the_system_keychain_keeps_and_forgets ... ok
+test selection::tests::a_box_selects_its_rows_and_shift_with_no_anchor_starts_there ... ok
+test selection::tests::click_ctrl_click_and_shift_click_select_like_windows ... ok
+test selection::tests::deleting_selects_the_row_after ... ok
+test selection::tests::select_all_focus_and_one ... ok
+test settings::sealed::tests::passwords_are_sealed_on_disk_and_read_back ... ok
+test settings::sealed::tests::the_close_button_keeps_sdl_running_unless_told_otherwise ... ok
+test settings::sealed::tests::the_proxy_password_and_debrid_secrets_are_sealed_on_disk ... ok
+test settings::tests::a_dialog_keeps_what_changed_elsewhere_meanwhile ... ok
+test settings::tests::a_folder_saved_into_becomes_the_categorys ... ok
+test settings::tests::connection_exceptions_and_proxy ... ok
+test settings::tests::history_keeps_each_entry_once_newest_first ... ok
+test settings::tests::listed_file_types ... ok
+test settings::tests::saved_browser_lists_get_new_browsers ... ok
+test settings::tests::site_logins_match_by_host_and_path ... ok
+test settings::tests::torrents_use_a_socks5_proxy_or_none ... ok
+test site_grabber::tests::site_grabber_calendar_reuses_weekday_and_once_rules ... ok
+test site_grabber::tests::site_grabber_invalid_draft_cannot_create ... ok
+test site_grabber::tests::site_grabber_one_time_schedule_can_be_more_than_a_year_away ... ok
+test site_grabber::tests::site_grabber_pause_stays_pending_until_durable_result ... ok
+test site_grabber::tests::site_grabber_protected_storage_failure_has_no_plaintext_fallback ... ok
+test site_grabber::tests::site_grabber_repeated_schedule_ticks_do_not_start_paused_project ... ok
+test site_grabber::tests::site_grabber_start_cannot_run_two_projects ... ok
+test store::tests::a_damaged_file_never_replaces_a_good_backup ... ok
+test store::tests::a_damaged_list_falls_back_to_the_previous_generation ... ok
+test store::tests::a_list_of_thousands_saves_and_loads_quickly ... ok
+test store::tests::a_resume_state_is_read_by_the_row_it_belongs_to ... ok
+test store::tests::a_saver_hands_over_at_once_while_the_disk_holds_its_writes ... ok
+test store::tests::an_unreadable_list_is_never_saved_over ... ok
+test store::tests::an_untouched_file_types_list_gains_todays_types ... ok
+test store::tests::loading_falls_back_through_the_generations ... ok
+test store::tests::old_lists_get_four_files_at_once ... ok
+test store::tests::older_generations_rotate_at_most_every_ten_minutes ... ok
+test store::tests::the_saver_writes_the_newest_list_off_the_calling_thread ... ok
+test tests::a_start_with_the_session_waits_in_the_tray ... ok
+test tests::offscreen_runs_leave_the_clipboard_alone ... ok
+test theme::glyph_tests::every_language_draws_its_marks ... ok
+test theme::glyph_tests::text_in_other_scripts_gets_its_font_on_demand ... ok
+test theme::mode_tests::always_dark_wins_else_the_system_decides ... ok
+test theme::mode_tests::retired_theme_ids_migrate_to_fluent ... ok
+test themefile::tests::a_file_changes_only_what_it_names ... ok
+test themefile::tests::a_rewritten_pywal_file_is_seen ... ok
+test themefile::tests::adding_copies_into_the_folder_once ... ok
+test themefile::tests::broken_files_and_loops_are_errors ... ok
+test themefile::tests::file_names_from_names ... ok
+test themefile::tests::files_in_the_folder_inherit_one_another ... ok
+test themefile::tests::json_reads_the_same ... ok
+test themefile::tests::schemes_in_the_folder_are_themes ... ok
+test themefile::tests::unknown_keys_and_bad_values_are_warnings ... ok
+test themeicons::tests::a_folder_set_reads_only_known_needs ... ok
+test themeicons::tests::a_one_colour_picture_is_made_white ... ok
+test themeicons::tests::a_one_colour_svg_takes_the_ink ... ok
+test themeicons::tests::adwaita_mixes_pictures_and_symbolic_icons ... ok
+test themeicons::tests::breeze_has_every_need_and_keeps_its_colours ... ok
+test themeicons::tests::era_sets_have_every_picture_but_the_title_bars_glyphs ... ok
+test themeicons::tests::every_built_in_icon_file_is_a_need_and_carried ... ok
+test themeicons::tests::every_need_has_one_id_and_metro_has_them_all ... ok
+test themeicons::tests::file_types_map_to_needs ... ok
+test themeicons::tests::mac_symbols_cover_every_need_and_render_in_light_and_dark_ink ... ok
+test themeicons::tests::pictures_come_in_every_size_the_loader_asks_for ... ok
+test torrentdlg::tests::a_magnets_wait_explains_itself ... ok
+test torrentdlg::tests::files_already_there_are_the_ones_that_exist ... ok
+test torrentdlg::tests::folders_first_with_sizes_and_mixed_state ... ok
+test torrentdlg::tests::one_file_is_one_row ... ok
+test torrentdlg::tests::typed_share_ratios ... ok
+test torrentdlg::tests::typed_tracker_addresses ... ok
+test torrents::tests::a_torrents_live_numbers_are_not_saved ... ok
+test torrents::tests::a_torrents_share_ratio ... ok
+test torrents::tests::magnet_links_carry_the_name ... ok
+test torrents::tests::no_session_means_no_live_numbers ... ok
+test torrents::tests::seeding_limits_are_reached ... ok
+test torrents::tests::sent_bytes_add_up_across_resumes ... ok
+test torrents::tests::the_piece_order_kept_and_chosen ... ok
+test torrents::tests::torrent_addresses_are_recognised ... ok
+test torrents::tests::torrent_files_are_marked_from_the_internet ... ok
+test transfer::tests::addresses_are_found_in_any_text ... ok
+test transfer::tests::idm_export_files_round_trip ... ok
+test tray::tests::menu_names_are_shortened_and_keep_their_ampersands ... ok
+test update::tests::a_release_names_linux_files_either_way ... ok
+test update::tests::only_a_signed_release_with_this_copys_file_updates_it ... ok
+test videodlg::tests::a_bot_check_says_what_to_try ... ok
+test videodlg::tests::an_embedded_player_taken_to_its_page_drops_the_embedding_sites_referer ... ok
+test videodlg::tests::cookie_and_sign_in_errors_in_plain_words ... ok
+test videodlg::tests::entries_ask_for_their_subtitles ... ok
+test videodlg::tests::subtitle_list_entries ... ok
+test videodlg::tests::the_last_choice_is_offered_again ... ok
+test wake::tests::a_local_time_has_a_utc_time ... ok
+test wake::tests::a_refusal_is_asked_again_later_not_every_tick ... ok
+test wake::tests::daily_starts_today_or_on_the_next_ticked_day ... ok
+test wake::tests::keeping_awake_never_waits_for_a_slow_system ... ok
+test wake::tests::once_at_a_date_until_it_has_passed ... ok
+test wake::tests::quitting_waits_for_a_hanging_system_at_most_a_second ... ok
+test wake::tests::stopping_while_the_hold_is_on_its_way_lets_it_go ... ok
+test wake::tests::the_earliest_queue_with_the_option_wins ... ok
+test wake::tests::the_wake_comes_a_minute_early_unless_that_has_passed ... ok
+test whereis::tests::round_trips_are_near_medium_or_far ... ok
+test whereis::tests::what_was_seen_is_kept_in_milliseconds ... ok
+test win32::caption_less_tests::a_drawn_title_bar_s_window_has_no_caption_style ... ok
+test win32::caption_less_tests::caption_less_frames_a_real_window_as_its_styles_say ... ok
+test win32::classic_text_tests::a_space_keeps_its_advance ... ok
+test win32::classic_text_tests::letters_have_whole_pixel_advances_and_stay_inside_them ... ok
+test win32::classic_text_tests::what_needs_shaping_stays_with_egui ... ok
+test win32::come_forward_tests::above_others_lifts_a_real_window_and_changes_nothing_else ... ok
+test win32::come_forward_tests::only_a_window_left_behind_is_lifted ... ok
+test win32::folder_opener_tests::a_replaced_open_verb_or_folder_is_the_opener ... ok
+test win32::folder_opener_tests::a_replacement_on_directory_is_the_opener ... ok
+test win32::folder_opener_tests::explorer_any_case_or_no_answer_is_no_other_opener ... ok
+test win32::folder_opener_tests::explorer_as_shipped_is_no_other_opener ... ok
+test win32::frame_tests::the_drawn_title_bar_hits_as_caption_icon_and_buttons ... ok
+test win32::install_language_tests::inno_names_become_codes ... ok
+test win32::main_window_tests::the_known_window_wins_over_its_namesake ... ok
+test win32::popup_style_tests::a_menu_window_is_a_popup_whose_client_is_all_of_it ... ok
+test win32::popup_style_tests::a_popup_keeps_its_extended_styles ... ok
+test win32::popup_style_tests::popup_window_makes_a_real_window_a_popup_and_keeps_it_one ... ok
+test win32::popup_style_tests::the_drop_target_is_a_popup_whose_client_is_all_of_it ... ok
+test win32::startup_tests::old_startup_entries_are_rewritten ... ok
+test win32::startup_tests::the_installer_writes_the_same_entry ... ok
+test win32::startup_tests::the_startup_entry_starts_sdl_in_the_tray ... ok
+test win32::swoopdl_tray_menu_theme::tests::only_supported_windows_builds_use_undocumented_ordinals ... ok
+test winui::reflow_tests::hard_breaks_flow_again ... ok
+test winui::tab_row_tests::the_widest_share_what_is_left ... ok
+test winui::tests::a_control_greyed_with_the_keys_hands_them_on ... ok
+test winui::tests::a_drop_down_is_as_wide_as_its_widest_choice ... ok
+test winui::tests::a_full_row_takes_room_from_buttons_wider_than_their_label ... ok
+test winui::tests::a_label_that_fits_keeps_its_button_as_it_is ... ok
+test winui::tests::a_left_to_right_surface_changes_nothing ... ok
+test winui::tests::a_long_lead_pushes_a_left_aligned_box ... ok
+test winui::tests::a_long_list_exposes_a_window_of_rows_around_the_view ... ok
+test winui::tests::a_long_right_aligned_lead_stays_in_the_window ... ok
+test winui::tests::a_paste_into_one_line_is_one_clean_line ... ok
+test winui::tests::a_path_is_shortened_in_the_middle_and_keeps_its_file_name ... ok
+test winui::tests::a_pressed_button_looks_pressed_in_both_themes ... ok
+test winui::tests::a_row_from_the_left_widens_to_the_right ... ok
+test winui::tests::a_row_keeps_its_english_places_and_uneven_gaps ... ok
+test winui::tests::a_row_of_buttons_widens_for_long_labels_only ... ok
+test winui::tests::a_sentence_runs_from_the_right ... ok
+test winui::tests::a_title_takes_a_second_line_only_where_one_is_too_long ... ok
+test winui::tests::a_translation_moves_the_boxes ... ok
+test winui::tests::a_widened_button_grows_into_the_room_before_it_in_rtl_too ... ok
+test winui::tests::button_labels_stay_centred_in_taller_buttons ... ok
+test winui::tests::control_states_open_and_tint ... ok
+test winui::tests::data_keeps_its_own_lines_and_reads_left_to_right ... ok
+test winui::tests::data_starts_at_the_left_of_its_room_in_rtl_too ... ok
+test winui::tests::english_lands_where_the_pieces_were ... ok
+test winui::tests::every_row_of_a_short_list_is_reachable ... ok
+test winui::tests::extra_lines_join_the_last_and_a_missing_box_still_shows ... ok
+test winui::tests::lines_land_on_whole_pixels_at_any_scaling ... ok
+test winui::tests::modern_dialog_font_is_scoped_and_nested ... ok
+test winui::tests::no_context_call_inside_a_context_lock ... ok
+test winui::tests::no_let_in_an_if_binds_a_condition ... ok
+test winui::tests::no_rect_is_mirrored_twice ... ok
+test winui::tests::pieces_split_at_the_boxes_only ... ok
+test winui::tests::rects_are_made_at_their_mirrored_place ... ok
+test winui::tests::surfaces_nest_and_end ... ok
+test xdgicons::tests::a_files_type_and_its_icon_names ... ok
+test xdgicons::tests::globs_match_as_shells_do ... ok
+test xdgicons::tests::icons_are_found_in_the_theme_its_parents_then_hicolor_by_size ... ok
+test xdgicons::tests::ini_values_by_section ... ok
+test xdgicons::tests::the_folders_come_from_the_environment ... ok
+
+test result: ok. 334 passed; 0 failed; 1 ignored; 0 measured; 0 filtered out; finished in 14.64s
+
+     Running tests\cli_crash.rs (target\debug\deps\cli_crash-4ef82f2300fb859a.exe)
+
+running 1 test
+test killed_download_resumes_correctly ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 5.07s
+
+     Running tests\cli_json.rs (target\debug\deps\cli_json-0a7e84db613ae1dc.exe)
+
+running 2 tests
+test a_download_reports_progress_then_done ... ok
+test failures_are_json_with_a_failing_exit_code ... ok
+
+test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.80s
+
+     Running tests\close_without_tray.rs (target\debug\deps\close_without_tray-77e31584622ed23d.exe)
+
+running 1 test
+test closing_follows_the_option_and_the_tray_icon ... ignored, opens the app's windows (off-screen): needs OpenGL or Direct3D; run with --ignored
+
+test result: ok. 0 passed; 0 failed; 1 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests\freeze_report.rs (target\debug\deps\freeze_report-361be22ee68c2a15.exe)
+
+running 3 tests
+test a_busy_command_is_reported_while_minimized_and_answers_again ... ignored, opens the app's windows (off-screen): needs OpenGL or Direct3D; run with --ignored
+test a_command_that_deadlocks_is_reported ... ignored, opens the app's windows (off-screen): needs OpenGL or Direct3D; run with --ignored
+test a_command_that_deadlocks_is_reported_while_minimized ... ignored, opens the app's windows (off-screen): needs OpenGL or Direct3D; run with --ignored
+
+test result: ok. 0 passed; 0 failed; 3 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests\handoff_hidden.rs (target\debug\deps\handoff_hidden-6bb0a899e5645281.exe)
+
+running 2 tests
+test browser_hand_overs_while_hidden_in_the_tray ... ignored, opens the app's windows (off-screen): needs OpenGL or Direct3D; run with --ignored
+test browser_hand_overs_while_minimized ... ignored, opens the app's windows (off-screen): needs OpenGL or Direct3D; run with --ignored
+
+test result: ok. 0 passed; 0 failed; 2 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests\magnet_while_open.rs (target\debug\deps\magnet_while_open-b84070027b5e7732.exe)
+
+running 1 test
+test a_magnet_handed_over_while_add_torrent_is_open_opens_after_it ... ignored, opens the app's windows (off-screen): needs OpenGL or Direct3D; run with --ignored
+
+test result: ok. 0 passed; 0 failed; 1 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests\minimized_clock.rs (target\debug\deps\minimized_clock-c58408bb762b44b6.exe)
+
+running 1 test
+test a_scheduled_queue_runs_while_minimized ... ignored, opens the app's windows (off-screen): needs OpenGL or Direct3D; run with --ignored
+
+test result: ok. 0 passed; 0 failed; 1 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests\move_many.rs (target\debug\deps\move_many-ffdc14da2fcebd83.exe)
+
+running 1 test
+test a_selection_moves_to_one_folder ... ignored, opens windows; run on request
+
+test result: ok. 0 passed; 0 failed; 1 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests\startup_tray.rs (target\debug\deps\startup_tray-2954517b43be4298.exe)
+
+running 1 test
+test a_start_with_the_session_waits_in_the_tray ... ignored, opens the app's windows (off-screen): needs OpenGL or Direct3D; run with --ignored
+
+test result: ok. 0 passed; 0 failed; 1 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests\wake_timer.rs (target\debug\deps\wake_timer-7cf15082206d8660.exe)
+
+running 1 test
+test the_computer_is_woken_for_the_queue_and_kept_awake_while_it_runs ... ignored, opens the app's windows (off-screen) and takes 90 s; run with --ignored
+
+test result: ok. 0 passed; 0 failed; 1 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running unittests src\lib.rs (target\debug\deps\sdl_cli-acee4fd1840e2169.exe)
+
+running 2 tests
+test tests::downloads_go_through_the_apps_accounts_unless_direct ... {"event":"through","service":"Fake-Debrid"}
+ok
+test tests::the_launcher_flag_starts_the_command_line ... ok
+
+test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running unittests src\main.rs (target\debug\deps\swoopdl_cli-735bff9437dc165e.exe)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests\launcher.rs (target\debug\deps\launcher-c62d4ec649999ce7.exe)
+launcher: ok
+     Running unittests src\lib.rs (target\debug\deps\sdl_crash-144af59c7679a0f1.exe)
+
+running 19 tests
+test analyze::tests::file_names_from_either_kind_of_path ... ok
+ERROR: Invalid argument/option - '--crash-monitor'.
+Type "WHOAMI /?" for usage.
+test client::tests::a_monitor_that_exits_before_listening_is_not_waited_for ... ok
+test github::tests::a_long_report_is_cut_at_a_line_within_the_budget ... ok
+test github::tests::a_short_report_goes_whole ... ok
+test logs::tests::it_rolls_over_and_the_tail_spans_the_files ... ok
+test logs::tests::logging_never_waits_for_the_disk ... ok
+test protocol::tests::a_freeze_dump_taken_after_recovery_is_still_the_freeze ... ok
+test protocol::tests::notes_follow_the_messages ... ok
+test report::tests::a_freeze_in_a_lock_is_a_wait_and_keeps_its_place ... ok
+test report::tests::a_freeze_names_the_window_threads_own_frame ... ok
+test report::tests::a_freeze_over_before_the_snapshot_says_so ... ok
+test report::tests::a_freeze_that_hardly_ran_in_own_code_is_a_busy_computer ... ok
+test report::tests::a_freeze_that_ran_all_along_is_a_loop ... ok
+test report::tests::a_panic_without_symbols_still_says_where ... ok
+test report::tests::function_names_lose_generics_and_closures ... ok
+test report::tests::the_renderer_is_named_at_the_top ... ok
+test symbols::tests::a_zip_lands_in_the_store_and_counts_as_had ... ok
+test symbols::tests::names_follow_the_release ... ok
+test tests::monitor_arguments_round_trip ... ok
+
+test result: ok. 19 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.20s
+
+     Running unittests src\bin\sdl-symbolicate.rs (target\debug\deps\sdl_symbolicate-fed00f3f4ea57960.exe)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests\e2e.rs (target\debug\deps\e2e-64b344a8613b95e9.exe)
+
+running 4 tests
+test a_freeze_reports_the_frozen_function ... ok
+test a_native_crash_reports_where_it_crashed ... ok
+test a_panic_reports_its_message_and_function ... ok
+test helper_is_found_in_both_cargo_test_layouts ... ok
+
+test result: ok. 4 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 5.01s
+
+     Running unittests src\lib.rs (target\debug\deps\sdl_debrid-50541b7e80003e3d.exe)
+
+running 11 tests
+test alldebrid::tests::documented_codes_mean_what_they_say ... ok
+test alldebrid::tests::the_documented_envelopes_read ... ok
+test premiumize::tests::documented_codes_mean_what_they_say ... ok
+test premiumize::tests::the_documented_answers_read ... ok
+test realdebrid::tests::documented_errors_mean_what_they_say ... ok
+test realdebrid::tests::the_documented_unrestrict_answer_reads ... ok
+test tests::a_credential_never_prints_its_secret ... ok
+test tests::hosts_match_their_domains_and_subdomains_only ... ok
+test torrents::tests::alldebrids_documented_codes_and_tree ... ok
+test torrents::tests::paths_from_the_service_stay_in_the_torrents_folder ... ok
+test torrents::tests::real_debrids_documented_states ... ok
+
+test result: ok. 11 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests\alldebrid_real.rs (target\debug\deps\alldebrid_real-2db57dec4062d0c2.exe)
+
+running 1 test
+test the_real_service_answers_the_demo_key ... ignored, asks AllDebrid's real API (with its public demo key)
+
+test result: ok. 0 passed; 0 failed; 1 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests\no_secret_in_logs.rs (target\debug\deps\no_secret_in_logs-55717c75ab9b4ad9.exe)
+
+running 1 test
+test no_token_in_any_log ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.28s
+
+     Running tests\realdebrid.rs (target\debug\deps\realdebrid-3f6215ec327cd070.exe)
+
+running 4 tests
+test a_host_link_downloads_through_the_account ... ok
+test other_hosts_are_not_the_services ... ok
+test sign_in_by_code_then_download ... ok
+test the_services_refusals_say_why ... ok
+
+test result: ok. 4 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.47s
+
+     Running tests\services.rs (target\debug\deps\services-fce58d681414a6fc.exe)
+
+running 4 tests
+test accounts_are_asked_in_their_order ... ok
+test alldebrid_links_come_through_the_account_delayed_ones_too ... ok
+test alldebrid_signs_in_by_pin ... ok
+test premiumize_links_come_through_the_account ... ok
+
+test result: ok. 4 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 10.26s
+
+     Running tests\torrents.rs (target\debug\deps\torrents-5f17bffb1d715aad.exe)
+
+running 4 tests
+test a_magnet_through_each_service_comes_down_as_files ... ok
+test a_stopped_torrent_continues_from_its_transfer ... ok
+test a_torrent_the_service_cant_get_fails_with_its_reason ... ok
+test file_names_that_climb_out_of_the_folder_are_refused ... ok
+
+test result: ok. 4 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 4.03s
+
+     Running unittests src\lib.rs (target\debug\deps\sdl_engine-5520dcabfbb17b86.exe)
+
+running 108 tests
+test disk::tests::a_drive_that_isnt_there_has_no_volume ... ok
+test disk::tests::a_missing_folder_is_on_the_volume_of_the_folder_above ... ok
+test disk::tests::a_probe_that_hangs_is_given_up ... ok
+test disk::tests::a_probe_that_starts_late_still_answers ... ok
+test disk::tests::a_share_is_probed_like_a_drive ... ok
+test disk::tests::fat32_refuses_4_gib_files ... ok
+test disk::tests::finds_the_volume_of_a_real_path ... ok
+test disk::tests::needs_the_file_plus_a_margin ... ok
+test disk::tests::sizes_read_like_idms ... ok
+test disk::tests::the_probe_answers_off_the_async_threads ... ok
+test dns::tests::a_listening_address_wins_over_a_dead_one ... ok
+test dns::tests::an_unreachable_dns_fails_without_asking_the_system ... ok
+test dns::tests::local_names_stay_with_the_system ... ok
+test dns::tests::one_address_is_not_raced ... ok
+test dns::tests::presets_make_their_choices ... ok
+test dns::tests::real_providers_answer_in_every_mode ... ignored, asks the real public DNS services
+test dns::tests::servers_parse_with_and_without_ports ... ok
+test download::tests::a_drive_links_cookies_go_to_drives_own_hosts_only ... ok
+test download::tests::a_pages_cookies_go_on_with_it ... ok
+test download::tests::a_slow_flush_makes_the_next_one_wait ... ok
+test download::tests::connections_stay_in_range ... ok
+test download::tests::content_range ... ok
+test download::tests::credentials_stay_with_their_host ... ok
+test download::tests::dead_links_are_not_retried ... ok
+test download::tests::drive_gets_a_browsers_agent_and_only_drive ... ok
+test download::tests::flush_step_scales_with_the_file ... ok
+test download::tests::network_errors_read_plainly ... ok
+test download::tests::pages_lead_on_as_browsers_read_them ... ok
+test download::tests::retry_after_seconds_or_date ... ok
+test ftp::tests::a_basic_header_logs_in_when_the_address_has_no_password ... ok
+test ftp::tests::addresses_name_the_server_file_and_login ... ok
+test hosts::tests::refusals_teach_the_most_that_worked ... ok
+test html::tests::an_elements_text ... ok
+test html::tests::attributes_are_read_in_order ... ok
+test html::tests::references_decode ... ok
+test html::tests::tags_are_whole_names ... ok
+test limiter::tests::counts_what_went_through ... ok
+test limiter::tests::limits_average_rate ... ok
+test limiter::tests::unlimited_and_changeable ... ok
+test naming::tests::a_folder_too_deep_for_any_name_is_refused ... ok
+test naming::tests::a_stem_is_free_for_every_extension ... ok
+test naming::tests::a_token_named_download_fits_its_folder ... ok
+test naming::tests::all_reserved_device_names ... ok
+test naming::tests::format_characters_are_removed ... ok
+test naming::tests::header_wins_over_url ... ok
+test naming::tests::long_names_are_clamped_keeping_the_extension ... ok
+test naming::tests::many_stems_into_one_folder ... ok
+test naming::tests::names_shrink_to_fit_a_deep_folder ... ok
+test naming::tests::numbered_duplicates ... ok
+test naming::tests::one_destination_one_download ... ok
+test naming::tests::plain_names_are_unquoted_and_decoded ... ok
+test naming::tests::sanitizes ... ok
+test naming::tests::the_encoded_name_wins_over_its_ascii_fallback ... ok
+test naming::tests::url_fallbacks ... ok
+test net::tests::a_bound_connection_leaves_from_the_adapter ... ok
+test net::tests::a_missing_or_addressless_adapter_is_down_never_any ... ok
+test net::tests::only_the_bound_family_is_reached_and_this_computer_always ... ok
+test pac::tests::a_broken_script_is_an_error ... ok
+test pac::tests::a_runaway_script_is_stopped ... ok
+test pac::tests::a_typical_script_is_run ... ok
+test pac::tests::answers_become_routes ... ok
+test pac::tests::helpers_behave ... ok
+test planner::tests::a_request_still_on_its_way_is_not_taken_over ... ok
+test planner::tests::a_segment_with_data_is_not_taken_over ... ok
+test planner::tests::empty_file_is_complete ... ok
+test planner::tests::finished_worker_splits_largest_when_next_already_receiving ... ok
+test planner::tests::finished_worker_takes_over_next_segment_not_yet_receiving ... ok
+test planner::tests::first_worker_gets_whole_file_second_splits_in_half ... ok
+test planner::tests::make_single_refuses_when_others_have_data ... ok
+test planner::tests::make_single_returns_the_file_to_the_first_connection ... ok
+test planner::tests::no_split_below_min_split ... ok
+test planner::tests::ramp_up_always_halves_the_largest ... ok
+test planner::tests::random_workers_write_every_byte_exactly_once ... ok
+test planner::tests::reassigned_segment_reports_the_bytes_already_written ... ok
+test planner::tests::release_drops_uncommitted_claims ... ok
+test planner::tests::resume_rejects_bad_state ... ok
+test planner::tests::room_shrinks_when_split ... ok
+test planner::tests::save_resume_round_trip ... ok
+test planner::tests::split_shortens_the_owner_who_then_finishes_early ... ok
+test planner::tests::the_probe_takes_over_the_split_off_segments_nothing_arrived_for ... ok
+test server::tests::cdns_are_named_by_their_headers ... ok
+test server::tests::the_round_trip_is_the_quickest_connection_over_its_round_trips ... ok
+test sites::gdrive::tests::a_doc_asked_as_a_file_is_looked_up_once ... ok
+test sites::gdrive::tests::a_form_off_drive_or_back_to_itself_is_not_followed ... ok
+test sites::gdrive::tests::drives_error_page_is_a_refusal_in_its_words ... ok
+test sites::gdrive::tests::drives_hosts_are_one_party ... ok
+test sites::gdrive::tests::every_link_form_is_recognised ... ok
+test sites::gdrive::tests::keys_and_accounts_are_kept ... ok
+test sites::gdrive::tests::links_lead_to_the_file_keeping_scheme_and_port ... ok
+test sites::gdrive::tests::sign_in_and_no_access_answers ... ok
+test sites::gdrive::tests::the_virus_scan_page_is_confirmed ... ok
+test sites::gofile::tests::a_share_link_is_a_page_for_the_browser ... ok
+test sites::gofile::tests::its_files_and_other_addresses_are_left_alone ... ok
+test sites::tests::a_gofile_page_is_refused_before_asking ... ok
+test sparse::tests::a_sparse_part_file_is_written_far_in_without_a_fill ... ok
+test state::migrate_tests::legacy_files_are_renamed_once ... ok
+test state::tests::a_date_counts_only_when_served_a_second_later ... ok
+test state::tests::a_weak_or_malformed_etag_means_no_validator ... ok
+test state::tests::rejects_garbage_and_other_versions ... ok
+test state::tests::save_load_round_trip ... ok
+test state::tests::the_etag_goes_only_to_its_host ... ok
+test state::tests::the_old_single_validator_is_migrated ... ok
+test tls::tests::other_tls_failures_are_not_mistaken_for_it ... ok
+test tls::tests::without_certificates_https_says_why ... ok
+test tls::tests::without_certificates_plain_http_still_downloads ... ok
+test verify::tests::digests_of_a_file ... ok
+test verify::tests::server_announced_hashes ... ok
+test verify::tests::user_hashes_by_length_or_name ... ok
+
+test result: ok. 107 passed; 0 failed; 1 ignored; 0 measured; 0 filtered out; finished in 18.03s
+
+     Running tests\dns.rs (target\debug\deps\dns-8bd4cda0ff3a4b7d.exe)
+
+running 5 tests
+test a_bound_download_asks_and_fetches_through_the_adapter ... ok
+test a_dead_dns_fails_the_download_and_names_itself ... ok
+test a_down_adapter_sends_nothing ... ok
+test a_download_goes_by_the_chosen_dns ... ok
+test an_address_of_the_family_the_adapter_lacks_is_refused ... ok
+
+test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 16.18s
+
+     Running tests\drive.rs (target\debug\deps\drive-00b6a069c9d2e0d6.exe)
+
+running 12 tests
+test a_google_doc_is_exported ... ok
+test a_paused_drive_download_resumes ... ok
+test a_private_file_needs_the_browsers_sign_in ... ok
+test a_quota_page_is_a_refusal_and_nothing_is_written ... ok
+test a_resource_key_is_kept ... ok
+test a_short_link_to_a_drive_file_gets_the_file ... ok
+test an_expired_confirmed_address_is_refreshed_through_the_link ... ok
+test drive_is_asked_with_a_browsers_agent ... ok
+test every_link_form_downloads_the_file ... ok
+test no_access_and_folders_are_refusals ... ok
+test the_look_gets_drives_name_and_size ... ok
+test the_virus_scan_page_is_confirmed_through_its_form ... ok
+
+test result: ok. 12 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 12.09s
+
+     Running tests\e2e.rs (target\debug\deps\e2e-21823e737d9a49c2.exe)
+
+running 53 tests
+test a_cdn_ignoring_one_range_in_three_stays_segmented ... ok
+test a_cdn_ignoring_the_first_range_stays_segmented ... ok
+test a_dead_link_fails_fast_instead_of_retrying ... ok
+test a_dead_link_is_not_retried ... ok
+test a_download_completing_during_a_progress_save_finishes ... ok
+test a_file_bigger_than_the_drive_is_refused_before_it_starts ... ok
+test a_global_cap_is_shared_by_all_downloads ... ok
+test a_host_connection_limit_is_learned_and_reused ... ok
+test a_known_checksum_is_verified ... ok
+test a_link_that_cannot_be_refreshed_reports_link_expired ... ok
+test a_missing_folder_is_reported_and_nothing_restarts ... ok
+test a_one_time_link_is_read_from_the_kept_answer ... ok
+test a_pac_script_routes_through_its_proxy ... ok
+test a_path_too_long_for_windows_is_refused_before_anything_is_created ... ok
+test a_plain_web_page_is_still_downloaded ... ok
+test a_refusal_below_the_learned_cap_is_retried ... ok
+test a_refused_browser_agent_is_asked_again_as_sdl ... ok
+test a_server_busy_at_the_start_is_retried ... ok
+test a_server_that_sometimes_ignores_ranges_still_completes ... ok
+test a_server_without_ranges_sends_the_file_once ... ok
+test a_slow_download_does_not_rewrite_its_state_every_tick ... ok
+test a_slow_flush_does_not_stop_the_transfer ... ok
+test a_weak_etag_means_no_if_range ... ok
+test a_web_page_instead_of_the_file_stops_the_resume ... ok
+test a_wrong_checksum_fails_and_keeps_the_data ... ok
+test changed_file_fails ... ok
+test connections_skip_a_dead_address ... ok
+test cookies_are_sent_to_their_own_host ... ok
+test cookies_do_not_follow_a_cross_host_redirect ... ok
+test crash_after_the_final_rename_completes_on_resume ... ok
+test every_kind_of_redirect_is_followed ... ok
+test no_range_server_uses_one_connection ... ok
+test pause_and_resume_continues_where_it_stopped ... ok
+test per_node_etags_fall_back_to_the_date ... ok
+test probe_is_a_plain_get ... ok
+test respects_server_connection_limit ... ok
+test resume_detects_changed_file ... ok
+test resume_follows_the_original_address_when_the_redirected_one_expired ... ok
+test resume_overlap_check_detects_changed_data ... ok
+test resume_rejects_damaged_part_file ... ok
+test resume_without_validator_checks_overlap_and_completes ... ok
+test segmented_download_uses_many_connections ... ok
+test signed_links_that_expire_while_downloading_are_refreshed ... ok
+test slow_connections_reconnect_instead_of_holding_the_end ... ok
+test sockets_are_reused_between_segments ... ok
+test speed_limit_caps_the_whole_download ... ok
+test stop_is_prompt_under_a_low_limit ... ok
+test survives_drops_and_503s ... ok
+test the_event_log_tells_what_happened ... ok
+test the_finished_file_can_take_the_servers_date ... ok
+test the_view_names_the_file_when_a_resume_finds_its_place_taken ... ok
+test the_view_names_the_file_when_its_place_was_taken_meanwhile ... ok
+test tiny_file_is_not_split ... ok
+
+test result: ok. 53 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 42.43s
+
+     Running tests\ftp.rs (target\debug\deps\ftp-234da7476f26d17e.exe)
+
+running 15 tests
+test a_connection_limit_is_respected ... ok
+test a_file_comes_over_several_connections ... ok
+test a_missing_file_says_so ... ok
+test a_server_without_rest_sends_the_file_on_one_connection ... ok
+test active_mode_works_too ... ok
+test an_untrusted_certificate_is_refused ... ok
+test explicit_ftps_secures_control_and_data ... ok
+test implicit_ftps_works ... ok
+test pause_and_resume_continues_where_it_stopped ... ok
+test probe_tells_size_and_name ... ok
+test resume_detects_a_changed_file ... ok
+test sessions_are_reused_between_parts ... ok
+test the_login_comes_from_the_address_or_the_authorization_header ... ok
+test the_password_is_not_written_to_the_resume_state ... ok
+test transfers_cut_short_are_continued ... ok
+
+test result: ok. 15 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 9.21s
+
+     Running tests\post.rs (target\debug\deps\post-8917c91fafc93e05.exe)
+
+running 9 tests
+test a_303_after_the_post_is_followed_with_get ... ok
+test a_307_after_the_post_keeps_the_post ... ok
+test a_bot_check_is_named ... ok
+test a_post_that_claims_ranges_but_ignores_them_still_completes ... ok
+test a_post_that_ignores_ranges_comes_on_one_connection ... ok
+test a_post_that_only_announces_ranges_is_posted_once ... ok
+test the_form_is_posted_and_the_answer_saved ... ok
+test the_hook_sees_the_part_file_before_any_data ... ok
+test the_probe_posts_the_form_too ... ok
+
+test result: ok. 9 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 2.88s
+
+     Running tests\server.rs (target\debug\deps\server-a991d7c2e5c7191b.exe)
+
+running 2 tests
+test the_look_and_the_download_see_the_server ... ok
+test through_a_proxy_the_address_is_the_proxys_and_said_so ... ok
+
+test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 1.09s
+
+     Running tests\unlock.rs (target\debug\deps\unlock-d81a706d2b88b9ab.exe)
+
+running 6 tests
+test a_download_begun_directly_continues_through_the_service_once_set_to ... ok
+test a_host_link_comes_through_the_service_capped_and_without_the_hosts_cookies ... ok
+test a_host_the_service_declines_is_downloaded_directly ... ok
+test a_service_refusal_stops_the_download_before_any_file ... ok
+test an_expired_direct_link_is_unlocked_again_and_the_download_completes ... ok
+test the_look_names_and_sizes_the_file_through_the_service ... ok
+
+test result: ok. 6 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 2.49s
+
+     Running unittests src\lib.rs (target\debug\deps\sdl_extract-4be59d24c21b4369.exe)
+
+running 12 tests
+test tests::entry_paths_stay_inside ... ok
+test tests::external_7zip_goes_through_the_same_checks ... ok
+test tests::hostile_zip_entries_are_left_out ... ok
+test tests::limits_stop_a_bomb ... ok
+test tests::no_7zip_says_so ... ok
+test tests::not_an_archive ... ok
+test tests::sevenz_plain_encrypted_and_split_through_7zip ... ok
+test tests::single_gz ... ok
+test tests::tar_gz_and_links ... ok
+test tests::volume_names ... ok
+test tests::zip_aes_passwords ... ok
+test tests::zip_smart_folder_and_marks ... ok
+
+test result: ok. 12 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.32s
+
+     Running unittests src\lib.rs (target\debug\deps\sdl_geo-71e1375bc52b6d45.exe)
+
+running 4 tests
+test tests::addresses_have_their_countries ... ok
+test tests::the_flags_follow_the_tables_order ... ok
+test tests::the_whole_space_is_walked_in_order ... ok
+test tests::this_computer_and_local_networks_have_none ... ok
+
+test result: ok. 4 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.29s
+
+     Running unittests src\lib.rs (target\debug\deps\sdl_grabber-caa62562077a7979.exe)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests\acceptance.rs (target\debug\deps\acceptance-096443f397cf1676.exe)
+
+running 4 tests
+test crawl_loop_is_bounded_and_robots_disallow_never_requested ... ok
+test pause_ack_follows_checkpoint ... ok
+test sync_304_uses_verified_body_and_missing_body_refetches ... ok
+test transient_status_retries_three_times_and_pause_interrupts_backoff ... ok
+
+test result: ok. 4 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 33.98s
+
+     Running tests\crawl.rs (target\debug\deps\crawl-dafc44864ffa8e45.exe)
+
+running 4 tests
+test binary_resources_do_not_consume_the_document_parse_cap ... ok
+test css_tokenization_handles_escapes_and_nested_functions ... ok
+test discovery_cannot_exceed_the_100000_url_ceiling ... ok
+test nested_css_and_srcset_are_discovered ... ok
+
+test result: ok. 4 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 2.87s
+
+     Running tests\credentials.rs (target\debug\deps\credentials-d81b6bafddbe6a9f.exe)
+
+running 1 test
+test serialized_project_contains_only_protected_reference ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests\offline.rs (target\debug\deps\offline-06ae9fad722683c6.exe)
+
+running 7 tests
+test active_svg_cannot_execute_or_fetch_when_opened_directly ... ok
+test captured_assets_and_inline_css_use_local_paths ... ok
+test rewrite_output_expansion_is_capped ... ok
+test same_raw_html_different_base_rewrites_separately ... ok
+test symlink_escape_is_rejected ... ok
+test uncaptured_link_keeps_absolute_target ... ok
+test windows_case_and_reserved_names_do_not_collide ... ok
+
+test result: ok. 7 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.50s
+
+     Running tests\policy.rs (target\debug\deps\policy-13d710674f471f62.exe)
+
+running 5 tests
+test asset_save_filters_do_not_block_page_traversal ... ok
+test exclude_wins ... ok
+test normalization_preserves_query_identity ... ok
+test scope_separates_pages_and_assets ... ok
+test seed_depth_is_zero ... ok
+
+test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests\recovery.rs (target\debug\deps\recovery-5719cfad85ab0fd1.exe)
+
+running 6 tests
+test corrupt_latest_uses_backup ... ok
+test deleting_metadata_keeps_captured_files ... ok
+test missing_destination_is_actionable ... ok
+test project_id_cannot_bypass_validation_through_json ... ok
+test restart_charges_uncertain_reservation ... ok
+test synthetic_100000_url_frontier_checkpoints_and_rejects_overflow ... ok
+
+test result: ok. 6 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 2.48s
+
+     Running tests\robots.rs (target\debug\deps\robots-2e8b4b4cc4077972.exe)
+
+running 2 tests
+test malformed_percent_before_unicode_does_not_panic ... ok
+test robots_longest_match_allow_tie_and_agent_groups ... ok
+
+test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests\sync.rs (target\debug\deps\sync-51b6acb66fcad3ea.exe)
+
+running 1 test
+test manual_pause_suppresses_schedule ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests\transport.rs (target\debug\deps\transport-e58c98391fcf2bef.exe)
+
+running 7 tests
+test chunked_body_obeys_budget_and_cleans_partial_file ... ok
+test credentials_do_not_cross_origin ... ok
+test decoded_gzip_body_obeys_budget ... ok
+test dns_answer_is_checked_before_connection ... ok
+test dns_rebinding_peer_is_rejected ... ok
+test parallel_retries_share_budget ... ok
+test redirect_checked_before_request ... ok
+
+test result: ok. 7 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.38s
+
+     Running unittests src\lib.rs (target\debug\deps\sdl_ipc-2ff5179830d7543d.exe)
+
+running 41 tests
+test api::tests::errors_and_answers_read_back ... ok
+test api::tests::schema_file_is_current ... ok
+test browsers::tests::a_manifests_program ... ok
+test browsers::tests::brave_on_macos_gets_chromes_folder ... ok
+test browsers::tests::brave_origin_gets_its_own_folder ... ok
+test browsers::tests::every_browsers_system_folder_is_shipped ... ok
+test browsers::tests::every_listed_folder_is_covered ... ok
+test browsers::tests::firefox_xdg_alone_gets_mozillas_folder ... ok
+test browsers::tests::helium_gets_its_own_folder ... ok
+test browsers::tests::names_are_unique_and_found ... ok
+test browsers::tests::nothing_installed_nothing_written ... ok
+test browsers::tests::programs_from_open_commands ... ok
+test browsers::tests::several_browsers_each_once ... ok
+test browsers::tests::snap_firefox_alone_gets_mozillas_folder ... ok
+test browsers::tests::windows_programs_by_file_and_folder ... ok
+test browsers::tests::zen_alone_gets_mozillas_folder ... ok
+test capture::tests::a_copied_address_is_offered_only_as_it_always_was ... ok
+test capture::tests::a_lone_star_takes_every_file_with_a_type ... ok
+test capture::tests::a_site_is_added_once ... ok
+test capture::tests::an_earlier_default_list_becomes_todays_and_an_edited_one_stays ... ok
+test capture::tests::browsers_by_name ... ok
+test capture::tests::each_refusal_has_a_name_and_a_reason ... ok
+test capture::tests::excluded_sites_addresses_and_browsers_are_left_to_the_browser ... ok
+test capture::tests::hosts_and_patterns ... ok
+test capture::tests::sites_export_and_import ... ok
+test capture::tests::small_files_by_options ... ok
+test capture::tests::the_defaults_take_listed_types_from_any_browser ... ok
+test capture::tests::the_video_button_follows_its_options ... ok
+test capture::tests::todays_big_files_are_taken_and_everyday_browsing_is_not ... ok
+test extension::tests::ids_are_chromium_ids ... ok
+test extension::tests::only_the_unpacked_extension_is_available_until_new_store_listing ... ok
+test extension::tests::seen_lines_old_and_new ... ok
+test tests::a_slow_client_does_not_hold_up_a_real_command ... ok
+test tests::bare_magnets_and_torrent_files ... ok
+test tests::idm_command_line ... ok
+test tests::queries_get_the_apps_answer ... ok
+test tests::request_lines_are_bounded ... ok
+test tests::secrets_compare_whole ... ok
+test tests::tokens_are_random ... ok
+test tests::too_large_and_quitting_are_said ... ok
+test tests::web_pages_and_wrong_tokens_get_nothing ... ok
+
+test result: ok. 41 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 1.03s
+
+     Running unittests src\lib.rs (target\debug\deps\sdl_labserver-3eaca18006503c68.exe)
+
+running 16 tests
+test content::tests::any_offset_matches_whole_file ... ok
+test content::tests::seeds_differ ... ok
+test content::tests::sizes ... ok
+test drive::tests::ids_say_what_they_are ... ok
+test faults::tests::every_nth ... ok
+test faults::tests::flags_and_refusals ... ok
+test faults::tests::parse_and_override ... ok
+test faults::tests::rejects_unknown_and_bad_sizes ... ok
+test feeds::tests::dates_and_hashes_are_fixed ... ok
+test feeds::tests::file_links_are_paths ... ok
+test ftp::tests::makes_a_certificate ... ok
+test ftp::tests::paths_name_files ... ok
+test server::tests::file_query_and_disposition ... ok
+test server::tests::form_bodies ... ok
+test streams::tests::sections_carry_mpeg_crcs ... ok
+test streams::tests::segments_are_whole_packets_with_their_stream_first ... ok
+
+test result: ok. 16 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.05s
+
+     Running unittests src\main.rs (target\debug\deps\labserver-18308b44fe7b42a0.exe)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests\http.rs (target\debug\deps\http-635f4583504695a2.exe)
+
+running 23 tests
+test a_refusal_shows_how_far_the_slots_responses_were_sent ... ok
+test a_stall_holds_a_byte_back_until_lifted ... ok
+test bad_query_is_rejected ... ok
+test cookie_page_sets_cookies ... ok
+test disposition_names_and_inline_types ... ok
+test drop_after ... ok
+test etag_changes_every_n ... ok
+test form_page_posts_to_form ... ok
+test forms_answer_only_their_post ... ok
+test full_get ... ok
+test head_and_416 ... ok
+test help_lists_the_routes ... ok
+test hls_and_dash ... ok
+test hls_and_dash_without_their_endings_or_types ... ok
+test log_records_what_the_client_sent ... ok
+test max_conns_and_fail_every ... ok
+test no_range_and_if_range ... ok
+test one_time_links ... ok
+test page_variants ... ok
+test pages_are_logged_too ... ok
+test range_and_keepalive_reuse ... ok
+test rate_limit_is_respected ... ok
+test require_cookie_and_referer ... ok
+
+test result: ok. 23 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 1.25s
+
+     Running unittests src\lib.rs (target\debug\deps\sdl_mcp-1a43ec21c04f94f2.exe)
+
+running 3 tests
+test tests::adds_only_what_the_app_downloads ... ok
+test tests::explains_what_went_wrong ... ok
+test tests::lists_newest_first_filtered_and_cut ... ok
+
+test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running unittests src\main.rs (target\debug\deps\swoopdl_mcp-5dc163ec85776aa1.exe)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests\stdio.rs (target\debug\deps\stdio-12c56cd1a4b9dd79.exe)
+
+running 2 tests
+test an_assistant_lists_adds_and_acts_through_the_app ... ok
+test says_when_the_api_is_off_or_the_app_is_not_running ... ok
+
+test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.37s
+
+     Running unittests src\main.rs (target\debug\deps\swoopdl_nmhost-2e0f858e3e7bfff0.exe)
+
+running 18 tests
+test tests::a_refusal_says_which_rule ... ok
+test tests::cookies_keep_their_domains ... ok
+test tests::framing_round_trip ... ok
+test tests::huge_messages_are_read_past_and_said ... ok
+test tests::log_lines_name_what_was_left_and_why ... ok
+test tests::message_to_command ... ok
+test tests::older_extensions_messages_still_work ... ok
+test tests::only_our_extension_in_either_browser ... ok
+test tests::only_trusted_unpacked_or_new_store_extensions_allowed ... ok
+test tests::options_decide_what_is_taken ... ok
+test tests::redirects_are_checked_at_both_ends ... ok
+test tests::rules_say_everything_the_extension_needs ... ok
+test tests::safari_helper_finds_its_app ... ok
+test tests::the_browsers_proxy_goes_with_the_download ... ok
+test tests::the_browsers_whole_context_reaches_the_app ... ok
+test tests::the_extensions_own_refusals_are_only_noted ... ok
+test tests::the_video_button_asks_the_rules ... ok
+test tests::web_and_ftp_links_are_downloadable ... ok
+
+test result: ok. 18 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.01s
+
+     Running tests\host.rs (target\debug\deps\host-dafda6b793ae4b0d.exe)
+
+running 5 tests
+test options_and_a_refusing_app_start_nothing ... ok
+test rules_hand_off_and_the_status_per_browser ... ok
+test strangers_are_refused ... ok
+test the_default_list_takes_a_model_and_leaves_a_picture ... ok
+test what_is_left_to_the_browser_is_logged ... ok
+
+test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 1.09s
+
+     Running unittests src\lib.rs (target\debug\deps\sdl_remote-c2700bc6e7ec91ca.exe)
+
+running 11 tests
+test addrs::tests::hosts ... ok
+test addrs::tests::only_local_network_addresses_by_default ... ok
+test addrs::tests::urls ... ok
+test devices::tests::pair_check_remove ... ok
+test pairing::tests::a_code_pairs_once ... ok
+test pairing::tests::a_guessing_device_does_not_block_the_phone ... ok
+test pairing::tests::one_device_gets_five_paced_tries ... ok
+test pairing::tests::twenty_wrong_tries_in_all_void_the_code ... ok
+test tls::tests::an_idle_connection_is_closed ... ok
+test tls::tests::civil_dates ... ok
+test tls::tests::kept_until_it_runs_out ... ok
+
+test result: ok. 11 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 17.44s
+
+     Running tests\server.rs (target\debug\deps\server-4a8e7495babbbfce.exe)
+
+running 2 tests
+test never_every_address ... ok
+test pair_then_control ... ok
+
+test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 2.43s
+
+     Running unittests src\lib.rs (target\debug\deps\sdl_tools-6e685063dce39d2d.exe)
+
+running 96 tests
+test chosen::tests::a_file_saved_with_a_byte_order_mark_is_read ... ok
+test chosen::tests::chosen_programs_are_kept_and_forgotten ... ok
+test chosen::tests::chosen_programs_are_used_and_not_updated ... ok
+test chosen::tests::versions_are_read_as_each_program_prints_them ... ok
+test ffmpeg::tests::picks_stable_lgpl_shared_builds_only ... ok
+test ffmpeg::tests::the_newest_release_with_a_build_and_its_checksums ... ok
+test ffmpeg::tests::unpacks_only_bin_files ... ok
+test gallery::tests::a_chosen_release_too_old_gives_way_to_sdls_own ... ok
+test gallery::tests::a_gallery_is_named_by_its_address ... ok
+test gallery::tests::a_long_output_is_counted_without_holding_it ... ok
+test gallery::tests::a_real_release_list_is_signed_by_the_pinned_key ... ok
+test gallery::tests::each_release_gets_only_the_options_it_accepts ... ok
+test gallery::tests::installs_go_in_their_own_folder ... ok
+test gallery::tests::its_lines_are_files_saved_or_already_there ... ok
+test gallery::tests::the_browsers_context_as_each_release_takes_it ... ok
+test macos::tests::an_archive_without_the_program_installs_nothing ... ok
+test macos::tests::nothing_lands_outside_the_install ... ok
+test macos::tests::the_folder_build_is_unpacked_as_one_and_made_current ... ok
+test macos::tests::the_same_version_replaces_the_one_file_build ... ok
+test openpgp::tests::an_issuer_that_names_another_key_fails ... ok
+test openpgp::tests::armor_is_checked_by_its_checksum ... ok
+test openpgp::tests::each_key_signs_for_itself_only ... ok
+test openpgp::tests::garbage_fails_without_panicking ... ok
+test openpgp::tests::real_signatures_verify_and_any_change_fails_them ... ok
+test openpgp::tests::the_pinned_keys_have_the_fingerprints_we_expect ... ok
+test pages::tests::dailymotions_player_becomes_the_videos_own_page ... ok
+test pages::tests::gallery_pages_are_recognised ... ok
+test pages::tests::other_pages_and_files_are_not ... ok
+test pages::tests::video_pages_are_recognised ... ok
+test playlist::tests::a_long_list_is_read_in_order_and_capped ... ok
+test playlist::tests::an_entry_and_what_it_says_of_its_list ... ok
+test playlist::tests::lengths_read_as_clocks ... ok
+test proc::tests::a_header_goes_to_the_sites_own_domain ... ok
+test proc::tests::a_helper_held_to_redirection_guard_walks_its_path ... ok
+test proc::tests::a_helper_is_given_the_proxy_of_the_settings ... ok
+test proc::tests::a_helpers_path_leaves_out_the_folders_it_cant_open ... ok
+test proc::tests::a_look_up_without_cookies_keeps_the_rest ... ok
+test proc::tests::a_youtube_pages_cookies_reach_the_host_ytdlp_asks ... ok
+test proc::tests::each_cookie_keeps_its_domain_and_flags ... ok
+test proc::tests::fixed_arguments_come_last_and_the_url_after_the_separator ... ok
+test proc::tests::hostile_text_never_reaches_the_argument_list ... ok
+test proc::tests::killing_a_helper_ends_its_children ... ok
+test proc::tests::output_and_failures_of_a_real_process ... ok
+test proc::tests::the_browsers_context_for_ytdlp ... ok
+test proc::tests::the_browsers_cookies_only_when_the_extension_sent_none ... ok
+test proc::tests::the_cookie_trouble_is_kept_on_the_failure ... ok
+test proc::tests::the_javascript_runtime_yt_dlp_is_told_of ... ok
+test proc::tests::yt_dlp_runs_through_the_settings_proxy ... ok
+test relay::tests::answers_say_connection_close ... ok
+test relay::tests::requests_are_read_and_rewritten ... ok
+test resolve::tests::a_direct_file_takes_the_size_the_server_said ... ok
+test resolve::tests::a_streams_variants_by_bitrate ... ok
+test resolve::tests::a_title_that_is_only_the_address ... ok
+test resolve::tests::audio_conversions ... ok
+test resolve::tests::audio_without_codec_info_is_not_a_video_choice ... ok
+test resolve::tests::choices_with_and_without_merging ... ok
+test resolve::tests::junk_is_not_a_video ... ok
+test resolve::tests::live_look_up_with_cookies ... ignored
+test resolve::tests::mp3_selectors_are_the_offered_ones_only ... ok
+test resolve::tests::only_the_sound_without_ffmpeg_and_a_muxed_format ... ok
+test resolve::tests::plain_files_without_codec_or_resolution ... ok
+test resolve::tests::subtitle_languages_worth_offering ... ok
+test servers::live::live_reroute ... ignored
+test servers::live::live_serves ... ignored
+test servers::tests::a_blackholed_name_is_unreachable ... ok
+test servers::tests::a_left_out_stream_is_named_by_its_height ... ok
+test servers::tests::a_stream_the_alternative_refuses_is_left_out ... ok
+test servers::tests::an_unreachable_server_is_swapped_for_its_alternative ... ok
+test servers::tests::reachable_servers_and_dead_ends_stay ... ok
+test servers::tests::unreachable_servers_from_ytdlps_failure ... ok
+test tests::a_changed_list_fails_the_signature ... ok
+test tests::a_real_release_checksum_list_is_signed_by_the_pinned_key ... ok
+test tests::checksums_by_name ... ok
+test tests::installs_switch_and_keep_one_previous_version ... ok
+test tests::sdl_releases_are_checked_against_sdls_own_key ... ok
+test tests::versions_compare_as_dates ... ok
+test update::tests::a_linux_copy_knows_its_package_manager ... ok
+test update::tests::a_release_file_is_taken_only_from_a_list_signed_by_sdl ... ok
+test update::tests::a_zip_unpacks_into_its_folder_and_nothing_climbs_out ... ok
+test update::tests::bundles_on_a_mac ... ok
+test update::tests::every_kind_has_its_release_file ... ok
+test update::tests::files_are_replaced_and_the_old_ones_set_aside_then_removed ... ok
+test update::tests::the_linux_names_are_build_linux_sh_s ... ok
+test video::tests::a_missing_quality_falls_back_to_the_nearest_below ... ok
+test video::tests::a_stream_ending_is_not_the_whole_download ... ok
+test video::tests::expected_size_holds_the_bar_back ... ok
+test video::tests::live_download ... ignored
+test video::tests::live_stop_ends_every_process ... ignored
+test video::tests::nothing_known_is_no_percentage ... ok
+test video::tests::percent_signs_in_titles_stay_text ... ok
+test video::tests::refused_subtitles_from_the_warnings ... ok
+test video::tests::side_files_are_the_videos_subtitles ... ok
+test video::tests::subtitle_arguments ... ok
+test video::tests::the_saved_file_is_found_by_its_name ... ok
+test video::tests::the_size_is_not_inflated_at_the_end ... ok
+test video::tests::video_then_audio_never_moves_back ... ok
+
+test result: ok. 91 passed; 0 failed; 5 ignored; 0 measured; 0 filtered out; finished in 14.68s
+
+     Running tests\cookies.rs (target\debug\deps\cookies-d3f1cb8ed11eed9d.exe)
+
+running 1 test
+test whose_cookies_ytdlp_sends ... ignored
+
+test result: ok. 0 passed; 0 failed; 1 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests\fake_ytdlp.rs (target\debug\deps\fake_ytdlp-508c3d90a49e9f52.exe)
+fake_ytdlp: 6000 listed in 3.1853867s
+fake_ytdlp: ok
+     Running tests\gallery_dl.rs (target\debug\deps\gallery_dl-a7df7ec6193299dc.exe)
+
+running 1 test
+test every_release_sdl_can_drive_saves_a_gallery ... ignored
+
+test result: ok. 0 passed; 0 failed; 1 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests\relay.rs (target\debug\deps\relay-396da5318aaa1520.exe)
+
+running 4 tests
+test a_route_change_closes_what_is_open ... ok
+test nothing_goes_without_the_password_or_the_adapter ... ok
+test plain_and_tunnelled_requests_leave_from_the_adapter ... ok
+test real_helpers_go_through_the_relay ... ignored
+
+test result: ok. 3 passed; 0 failed; 1 ignored; 0 measured; 0 filtered out; finished in 0.27s
+
+     Running tests\system_helpers.rs (target\debug\deps\system_helpers-d3fc82b417736a04.exe)
+system_helpers: Unix-only system discovery
+     Running unittests src\lib.rs (target\debug\deps\sdl_torrent-dd8d88669216cbe3.exe)
+
+running 34 tests
+test blocklist::tests::emule_dat_is_converted ... ok
+test blocklist::tests::gzipped_lists_are_read ... ok
+test blocklist::tests::p2p_lines_are_kept ... ok
+test blocklist::tests::what_isnt_a_list_is_none ... ok
+test names::tests::case_twins_collide_where_case_is_ignored ... ok
+test names::tests::colons_are_refused_on_windows ... ok
+test names::tests::ordinary_torrents_pass ... ok
+test names::tests::traversal_separators_and_control_characters_everywhere ... ok
+test names::tests::windows_names_it_cannot_write_are_refused ... ok
+test tests::a_bound_session_reaches_its_proxy_from_its_address ... ok
+test tests::a_bound_session_sends_only_from_its_address ... ok
+test tests::a_gone_address_sends_nothing ... ok
+test tests::a_magnet_resolves_through_the_dht_after_unreachable_nodes ... ok
+test tests::a_torrents_own_limit_holds_it_back ... ok
+test tests::junk_is_not_a_torrent ... ok
+test tests::kept_torrents_lose_the_trackers_dropped ... ok
+test tests::magnets_are_recognised ... ok
+test tests::pausing_during_the_check_lets_it_finish ... ok
+test tests::readd_keeps_or_rechecks_the_pieces ... ok
+test tests::recheck_of_a_released_torrent_checks_it_all ... ok
+test tests::removing_finished_torrent_releases_file_while_session_runs ... ok
+test tests::saved_torrents_are_checked_at_start ... ok
+test tests::seed_to_a_second_session_with_only_the_chosen_file ... ok
+test tests::starting_during_the_check_takes_the_pause_back ... ok
+test tests::the_piece_order_is_set_and_kept ... ok
+test tests::the_port_and_the_proxy_are_honoured ... ok
+test tests::torrent_files_are_read_up_to_their_cap ... ok
+test tests::two_torrents_added_at_once_are_both_there ... ok
+test tests::unsafe_names_refuse_the_torrent ... ok
+test tests::upload_limits_hold_the_seeder_back ... ok
+test trackers::tests::local_and_odd_trackers_are_dropped ... ok
+test trackers::tests::magnets_lose_only_the_trackers_dropped ... ok
+test trackers::tests::torrents_keep_their_info_byte_for_byte ... ok
+test trackers::tests::trackers_are_added_after_the_ones_there ... ok
+
+test result: ok. 34 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 47.33s
+
+   Doc-tests sdl_cli
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+   Doc-tests sdl_crash
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+   Doc-tests sdl_debrid
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+   Doc-tests sdl_engine
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+   Doc-tests sdl_extract
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+   Doc-tests sdl_geo
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+   Doc-tests sdl_grabber
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+   Doc-tests sdl_ipc
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+   Doc-tests sdl_labserver
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+   Doc-tests sdl_mcp
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+   Doc-tests sdl_remote
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+   Doc-tests sdl_tools
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+   Doc-tests sdl_torrent
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+

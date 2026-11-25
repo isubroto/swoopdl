@@ -1,0 +1,95 @@
+   Compiling sdl-grabber v0.1.6 (D:\Swoopdl\SwoopdlSource\crates\grabber)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 48.89s
+     Running unittests src\lib.rs (target\debug\deps\sdl_grabber-3a2e8bb847a9be07.exe)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests\acceptance.rs (target\debug\deps\acceptance-9c0ed47775849978.exe)
+
+running 3 tests
+test pause_ack_follows_checkpoint ... ok
+test crawl_loop_is_bounded_and_robots_disallow_never_requested ... ok
+test sync_304_uses_verified_body_and_missing_body_refetches ... ok
+
+test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 24.44s
+
+     Running tests\crawl.rs (target\debug\deps\crawl-d5de7d36635c5ca2.exe)
+
+running 2 tests
+test css_tokenization_handles_escapes_and_nested_functions ... ok
+test nested_css_and_srcset_are_discovered ... ok
+
+test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests\credentials.rs (target\debug\deps\credentials-2e601d26962b0427.exe)
+
+running 1 test
+test serialized_project_contains_only_protected_reference ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests\offline.rs (target\debug\deps\offline-c0cc5769274dbade.exe)
+
+running 5 tests
+test windows_case_and_reserved_names_do_not_collide ... ok
+test same_raw_html_different_base_rewrites_separately ... ok
+test captured_assets_and_inline_css_use_local_paths ... ok
+test uncaptured_link_keeps_absolute_target ... ok
+test symlink_escape_is_rejected ... ok
+
+test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.04s
+
+     Running tests\policy.rs (target\debug\deps\policy-0095877b802a90f4.exe)
+
+running 4 tests
+test exclude_wins ... ok
+test normalization_preserves_query_identity ... ok
+test scope_separates_pages_and_assets ... ok
+test seed_depth_is_zero ... ok
+
+test result: ok. 4 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests\recovery.rs (target\debug\deps\recovery-6b855b8f266a3971.exe)
+
+running 4 tests
+test project_id_cannot_bypass_validation_through_json ... ok
+test missing_destination_is_actionable ... ok
+test restart_charges_uncertain_reservation ... ok
+test corrupt_latest_uses_backup ... ok
+
+test result: ok. 4 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.03s
+
+     Running tests\robots.rs (target\debug\deps\robots-94c0663be254b4c1.exe)
+
+running 2 tests
+test malformed_percent_before_unicode_does_not_panic ... ok
+test robots_longest_match_allow_tie_and_agent_groups ... ok
+
+test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests\sync.rs (target\debug\deps\sync-3e0949cbf7cf2b8e.exe)
+
+running 1 test
+test manual_pause_suppresses_schedule ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests\transport.rs (target\debug\deps\transport-21d6e20fadaf0429.exe)
+
+running 5 tests
+test dns_rebinding_peer_is_rejected ... ok
+test parallel_retries_share_budget ... ok
+test redirect_checked_before_request ... ok
+test decoded_gzip_body_obeys_budget ... ok
+test chunked_body_obeys_budget_and_cleans_partial_file ... ok
+
+test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.02s
+
+   Doc-tests sdl_grabber
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+

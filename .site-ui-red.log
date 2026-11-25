@@ -1,0 +1,143 @@
+    Blocking waiting for file lock on build directory
+    Checking yoke v0.8.4
+    Checking zerovec v0.11.9
+    Checking tokio v1.54.1
+    Checking tinystr v0.8.5
+    Checking icu_locale_core v2.3.0
+    Checking zerotrie v0.2.5
+    Checking icu_provider v2.3.1
+    Checking potential_utf v0.1.6
+    Checking icu_collections v2.3.0
+    Checking indexmap v2.14.2
+    Checking icu_normalizer v2.3.0
+    Checking icu_properties v2.3.0
+    Checking idna_adapter v1.2.2
+    Checking idna v1.1.0
+    Checking tokio-util v0.7.20
+    Checking hyper v1.13.0
+    Checking url v2.5.9
+    Checking rustls-webpki v0.103.17
+   Compiling rustls v0.23.46
+    Checking hyper-util v0.1.21
+    Checking tower v0.5.3
+    Checking tokio-rustls v0.26.6
+    Checking compression-codecs v0.4.48
+    Checking windows v0.62.2
+    Checking rustls-platform-verifier v0.7.1
+    Checking async-compression v0.4.52
+    Checking tower-http v0.6.11
+    Checking hyper-rustls v0.27.10
+    Checking axum v0.8.9
+    Checking reqwest v0.13.5
+    Checking h2 v0.4.20
+    Checking hickory-proto v0.26.3
+    Checking hickory-net v0.26.3
+    Checking naga-types v30.0.2
+    Checking hickory-resolver v0.26.3
+    Checking suppaftp v12.2.2
+    Checking backon v1.6.0
+    Checking sdl-engine v0.1.6 (D:\Swoopdl\SwoopdlSource\crates\engine)
+    Checking librqbit-dualstack-sockets v0.7.0
+    Checking naga v30.0.2
+    Checking librqbit-core v9.1.0 (https://github.com/anefzaoui/rqbit.git?rev=ef50d87f4a9d5be9e3951b74f722433f9b46bd76#ef50d87f)
+    Checking wgpu-types v30.0.2
+    Checking gpu-allocator v0.28.0
+    Checking wgpu-naga-bridge v30.0.2
+    Checking wgpu-hal v30.0.2
+    Checking zip v9.8.2
+    Checking schemars v1.2.3
+    Checking leaky-bucket v1.1.3
+    Checking wgpu-core-deps-windows-linux-android v30.0.2
+    Checking serde_html_form v0.2.8
+    Checking tokio-stream v0.1.19
+    Checking dontfrag v1.0.2
+    Checking librqbit-tracker-comms v9.1.0 (https://github.com/anefzaoui/rqbit.git?rev=ef50d87f4a9d5be9e3951b74f722433f9b46bd76#ef50d87f)
+    Checking librqbit-upnp v9.1.0 (https://github.com/anefzaoui/rqbit.git?rev=ef50d87f4a9d5be9e3951b74f722433f9b46bd76#ef50d87f)
+    Checking librqbit-utp v0.7.0 (D:\Swoopdl\SwoopdlSource\third_party\security\librqbit-utp-0.7.0)
+    Checking librqbit-dht v9.1.0 (https://github.com/anefzaoui/rqbit.git?rev=ef50d87f4a9d5be9e3951b74f722433f9b46bd76#ef50d87f)
+    Checking axum-extra v0.12.6
+    Checking sdl-ipc v0.1.6 (D:\Swoopdl\SwoopdlSource\crates\ipc)
+    Checking accesskit_windows v0.35.2
+    Checking wgpu-core v30.0.2
+    Checking librqbit-peer-protocol v9.1.0 (https://github.com/anefzaoui/rqbit.git?rev=ef50d87f4a9d5be9e3951b74f722433f9b46bd76#ef50d87f)
+    Checking librqbit-lsd v9.1.0 (https://github.com/anefzaoui/rqbit.git?rev=ef50d87f4a9d5be9e3951b74f722433f9b46bd76#ef50d87f)
+    Checking tokio-socks v0.5.3
+    Checking librqbit v9.1.0 (https://github.com/anefzaoui/rqbit.git?rev=ef50d87f4a9d5be9e3951b74f722433f9b46bd76#ef50d87f)
+    Checking minidump-unwind v0.27.0
+    Checking icu_locale_fallback v2.3.0
+    Checking wgpu v30.0.2
+    Checking accesskit_winit v0.34.2
+    Checking win32job v2.1.0
+    Checking egui-wgpu v0.37.0 (https://github.com/anefzaoui/egui.git?rev=d110a3ccf2f1710f3e67db3f910b18003732c1df#d110a3cc)
+    Checking sdl-tools v0.1.6 (D:\Swoopdl\SwoopdlSource\crates\tools)
+    Checking egui-winit v0.37.0 (https://github.com/anefzaoui/egui.git?rev=d110a3ccf2f1710f3e67db3f910b18003732c1df#d110a3cc)
+    Checking minidump-processor v0.27.0
+    Checking icu_provider_adapters v2.3.0
+    Checking sdl-torrent v0.1.6 (D:\Swoopdl\SwoopdlSource\crates\torrent)
+    Checking icu_plurals v2.3.0
+    Checking icu_decimal v2.3.0
+    Checking icu_provider_blob v2.3.0
+    Checking eframe v0.37.0 (https://github.com/anefzaoui/egui.git?rev=d110a3ccf2f1710f3e67db3f910b18003732c1df#d110a3cc)
+    Checking sdl-labserver v0.1.6 (D:\Swoopdl\SwoopdlSource\crates\labserver)
+    Checking craft-i18n v0.1.0 (https://github.com/storytold/craft-libs?rev=1a11a4897865f7410c40d25ca6e452ce399a1a2c#1a11a489)
+    Checking sdl-cli v0.1.6 (D:\Swoopdl\SwoopdlSource\crates\cli)
+    Checking sdl-crash v0.1.6 (D:\Swoopdl\SwoopdlSource\crates\crash)
+    Checking sdl-grabber v0.1.6 (D:\Swoopdl\SwoopdlSource\crates\grabber)
+    Checking sdl-extract v0.1.6 (D:\Swoopdl\SwoopdlSource\crates\extract)
+    Checking sdl-remote v0.1.6 (D:\Swoopdl\SwoopdlSource\crates\remote)
+    Checking sdl-debrid v0.1.6 (D:\Swoopdl\SwoopdlSource\crates\debrid)
+    Checking sdl-app v0.1.6 (D:\Swoopdl\SwoopdlSource\crates\app)
+warning: unused import: `super::*`
+ --> crates\app\src\site_grabber.rs:3:9
+  |
+3 |     use super::*;
+  |         ^^^^^^^^
+  |
+  = note: `#[warn(unused_imports)]` (part of `#[warn(unused)]`) on by default
+
+error[E0433]: cannot find type `Wizard` in this scope
+ --> crates\app\src\site_grabber.rs:6:25
+  |
+6 |         let mut draft = Wizard::default();
+  |                         ^^^^^^ use of undeclared type `Wizard`
+
+error[E0425]: cannot find function `save_credential` in this scope
+  --> crates\app\src\site_grabber.rs:27:17
+   |
+27 |         assert!(save_credential(&Missing, "docs", "Bearer fixture-secret").is_err());
+   |                 ^^^^^^^^^^^^^^^ not found in this scope
+
+error[E0433]: cannot find type `ProjectView` in this scope
+  --> crates\app\src\site_grabber.rs:31:27
+   |
+31 |         let mut project = ProjectView::fixture();
+   |                           ^^^^^^^^^^^ use of undeclared type `ProjectView`
+
+error[E0433]: cannot find type `ProjectStatus` in this scope
+  --> crates\app\src\site_grabber.rs:32:32
+   |
+32 |         project.state.status = ProjectStatus::Running;
+   |                                ^^^^^^^^^^^^^ use of undeclared type `ProjectStatus`
+
+error[E0433]: cannot find type `ProjectStatus` in this scope
+  --> crates\app\src\site_grabber.rs:34:42
+   |
+34 |         assert_eq!(project.state.status, ProjectStatus::Running);
+   |                                          ^^^^^^^^^^^^^ use of undeclared type `ProjectStatus`
+
+error[E0433]: cannot find type `ProjectStatus` in this scope
+  --> crates\app\src\site_grabber.rs:36:24
+   |
+36 |         state.status = ProjectStatus::Paused;
+   |                        ^^^^^^^^^^^^^ use of undeclared type `ProjectStatus`
+
+error[E0433]: cannot find type `ProjectStatus` in this scope
+  --> crates\app\src\site_grabber.rs:39:42
+   |
+39 |         assert_eq!(project.state.status, ProjectStatus::Paused);
+   |                                          ^^^^^^^^^^^^^ use of undeclared type `ProjectStatus`
+
+Some errors have detailed explanations: E0425, E0433.
+For more information about an error, try `rustc --explain E0425`.
+warning: `sdl-app` (bin "swoopdl" test) generated 1 warning
+error: could not compile `sdl-app` (bin "swoopdl" test) due to 7 previous errors; 1 warning emitted

@@ -676,8 +676,14 @@
 #. text in remote.rs
 #. remote control page (on a phone): what the ".torrent file" button does (screen readers)
 	Choose a .torrent file	Choose a .torrent file
+#. text in site_grabber.rs
+	Choose a base folder for this project	Choose a base folder for this project
 #. text in langpick.rs
 	Choose a language	Choose a language
+#. text in site_grabber.rs
+	Choose a valid schedule time and day	Choose a valid schedule time and day
+#. text in site_grabber.rs
+	Choose capture folder	Choose capture folder
 #. text in langpick.rs
 	Choose the language Swoopdl shows its windows in:	Choose the language Swoopdl shows its windows in:
 #. text in the Options window
@@ -1092,13 +1098,19 @@
 	Enter a magnet link or choose a .torrent file	Enter a magnet link or choose a .torrent file
 #. text in the Scheduler window
 	Enter a name for the new queue that will be	Enter a name for the new queue that will be
+#. text in site_grabber.rs
+	Enter a replacement memory-only session before resuming	Enter a replacement memory-only session before resuming
 #. text in the Add torrent window
 #. Add trackers: OK with an empty box
 	Enter a tracker's address, one a line	Enter a tracker's address, one a line
+#. text in site_grabber.rs
+	Enter a valid HTTP(S) start URL	Enter a valid HTTP(S) start URL
 #. window title in a dialog box
 	Enter new address to download	Enter new address to download
 #. window title in the Scheduler window; text in the Scheduler window
 	Enter queue name	Enter queue name
+#. text in site_grabber.rs
+	Enter session credentials	Enter session credentials
 #. text in rssdlg.rs
 #. RSS feeds window, Download rules: which episodes to take (season x episode)
 	Episodes:	Episodes:
@@ -1568,6 +1580,12 @@
 	Into a folder named after it, when it holds several things	Into a folder named after it, when it holds several things
 #. text in a dialog box
 	Invalid address	Invalid address
+#. text in site_grabber.rs
+	Invalid authorization header	Invalid authorization header
+#. text in site_grabber.rs
+	Invalid body budget	Invalid body budget
+#. text in site_grabber.rs
+	Invalid maximum file size	Invalid maximum file size
 #. text in the Options window
 #. Options → DNS over HTTPS: label before the server's IP addresses, which may be left empty
 	IP addresses (optional):	IP addresses (optional):
@@ -2261,6 +2279,8 @@
 #. text in the Options window
 #. Options → Remote, at the bottom of the page
 	Only paired devices see or change anything. The first time, the phone's browser warns about SDL's own certificate: its fingerprint is the one above.	Only paired devices see or change anything. The first time, the phone's browser warns about SDL's own certificate: its fingerprint is the one above.
+#. text in site_grabber.rs
+	Only projects with no captured data can change destination.	Only projects with no captured data can change destination.
 #. text in playlistdlg.rs
 #. in Download video, a list longer than SDL lists: only its first {n} videos are shown
 #. {n} = a number (keep the braces as they are)
@@ -2378,6 +2398,8 @@
 #. text in a download's progress window; text in remote.rs
 #. remote control page (on a phone): button: pause a download
 	Pause	Pause
+#. text in site_grabber.rs
+	Pause the active project before starting another	Pause the active project before starting another
 #. text in a download's Properties window
 #. tooltip of the greyed Move button in File Properties
 	Pause the download first	Pause the download first
@@ -2766,6 +2788,8 @@
 	Service	Service
 #. text in the Options window
 	Service:	Service:
+#. text in site_grabber.rs
+	Session origin does not match the project	Session origin does not match the project
 #. text in the Add torrent window
 #. why "Use the proxy" is greyed in Torrent settings
 	Set a socks5:// proxy in Options → Proxy / Socks first	Set a socks5:// proxy in Options → Proxy / Socks first
@@ -2915,6 +2939,8 @@
 	Some	Some
 #. text in a dialog box
 	Some of the torrent's files are already in this folder:	Some of the torrent's files are already in this folder:
+#. text in site_grabber.rs
+	Some projects could not be loaded	Some projects could not be loaded
 #. text in the Options window
 	Sound file	Sound file
 #. page title in the Options window
@@ -3169,6 +3195,8 @@
 	the .torrent file kept for it is gone	the .torrent file kept for it is gone
 #. text in a download's Properties window
 	The address must be an http(s) or ftp(s) address	The address must be an http(s) or ftp(s) address
+#. text in site_grabber.rs
+	The application data folder is unavailable	The application data folder is unavailable
 #. text in extracting archives (a download's log, the Archive password window)
 	The archive could not be moved to the Recycle Bin: it was kept	The archive could not be moved to the Recycle Bin: it was kept
 #. text in extracting archives (a download's log, the Archive password window)
@@ -3364,6 +3392,10 @@
 #. text in crashui.rs
 #. crash report window: the symbols couldn't be downloaded; the report still works
 	The symbols couldn't be fetched: some lines of the report show addresses instead of names (the developers can still read them).	The symbols couldn't be fetched: some lines of the report show addresses instead of names (the developers can still read them).
+#. text in site_grabber.rs
+	The system credential vault could not verify the session	The system credential vault could not verify the session
+#. text in site_grabber.rs
+	The system credential vault refused to save the session	The system credential vault refused to save the session
 #. text in the Options window
 #. Options → Accounts (Linux): the system keyring is locked (SDL never unlocks it: that would ask for its password), so the sign-ins stay in SDL's settings folder, which only the user's account may read
 	The system keyring is locked and SDL doesn't unlock it, so sign-ins and passwords are kept in SDL's settings, which only you can read.	The system keyring is locked and SDL doesn't unlock it, so sign-ins and passwords are kept in SDL's settings, which only you can read.
@@ -3694,6 +3726,10 @@
 #. where a download's server is: not known (no address seen)
 #. where a download's server is: an address the location table doesn't place
 	unknown	unknown
+#. text in site_grabber.rs
+	Unlock the credential vault or enter a replacement session	Unlock the credential vault or enter a replacement session
+#. text in site_grabber.rs
+	Unlock the system credential vault or choose memory-only credentials	Unlock the system credential vault or choose memory-only credentials
 #. button in the Options window
 #. button (short): move the account up the list (accounts are asked in the list's order)
 	Up	Up
@@ -3749,6 +3785,8 @@
 #. text in rssdlg.rs
 #. RSS feeds window, Download rules: the rule is on
 	Use this rule	Use this rule
+#. text in site_grabber.rs
+	Use YYYY-MM-DD for a one-time schedule	Use YYYY-MM-DD for a one-time schedule
 #. text in the Options window
 	Used by the list of downloads and the Scheduler.	Used by the list of downloads and the Scheduler.
 #. text in the Options window
@@ -4845,6 +4883,10 @@ menu	Select &all	Select &all
 menu	Show &drop target	Show &drop target
 #. menu command in the main window
 menu	Show Swoopdl	Show Swoopdl
+#. menu command in the main window
+#. & marks the keyboard shortcut letter: keep one & before a letter of the translation
+#. the trailing ... means it opens a window: keep it
+menu	Site &Grabber...	Site &Grabber...
 #. menu command in the main window
 #. & marks the keyboard shortcut letter: keep one & before a letter of the translation
 menu	Speed &Limiter	Speed &Limiter

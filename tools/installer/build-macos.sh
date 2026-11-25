@@ -9,6 +9,9 @@
 #   tools/installer/build-macos.sh [--no-build]
 set -euo pipefail
 root="$(cd "$(dirname "$0")/../.." && pwd)"
+for required in LICENSE ATTRIBUTION.md; do
+  [ -s "$root/$required" ] || { echo "missing required packaging file: $required" >&2; exit 1; }
+done
 dist="$root/target/dist"
 version="$(sed -n 's/^version *= *"\([^"]*\)".*/\1/p' "$root/Cargo.toml" | head -1)"
 [ -n "$version" ] || { echo "no version in Cargo.toml" >&2; exit 1; }
@@ -37,7 +40,7 @@ stage="$dist/stage-macos"
 rm -rf "$stage"
 mkdir -p "$stage"
 
-# The icon: every size macOS asks for, from the 1254 px artwork.
+# The icon: every size macOS asks for, from the approved Swoopdl mark.
 set_dir="$stage/AppIcon.iconset"
 mkdir -p "$set_dir"
 for s in 16 32 128 256 512; do

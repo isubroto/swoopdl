@@ -17,6 +17,7 @@ Current behavior is checked against the implementation, not inferred from change
 
 - **[Adding downloads](adding-downloads.md)** — Add URL, the clipboard, the drop target, batch downloads and lists of links, and Start Download versus Download Later.
 - **[Link grabber and archives](link-grabber.md)** — many links at once, in packages; zip, 7z and rar archives extracted when they are downloaded.
+- **[Site Grabber](site-grabber.md)** — saved static website captures, offline copies, pause/resume, reports, and scheduled synchronization.
 - **[Browser integration](browser-integration.md)** — bundled local setup for Windows, Linux, and macOS, Chromium loading, Firefox signing limits, and download capture settings.
 - **[Run SDL on a server](server.md)** — SDL without a window on a home server or NAS (Docker, Unraid), downloading into its folders; send it downloads from your phone or browser.
 - **[Control SDL from your phone](remote-control.md)** — add links, magnets and torrents from a phone or another computer at home, and watch and control the list.

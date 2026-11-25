@@ -166,6 +166,7 @@ enum Cmd {
     Extract,
     /// Tasks → Link grabber… (#37): the window, empty (links pasted in) or as it is.
     LinkGrabber,
+    SiteGrabber,
     /// Downloads → Find (Ctrl-F) / Find Next (F3).
     Find,
     FindNext,
@@ -498,6 +499,7 @@ pub struct App {
     /// Link grabber (#37): links from the browser, Tasks → Import, drops and pastes, in
     /// packages to tick before adding.
     grabber: Option<crate::grabber::Grabber>,
+    site_grabber: crate::site_grabber::SiteGrabber,
     /// When `follow_assistive_technology` last asked (#131).
     assistive_checked: Option<Instant>,
     /// Archives extracted when their download completes (#37).
@@ -1080,6 +1082,7 @@ impl App {
             tracing::info!("started with the session: minimized (a window can't be hidden here)");
             ctx.send_viewport_cmd(egui::ViewportCommand::Minimized(true));
         }
+        let site_grabber = crate::site_grabber::SiteGrabber::new(&rt);
         App {
             rt,
             items,
@@ -1125,6 +1128,7 @@ impl App {
             category_dlg: None,
             category_for_file_info: false,
             grabber: None,
+            site_grabber,
             assistive_checked: None,
             extracts: Default::default(),
             queue_pick: None,
@@ -2391,6 +2395,10 @@ impl App {
                 if let Some(g) = &mut self.grabber {
                     g.sample();
                 }
+            }
+            "site-grabber" => {
+                self.site_grabber.open = true;
+                self.site_grabber.preview(tab);
             }
             "options" => {
                 let page = match tab {
@@ -5576,6 +5584,10 @@ impl App {
                 self.show_import(Vec::new(), String::new());
                 dialogs::raise(ctx, dialogs::dialog_viewport("grabber"));
             }
+            Cmd::SiteGrabber => {
+                self.site_grabber.open = true;
+                dialogs::raise(ctx, dialogs::dialog_viewport("site-grabber"));
+            }
             Cmd::Redownload => {
                 if let Some(id) = target
                     && self.can_redownload(id)
@@ -5803,6 +5815,7 @@ impl App {
                 ),
                 // i18n: Tasks menu: open Link grabber (links in packages, to tick before adding)
                 I("&Link grabber...", Cmd::LinkGrabber, true, false),
+                I("Site &Grabber...", Cmd::SiteGrabber, true, false),
                 // i18n: Tasks menu: the RSS feeds window (feeds of torrents, and rules that add them)
                 I("&RSS feeds...", Cmd::RssFeeds(false), true, false),
                 Sep,
@@ -7994,6 +8007,28 @@ impl App {
         }
     }
 
+    fn site_grabber_action(
+        &mut self,
+        action: crate::site_grabber::SiteAction,
+        ctx: &egui::Context,
+    ) {
+        let options = self
+            .site_grabber
+            .seed(&action)
+            .map(|url| {
+                // Reuse routing and bandwidth settings. Authentication is resolved explicitly
+                // by Site Grabber rather than importing browser cookies or stored site logins.
+                let mut options = self
+                    .request_parts(&url, None, &ipc::Command::default(), true)
+                    .opts;
+                options.post = None;
+                options.unlocker = None;
+                options
+            })
+            .unwrap_or_default();
+        self.site_grabber.dispatch(action, &self.rt, options, ctx);
+    }
+
     /// Can this download be fetched again from the start? A file download that isn't running
     /// (torrents re-check their data instead; a video's file is yt-dlp's to replace).
     fn can_redownload(&self, id: u64) -> bool {
@@ -8319,6 +8354,9 @@ impl App {
             }
         }
         self.grabber_checks(ctx);
+        if let Outcome::Done(action) = self.site_grabber.show(ctx) {
+            self.site_grabber_action(action, ctx);
+        }
         if let Some(d) = &mut self.grabber {
             match d.show(ctx) {
                 Outcome::Open => {}
@@ -8994,6 +9032,9 @@ impl eframe::App for App {
 impl App {
     /// What runs at every frame, window or not (`logic`, and a headless run's loop).
     pub fn tick(&mut self, ctx: &egui::Context) {
+        if let Some(action) = self.site_grabber.poll(ctx) {
+            self.site_grabber_action(action, ctx);
+        }
         // The freeze watchdog times this as it times `ui` (crash.rs): a command or the clock
         // that hangs is reported too, minimized or not (#202).
         crate::crash::logic_begin();

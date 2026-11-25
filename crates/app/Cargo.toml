@@ -33,6 +33,8 @@ craft-i18n.workspace = true
 # swoopdl-cli's commands: its launcher runs this program for them (main.rs).
 sdl-cli.workspace = true
 sdl-engine.workspace = true
+sdl-grabber.workspace = true
+tokio-util.workspace = true
 sdl-extract.workspace = true
 sdl-geo.workspace = true
 sdl-ipc.workspace = true

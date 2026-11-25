@@ -9,16 +9,17 @@ authors.workspace = true
 publish.workspace = true
 
 [dependencies]
+async-compression = { version = "=0.4.52", default-features = false, features = ["tokio", "gzip"] }
 bytes.workspace = true
 craft-atomic.workspace = true
 serde_json.workspace = true
 futures.workspace = true
 percent-encoding.workspace = true
-reqwest.workspace = true
+reqwest = { workspace = true, features = ["gzip"] }
 serde.workspace = true
 thiserror.workspace = true
 tokio.workspace = true
-tokio-util.workspace = true
+tokio-util = { workspace = true, features = ["io"] }
 url.workspace = true
 httpdate.workspace = true
 sha2.workspace = true

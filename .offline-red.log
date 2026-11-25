@@ -1,0 +1,27 @@
+   Compiling sdl-grabber v0.1.6 (D:\Swoopdl\SwoopdlSource\crates\grabber)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 2.80s
+     Running tests\offline.rs (target\debug\deps\offline-c0cc5769274dbade.exe)
+
+running 6 tests
+test windows_case_and_reserved_names_do_not_collide ... ok
+test same_raw_html_different_base_rewrites_separately ... ok
+test uncaptured_link_keeps_absolute_target ... ok
+test captured_assets_and_inline_css_use_local_paths ... ok
+test active_svg_cannot_execute_or_fetch_when_opened_directly ... FAILED
+test symlink_escape_is_rejected ... ok
+
+failures:
+
+---- active_svg_cannot_execute_or_fetch_when_opened_directly stdout ----
+
+thread 'active_svg_cannot_execute_or_fetch_when_opened_directly' (31180) panicked at crates\grabber\tests\offline.rs:40:5:
+assertion failed: !out.contains("onload")
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+
+failures:
+    active_svg_cannot_execute_or_fetch_when_opened_directly
+
+test result: FAILED. 5 passed; 1 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.04s
+
+error: test failed, to rerun pass `-p sdl-grabber --test offline`

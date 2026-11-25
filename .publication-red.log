@@ -1,0 +1,35 @@
+    Blocking waiting for file lock on build directory
+   Compiling sdl-labserver v0.1.6 (D:\Swoopdl\SwoopdlSource\crates\labserver)
+   Compiling sdl-grabber v0.1.6 (D:\Swoopdl\SwoopdlSource\crates\grabber)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 40.55s
+     Running tests\acceptance.rs (target\debug\deps\acceptance-9c0ed47775849978.exe)
+
+running 2 tests
+test capture_drains_admitted_urls_after_url_limit ... FAILED
+test capture_publication_failure_never_persists_completed_and_can_resume_offline ... FAILED
+
+failures:
+
+---- capture_drains_admitted_urls_after_url_limit stdout ----
+
+thread 'capture_drains_admitted_urls_after_url_limit' (30660) panicked at crates\grabber\tests\acceptance.rs:337:38:
+assertion `left == right` failed
+  left: 1
+ right: 3
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+---- capture_publication_failure_never_persists_completed_and_can_resume_offline stdout ----
+
+thread 'capture_publication_failure_never_persists_completed_and_can_resume_offline' (1880) panicked at crates\grabber\tests\acceptance.rs:352:5:
+assertion `left != right` failed
+  left: Completed
+ right: Completed
+
+
+failures:
+    capture_drains_admitted_urls_after_url_limit
+    capture_publication_failure_never_persists_completed_and_can_resume_offline
+
+test result: FAILED. 0 passed; 2 failed; 0 ignored; 0 measured; 6 filtered out; finished in 2.87s
+
+error: test failed, to rerun pass `-p sdl-grabber --test acceptance`

@@ -1,0 +1,33 @@
+[package]
+name = "sdl-grabber"
+description = "Bounded, resumable Swoopdl website capture projects"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+authors.workspace = true
+publish.workspace = true
+
+[dependencies]
+sdl-engine.workspace = true
+tokio.workspace = true
+tokio-util.workspace = true
+reqwest.workspace = true
+futures.workspace = true
+craft-atomic.workspace = true
+httpdate.workspace = true
+serde.workspace = true
+serde_json.workspace = true
+sha2.workspace = true
+hex.workspace = true
+url.workspace = true
+thiserror.workspace = true
+lol_html = "=3.0.3"
+cssparser = "=0.38.0"
+
+[dev-dependencies]
+tempfile.workspace = true
+sdl-labserver = { path = "../labserver" }
+
+[lints]
+workspace = true

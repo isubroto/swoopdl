@@ -1,9 +1,12 @@
 # Upstream acknowledgement
 
-Swoopdl is derived from **Mister Download Manager**, originally developed by
-**Ahmed Nefzaoui** and its contributors. The upstream project and its contributors deserve
-credit for the original code and design work. This acknowledgement does not imply that the
-original authors endorse Swoopdl or maintain this fork.
+Swoopdl is an unofficial, independently maintained project based on the source code of
+[Mister Download Manager](https://github.com/anefzaoui/misterdownloadmanager),
+originally developed by [Ahmed Nefzaoui](https://github.com/anefzaoui) and its contributors.
+The upstream project and its contributors deserve
+credit for the original code and design work. Swoopdl is not an official release of that
+project and is not affiliated with or endorsed by its maintainers. Swoopdl's maintainers
+are responsible for its modifications, branding, support and releases.
 
 Keep `LICENSE`, `ATTRIBUTION.md`, copyright headers, and other applicable notices intact.
 GPL obligations continue to apply to derivative distributions. The new Swoopdl logo is a

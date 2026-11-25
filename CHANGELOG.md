@@ -2,6 +2,35 @@
 
 This log records Swoopdl application development releases. Version numbers follow the rule that `0.x.0` is a feature release and `0.x.x` (nonzero final component) is a fix release. A release candidate is not considered Windows-qualified until its Windows tests pass.
 
+## [0.1.7] — Site Grabber destination recovery (release candidate)
+
+### Fixed
+- Create a dedicated project subfolder by default when selecting a base folder, including drive roots.
+- Show the final capture path and check destination conflicts before leaving the save-location step and before saving metadata.
+- Let projects with no captured data change destination without losing their capture settings.
+- Report failed starts as Failed, and suspend failed scheduled starts until manual retry.
+- Show template-specific file guidance and retain explicit per-file and run budgets for large videos.
+
+### Changed
+- Set all workspace packages and application version resources to 0.1.7.
+
+## [0.1.6] — Site Grabber projects and setup wizard (release candidate)
+
+### Added
+- Added **Tasks → Site Grabber** for saved static HTML/CSS website captures, while retaining Link Grabber for individual download links.
+- Added scoped crawling, robots rules, depth and URL ceilings, decoded-byte budgets, retries, and durable pause/resume.
+- Added offline copies with rewritten local links, immutable raw bodies, separate published generations, and sanitized capture reports.
+- Added conditional synchronization, application-open schedules, and optional memory-only or verified system-vault credentials.
+- Added a themed four-step setup wizard with image, audio, video, document, and offline-site templates, folder browsing, exploration rules, and file filters.
+
+### Fixed
+- Enforced checked DNS and redirect policies, origin-scoped credentials, safe output paths, and decoded-body accounting.
+- Disabled active scripts and forms in offline copies and preserved earlier published copies during interrupted updates.
+
+### Validation
+- Recorded Windows tests, offline browser checks, bounded-frontier measurements, and remaining platform acceptance in [Site Grabber verification](docs/site-grabber-verification.md).
+- JavaScript rendering, app-closed scheduling, and proxy-based captures remain unsupported. Destination validation and recovery improvements are recorded under **0.1.7**.
+
 ## [0.1.5] — Fluent download-dialog refinement (release candidate)
 
 ### Fixed

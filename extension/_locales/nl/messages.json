@@ -241,5 +241,8 @@
   },
   "popup_media_title_name": {
     "message": "Voeg de paginatitel toe vóór de namen van mediabestanden"
+  },
+  "menu_site_grabber": {
+    "message": "Paginalinks verkennen met Site Grabber"
   }
 }

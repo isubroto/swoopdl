@@ -6610,3 +6610,5 @@ unit	{n} MB	{n} مگابایت
 #. {n} = a number (keep the braces as they are)
 #, machine
 unit	{n} MB/sec	{n} مگابایت/ثانیه
+#. Browser context menu: bounded discovery, no automatic download.
+extension	Explore page links with Site Grabber	بررسی پیوندهای صفحه با Site Grabber

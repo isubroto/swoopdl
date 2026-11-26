@@ -241,5 +241,8 @@
   },
   "popup_media_title_name": {
     "message": "Додавати заголовок сторінки перед назвами медіафайлів"
+  },
+  "menu_site_grabber": {
+    "message": "Дослідити посилання сторінки за допомогою Site Grabber"
   }
 }

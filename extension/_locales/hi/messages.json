@@ -241,5 +241,8 @@
   },
   "popup_media_title_name": {
     "message": "मीडिया फ़ाइलों के नामों से पहले पेज का शीर्षक जोड़ें"
+  },
+  "menu_site_grabber": {
+    "message": "Site Grabber से पेज के लिंक खोजें"
   }
 }

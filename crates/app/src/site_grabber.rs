@@ -13,11 +13,23 @@ use std::{
     time::{SystemTime, UNIX_EPOCH},
 };
 use url::Url;
+mod results;
 mod view;
 mod wizard;
 use wizard::{ProjectTemplate, WizardStep};
 
 pub enum SiteAction {
+    StartExploring(ProjectId),
+    StopExploring(ProjectId),
+    CheckCandidates(ProjectId, Vec<(sdl_grabber::UrlKey, bool)>),
+    DownloadSelected(ProjectId),
+    AddSelectedToQueue(ProjectId),
+    SaveFileProject(ProjectId, Box<sdl_grabber::catalog::FileProject>),
+    EditFileProject(ProjectId),
+    ImportFileLinks(ProjectId, String),
+    FileJobsReady(Vec<u64>, bool),
+    OpenCandidateMedia(ProjectId, sdl_grabber::UrlKey),
+    BrowseFilesDestination,
     BrowseDestination,
     ValidateDestination(PathBuf),
     ChangeDestination(ProjectId),
@@ -30,6 +42,15 @@ pub enum SiteAction {
     DeleteMetadata(ProjectId),
 }
 struct Wizard {
+    mode: sdl_grabber::ProjectMode,
+    minimum_mib: String,
+    maximum_mib: String,
+    file_includes: String,
+    file_excludes: String,
+    auto_download: bool,
+    layout: sdl_grabber::catalog::SaveLayout,
+    collision: sdl_grabber::catalog::CollisionPolicy,
+    scheduled_action: sdl_grabber::catalog::ScheduledAction,
     step: WizardStep,
     template: ProjectTemplate,
     name: String,
@@ -62,6 +83,15 @@ struct Wizard {
 impl Default for Wizard {
     fn default() -> Self {
         Self {
+            mode: sdl_grabber::ProjectMode::OfflineSite,
+            minimum_mib: String::new(),
+            maximum_mib: String::new(),
+            file_includes: String::new(),
+            file_excludes: String::new(),
+            auto_download: false,
+            layout: Default::default(),
+            collision: Default::default(),
+            scheduled_action: Default::default(),
             step: WizardStep::Project,
             template: ProjectTemplate::OfflineSite,
             name: String::new(),
@@ -177,13 +207,20 @@ struct ProjectView {
     pause_pending: bool,
     error: Option<String>,
 }
+fn failure_reason(state: &ProjectSnapshot) -> Option<String> {
+    if state.status == ProjectStatus::Failed {
+        state.reports.last().map(|entry| entry.reason.clone())
+    } else {
+        None
+    }
+}
 impl ProjectView {
     fn apply_result(&mut self, result: Result<ProjectSnapshot, String>) {
         self.pause_pending = false;
         match result {
             Ok(state) => {
+                self.error = failure_reason(&state);
                 self.state = state;
-                self.error = None;
             }
             Err(error) => {
                 self.state.status = ProjectStatus::Failed;
@@ -224,6 +261,8 @@ struct Active {
     pending: usize,
 }
 pub struct SiteGrabber {
+    show_files: bool,
+    files: results::FilesWorkspace,
     pub open: bool,
     projects: Vec<ProjectView>,
     wizard: Wizard,
@@ -336,6 +375,10 @@ fn next_schedule(schedule: &CalendarSchedule, now: chrono::DateTime<chrono::Loca
     None
 }
 fn schedule_next(state: &mut ProjectSnapshot) {
+    if state.status == ProjectStatus::Failed {
+        state.next_run = None;
+        return;
+    }
     if let Some(schedule) = &state.schedule {
         state.next_run = next_schedule(schedule, chrono::Local::now());
     }
@@ -359,6 +402,9 @@ impl SiteGrabber {
                 Ok(root) => match std::fs::read_dir(&root) {
                     Ok(entries) => {
                         for entry in entries.flatten() {
+                            if entry.file_name() == "file-projects-v1" {
+                                continue;
+                            }
                             let Ok(id) = ProjectId::parse(&entry.file_name().to_string_lossy())
                             else {
                                 continue;
@@ -366,9 +412,9 @@ impl SiteGrabber {
                             match ProjectStore::open(&root, &id).and_then(|s| s.load()) {
                                 Ok(state) => projects.push(ProjectView {
                                     id,
+                                    error: failure_reason(&state),
                                     state,
                                     pause_pending: false,
-                                    error: None,
                                 }),
                                 Err(e) => errors.push(e.to_string()),
                             }
@@ -382,6 +428,8 @@ impl SiteGrabber {
             let _ = out.send(Message::Loaded(projects, errors));
         });
         Self {
+            show_files: true,
+            files: results::FilesWorkspace::new(rt),
             open: false,
             projects: Vec::new(),
             wizard: Wizard::default(),
@@ -400,6 +448,9 @@ impl SiteGrabber {
         }
     }
     pub fn seed(&self, action: &SiteAction) -> Option<Url> {
+        if let Some(seed) = self.files.seed(action) {
+            return Some(seed);
+        }
         let id = match action {
             SiteAction::Start(id) | SiteAction::Synchronize(id) => id,
             _ => return None,
@@ -410,6 +461,9 @@ impl SiteGrabber {
             .map(|p| p.state.config.seed.clone())
     }
     pub fn poll(&mut self, ctx: &egui::Context) -> Option<SiteAction> {
+        if let Some(action) = self.files.poll(ctx) {
+            return Some(action);
+        }
         for _ in 0..64 {
             let Ok(message) = self.rx.try_recv() else {
                 break;
@@ -485,6 +539,9 @@ impl SiteGrabber {
                     if event.status != ProjectStatus::Paused {
                         p.state.status = event.status;
                     }
+                    if event.status == ProjectStatus::Failed {
+                        p.error = event.reason;
+                    }
                 }
             }
             ctx.request_repaint_after(std::time::Duration::from_millis(250));
@@ -499,6 +556,57 @@ impl SiteGrabber {
         None
     }
     pub fn dispatch(
+        &mut self,
+        action: SiteAction,
+        rt: &tokio::runtime::Handle,
+        options: sdl_engine::Options,
+        ctx: &egui::Context,
+    ) {
+        if results::is_file_action(&action) {
+            self.files.dispatch(action, rt, options, ctx);
+        } else {
+            self.dispatch_offline(action, rt, options, ctx);
+        }
+    }
+    #[allow(clippy::too_many_arguments)]
+    pub fn prepare_files(
+        &mut self,
+        id: ProjectId,
+        start: bool,
+        first_id: u64,
+        reserved: std::collections::BTreeSet<PathBuf>,
+        rt: &tokio::runtime::Handle,
+        options: sdl_engine::Options,
+        ctx: &egui::Context,
+    ) {
+        self.files
+            .prepare(id, start, first_id, reserved, rt, options, ctx);
+    }
+    pub fn candidate(
+        &self,
+        id: &ProjectId,
+        key: &sdl_grabber::UrlKey,
+    ) -> Option<sdl_grabber::CandidateMetadata> {
+        self.files.candidate(id, key)
+    }
+    pub fn sync_items(&mut self, items: &[crate::model::Item]) {
+        self.files.sync_items(items);
+    }
+    pub fn import_browser(&mut self, command: &sdl_ipc::Command) {
+        self.open = true;
+        self.show_files = true;
+        self.files.import_browser(command);
+    }
+    pub fn session_for(&self, id: &ProjectId, reference: &CredentialRef) -> Result<String, String> {
+        self.files.session_for(id, reference)
+    }
+    pub fn selected_file_count(&self, id: &ProjectId) -> usize {
+        self.files.selected_count(id)
+    }
+    pub fn set_error(&mut self, error: String) {
+        self.files.error = Some(error);
+    }
+    pub fn dispatch_offline(
         &mut self,
         action: SiteAction,
         rt: &tokio::runtime::Handle,
@@ -749,6 +857,7 @@ impl SiteGrabber {
                     repaint.request_repaint();
                 });
             }
+            _ => {}
         }
     }
 }
@@ -1010,6 +1119,8 @@ mod tests {
         let (_events, events) = tokio::sync::mpsc::channel(2);
         let active_id = ProjectId::parse("active").unwrap();
         let mut manager = SiteGrabber {
+            show_files: false,
+            files: results::FilesWorkspace::new(&tokio::runtime::Handle::current()),
             open: false,
             projects: vec![ProjectView::fixture()],
             wizard: Wizard::default(),
@@ -1041,5 +1152,96 @@ mod tests {
         assert_eq!(manager.active.as_ref().unwrap().id, active_id);
         assert_eq!(manager.projects[0].state.status, ProjectStatus::Draft);
         assert!(manager.error.is_some());
+    }
+}
+#[cfg(test)]
+mod routing_tests {
+    use super::*;
+    #[test]
+    fn site_grabber_failed_lookup_surfaces_reason_and_suspends_schedule() {
+        let mut project = ProjectView::fixture();
+        let mut state = project.state.clone();
+        state.status = ProjectStatus::Failed;
+        state.next_run = Some(0);
+        state.schedule = Some(CalendarSchedule {
+            hour: 13,
+            minute: 0,
+            days: [true; 7],
+            once: None,
+        });
+        state.reports.push(sdl_grabber::ReportEntry {
+            url: state.config.seed.clone(),
+            reason: "Robots lookup failed: system routing could not be resolved".into(),
+        });
+        schedule_next(&mut state);
+        assert!(state.next_run.is_none());
+        project.apply_result(Ok(state));
+        assert!(project.error.as_deref().unwrap().contains("routing"));
+        assert!(!should_synchronize(&project.state, false));
+        assert_eq!(project.state.pending.len(), 1);
+        assert!(failure_reason(&project.state).unwrap().contains("routing"));
+        let mut paused = project.state.clone();
+        paused.status = ProjectStatus::Paused;
+        project.apply_result(Ok(paused));
+        assert!(project.error.is_none());
+    }
+
+    #[tokio::test]
+    async fn site_grabber_real_default_settings_capture_with_verified_system_direct() {
+        use sdl_engine::crawl_fetch::{CrawlAccess, NetworkAccess};
+        struct Direct(NetworkAccess);
+        impl CrawlAccess for Direct {
+            fn check_url(&self, url: &Url) -> Result<(), String> {
+                self.0.check_url(url)
+            }
+            fn check_ip(&self, url: &Url, ip: std::net::IpAddr) -> Result<(), String> {
+                self.0.check_ip(url, ip)
+            }
+            fn system_direct(&self, _: &Url) -> Result<bool, String> {
+                Ok(true)
+            }
+        }
+        let settings = crate::settings::Settings::default();
+        let proxy = settings.proxy_for(&sdl_ipc::Command::default());
+        assert_eq!(proxy, sdl_engine::Proxy::System);
+        let server = sdl_labserver::LabServer::start(Default::default())
+            .await
+            .unwrap();
+        let dir = tempfile::tempdir().unwrap();
+        let mut config = ProjectConfig::new(
+            "Defaults",
+            server.url("/capture/index.html").parse().unwrap(),
+            dir.path().join("output"),
+        );
+        config.allow_private_seed = true;
+        let access = Arc::new(Direct(NetworkAccess::with_private_origin(
+            config.seed.origin().ascii_serialization(),
+        )));
+        let store = ProjectStore::open(
+            &dir.path().join("meta"),
+            &ProjectId::parse("defaults").unwrap(),
+        )
+        .unwrap();
+        let (_commands, rx) = tokio::sync::mpsc::channel(2);
+        let (tx, _) = tokio::sync::mpsc::channel(32);
+        let state = sdl_grabber::crawl::run(
+            config.clone(),
+            ProjectSnapshot::new(config),
+            store,
+            CrawlTransport::new(
+                sdl_engine::Options {
+                    proxy,
+                    ..Default::default()
+                },
+                access,
+            ),
+            rx,
+            tx,
+        )
+        .await
+        .unwrap();
+        assert_eq!(state.status, ProjectStatus::Completed);
+        assert!(state.resources.len() >= 6);
+        assert!(!server.log().iter().any(|r| r.path == "/capture/private"));
     }
 }

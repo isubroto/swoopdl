@@ -4,7 +4,7 @@
 #
 name = "Swoopdl Fluent"
 inherits = "classic"
-icon-set = "metro" # Reuse the already-shipped monochrome-capable icon collection.
+icon-set = "fluent"
 icons = "mono"
 
 [controls]
@@ -35,6 +35,18 @@ radius = 6
 "font.ui.bold" = 13
 "font.body" = 13
 "font.small" = 12
+
+# Additional Win-compatible roles; existing Fluent values retained.
+"border" = 1
+"focus-line" = 2
+"font.dialog" = 13
+"font.dialog.bold" = 14
+"font.title" = 19
+"font.heading" = 19
+"tooltip.width" = 360
+"tooltip.margin-x" = 12
+"tooltip.margin-top" = 9
+"tooltip.margin-bottom" = 10
 
 [seeds.light]
 background = "#EEF1F3"
@@ -114,6 +126,62 @@ link = "#25547F"
 "check.on.hot" = "#264159"
 "check.on.pressed" = "#1D3348"
 
+
+# Explicit state and surface parity with Mac; Fluent palette.
+"button.accent.bottom" = "#1D3348"
+"button.accent.text.pressed" = "#E6EDF3"
+"button.bottom" = "#C3CED8"
+"button.default.border" = "#2F4D6B"
+"button.default.bottom" = "#2F4D6B"
+"button.disabled" = "#EEF1F3"
+"button.disabled.border" = "#D3DBE2"
+"button.hot" = "#F2F5F8"
+"button.pressed" = "#E6EDF3"
+"button.text" = "#18222B"
+"button.text.pressed" = "#4B5C6B"
+"check" = "#FFFFFF"
+"check.border" = "#7A8B9B"
+"check.border.disabled" = "#D3DBE2"
+"check.border.hot" = "#64788B"
+"check.border.pressed" = "#52697D"
+"check.hot" = "#F2F5F8"
+"check.mark" = "#FFFFFF"
+"check.on.disabled" = "#9AABBA"
+"check.pressed" = "#E6EDF3"
+"field.bottom" = "#7A8B9B"
+"header.sorted" = "#DCE5ED"
+"menu" = "#FBFCFC"
+"menu.item" = "#FBFCFC"
+"menubar.hot" = "#E6EDF3"
+"menubar.open" = "#CBDBEA"
+"meter.edge" = "#C6D0D9"
+"meter.track" = "#E4E9ED"
+"scroll.corner" = "#FBFCFC"
+"scroll.thumb" = "#8595A4"
+"scroll.thumb.hot" = "#64788B"
+"scroll.thumb.pressed" = "#4B5C6B"
+"scroll.track" = "#FBFCFC"
+
+# Additional Win-compatible roles; existing Fluent values retained.
+"access-keys-always" = false
+"focus-line-straight" = false
+"window" = "#EEF1F3"
+"egui.window.border" = "#C6D0D9"
+"list" = "#FBFCFC"
+"tab" = "#FFFFFF"
+"tab.hot" = "#E8EEF3"
+"menu.sep" = "#D3DBE2"
+"toolbar.line" = "#DAE0E5"
+"toolbar.line.light" = "#EEF1F3"
+"field.disabled" = "#EEF1F3"
+"field.disabled.border" = "#D3DBE2"
+"field.readonly" = "#FBFCFC"
+"field.readonly.border" = "#D3DBE2"
+"text.disabled" = "#4B5C6B"
+"progress.track" = "#E4E9ED"
+"subtle.pressed" = "#C4D4E4"
+"highlight.pressed" = "#CBDBEA"
+
 [dark]
 tree-chevrons = true
 tree = "#171C22"
@@ -167,3 +235,58 @@ link = "#9CC0E3"
 "check.on" = "#8DB4DA"
 "check.on.hot" = "#A6C5E4"
 "check.on.pressed" = "#759FC9"
+# Explicit state and surface parity with Mac; Fluent palette.
+"button.accent.bottom" = "#759FC9"
+"button.accent.text.pressed" = "#0E1822"
+"button.bottom" = "#566678"
+"button.default.border" = "#8DB4DA"
+"button.default.bottom" = "#8DB4DA"
+"button.disabled" = "#20272F"
+"button.disabled.border" = "#313B47"
+"button.hot" = "#304050"
+"button.pressed" = "#1D2630"
+"button.text" = "#EDF1F4"
+"button.text.pressed" = "#AEBDCB"
+"check" = "#20272F"
+"check.border" = "#6F8093"
+"check.border.disabled" = "#3D4957"
+"check.border.hot" = "#8B9CAF"
+"check.border.pressed" = "#A6B5C4"
+"check.hot" = "#283440"
+"check.mark" = "#0E1822"
+"check.on.disabled" = "#46596E"
+"check.pressed" = "#304459"
+"field.bottom" = "#6F8093"
+"header.sorted" = "#304050"
+"menu" = "#222A33"
+"menu.item" = "#222A33"
+"menubar.hot" = "#232F3C"
+"menubar.open" = "#33485F"
+"meter.edge" = "#3D4957"
+"meter.track" = "#28313B"
+"scroll.corner" = "#171C22"
+"scroll.thumb" = "#6F8093"
+"scroll.thumb.hot" = "#8B9CAF"
+"scroll.thumb.pressed" = "#AEBDCB"
+"scroll.track" = "#171C22"
+
+# Additional Win-compatible roles; existing Fluent values retained.
+"access-keys-always" = false
+"focus-line-straight" = false
+"window" = "#13171C"
+"egui.window.border" = "#3D4957"
+"list" = "#1A2027"
+"tab" = "#252D37"
+"tab.hot" = "#26323F"
+"menu.sep" = "#313B47"
+"toolbar.line" = "#252D36"
+"toolbar.line.light" = "#13171C"
+"field.disabled" = "#20272F"
+"field.disabled.border" = "#313B47"
+"field.readonly" = "#20272F"
+"field.readonly.border" = "#3D4957"
+"text.disabled" = "#AEBDCB"
+"progress.track" = "#28313B"
+"subtle.pressed" = "#304459"
+"highlight.pressed" = "#33485F"
+

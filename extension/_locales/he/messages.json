@@ -241,5 +241,8 @@
   },
   "popup_media_title_name": {
     "message": "הוספת כותרת הדף לפני שמות קובצי המדיה"
+  },
+  "menu_site_grabber": {
+    "message": "סיור בקישורי העמוד באמצעות Site Grabber"
   }
 }

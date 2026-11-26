@@ -18,7 +18,7 @@ use std::{
     },
     time::{Duration, SystemTime, UNIX_EPOCH},
 };
-use tokio::io::{AsyncRead, AsyncWriteExt, BufReader, ReadBuf};
+use tokio::io::{AsyncRead, AsyncReadExt, AsyncWriteExt, BufReader, ReadBuf};
 use tokio_util::io::StreamReader;
 use tokio_util::sync::CancellationToken;
 use url::Url;
@@ -197,6 +197,7 @@ pub struct BodyBudget {
     changed: tokio::sync::Notify,
     server_after: AtomicU64,
     pacing: tokio::sync::Mutex<BTreeMap<String, tokio::time::Instant>>,
+    interval: Duration,
 }
 #[derive(Debug)]
 struct BudgetAccounting {
@@ -242,7 +243,12 @@ impl BodyBudget {
             changed: tokio::sync::Notify::new(),
             server_after: AtomicU64::new(0),
             pacing: Default::default(),
+            interval: Duration::from_secs(1),
         }
+    }
+    pub fn with_interval(mut self, interval: Duration) -> Self {
+        self.interval = interval.max(Duration::from_secs(1));
+        self
     }
     pub fn consumed(&self) -> u64 {
         self.accounting.lock().unwrap().consumed
@@ -319,7 +325,7 @@ impl BodyBudget {
                 .copied()
                 .unwrap_or_else(tokio::time::Instant::now)
                 .max(tokio::time::Instant::now());
-            times.insert(origin, at + Duration::from_secs(1));
+            times.insert(origin, at + self.interval);
             at
         };
         tokio::time::sleep_until(at).await;
@@ -384,7 +390,33 @@ async fn copy_body<R: AsyncRead + Unpin>(
 
 pub trait CrawlAccess: Send + Sync {
     fn check_url(&self, url: &Url) -> Result<(), String>;
+    /// Fresh policy checks before each guarded engine request, including retries and segments.
+    fn before_request<'a>(
+        &'a self,
+        url: &'a Url,
+    ) -> Pin<Box<dyn Future<Output = Result<(), String>> + Send + 'a>> {
+        Box::pin(async move { self.check_url(url) })
+    }
     fn check_ip(&self, url: &Url, ip: IpAddr) -> Result<(), String>;
+    fn redirect_limit(&self) -> usize {
+        10
+    }
+    fn check_response(&self, _url: &Url, _mime: &str, _size: Option<u64>) -> Result<(), String> {
+        Ok(())
+    }
+    /// Resolve the effective system route for this hop. Unknown routes fail closed.
+    /// Implementations are trusted transport policy, like the address checks above.
+    fn system_direct(&self, url: &Url) -> Result<bool, String> {
+        crate::net::crawl_system_direct(url)
+    }
+}
+/// Runtime policy for normal engine jobs created by Site Grabber.
+#[derive(Clone)]
+pub struct CaptureGuard(pub Arc<dyn CrawlAccess>);
+impl std::fmt::Debug for CaptureGuard {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        f.write_str("CaptureGuard")
+    }
 }
 #[derive(Clone, Debug, Default)]
 pub struct NetworkAccess {
@@ -471,10 +503,10 @@ impl CrawlAccess for NetworkAccess {
     }
 }
 
-struct CheckedResolver {
-    options: Options,
-    url: Url,
-    access: Arc<dyn CrawlAccess>,
+pub(crate) struct CheckedResolver {
+    pub(crate) options: Options,
+    pub(crate) url: Url,
+    pub(crate) access: Arc<dyn CrawlAccess>,
 }
 impl Resolve for CheckedResolver {
     fn resolve(&self, name: Name) -> Resolving {
@@ -543,6 +575,8 @@ pub struct CrawlResponse {
     pub retry_after: Option<Duration>,
     pub bytes: u64,
     pub body: Option<PathBuf>,
+    pub length: Option<u64>,
+    pub sample: Vec<u8>,
 }
 
 struct PartialFile {
@@ -565,11 +599,26 @@ pub async fn fetch_crawl(
     access: Arc<dyn CrawlAccess>,
     cancel: CancellationToken,
 ) -> Result<CrawlResponse, CrawlFetchError> {
-    let worker = Box::pin(fetch_inner(request, options, limits, budget, access));
+    let worker = Box::pin(fetch_inner(
+        request,
+        options,
+        limits,
+        budget,
+        access,
+        FetchMode::Full,
+    ));
     tokio::select! { biased;
         _ = cancel.cancelled() => Err(CrawlFetchError::Cancelled),
         result = worker => result,
     }
+}
+
+#[derive(Clone, Copy, PartialEq, Eq)]
+enum FetchMode {
+    Full,
+    Page,
+    Head,
+    Sample,
 }
 
 async fn fetch_inner(
@@ -578,14 +627,8 @@ async fn fetch_inner(
     limits: CrawlLimits,
     budget: Arc<BodyBudget>,
     access: Arc<dyn CrawlAccess>,
+    mode: FetchMode,
 ) -> Result<CrawlResponse, CrawlFetchError> {
-    // A proxy may resolve the destination itself, defeating local address checks. Never
-    // silently bypass the configured proxy, nor claim its remote DNS has been checked.
-    if !matches!(options.proxy, Proxy::None) {
-        return Err(CrawlFetchError::Access(
-            "Site capture requires direct routing; proxy-side DNS cannot be verified".into(),
-        ));
-    }
     let mut url = request.url;
     url.set_fragment(None);
     let mut headers = request.headers;
@@ -594,11 +637,46 @@ async fn fetch_inner(
     let limiter = Arc::new(Limiter::new(options.speed_limit));
     loop {
         access.check_url(&url).map_err(CrawlFetchError::Access)?;
+        // A proxy may resolve the destination itself, defeating local address checks. Never
+        // silently bypass the configured proxy, nor claim its remote DNS has been checked.
+        let direct = match options.proxy {
+            Proxy::None => true,
+            Proxy::System => {
+                let (access, destination) = (access.clone(), url.clone());
+                // Native proxy discovery can block. Keep it off the async runtime
+                // so pause/cancel and the request deadline remain responsive.
+                let lookup =
+                    tokio::task::spawn_blocking(move || access.system_direct(&destination));
+                match tokio::time::timeout(limits.timeout, lookup).await {
+                    Ok(Ok(result)) => result.map_err(CrawlFetchError::Access)?,
+                    Ok(Err(_)) => {
+                        return Err(CrawlFetchError::Access(
+                            "System routing lookup could not finish".into(),
+                        ));
+                    }
+                    Err(_) => {
+                        return Err(CrawlFetchError::Access(
+                            "System routing lookup timed out".into(),
+                        ));
+                    }
+                }
+            }
+            _ => false,
+        };
+        if !direct {
+            return Err(CrawlFetchError::Access(
+                "Site capture requires direct routing; proxy-side DNS cannot be verified".into(),
+            ));
+        }
         budget.pace(&url).await;
         if aliases.contains(&url) {
             return Err(CrawlFetchError::Access("Redirect loop".into()));
         }
-        let builder = crate::download::crawl_client_builder(&options, &url)
+        // Disable discovery only for this verified hop. Preserve the original selection
+        // so a redirect gets its own route decision, including system bypass rules.
+        let mut hop_options = options.clone();
+        hop_options.proxy = Proxy::None;
+        let builder = crate::download::crawl_client_builder(&hop_options, &url)
             .map_err(CrawlFetchError::Setup)?;
         let client = builder
             .redirect(reqwest::redirect::Policy::none())
@@ -622,8 +700,19 @@ async fn fetch_inner(
             header::ACCEPT_ENCODING,
             header::HeaderValue::from_static("gzip"),
         );
+        if mode == FetchMode::Sample {
+            request_headers.insert(
+                header::RANGE,
+                header::HeaderValue::from_static("bytes=0-16383"),
+            );
+        }
+        let method = if mode == FetchMode::Head {
+            reqwest::Method::HEAD
+        } else {
+            reqwest::Method::GET
+        };
         let response = client
-            .get(url.clone())
+            .request(method, url.clone())
             .headers(request_headers)
             .send()
             .await
@@ -661,6 +750,100 @@ async fn fetch_inner(
         });
         if let Some(delay) = retry_after {
             budget.defer(delay);
+        }
+        let length = if status == StatusCode::PARTIAL_CONTENT {
+            text(header::CONTENT_RANGE)
+                .and_then(|s| s.rsplit_once('/').and_then(|(_, n)| n.parse().ok()))
+        } else {
+            text(header::CONTENT_LENGTH).and_then(|s| s.parse().ok())
+        };
+        if mode != FetchMode::Full && matches!(status.as_u16(), 301 | 302 | 303 | 307 | 308) {
+            if aliases.len() >= usize::from(limits.redirects) {
+                return Err(CrawlFetchError::Access("Redirect limit reached".into()));
+            }
+            let mut next = url
+                .join(
+                    location.as_deref().ok_or_else(|| {
+                        CrawlFetchError::Access("Redirect has no Location".into())
+                    })?,
+                )
+                .map_err(|_| CrawlFetchError::Access("Invalid redirect".into()))?;
+            next.set_fragment(None);
+            headers = crate::download::scoped_headers(&headers, &url, &next);
+            if url.origin() != next.origin() {
+                headers.clear();
+            }
+            aliases.push(url);
+            url = next;
+            continue;
+        }
+        let normalized_mime = mime
+            .split(';')
+            .next()
+            .unwrap_or("")
+            .trim()
+            .to_ascii_lowercase();
+        if mode == FetchMode::Page
+            && !matches!(
+                normalized_mime.as_str(),
+                "text/html" | "application/xhtml+xml" | "text/css"
+            )
+        {
+            return Err(CrawlFetchError::Access(
+                "Navigation response is not HTML or CSS".into(),
+            ));
+        }
+        if matches!(mode, FetchMode::Head | FetchMode::Sample) {
+            let mut sample = Vec::new();
+            if mode == FetchMode::Sample && status.is_success() {
+                // Read only a bounded prefix even if Range is ignored or Content-Length lies.
+                // Reserve budget before polling; never drain the rest of this response.
+                let stream = response
+                    .bytes_stream()
+                    .map(|r| r.map_err(std::io::Error::other));
+                let wire = StreamReader::new(Box::pin(stream));
+                let reader: Pin<Box<dyn AsyncRead + Send>> = if encoding == "gzip" {
+                    Box::pin(async_compression::tokio::bufread::GzipDecoder::new(
+                        BufReader::new(wire),
+                    ))
+                } else {
+                    Box::pin(wire)
+                };
+                let mut reader = reader.take(16 * 1024);
+                let mut buffer = [0u8; 1024];
+                while sample.len() < 16 * 1024 {
+                    let mut lease = budget
+                        .lease((16 * 1024 - sample.len()).min(buffer.len()) as u64)
+                        .await?;
+                    let mut output = ReadBuf::new(&mut buffer[..lease.amount as usize]);
+                    let result = futures::future::poll_fn(|cx| {
+                        let result = Pin::new(&mut reader).poll_read(cx, &mut output);
+                        lease.produced = Some(output.filled().len() as u64);
+                        result
+                    })
+                    .await;
+                    let n = output.filled().len();
+                    lease.commit(n as u64);
+                    result.map_err(CrawlFetchError::Body)?;
+                    if n == 0 {
+                        break;
+                    }
+                    sample.extend_from_slice(&buffer[..n]);
+                }
+            }
+            return Ok(CrawlResponse {
+                final_url: url,
+                aliases,
+                status,
+                mime,
+                etag,
+                last_modified,
+                retry_after,
+                bytes: sample.len() as u64,
+                body: None,
+                length,
+                sample,
+            });
         }
         let no_body = matches!(status, StatusCode::NOT_MODIFIED | StatusCode::NO_CONTENT);
         let expected = if no_body {
@@ -764,6 +947,106 @@ async fn fetch_inner(
             retry_after,
             bytes: total_bytes,
             body: save.then_some(request.destination),
+            length,
+            sample: Vec::new(),
         });
+    }
+}
+
+/// Scan-only metadata. HEAD is followed by a bounded prefix to detect login/error HTML.
+/// Both operations use the same checked routing, DNS, redirect and credential controls.
+#[allow(clippy::too_many_arguments)]
+pub async fn probe_crawl(
+    url: Url,
+    headers: HeaderMap,
+    options: Options,
+    limits: CrawlLimits,
+    budget: Arc<BodyBudget>,
+    access: Arc<dyn CrawlAccess>,
+    cancel: CancellationToken,
+) -> Result<CrawlResponse, CrawlFetchError> {
+    let work = async {
+        let request = || CrawlRequest {
+            url: url.clone(),
+            headers: headers.clone(),
+            destination: PathBuf::new(),
+        };
+        let head = Box::pin(fetch_inner(
+            request(),
+            options.clone(),
+            limits.clone(),
+            budget.clone(),
+            access.clone(),
+            FetchMode::Head,
+        ))
+        .await?;
+        if !head.status.is_success() && !matches!(head.status.as_u16(), 405 | 501) {
+            return Ok(head);
+        }
+        // Start from the original URL so credentials never get reattached to a redirected origin.
+        let mut sample = Box::pin(fetch_inner(
+            request(),
+            options,
+            limits,
+            budget,
+            access,
+            FetchMode::Sample,
+        ))
+        .await?;
+        let prefix = String::from_utf8_lossy(&sample.sample)
+            .trim_start_matches('\u{feff}')
+            .trim_start()
+            .to_ascii_lowercase();
+        let html = [
+            "<!doctype html",
+            "<html",
+            "<head",
+            "<form",
+            "<a ",
+            "<h1",
+            "<h2",
+            "<body",
+            "<div",
+            "<p>",
+            "<p ",
+            "<table",
+            "<ul",
+            "<!--",
+        ]
+        .iter()
+        .any(|tag| prefix.starts_with(tag));
+        if html {
+            sample.mime = "text/html".into();
+        } else if matches!(
+            sample
+                .mime
+                .split(';')
+                .next()
+                .unwrap_or("")
+                .trim()
+                .to_ascii_lowercase()
+                .as_str(),
+            "text/html" | "application/xhtml+xml"
+        ) && !sample.sample.is_empty()
+        {
+            sample.mime = "application/octet-stream".into();
+        }
+        Ok(sample)
+    };
+    tokio::select! { biased; _ = cancel.cancelled() => Err(CrawlFetchError::Cancelled), result = Box::pin(work) => result }
+}
+
+/// Read a navigation response only after checking its actual response MIME.
+pub async fn fetch_crawl_page(
+    request: CrawlRequest,
+    options: Options,
+    limits: CrawlLimits,
+    budget: Arc<BodyBudget>,
+    access: Arc<dyn CrawlAccess>,
+    cancel: CancellationToken,
+) -> Result<CrawlResponse, CrawlFetchError> {
+    tokio::select! { biased;
+        _ = cancel.cancelled() => Err(CrawlFetchError::Cancelled),
+        result = Box::pin(fetch_inner(request, options, limits, budget, access, FetchMode::Page)) => result,
     }
 }

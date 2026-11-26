@@ -6610,3 +6610,5 @@ unit	{n} MB	{n} MB
 #. {n} = a number (keep the braces as they are)
 #, machine
 unit	{n} MB/sec	{n} MB/सेकंद
+#. Browser context menu: bounded discovery, no automatic download.
+extension	Explore page links with Site Grabber	Site Grabber वापरून पानावरील दुवे शोधा

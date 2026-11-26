@@ -2,13 +2,32 @@
 
 This log records Swoopdl application development releases. Version numbers follow the rule that `0.x.0` is a feature release and `0.x.x` (nonzero final component) is a fix release. A release candidate is not considered Windows-qualified until its Windows tests pass.
 
-## [0.1.7] — Site Grabber destination recovery (release candidate)
+## Unreleased — Site Grabber file exploration
+
+### Added
+
+- Separate Files and Offline website workflows, with bounded metadata-only exploration, durable checked candidates, source-folder results, and selected-file queue handoff.
+- Guarded normal-engine jobs with isolated persistence, duplicate dispatch recovery, fresh robots checks, checked DNS/redirects/routing, and origin-scoped session context.
+- Flat, original-subfolder, and category layouts with safe names and non-destructive collisions; stopped-project editing and distinct schedule actions.
+- Explicit import of browser-rendered links, in-memory browser sessions, and HLS/DASH handoff to existing media tools.
 
 ### Fixed
+
+- Classify linked media before applying page depth or file filters; detect HTML disguised as video and cap ignored-Range metadata responses.
+- Include nested native UI modules when extracting translatable English strings.
+
+## [0.1.7] — Site Grabber recovery and routing (release candidate)
+
+### Fixed
+
+- Accept verified DIRECT routes selected through system proxy settings and recheck routing on every Site Grabber redirect.
+- Resolve Windows automatic discovery instead of rejecting its enabled flag; retain configured proxy fallback when no WPAD file exists.
+- Keep native proxy discovery off the async thread and enforce the crawl deadline so pause and cancellation stay responsive.
+- Distinguish robots lookup failures from real exclusions, retain failed URLs for retry, and preserve actionable sanitized causes in capture events and reports.
 - Create a dedicated project subfolder by default when selecting a base folder, including drive roots.
 - Show the final capture path and check destination conflicts before leaving the save-location step and before saving metadata.
 - Let projects with no captured data change destination without losing their capture settings.
-- Report failed starts as Failed, and suspend failed scheduled starts until manual retry.
+- Show failed starts and capture failures as Failed, retain their cause after reopening, and suspend schedules until manual retry.
 - Show template-specific file guidance and retain explicit per-file and run budgets for large videos.
 
 ### Changed

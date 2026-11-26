@@ -241,5 +241,8 @@
   },
   "popup_media_title_name": {
     "message": "メディアファイル名の前にページのタイトルを付ける"
+  },
+  "menu_site_grabber": {
+    "message": "Site Grabber でページのリンクを探索"
   }
 }

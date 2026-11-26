@@ -241,5 +241,8 @@
   },
   "popup_media_title_name": {
     "message": "미디어 파일 이름 앞에 페이지 제목 추가"
+  },
+  "menu_site_grabber": {
+    "message": "Site Grabber로 페이지 링크 탐색"
   }
 }

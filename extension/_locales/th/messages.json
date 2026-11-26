@@ -241,5 +241,8 @@
   },
   "popup_media_title_name": {
     "message": "เพิ่มชื่อหน้าไว้หน้าชื่อไฟล์สื่อ"
+  },
+  "menu_site_grabber": {
+    "message": "สำรวจลิงก์ในหน้าด้วย Site Grabber"
   }
 }

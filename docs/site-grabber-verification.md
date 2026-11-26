@@ -1,10 +1,54 @@
 # Site Grabber verification
 
-The implementation is present on `feat/full-site-grabber`. Cross-platform acceptance is incomplete; this document does not certify a release.
+The implementation is present in the 0.1.7 source. Cross-platform acceptance is incomplete; this document does not certify a release.
 
 Implemented scope includes saved projects, scoped static HTML/CSS crawling, robots policy, bounded decoded body accounting, durable pause/resume, offline generations, reports, conditional synchronization, calendar schedules, and optional memory-only or system-vault credentials. The native entry point is **Tasks → Site Grabber**.
 
-## Automated checks
+## File workflow implementation — 2026-11-26
+
+The current source adds a separate file catalog and checked normal-engine handoff. Verification artifacts for this run are under `.superpowers/sdd/2026-11-26-idm-site-grabber-parity/`. The six-task implementation plan is `docs/superpowers/plans/2026-11-26-idm-site-grabber-parity.md`.
+
+Acceptance covers a local Flash-shaped directory graph, depth-one video discovery without full media GETs, false MIME/login pages, ignored Range and unsupported HEAD, selection/catalog recovery, safe destination names, idempotent dispatch after a lost acknowledgement, missing guards, and exact-byte pause/restart/resume through the normal engine. The live Flash check is separately ignored by default and must be invoked explicitly after local acceptance. It reads only directory pages and capped metadata prefixes, uses saved network settings, and has a 120-second cancellation watchdog.
+
+The local workflow test scans three candidates, selects two, persists guarded jobs, pauses, reconstructs state after restart, and resumes both files to their exact 131,072-byte contents and original filenames. The unchecked file is absent. Additional regression cases cover immutable destination/policy records, lost enqueue acknowledgements, legacy-reader invisibility, oversized checkpoints, edited filters, scoped memory/vault references, checked signed-link refresh, DNS answers, redirects, and cross-origin header stripping.
+
+Discovery-only acceptance against the supplied Flash URL used saved **System** routing without changing settings. The bounded run listed **47 video candidates, all 47 with known sizes**, consumed **816,013 scan bytes**, and downloaded **zero full episodes**. It stopped as **Limited** under the 120-second watchdog; this is useful candidate-discovery evidence, not complete enumeration. The run used depth 1, a 64-URL limit, a 2 MiB scan budget, and metadata prefixes capped at 16 KiB. Its destination was not created. Evidence is in `live-discovery/summary.json` and `live-check-output.log` beneath the artifact directory above.
+
+Browser integration checks passed all 69 checks. Website validation passed 15 tests and built 85 pages offline, retaining the primary-language coverage requirement. Final Rust outcomes are recorded after completion below. Existing Windows routing evidence below describes the earlier offline implementation; eight HTML pages alone do not establish file-workflow parity. No release or publication is included in this work.
+
+Native visual review used the current debug executable with isolated application data and offscreen windows. The results workspace and all four wizard pages were inspected at 1000×745. Controls and final save instructions fit without clipping; automatic downloading was unchecked. Five screenshots are retained in `native-review/`. These are synthetic preview states, not a manual sign-in, scheduling, or download-through-clicks acceptance run. The local workflow test supplies the scan/select/queue/restart/resume evidence. Linux/macOS acceptance and independent review remain unperformed; the plan requires author review without delegation.
+
+## Windows automatic-discovery follow-up — 2026-11-26
+
+The supplied URL, `http://203.76.96.50/ftp/TVseries/english/The%20Flash/`, was retested using saved System routing with browser inheritance enabled. Before the correction, it failed with zero resources because the transport categorically rejected Windows automatic discovery. A read-only WinHTTP probe returned error 12180: no discoverable WPAD configuration. The fix now resolves the route per URL, following the documented no-WPAD fallback while retaining separately configured static/environment proxy settings. Genuine proxies, explicit PAC scripts, unknown results, and other resolution errors remain refused. Automatic Windows credential logon is disabled during discovery.
+
+The live System-mode capture now finishes **Completed**, saving the main listing and `s01/` through `s07/`: **8 HTML resources, 23,016 decoded body bytes, 0 pending URLs**. The isolated project allowed only in-scope directory listings and robots, with depth 1, a 128 KiB resource cap, a 2 MiB run cap, and a 120-second watchdog. No episodes were downloaded and saved application settings were not changed. Artifacts are under `.superpowers/live-system-fixed-2026-11-26/`, including the offline entry point, report, summary, and verification harness.
+
+Focused regression checks pass for automatic DIRECT/no-WPAD versus proxy/failure outcomes, preserved static proxy fallback, redirect reevaluation, and route-resolution timeout/cancellation. The blocking-resolution regression was observed failing before the async-worker correction. `cargo test --workspace --locked -- --test-threads=1` passes with **934 passed, 0 failed, 22 existing manual tests ignored** across 72 suites. Website tests pass **15/15**; formatting and English-catalog checks pass. `cargo clippy --workspace --all-targets --locked -- -D warnings` and `cargo build -p sdl-app --bin swoopdl --locked` pass. The rebuilt executable and symbols were placed in the original checkout's `target/debug`; both PE version fields are `0.1.7`, and the executable hash matches the build output. Builds use `CARGO_BUILD_JOBS=1`.
+
+References: [WinHTTP AutoProxy functions](https://learn.microsoft.com/en-us/windows/win32/winhttp/winhttp-autoproxy-api) and [WinHttpGetProxyForUrl](https://learn.microsoft.com/en-us/windows/win32/api/winhttp/nf-winhttp-winhttpgetproxyforurl).
+
+## Initial robots and routing repair — 2026-11-26
+
+The repair is in `D:\Swoopdl\SwoopdlSource`, on the existing `main` checkout updated to the inspected 0.1.7 source. An isolated worktree protected the older checkout during development. The repair was then brought back at the user's request. Six pre-existing edited files were backed up and verified byte-for-byte after transfer. Existing website translation fixes were retained without lowering coverage requirements. No release was published or application network settings changed.
+
+Windows validation uses Rust 1.99.1 and sequential builds with `CARGO_BUILD_JOBS=1`:
+
+- `cargo test --workspace --locked -- --test-threads=1`: 932 passed, 0 failed, 22 existing manual tests ignored, across 72 test suites including documentation tests.
+- `python -m unittest discover -s tools/website -p test_build.py -v`: 15 passed from the original checkout with its retained translation fixes.
+- `cargo fmt --all --check` and `python tools/i18n/extract.py --check`: passed. No new translatable interface labels were needed.
+- `cargo clippy --workspace --all-targets --locked -- -D warnings`: passed.
+- `cargo build -p sdl-app --bin swoopdl --locked`: passed. The debug executable and symbols were placed in the original checkout's `target/debug`. `swoopdl.exe` has FileVersion and ProductVersion `0.1.7`; its SHA-256 matches the build output.
+
+The local encoded-space directory fixture captures three resources, including a tiny video payload, and charges exactly 154 decoded body bytes. Parent-directory navigation is refused. The real app's default proxy selection is exercised with a deterministic verified-DIRECT resolver; tests do not alter environment variables or Windows proxy settings.
+
+Regression coverage includes per-hop system-route decisions, proxy bypass rules, refused proxy redirects, permanent configuration failures without repeated attempts, empty and real robots exclusions, HTTP 401/403/404/503, Retry-After, connection failures, header and body timeouts, decoding and file errors, byte limits, pause, retained seeds, retry after configuration correction, capped reports, credential/query redaction, and failed-schedule suspension. Native project state retains the useful cause after completion and reopening. Real robots exclusions still prevent the destination request.
+
+A read-only probe found saved System inheritance and Windows automatic discovery enabled, without a static proxy or PAC URL. This initial repair still refused automatic discovery and required an explicit-direct workaround. The follow-up above removes that restriction for Windows DIRECT/no-WPAD outcomes; changing saved routing settings is no longer needed for the tested URL.
+
+System DIRECT routing is supported only when configuration can be verified. Actual proxy routes, unknown configurations, and macOS system routing remain conservatively refused; explicit direct routing remains available. Linux/macOS acceptance and native click automation were not performed for this repair. No episodes were downloaded during verification. Review was performed by the author, following the approved instruction not to delegate.
+
+## Earlier feature baseline
 
 Current-source Windows checks use Rust 1.99.1 with `CARGO_BUILD_JOBS=1`.
 

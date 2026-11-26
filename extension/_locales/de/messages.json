@@ -241,5 +241,8 @@
   },
   "popup_media_title_name": {
     "message": "Seitentitel vor die Namen von Mediendateien setzen"
+  },
+  "menu_site_grabber": {
+    "message": "Seitenlinks mit Site Grabber erkunden"
   }
 }

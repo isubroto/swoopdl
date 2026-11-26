@@ -241,5 +241,8 @@
   },
   "popup_media_title_name": {
     "message": "افزودن عنوان صفحه پیش از نام فایل رسانه"
+  },
+  "menu_site_grabber": {
+    "message": "بررسی پیوندهای صفحه با Site Grabber"
   }
 }

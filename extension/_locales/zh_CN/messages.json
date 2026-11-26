@@ -241,5 +241,8 @@
   },
   "popup_media_title_name": {
     "message": "在媒体文件名前加上页面标题"
+  },
+  "menu_site_grabber": {
+    "message": "使用 Site Grabber 探索页面链接"
   }
 }

@@ -114,6 +114,8 @@ struct Message {
     page: Option<String>,
     /// The right-click menu: these links of a page or its selection.
     links: Vec<String>,
+    #[serde(alias = "site_grabber")]
+    site_grabber: bool,
     /// The toolbar button: leave this site (a host name) to the browser.
     exclude_site: Option<String>,
     /// The toolbar button: bring Swoopdl's window up.
@@ -290,6 +292,10 @@ fn answer(m: Message, rules: &sdl_ipc::capture::CaptureRules) -> Reply {
         }
         Some(sdl_ipc::Command {
             links,
+            site_grabber: m.site_grabber,
+            proxy: m.site_grabber.then(|| m.proxy.clone()).flatten(),
+            proxy_pac: m.site_grabber.then(|| m.proxy_pac.clone()).flatten(),
+            proxy_login: m.site_grabber && m.proxy_login,
             referer: m.referrer.clone().filter(|r| !r.is_empty()),
             cookies: m.cookies.clone().filter(|c| !c.is_empty()),
             user_agent: m.user_agent.clone(),
@@ -1333,6 +1339,16 @@ mod tests {
             &rules,
         );
         assert!(!r.ok && r.why == Some("refused"));
+    }
+
+    #[test]
+    fn site_grabber_browser_marker_and_proxy_context_decode_together() {
+        for key in ["site_grabber", "siteGrabber"] {
+            let message:Message=serde_json::from_value(serde_json::json!({key:true,"links":["https://example.test/episode.mkv"],"referrer":"https://example.test/series/","proxy":"http://proxy.test:3128","proxyLogin":true})).unwrap();
+            assert!(message.site_grabber);
+            assert_eq!(message.proxy.as_deref(), Some("http://proxy.test:3128"));
+            assert!(message.proxy_login);
+        }
     }
 
     #[test]

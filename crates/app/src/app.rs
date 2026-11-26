@@ -1058,6 +1058,15 @@ impl App {
                 i.category = Category::General;
             }
         }
+        // A crash before queue acknowledgement must recover the durable dispatch membership.
+        for item in items
+            .iter()
+            .filter(|i| i.site.is_some() && i.status != Status::Complete)
+        {
+            if !queues.iter().any(|q| q.items.contains(&item.id)) {
+                queues[0].items.push(item.id);
+            }
+        }
         let mut list = list::ListState::default();
         if let Some(cols) = loaded.columns {
             list.apply(cols);
@@ -1082,7 +1091,10 @@ impl App {
             tracing::info!("started with the session: minimized (a window can't be hidden here)");
             ctx.send_viewport_cmd(egui::ViewportCommand::Minimized(true));
         }
-        let site_grabber = crate::site_grabber::SiteGrabber::new(&rt);
+        let mut site_grabber = crate::site_grabber::SiteGrabber::new(&rt);
+        if let Some(error) = loaded.guarded_error {
+            site_grabber.set_error(error);
+        }
         App {
             rt,
             items,
@@ -2488,6 +2500,17 @@ impl App {
             self.dirty = true;
             return;
         }
+        if cmd.site_grabber && !cmd.links.is_empty() && !cmd.private {
+            self.show_window(ctx);
+            let mut imported = cmd.clone();
+            if !self.settings.proxy_from_browser {
+                imported.proxy = None;
+                imported.proxy_pac = None;
+                imported.proxy_login = false;
+            }
+            self.site_grabber.import_browser(&imported);
+            return;
+        }
         // The browser's right-click menu: a page's (or a selection's) links, to tick in Import.
         if !cmd.links.is_empty() {
             self.show_window(ctx);
@@ -2756,14 +2779,90 @@ impl App {
             self.dirty = true;
             return;
         }
-        let RequestParts { headers, mut opts } =
-            self.request_parts(&url, login.as_ref(), &context, direct);
+        let RequestParts {
+            mut headers,
+            mut opts,
+        } = self.request_parts(&url, login.as_ref(), &context, direct);
+        let site = self
+            .items
+            .iter()
+            .find(|i| i.id == id)
+            .and_then(|i| i.site.clone());
+        if let Some(request) = &site {
+            let guarded = (|| {
+                let destination = self
+                    .items
+                    .iter()
+                    .find(|item| item.id == id)
+                    .map(|item| &item.dest)
+                    .ok_or_else(|| "Download item is missing".to_owned())?;
+                if request.url != url || request.destination != *destination {
+                    return Err(crate::i18n::t(
+                        "A guarded job cannot change its URL or reserved destination",
+                    )
+                    .into());
+                }
+                let (mut guarded, guard) =
+                    request.guard(opts.clone()).map_err(|e| e.to_string())?;
+                guarded.capture_guard = Some(guard);
+                let mut scoped = reqwest::header::HeaderMap::new();
+                if request.source_page.origin() == request.url.origin()
+                    && let Ok(value) =
+                        reqwest::header::HeaderValue::from_str(request.source_page.as_str())
+                {
+                    scoped.insert(reqwest::header::REFERER, value);
+                }
+                if let Some(reference) = &request.policy.credential {
+                    let value = self
+                        .site_grabber
+                        .session_for(&request.project_id, reference)?;
+                    if request.url.origin().ascii_serialization() == reference.origin {
+                        let mut value =
+                            reqwest::header::HeaderValue::from_str(&value).map_err(|_| {
+                                crate::i18n::t("Invalid authorization header").to_owned()
+                            })?;
+                        value.set_sensitive(true);
+                        scoped.insert(
+                            if reference.identifier == "memory-cookie" {
+                                reqwest::header::COOKIE
+                            } else {
+                                reqwest::header::AUTHORIZATION
+                            },
+                            value,
+                        );
+                    }
+                }
+                if request.destination.exists() && !state_path(&request.destination).exists() {
+                    return Err(crate::i18n::t(
+                        "The reserved destination is occupied. Choose another filename.",
+                    )
+                    .into());
+                }
+                Ok::<_, String>((guarded, scoped))
+            })();
+            match guarded {
+                Ok((guarded, scoped)) => {
+                    opts = guarded;
+                    headers = scoped;
+                }
+                Err(error) => {
+                    if let Some(item) = self.item(id) {
+                        item.status = Status::Error;
+                        item.error = Some(error);
+                    }
+                    self.dirty = true;
+                    return;
+                }
+            }
+        }
         // Download File Info's open answer for it, if it has one (#28); used once.
         let kept = self.kept_answers.remove(&id);
         // The file's own remembered limit, else the Speed Limiter's.
         opts.speed_limit = own_limit.or(self.settings.speed_limit());
         opts.checksum = checksum;
-        self.claim_place(id);
+        if site.is_none() {
+            self.claim_place(id);
+        }
         let Some(item) = self.item(id) else { return };
         let _guard = rt.enter();
         // Resume whenever there is something to resume. If that fails, say why and keep the
@@ -8012,6 +8111,52 @@ impl App {
         action: crate::site_grabber::SiteAction,
         ctx: &egui::Context,
     ) {
+        use crate::site_grabber::SiteAction;
+        if let SiteAction::OpenCandidateMedia(id, key) = &action {
+            if let Some(metadata) = self.site_grabber.candidate(id, key) {
+                self.handle_command(
+                    ipc::Command {
+                        video_page: Some(metadata.final_url.to_string()),
+                        referer: Some(metadata.source_page.to_string()),
+                        ..Default::default()
+                    },
+                    ctx,
+                );
+            }
+            return;
+        }
+        if let SiteAction::FileJobsReady(ids, start) = &action {
+            match crate::site_grabber_jobs::load() {
+                Ok(jobs) => {
+                    for item in jobs.into_iter().filter(|i| ids.contains(&i.id)) {
+                        let id = item.id;
+                        if self.items.iter().any(|i| {
+                            i.id == id
+                                && i.site.as_ref().map(|s| &s.dispatch_id)
+                                    != item.site.as_ref().map(|s| &s.dispatch_id)
+                        }) {
+                            self.site_grabber.set_error(
+                                "A guarded download ID conflicts with another item".into(),
+                            );
+                            continue;
+                        }
+                        if !self.items.iter().any(|i| i.id == id) {
+                            self.next_id = self.next_id.max(id.saturating_add(1));
+                            self.items.push(item);
+                        }
+                        if !self.queues[0].items.contains(&id) {
+                            self.queues[0].items.push(id);
+                        }
+                    }
+                    self.dirty = true;
+                    if *start && !ids.is_empty() {
+                        self.start_queue(0);
+                    }
+                }
+                Err(e) => self.site_grabber.set_error(e.to_string()),
+            }
+            return;
+        }
         let options = self
             .site_grabber
             .seed(&action)
@@ -8026,7 +8171,27 @@ impl App {
                 options
             })
             .unwrap_or_default();
-        self.site_grabber.dispatch(action, &self.rt, options, ctx);
+        if let SiteAction::DownloadSelected(id) | SiteAction::AddSelectedToQueue(id) = &action {
+            let count = self.site_grabber.selected_file_count(id);
+            let first = self.next_id;
+            let Some(next) = self.next_id.checked_add(count as u64) else {
+                self.site_grabber.set_error("Download IDs exhausted".into());
+                return;
+            };
+            self.next_id = next;
+            let reserved = self.items.iter().map(|i| i.dest.clone()).collect();
+            self.site_grabber.prepare_files(
+                id.clone(),
+                matches!(action, SiteAction::DownloadSelected(_)),
+                first,
+                reserved,
+                &self.rt,
+                options,
+                ctx,
+            );
+        } else {
+            self.site_grabber.dispatch(action, &self.rt, options, ctx);
+        }
     }
 
     /// Can this download be fetched again from the start? A file download that isn't running
@@ -9032,6 +9197,7 @@ impl eframe::App for App {
 impl App {
     /// What runs at every frame, window or not (`logic`, and a headless run's loop).
     pub fn tick(&mut self, ctx: &egui::Context) {
+        self.site_grabber.sync_items(&self.items);
         if let Some(action) = self.site_grabber.poll(ctx) {
             self.site_grabber_action(action, ctx);
         }

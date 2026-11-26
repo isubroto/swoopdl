@@ -333,7 +333,7 @@ impl LabServer {
         // Routes answered from memory, logged by `log_simple`.
         let simple = Router::new()
             .route("/robots.txt", get(crate::crawl::robots))
-            .route("/capture/{name}", get(crate::crawl::page))
+            .route("/capture/{*name}", get(crate::crawl::page))
             .route("/page", get(pages::page))
             .route("/leadon", get(pages::leadon))
             .route("/formpage", get(pages::formpage))

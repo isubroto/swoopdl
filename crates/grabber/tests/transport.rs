@@ -233,3 +233,161 @@ async fn credentials_do_not_cross_origin() {
     assert!(target.authorization.is_none());
     assert!(target.cookie.is_none());
 }
+struct RoutedAccess {
+    network: NetworkAccess,
+    proxy_on_path: Option<&'static str>,
+    fail_resolution: bool,
+    decisions: std::sync::Mutex<Vec<String>>,
+}
+
+#[tokio::test]
+async fn system_route_resolution_obeys_timeout_and_cancellation() {
+    use sdl_engine::crawl_fetch::{CrawlFetchError, CrawlLimits, CrawlRequest, fetch_crawl};
+    use std::time::{Duration, Instant};
+    struct SlowRoute(NetworkAccess);
+    impl CrawlAccess for SlowRoute {
+        fn check_url(&self, url: &Url) -> Result<(), String> {
+            self.0.check_url(url)
+        }
+        fn check_ip(&self, url: &Url, ip: IpAddr) -> Result<(), String> {
+            self.0.check_ip(url, ip)
+        }
+        fn system_direct(&self, _: &Url) -> Result<bool, String> {
+            std::thread::sleep(Duration::from_millis(500));
+            Ok(true)
+        }
+    }
+    let server = sdl_labserver::LabServer::start(Default::default())
+        .await
+        .unwrap();
+    for cancel_request in [false, true] {
+        let dir = tempfile::tempdir().unwrap();
+        let url: Url = server.url("/capture/index.html").parse().unwrap();
+        let access = Arc::new(SlowRoute(NetworkAccess::with_private_origin(
+            url.origin().ascii_serialization(),
+        )));
+        let cancel = tokio_util::sync::CancellationToken::new();
+        let token = cancel.clone();
+        let trigger = tokio::spawn(async move {
+            if cancel_request {
+                tokio::time::sleep(Duration::from_millis(10)).await;
+                token.cancel();
+            }
+        });
+        let started = Instant::now();
+        let result = fetch_crawl(
+            CrawlRequest {
+                url,
+                headers: Default::default(),
+                destination: dir.path().join("body"),
+            },
+            sdl_engine::Options {
+                proxy: sdl_engine::Proxy::System,
+                ..Default::default()
+            },
+            CrawlLimits {
+                timeout: Duration::from_millis(50),
+                ..Default::default()
+            },
+            Arc::new(BodyBudget::new(100_000, 0)),
+            access,
+            cancel,
+        )
+        .await;
+        assert!(
+            started.elapsed() < Duration::from_millis(300),
+            "route lookup blocked the runtime"
+        );
+        if cancel_request {
+            assert!(matches!(result, Err(CrawlFetchError::Cancelled)));
+        } else {
+            assert!(
+                matches!(result,Err(CrawlFetchError::Access(ref reason)) if reason.contains("timed out"))
+            );
+        }
+        trigger.await.unwrap();
+        assert!(server.log().is_empty());
+        assert!(!dir.path().join("body").exists());
+    }
+}
+impl CrawlAccess for RoutedAccess {
+    fn check_url(&self, url: &Url) -> Result<(), String> {
+        self.network.check_url(url)
+    }
+    fn check_ip(&self, url: &Url, ip: IpAddr) -> Result<(), String> {
+        self.network.check_ip(url, ip)
+    }
+    fn system_direct(&self, url: &Url) -> Result<bool, String> {
+        self.decisions.lock().unwrap().push(url.path().into());
+        if self.fail_resolution {
+            return Err("System routing could not be resolved".into());
+        }
+        Ok(self.proxy_on_path.is_none_or(|path| url.path() != path))
+    }
+}
+
+#[tokio::test]
+async fn system_direct_is_checked_per_redirect_and_configured_proxy_is_never_bypassed() {
+    use sdl_engine::crawl_fetch::{CrawlFetchError, CrawlLimits, CrawlRequest, fetch_crawl};
+    let server = sdl_labserver::LabServer::start(Default::default())
+        .await
+        .unwrap();
+    for (path, blocked, unknown, succeeds) in [
+        ("/capture/index.html".to_owned(), None, false, true),
+        (
+            "/capture/index.html".to_owned(),
+            Some("/capture/index.html"),
+            false,
+            false,
+        ),
+        ("/capture/index.html".to_owned(), None, true, false),
+        (
+            "/redirect?to=/capture/private".to_owned(),
+            Some("/capture/private"),
+            false,
+            false,
+        ),
+    ] {
+        server.clear_log();
+        let url: Url = server.url(&path).parse().unwrap();
+        let access = Arc::new(RoutedAccess {
+            network: NetworkAccess::with_private_origin(url.origin().ascii_serialization()),
+            proxy_on_path: blocked,
+            fail_resolution: unknown,
+            decisions: Default::default(),
+        });
+        let dir = tempfile::tempdir().unwrap();
+        let result = fetch_crawl(
+            CrawlRequest {
+                url,
+                headers: Default::default(),
+                destination: dir.path().join("body"),
+            },
+            sdl_engine::Options {
+                proxy: sdl_engine::Proxy::System,
+                ..Default::default()
+            },
+            CrawlLimits::default(),
+            Arc::new(BodyBudget::new(100_000, 0)),
+            access.clone(),
+            Default::default(),
+        )
+        .await;
+        assert_eq!(result.is_ok(), succeeds, "{result:?}");
+        if !succeeds {
+            assert!(matches!(result, Err(CrawlFetchError::Access(_))));
+            assert!(
+                !server
+                    .log()
+                    .iter()
+                    .any(|r| Some(r.path.as_str()) == blocked)
+            );
+            assert!(!dir.path().join("body").exists());
+        }
+        let decisions = access.decisions.lock().unwrap();
+        assert_eq!(
+            decisions.len(),
+            if path.starts_with("/redirect") { 2 } else { 1 }
+        );
+    }
+}

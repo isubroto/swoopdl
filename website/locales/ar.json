@@ -631,6 +631,16 @@
     "Choose an available format and quality.": "اختر صيغة وجودة متاحتين.",
     "Video + audio": "فيديو + صوت",
     "Supported links, with yt-dlp integration.": "روابط مدعومة، مع تكامل yt-dlp.",
-    "Read the README and this guide in your local source checkout for implementation details. Source documentation stays with the checkout.": "اقرأ ملف README وهذا الدليل في نسختك المحلية من الشفرة للاطلاع على تفاصيل التنفيذ. تبقى وثائق الشفرة مع النسخة المحلية."
+    "Read the README and this guide in your local source checkout for implementation details. Source documentation stays with the checkout.": "اقرأ ملف README وهذا الدليل في نسختك المحلية من الشفرة للاطلاع على تفاصيل التنفيذ. تبقى وثائق الشفرة مع النسخة المحلية.",
+    "Feature Gaps": "نواقص الميزات",
+    "Feature Gaps — Swoopdl": "نواقص الميزات — Swoopdl",
+    "Site Grabber": "أداة التقاط المواقع",
+    "Site Grabber — Swoopdl": "أداة التقاط المواقع — Swoopdl",
+    "Site Grabber Verification": "التحقق من أداة التقاط المواقع",
+    "Site Grabber Verification — Swoopdl": "التحقق من أداة التقاط المواقع — Swoopdl",
+    "Source development version 0.1.6. This is not a published release.": "إصدار الشفرة المصدرية قيد التطوير 0.1.6. هذا ليس إصدارًا منشورًا.",
+    "The source checkout is at development version 0.1.6. This is a source version, not a promise of a published package.": "نسخة الشفرة المصدرية عند إصدار التطوير 0.1.6. هذا إصدار للشفرة، وليس وعدًا بحزمة منشورة.",
+    "Source development version 0.1.7. This is not a published release.": "إصدار الشفرة المصدرية قيد التطوير 0.1.7. هذا ليس إصدارًا منشورًا.",
+    "The source checkout is at development version 0.1.7. This is a source version, not a promise of a published package.": "نسخة الشفرة المصدرية عند إصدار التطوير 0.1.7. هذا إصدار للشفرة، وليس وعدًا بحزمة منشورة."
   }
 }

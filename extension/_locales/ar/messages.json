@@ -241,5 +241,8 @@
   },
   "popup_media_title_name": {
     "message": "إضافة عنوان الصفحة قبل أسماء ملفات الوسائط"
+  },
+  "menu_site_grabber": {
+    "message": "استكشاف روابط الصفحة باستخدام Site Grabber"
   }
 }

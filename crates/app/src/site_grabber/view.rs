@@ -18,10 +18,10 @@ fn region<R>(ui: &mut Ui, rect: Rect, body: impl FnOnce(&mut Ui) -> R) -> R {
     )
     .inner
 }
-fn note(ui: &mut Ui, text: &str) {
+pub(super) fn note(ui: &mut Ui, text: &str) {
     ui.label(RichText::new(text).color(crate::theme::colors().muted));
 }
-fn field(ui: &mut Ui, label: &str, value: &mut String, password: bool) {
+pub(super) fn field(ui: &mut Ui, label: &str, value: &mut String, password: bool) {
     let label = ui.label(label);
     ui.add_sized(
         vec2(ui.available_width(), 30.0),
@@ -57,6 +57,9 @@ impl SiteGrabber {
     pub fn show(&mut self, ctx: &egui::Context) -> Outcome<SiteAction> {
         if !self.open {
             return Outcome::Closed;
+        }
+        if self.show_files {
+            return self.files.show(ctx, &mut self.open, &mut self.show_files);
         }
         let mut action = None;
         let outcome = crate::dialogs::window(
@@ -100,6 +103,9 @@ impl SiteGrabber {
             Rect::from_min_size(at + vec2(24.0, 16.0), vec2(772.0, 56.0)),
             |ui| {
                 ui.horizontal(|ui| {
+                    if ui.button(t("Files")).clicked() {
+                        self.show_files = true;
+                    }
                     ui.label(
                         RichText::new(if self.creating {
                             t("New capture project")
@@ -469,6 +475,11 @@ impl SiteGrabber {
 
     /// Explicit /show previews use draft data only; they never start a capture.
     pub(crate) fn preview(&mut self, stage: &str) {
+        if stage.starts_with("files-") {
+            self.show_files = true;
+            self.files.preview(stage);
+            return;
+        }
         let step = match stage {
             "project" => WizardStep::Project,
             "destination" => WizardStep::Destination,
@@ -476,6 +487,7 @@ impl SiteGrabber {
             "filters" => WizardStep::Filters,
             _ => return,
         };
+        self.show_files = false;
         self.wizard = Wizard {
             name: t("Website images").into(),
             seed: "https://example.com/gallery/".into(),
@@ -489,7 +501,7 @@ impl SiteGrabber {
 }
 
 impl Wizard {
-    fn fields(&mut self, ui: &mut Ui, folder_pending: bool) -> bool {
+    pub(super) fn fields(&mut self, ui: &mut Ui, folder_pending: bool) -> bool {
         match self.step {
             WizardStep::Project => {
                 field(ui, t("Project name"), &mut self.name, false);
@@ -501,6 +513,11 @@ impl Wizard {
                     .width(ui.available_width())
                     .show_ui(ui, |ui| {
                         for choice in ProjectTemplate::ALL {
+                            if self.mode == sdl_grabber::ProjectMode::Files
+                                && choice == ProjectTemplate::OfflineSite
+                            {
+                                continue;
+                            }
                             ui.selectable_value(&mut template, choice, choice.title());
                         }
                     })
@@ -571,16 +588,74 @@ impl Wizard {
                 }
                 note(
                     ui,
-                    t(
-                        "The final project folder must be empty. Other files in the base folder are left untouched.",
-                    ),
+                    if self.mode == sdl_grabber::ProjectMode::Files {
+                        t("Existing folders are supported. Name collisions receive numbered names.")
+                    } else {
+                        t(
+                            "The final project folder must be empty. Other files in the base folder are left untouched.",
+                        )
+                    },
                 );
+                if self.mode == sdl_grabber::ProjectMode::Files {
+                    ui.label(t("When a filename already exists"));
+                    egui::ComboBox::from_id_salt("file-collision")
+                        .selected_text(
+                            if self.collision == sdl_grabber::catalog::CollisionPolicy::Number {
+                                t("Number duplicate names")
+                            } else {
+                                t("Skip existing files")
+                            },
+                        )
+                        .show_ui(ui, |ui| {
+                            ui.selectable_value(
+                                &mut self.collision,
+                                sdl_grabber::catalog::CollisionPolicy::Number,
+                                t("Number duplicate names"),
+                            );
+                            ui.selectable_value(
+                                &mut self.collision,
+                                sdl_grabber::catalog::CollisionPolicy::Skip,
+                                t("Skip existing files"),
+                            );
+                        });
+                    ui.label(t("Save layout"));
+                    egui::ComboBox::from_id_salt("file-layout")
+                        .selected_text(layout_label(self.layout))
+                        .show_ui(ui, |ui| {
+                            for layout in [
+                                sdl_grabber::catalog::SaveLayout::Flat,
+                                sdl_grabber::catalog::SaveLayout::OriginalSubfolders,
+                                sdl_grabber::catalog::SaveLayout::Category,
+                            ] {
+                                ui.selectable_value(&mut self.layout, layout, layout_label(layout));
+                            }
+                        });
+                }
                 ui.collapsing(t("Synchronization schedule (optional)"), |ui| {
                     ui.checkbox(
                         &mut self.scheduled,
                         t("Schedule synchronization while the app is open"),
                     );
                     if self.scheduled {
+                        if self.mode == sdl_grabber::ProjectMode::Files {
+                            ui.label(t("Scheduled action"));
+                            egui::ComboBox::from_id_salt("file-scheduled-action")
+                                .selected_text(action_label(self.scheduled_action))
+                                .show_ui(ui, |ui| {
+                                    for action in [
+                                        sdl_grabber::catalog::ScheduledAction::ExploreOnly,
+                                        sdl_grabber::catalog::ScheduledAction::ExploreAndDownload,
+                                        sdl_grabber::catalog::ScheduledAction::DownloadChecked,
+                                        sdl_grabber::catalog::ScheduledAction::Synchronize,
+                                    ] {
+                                        ui.selectable_value(
+                                            &mut self.scheduled_action,
+                                            action,
+                                            action_label(action),
+                                        );
+                                    }
+                                });
+                        }
                         ui.horizontal(|ui| {
                             ui.label(t("Local time"));
                             ui.add(egui::DragValue::new(&mut self.hour).range(0..=23));
@@ -671,10 +746,12 @@ impl Wizard {
                 egui::Grid::new("capture-limits")
                     .spacing(vec2(20.0, 12.0))
                     .show(ui, |ui| {
-                        let label = ui.label(t("Maximum file size (MiB)"));
-                        ui.add(egui::DragValue::new(&mut self.resource_mib).range(1..=1024))
-                            .labelled_by(label.id);
-                        ui.end_row();
+                        if self.mode == sdl_grabber::ProjectMode::OfflineSite {
+                            let label = ui.label(t("Maximum file size (MiB)"));
+                            ui.add(egui::DragValue::new(&mut self.resource_mib).range(1..=1024))
+                                .labelled_by(label.id);
+                            ui.end_row();
+                        }
                         let label = ui.label(t("Maximum unique URLs"));
                         ui.add(egui::DragValue::new(&mut self.urls).range(1..=100_000))
                             .labelled_by(label.id);
@@ -702,6 +779,42 @@ impl Wizard {
                         t("Asset origins allow files, not navigation to other websites."),
                     );
                 });
+                if self.mode == sdl_grabber::ProjectMode::Files {
+                    field(
+                        ui,
+                        t("Include file patterns (space separated)"),
+                        &mut self.file_includes,
+                        false,
+                    );
+                    field(
+                        ui,
+                        t("Exclude file patterns (space separated)"),
+                        &mut self.file_excludes,
+                        false,
+                    );
+                    field(
+                        ui,
+                        t("Minimum size (MiB, blank allows any)"),
+                        &mut self.minimum_mib,
+                        false,
+                    );
+                    field(
+                        ui,
+                        t("Maximum size (MiB, blank allows any)"),
+                        &mut self.maximum_mib,
+                        false,
+                    );
+                    ui.checkbox(
+                        &mut self.auto_download,
+                        t("Automatically download newly matched files"),
+                    );
+                    note(
+                        ui,
+                        t(
+                            "Exploration reads pages and bounded metadata. Downloads require checked files.",
+                        ),
+                    );
+                }
                 ui.separator();
                 ui.label(RichText::new(t("Ready to save")).strong());
                 if let Ok(destination) = self.destination_path() {
@@ -709,12 +822,34 @@ impl Wizard {
                 }
                 note(
                     ui,
-                    t(
-                        "Save the project, then choose Start capture. Robots rules apply. Static HTML/CSS only; scripts and forms stay disabled.",
-                    ),
+                    if self.mode == sdl_grabber::ProjectMode::Files {
+                        t(
+                            "Save the project, then choose Start Exploring. Robots rules apply. Static HTML/CSS only; scripts and forms stay disabled.",
+                        )
+                    } else {
+                        t(
+                            "Save the project, then choose Start capture. Robots rules apply. Static HTML/CSS only; scripts and forms stay disabled.",
+                        )
+                    },
                 );
             }
         }
         false
+    }
+}
+
+pub(super) fn layout_label(layout: sdl_grabber::catalog::SaveLayout) -> &'static str {
+    match layout {
+        sdl_grabber::catalog::SaveLayout::Flat => t("One folder"),
+        sdl_grabber::catalog::SaveLayout::OriginalSubfolders => t("Original subfolders"),
+        sdl_grabber::catalog::SaveLayout::Category => t("Category folders"),
+    }
+}
+pub(super) fn action_label(action: sdl_grabber::catalog::ScheduledAction) -> &'static str {
+    match action {
+        sdl_grabber::catalog::ScheduledAction::ExploreOnly => t("Explore only"),
+        sdl_grabber::catalog::ScheduledAction::ExploreAndDownload => t("Explore and download"),
+        sdl_grabber::catalog::ScheduledAction::DownloadChecked => t("Download checked files"),
+        sdl_grabber::catalog::ScheduledAction::Synchronize => t("Synchronize"),
     }
 }

@@ -1,6 +1,11 @@
 //! Bounded website capture projects, independent of the desktop interface.
+pub mod catalog;
+pub mod classify;
 pub mod crawl;
+pub mod destinations;
 pub mod discover;
+pub mod explore;
+pub mod jobs;
 pub mod model;
 pub mod paths;
 pub mod policy;

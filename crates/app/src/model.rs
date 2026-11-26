@@ -340,6 +340,9 @@ pub enum Status {
 /// One row of the download list. The persisted part is everything but `live`.
 #[derive(Serialize, Deserialize)]
 pub struct Item {
+    /// Runtime constraints; persisted only in the isolated guarded-job store.
+    #[serde(skip)]
+    pub site: Option<sdl_grabber::jobs::SiteDownloadRequest>,
     pub id: u64,
     pub url: Url,
     pub file_name: String,
@@ -673,6 +676,7 @@ impl Item {
     /// A new, not yet started download (queued state, nothing on disk).
     pub fn new(id: u64, url: Url, dest: PathBuf, category: Category) -> Self {
         Item {
+            site: None,
             id,
             url,
             file_name: dest

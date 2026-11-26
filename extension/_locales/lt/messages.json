@@ -241,5 +241,8 @@
   },
   "popup_media_title_name": {
     "message": "Pridėti puslapio pavadinimą prieš medijos failų vardus"
+  },
+  "menu_site_grabber": {
+    "message": "Naršyti puslapio nuorodas su Site Grabber"
   }
 }

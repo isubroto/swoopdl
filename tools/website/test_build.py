@@ -182,6 +182,32 @@ class WebsiteBuildTests(unittest.TestCase):
             coverage = manifest['coverage'][code]
             self.assertGreaterEqual(coverage['translated'] / coverage['total'], .99, code)
 
+    def test_primary_catalogs_cover_site_grabber_release_copy(self):
+        import json
+        from unittest.mock import patch
+
+        # Reproduce the 0.1.7 checkout's generated help pages without changing
+        # the application version or adding documentation to an older checkout.
+        source = Path(self.temp.name) / 'source'
+        docs = source / 'docs'
+        docs.mkdir(parents=True)
+        names = {doc.name for doc in (ROOT / 'docs').glob('*.md')}
+        names.update(('FEATURE_GAPS.md', 'site-grabber.md', 'site-grabber-verification.md'))
+        for name in names:
+            (docs / name).touch()
+        original = self.builder.extra_pages
+
+        def release_pages(write, article, icon, esc, root, version):
+            return original(write, article, icon, esc, source, version)
+
+        with patch.object(self.builder, 'SOURCE_VERSION', '0.1.7'), \
+                patch.object(self.builder, 'extra_pages', release_pages):
+            self.builder.build(self.output)
+        manifest = json.loads((self.output / 'locales/index.json').read_text('utf-8'))
+        for code in ('bn', 'ar', 'fr'):
+            coverage = manifest['coverage'][code]
+            self.assertGreaterEqual(coverage['translated'] / coverage['total'], .99, code)
+
 
 if __name__ == '__main__':
     unittest.main()

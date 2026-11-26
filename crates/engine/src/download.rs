@@ -146,6 +146,8 @@ pub struct Options {
     /// (as NTFS does, #361). None: the real disk.
     #[doc(hidden)]
     pub slow_flush: Option<SlowFlush>,
+    /// Mandatory runtime capture policy for Site Grabber jobs; ordinary jobs have none.
+    pub capture_guard: Option<crate::crawl_fetch::CaptureGuard>,
 }
 
 /// A disk whose flush takes `takes` and, as NTFS's does, makes every write to the file wait for
@@ -234,6 +236,7 @@ impl Default for Options {
             post: None,
             on_file_created: None,
             slow_flush: None,
+            capture_guard: None,
         }
     }
 }
@@ -796,6 +799,9 @@ pub async fn probe_kept(
     headers: HeaderMap,
     opts: &Options,
 ) -> Result<(ProbeInfo, Option<KeptAnswer>), Error> {
+    if let Some(guard) = &opts.capture_guard {
+        guard.0.check_url(&url).map_err(Error::BadState)?;
+    }
     if crate::ftp::is_ftp(&url) {
         let site = crate::ftp::Site::new(&url, &headers, opts)?;
         let facts = site.check().await?;
@@ -820,13 +826,14 @@ pub async fn probe_kept(
     let seen = Arc::new(crate::server::ServerSeen::default());
     let client = client(opts, &target, &as_get, &seen)?;
     // A browser's User-Agent refused (#372): asked once more as SDL.
-    let (client, asked) = match get(
+    let (client, asked) = match get_with_guard(
         &client,
         target.clone(),
         headers.clone(),
         opts.post.as_ref(),
         &opts.user_agent,
         &CancellationToken::new(),
+        opts,
     )
     .await
     {
@@ -834,13 +841,14 @@ pub async fn probe_kept(
             let mut plain = opts.clone();
             plain.user_agent = opts.agent_fallback.clone().unwrap_or_default();
             let client = self::client(&plain, &target, &as_get, &seen)?;
-            let asked = get(
+            let asked = get_with_guard(
                 &client,
                 target,
                 headers,
                 opts.post.as_ref(),
                 &plain.user_agent,
                 &CancellationToken::new(),
+                &plain,
             )
             .await;
             (client, asked)
@@ -903,6 +911,14 @@ async fn unlock_origin(
     shared: Option<&Shared>,
     cancel: &CancellationToken,
 ) -> Result<Option<crate::unlock::Unlocked>, Error> {
+    if opts.capture_guard.is_some() {
+        if opts.unlocker.is_some() {
+            return Err(Error::BadState(
+                "Capture jobs cannot use service unlocking".into(),
+            ));
+        }
+        return Ok(None);
+    }
     let Some(u) = &opts.unlocker else {
         return Ok(None);
     };
@@ -950,9 +966,12 @@ impl Download {
     /// asking again, when it is the same address's and recent (`KEEP_ANSWER_FOR`).
     pub fn start_with(req: Request, opts: Options, kept: Option<KeptAnswer>) -> Download {
         Download::spawn(req.url.clone(), move |shared, cancel| {
+            shared
+                .capture
+                .store(opts.capture_guard.is_some(), Ordering::SeqCst);
             let sh = shared.clone();
             let body = async move {
-                if crate::ftp::is_ftp(&req.url) {
+                if crate::ftp::is_ftp(&req.url) && opts.capture_guard.is_none() {
                     run_fresh_ftp(req, opts, sh, cancel).await
                 } else {
                     run_fresh(req, opts, sh, cancel, kept).await
@@ -978,6 +997,9 @@ impl Download {
         }
         let saved = ResumeState::load(&state_file).map_err(Error::BadState)?;
         Ok(Download::spawn(saved.url.clone(), move |shared, cancel| {
+            shared
+                .capture
+                .store(opts.capture_guard.is_some(), Ordering::SeqCst);
             run(
                 run_resume(saved, state_file, headers, opts, shared.clone(), cancel),
                 shared,
@@ -992,6 +1014,7 @@ impl Download {
     {
         let cancel = CancellationToken::new();
         let shared = Arc::new(Shared {
+            capture: Default::default(),
             view: Mutex::new(Snapshot {
                 state: State::Probing,
                 url,
@@ -1086,6 +1109,7 @@ pub async fn fetch(
 }
 
 struct Shared {
+    capture: std::sync::atomic::AtomicBool,
     view: Mutex<Snapshot>,
     /// What the download's client learnt of its server (#140); the look's when it went on
     /// from the look's answer.
@@ -1128,6 +1152,11 @@ impl Shared {
 
     /// Add to the event log.
     fn event(&self, text: impl Into<String>) {
+        let text = if self.capture.load(Ordering::SeqCst) {
+            redact_capture_text(&text.into())
+        } else {
+            text.into()
+        };
         let mut v = self.view.lock().unwrap();
         let seq = v.events.last().map_or(1, |e| e.seq + 1);
         if v.events.len() >= EVENTS {
@@ -1136,7 +1165,7 @@ impl Shared {
         v.events.push(Event {
             seq,
             at: std::time::SystemTime::now(),
-            text: text.into(),
+            text,
         });
     }
 
@@ -1285,6 +1314,7 @@ impl Ctx {
             self.size,
             &self.cancel,
             self.opts.unlocker.as_ref(),
+            &self.opts,
         )
         .await
         .filter(|(u, _)| *u != self.target.lock().unwrap().url) else {
@@ -1344,6 +1374,38 @@ fn client_builder(
     as_get: &AsGet,
     seen: &Arc<crate::server::ServerSeen>,
 ) -> Result<reqwest::ClientBuilder, Error> {
+    if let Some(guard) = &opts.capture_guard {
+        guard.0.check_url(url).map_err(Error::BadState)?;
+        if opts.post.is_some() || opts.unlocker.is_some() {
+            return Err(Error::BadState(
+                "Capture jobs cannot use POST or service unlocking".into(),
+            ));
+        }
+        let direct = matches!(opts.proxy, Proxy::None | Proxy::System);
+        if !direct {
+            return Err(Error::BadState("Site Grabber requires verified direct routing; the selected proxy cannot be checked".into()));
+        }
+        net::check_url(&opts.route, url)?;
+        let builder = net::bind_client(
+            Client::builder().no_proxy(),
+            &opts.route,
+            net::is_this_computer(url.host_str().unwrap_or("")),
+        )?;
+        return Ok(builder
+            .redirect(reqwest::redirect::Policy::none())
+            .retry(reqwest::retry::never())
+            .dns_resolver(Arc::new(crate::crawl_fetch::CheckedResolver {
+                options: opts.clone(),
+                url: url.clone(),
+                access: guard.0.clone(),
+            }))
+            .http1_only()
+            .user_agent(&opts.user_agent)
+            .connect_timeout(opts.connect_timeout)
+            .read_timeout(opts.read_timeout)
+            .pool_max_idle_per_host(0)
+            .tcp_nodelay(true));
+    }
     let port = url.port_or_known_default().unwrap_or(443);
     let route = &opts.route;
     // An IP address in the URL never reaches the resolver, which drops what the chosen adapter
@@ -1515,7 +1577,11 @@ async fn run(
         }
         Err(Error::Cancelled) => State::Cancelled,
         Err(e) => {
-            v.error = Some(e.to_string());
+            v.error = Some(if shared.capture.load(Ordering::SeqCst) {
+                redact_capture_text(&e.to_string())
+            } else {
+                e.to_string()
+            });
             v.failure = Some(e.clone());
             State::Failed
         }
@@ -1539,7 +1605,9 @@ async fn run_fresh(
     shared.conn(0, |_| {});
     // Probe on connection 0: a plain GET (or the form's POST) whose body becomes the segment
     // starting at 0; or the look's answer kept for it (#28), not asked for again.
-    let kept = kept.filter(|k| k.url == req.url && k.at.elapsed() < KEEP_ANSWER_FOR);
+    let kept = kept.filter(|k| {
+        opts.capture_guard.is_none() && k.url == req.url && k.at.elapsed() < KEEP_ANSWER_FOR
+    });
     let mut unlocked = kept.as_ref().and_then(|k| k.unlocked.clone());
     let (as_get, client0, (resp, headers), ttfb) = match kept {
         Some(k) => {
@@ -1710,8 +1778,16 @@ async fn run_fresh(
                 *shared.planner.lock().unwrap() = None;
                 shared.view.lock().unwrap().resumable = Some(false);
                 let agent = &opts.user_agent;
-                let (resp, ..) =
-                    get(&client0, final_url, headers, post.as_ref(), agent, cancel).await?;
+                let (resp, ..) = get_with_guard(
+                    &client0,
+                    final_url,
+                    headers,
+                    post.as_ref(),
+                    agent,
+                    cancel,
+                    &opts,
+                )
+                .await?;
                 let body = Body::Http(resp);
                 single_stream(body, &file, shared, opts.global.as_deref(), cancel).await?
             }
@@ -1923,6 +1999,13 @@ async fn run_resume(
     cancel: CancellationToken,
 ) -> Result<Outcome, Error> {
     let mut opts = opts;
+    if let Some(guard) = &opts.capture_guard {
+        guard.0.check_url(&saved.url).map_err(Error::BadState)?;
+        guard
+            .0
+            .check_url(&saved.final_url)
+            .map_err(Error::BadState)?;
+    }
     if saved.asked_as_sdl
         && let Some(agent) = opts.agent_fallback.take()
     {
@@ -1964,6 +2047,7 @@ async fn run_resume(
             saved.size,
             &cancel,
             opts.unlocker.as_ref(),
+            &opts,
         )
         .await
     } else {
@@ -2089,6 +2173,7 @@ async fn refresh_final_url(
     size: u64,
     cancel: &CancellationToken,
     unlocker: Option<&Arc<dyn crate::unlock::Unlocker>>,
+    opts: &Options,
 ) -> Option<(Url, HeaderMap)> {
     // Through a service account (#44): the service gives today's direct link (the host's link
     // itself leads to its web page); the host's cookies and logins stay with the host.
@@ -2101,7 +2186,9 @@ async fn refresh_final_url(
         None => (origin.clone(), headers.clone()),
     };
     asked.insert(header::RANGE, HeaderValue::from_static("bytes=0-0"));
-    let (resp, mut headers, _) = get(client, target, asked, post, agent, cancel).await.ok()?;
+    let (resp, mut headers, _) = get_with_guard(client, target, asked, post, agent, cancel, opts)
+        .await
+        .ok()?;
     headers.remove(header::RANGE);
     if resp.status() != StatusCode::PARTIAL_CONTENT {
         return None;
@@ -2646,13 +2733,14 @@ async fn first_get(
     cancel: &CancellationToken,
 ) -> Result<((Response, HeaderMap), Duration), Error> {
     let ((resp, headers, took), _) = first_try(opts, shared, cancel, || {
-        get(
+        get_with_guard(
             client,
             url.clone(),
             headers.clone(),
             opts.post.as_ref(),
             &opts.user_agent,
             cancel,
+            opts,
         )
     })
     .await?;
@@ -2976,7 +3064,22 @@ async fn request(ctx: &Ctx, target: &Target, from: u64, to: u64) -> Result<Body,
     if let Some(v) = &if_range {
         req = req.header(header::IF_RANGE, v);
     }
-    let resp = cancellable(&ctx.cancel, async { Ok(req.send().await?) }).await?;
+    let resp = if ctx.opts.capture_guard.is_some() {
+        let mut headers = target.headers.clone();
+        headers.insert(
+            header::RANGE,
+            HeaderValue::from_str(&format!("bytes={from}-{}", to - 1))
+                .map_err(|_| Error::BadState("Invalid range".into()))?,
+        );
+        if let Some(value) = &if_range {
+            headers.insert(header::IF_RANGE, value.clone());
+        }
+        guarded_get(&ctx.opts, target.url.clone(), headers, &ctx.cancel)
+            .await?
+            .0
+    } else {
+        cancellable(&ctx.cancel, async { Ok(req.send().await?) }).await?
+    };
     if resp.status().is_success() && !ctx.web_page_ok && is_web_page(resp.headers()) {
         return Err(Error::GotWebPage);
     }
@@ -3432,6 +3535,152 @@ async fn cancellable<T>(
         _ = cancel.cancelled() => Err(Error::Cancelled),
         r = fut => r,
     }
+}
+
+#[allow(clippy::too_many_arguments)]
+async fn get_with_guard(
+    client: &Client,
+    url: Url,
+    headers: HeaderMap,
+    post: Option<&Bytes>,
+    agent: &str,
+    cancel: &CancellationToken,
+    opts: &Options,
+) -> Result<(Response, HeaderMap, Duration), Error> {
+    if opts.capture_guard.is_some() {
+        guarded_get(opts, url, headers, cancel).await
+    } else {
+        get(client, url, headers, post, agent, cancel).await
+    }
+}
+
+/// Every guarded request builds a checked hop. No DNS racing or automatic redirects.
+async fn guarded_get(
+    opts: &Options,
+    mut url: Url,
+    mut headers: HeaderMap,
+    cancel: &CancellationToken,
+) -> Result<(Response, HeaderMap, Duration), Error> {
+    let guard = opts
+        .capture_guard
+        .as_ref()
+        .ok_or_else(|| Error::BadState("Missing capture guard".into()))?;
+    let redirect_limit = guard.0.redirect_limit().min(MAX_REDIRECTS);
+    for hop in 0..=redirect_limit {
+        guard.0.check_url(&url).map_err(Error::BadState)?;
+        cancellable(cancel, async {
+            guard.0.before_request(&url).await.map_err(Error::BadState)
+        })
+        .await?;
+        let direct = match opts.proxy {
+            Proxy::None => true,
+            Proxy::System => {
+                let access = guard.0.clone();
+                let target = url.clone();
+                cancellable(cancel, async {
+                    tokio::time::timeout(
+                        opts.connect_timeout,
+                        tokio::task::spawn_blocking(move || access.system_direct(&target)),
+                    )
+                    .await
+                    .map_err(|_| Error::BadState("Capture route lookup timed out".into()))?
+                    .map_err(|_| Error::BadState("Capture route lookup failed".into()))?
+                    .map_err(Error::BadState)
+                })
+                .await?
+            }
+            _ => false,
+        };
+        if !direct {
+            return Err(Error::BadState(
+                "Site Grabber requires verified direct routing".into(),
+            ));
+        }
+        let client = self::client(opts, &url, &AsGet::default(), &Default::default())?;
+        let at = std::time::Instant::now();
+        let response = cancellable(cancel, async {
+            Ok(client
+                .get(url.clone())
+                .headers(headers.clone())
+                .send()
+                .await?)
+        })
+        .await?;
+        if matches!(response.status().as_u16(), 301 | 302 | 303 | 307 | 308) {
+            if hop == redirect_limit {
+                return Err(Error::BadState("Capture redirect limit reached".into()));
+            }
+            let next = header_str(response.headers(), header::LOCATION)
+                .and_then(|l| url.join(l).ok())
+                .ok_or_else(|| Error::BadState("Invalid capture redirect".into()))?;
+            if next.origin() != url.origin() {
+                // Keep range semantics; all origin-scoped and custom headers are removed.
+                let range = headers.get(header::RANGE).cloned();
+                let validator = headers.get(header::IF_RANGE).cloned();
+                headers.clear();
+                if let Some(v) = range {
+                    headers.insert(header::RANGE, v);
+                }
+                if let Some(v) = validator {
+                    headers.insert(header::IF_RANGE, v);
+                }
+            }
+            url = next;
+            continue;
+        }
+        if matches!(
+            response.status(),
+            StatusCode::TOO_MANY_REQUESTS | StatusCode::SERVICE_UNAVAILABLE
+        ) {
+            return Err(Error::Throttled(
+                response.status(),
+                retry_after(response.headers()),
+            ));
+        }
+        if !response.status().is_success() {
+            return Err(Error::Status(response.status()));
+        }
+        if is_web_page(response.headers()) {
+            return Err(Error::GotWebPage);
+        }
+        let size = if response.status() == StatusCode::PARTIAL_CONTENT {
+            header_str(response.headers(), header::CONTENT_RANGE)
+                .and_then(|s| s.rsplit_once('/').and_then(|(_, n)| n.parse().ok()))
+        } else {
+            response.content_length()
+        };
+        guard
+            .0
+            .check_response(
+                &url,
+                header_str(response.headers(), header::CONTENT_TYPE).unwrap_or(""),
+                size,
+            )
+            .map_err(Error::BadState)?;
+        return Ok((response, headers, at.elapsed()));
+    }
+    Err(Error::BadState("Capture redirect limit reached".into()))
+}
+
+fn redact_capture_text(text: &str) -> String {
+    text.split_whitespace()
+        .map(|word| {
+            let start = word.find("http://").or_else(|| word.find("https://"));
+            match start.and_then(|at| {
+                Url::parse(&word[at..]).ok().map(|mut u| {
+                    u.set_query(None);
+                    u.set_fragment(None);
+                    let _ = u.set_username("");
+                    let _ = u.set_password(None);
+                    format!("{}{}", &word[..at], u)
+                })
+            }) {
+                Some(s) => s,
+                None => word.to_owned(),
+            }
+        })
+        .collect::<Vec<_>>()
+        .join(" ")
 }
 
 #[cfg(test)]

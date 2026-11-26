@@ -47,7 +47,7 @@ tokio-rustls.workspace = true
 
 [target.'cfg(windows)'.dependencies]
 # Sparse part files (src/sparse.rs, D-008 amendment) and the free-space probe (src/disk.rs).
-windows-sys.workspace = true
+windows-sys = { workspace = true, features = ["Win32_Networking_WinHttp"] }
 
 [target.'cfg(unix)'.dependencies]
 # The free-space probe (src/disk.rs): statvfs and statfs, safely (already in the tree).

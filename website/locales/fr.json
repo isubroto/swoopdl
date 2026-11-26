@@ -629,6 +629,16 @@
     "From a page to your collection": "D’une page à votre collection",
     "Choose an available format and quality.": "Choisissez un format et une qualité disponibles.",
     "Video + audio": "Vidéo + audio",
-    "Supported links, with yt-dlp integration.": "Liens compatibles, avec l’intégration de yt-dlp."
+    "Supported links, with yt-dlp integration.": "Liens compatibles, avec l’intégration de yt-dlp.",
+    "Feature Gaps": "Fonctionnalités manquantes",
+    "Feature Gaps — Swoopdl": "Fonctionnalités manquantes — Swoopdl",
+    "Site Grabber": "Capture de sites",
+    "Site Grabber — Swoopdl": "Capture de sites — Swoopdl",
+    "Site Grabber Verification": "Vérification de la capture de sites",
+    "Site Grabber Verification — Swoopdl": "Vérification de la capture de sites — Swoopdl",
+    "Source development version 0.1.6. This is not a published release.": "Version de développement du code source : 0.1.6. Il ne s’agit pas d’une version publiée.",
+    "The source checkout is at development version 0.1.6. This is a source version, not a promise of a published package.": "La copie du code source est à la version de développement 0.1.6. Il s’agit d’une version du code source, et non d’une promesse de paquet publié.",
+    "Source development version 0.1.7. This is not a published release.": "Version de développement du code source : 0.1.7. Il ne s’agit pas d’une version publiée.",
+    "The source checkout is at development version 0.1.7. This is a source version, not a promise of a published package.": "La copie du code source est à la version de développement 0.1.7. Il s’agit d’une version du code source, et non d’une promesse de paquet publié."
   }
 }

@@ -111,6 +111,8 @@ pub struct Command {
     /// From the browser's right-click menu: the links of a page or a selection, offered in the
     /// list window to pick from (the browser's `referer` and `cookies` go with them).
     pub links: Vec<String>,
+    /// Explicit browser DOM-link import into a Site Grabber file project; starts no download.
+    pub site_grabber: bool,
     /// From the browser's toolbar button: leave this site's downloads (a host name) to the
     /// browser from now on (Options → File types → excluded sites).
     pub exclude_site: Option<String>,

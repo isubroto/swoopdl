@@ -5043,3 +5043,5 @@ unit	{n} MB	{n} ميغابايت
 #. unit after a number in the download list (sizes, speeds, status)
 #. {n} = a number (keep the braces as they are)
 unit	{n} MB/sec	{n} ميغابايت/ثانية
+#. Browser context menu: bounded discovery, no automatic download.
+extension	Explore page links with Site Grabber	استكشاف روابط الصفحة باستخدام Site Grabber

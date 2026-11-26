@@ -241,5 +241,8 @@
   },
   "popup_media_title_name": {
     "message": "Afegeix el títol de la pàgina davant dels noms dels fitxers multimèdia"
+  },
+  "menu_site_grabber": {
+    "message": "Explora els enllaços de la pàgina amb Site Grabber"
   }
 }

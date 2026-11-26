@@ -515,6 +515,11 @@
           "description": "`/n`: silent — no Download File Info dialog.",
           "type": "boolean"
         },
+        "site_grabber": {
+          "default": false,
+          "description": "Explicit browser DOM-link import into a Site Grabber file project; starts no download.",
+          "type": "boolean"
+        },
         "size": {
           "default": null,
           "description": "From the browser: the size and type its own download had (no need to look them up).",

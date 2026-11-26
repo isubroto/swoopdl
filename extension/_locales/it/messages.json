@@ -241,5 +241,8 @@
   },
   "popup_media_title_name": {
     "message": "Aggiungi il titolo della pagina davanti ai nomi dei file multimediali"
+  },
+  "menu_site_grabber": {
+    "message": "Esplora i collegamenti della pagina con Site Grabber"
   }
 }

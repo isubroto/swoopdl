@@ -241,5 +241,8 @@
   },
   "popup_media_title_name": {
     "message": "Pievienot lapas nosaukumu multivides failu nosaukumu priekšā"
+  },
+  "menu_site_grabber": {
+    "message": "Izpētīt lapas saites ar Site Grabber"
   }
 }

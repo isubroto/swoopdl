@@ -1110,6 +1110,28 @@ async fn signed_links_that_expire_while_downloading_are_refreshed() {
 }
 
 #[tokio::test]
+async fn guarded_signed_links_keep_checked_refresh_and_normal_resume() {
+    let s = server("rate=1M&drop_after=256K").await;
+    let target = s.url("/gen/4M/guarded-signed.bin?seed=23");
+    let path = format!("{}&uses=4", redirect_path(&target));
+    let origin = url::Url::parse(&target)
+        .unwrap()
+        .origin()
+        .ascii_serialization();
+    let opts = Options {
+        max_connections: 4,
+        capture_guard: Some(sdl_engine::crawl_fetch::CaptureGuard(std::sync::Arc::new(
+            sdl_engine::crawl_fetch::NetworkAccess::with_private_origin(origin.clone())
+                .restrict([origin].into()),
+        ))),
+        ..fast_opts()
+    };
+    let (log, size) = fetch(&s, &path, 23, opts).await;
+    assert_eq!(size, 4 << 20);
+    assert!(log.iter().any(|e| e.outcome == "expired"));
+}
+
+#[tokio::test]
 async fn a_link_that_cannot_be_refreshed_reports_link_expired() {
     let s = server("rate=1M").await;
     let target = s.url("/gen/8M/x.bin?seed=24");

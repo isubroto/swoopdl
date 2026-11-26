@@ -434,7 +434,7 @@ const ok = (what) => {
   assert.ok(!calls.some((c) => c[0] === "openTab"), "local installation never opens a tab automatically");
   assert.ok(calls.some((c) => c[0] === "badge" && c[1] === "!"), "missing host remains visible in the toolbar");
   const items = calls.filter((c) => c[0] === "menu-item").map((c) => c[1].id);
-  assert.deepEqual(items, ["sdl-link", "sdl-selected", "sdl-all"]);
+  assert.deepEqual(items, ["sdl-link", "sdl-selected", "sdl-all", "sdl-site-links"]);
   ok("installed without the app: no automatic tab, connection status and menus");
 }
 
@@ -573,6 +573,13 @@ const ok = (what) => {
   await listeners.menu({ menuItemId: "sdl-all", pageUrl: "https://x/" }, { id: 1, incognito: false });
   await settle();
   assert.deepEqual(natives(calls)[1].links, ["https://x/1.zip", "https://x/2.zip"]);
+  await listeners.menu({ menuItemId: "sdl-site-links", pageUrl: "https://x/" }, { id: 1, incognito: false });
+  await settle();
+  const imported = natives(calls)[2];
+  assert.equal(imported.site_grabber, true);
+  assert.equal(imported.referrer, "https://x/");
+  assert.deepEqual(imported.links, ["https://x/1.zip", "https://x/2.zip"]);
+  assert.equal(imported.url, undefined, "the import does not request a download");
   const failing = fakeApi({ firefox: false, reply: { ok: false, why: "not-running" } });
   load(failing.api, false);
   await failing.listeners.menu({ menuItemId: "sdl-link", linkUrl: "https://x/a.zip", pageUrl: "https://x/" }, {});

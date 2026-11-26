@@ -241,5 +241,8 @@
   },
   "popup_media_title_name": {
     "message": "Dodaj tytuł strony przed nazwami plików multimedialnych"
+  },
+  "menu_site_grabber": {
+    "message": "Przeglądaj łącza strony za pomocą Site Grabber"
   }
 }

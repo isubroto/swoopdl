@@ -241,5 +241,8 @@
   },
   "popup_media_title_name": {
     "message": "Thêm tiêu đề trang vào trước tên tệp phương tiện"
+  },
+  "menu_site_grabber": {
+    "message": "Khám phá liên kết trang bằng Site Grabber"
   }
 }

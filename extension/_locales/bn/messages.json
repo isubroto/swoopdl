@@ -241,5 +241,8 @@
   },
   "popup_media_title_name": {
     "message": "মিডিয়া ফাইলের নামের আগে পৃষ্ঠার শিরোনাম যোগ করুন"
+  },
+  "menu_site_grabber": {
+    "message": "Site Grabber দিয়ে পৃষ্ঠার লিঙ্ক খুঁজুন"
   }
 }

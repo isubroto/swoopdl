@@ -241,5 +241,8 @@
   },
   "popup_media_title_name": {
     "message": "在媒體檔案名稱前加上頁面標題"
+  },
+  "menu_site_grabber": {
+    "message": "使用 Site Grabber 探索頁面連結"
   }
 }

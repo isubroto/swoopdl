@@ -350,13 +350,14 @@ def all_sinks(sources):
 
 def collect():
     out = Rows()
-    files = [f for f in sorted(SRC.glob("*.rs")) if f.name != "i18n.rs"]
-    sources = {f.name: f.read_text(encoding="utf-8") for f in files}
+    files = [f for f in sorted(SRC.rglob("*.rs")) if f.name != "i18n.rs"]
+    sources = {f.relative_to(SRC).as_posix(): f.read_text(encoding="utf-8") for f in files}
     sinks_of = all_sinks(sources)
     for f in files:
-        s = sources[f.name]
+        source_name = f.relative_to(SRC).as_posix()
+        s = sources[source_name]
         lines = s.split("\n")
-        sinks = sinks_of[f.name]
+        sinks = sinks_of[source_name]
         sink_call = call_pattern(sinks)
 
         def line_of(pos):
@@ -381,31 +382,31 @@ def collect():
             if ctx == "@plural":
                 other = literal(s, spans[2]) if len(spans) > 2 else None
                 if other:
-                    out.add((text, other), "count", f.name, notes, out.plurals)
+                    out.add((text, other), "count", source_name, notes, out.plurals)
                 continue
             if ctx is None:
                 ctx = literal(s, spans[0])
                 if ctx is None:
                     continue
             role = CONTEXT_ROLES.get(ctx) or sink_role
-            out.add((ctx, text), role, f.name, notes)
+            out.add((ctx, text), role, source_name, notes)
         for rx, ctx, role in OTHER:
             for m in rx.finditer(s):
                 text = unesc_rust(m.group(1))
                 if any(ch.isalpha() for ch in text) and not in_comment(s, m.start()):
-                    out.add((ctx, text), role, f.name, code_note(lines, line_of(m.start())))
+                    out.add((ctx, text), role, source_name, code_note(lines, line_of(m.start())))
         for rx, ctx, role in CONST_ARRAYS:
             for m in rx.finditer(s):
                 base = m.start(1)
                 for lm in re.finditer(LIT, m.group(1)):
                     taken.add(line_of(base + lm.start()))
-                    out.add((ctx, unesc_rust(lm.group(1))), role, f.name,
+                    out.add((ctx, unesc_rust(lm.group(1))), role, source_name,
                             code_note(lines, line_of(base + lm.start())))
         for m in PAIRS.finditer(s):
             for pm in PAIR.finditer(m.group(1)):
-                out.add(("key", unesc_rust(pm.group(1))), "key name or combination", f.name,
+                out.add(("key", unesc_rust(pm.group(1))), "key name or combination", source_name,
                         ["translate key names as the keyboard shows them (e.g. Strg for Ctrl)"])
-                out.add(("", unesc_rust(pm.group(2))), "what a keyboard shortcut does", f.name)
+                out.add(("", unesc_rust(pm.group(2))), "what a keyboard shortcut does", source_name)
         for k, line in enumerate(lines):
             nm = NOTED.match(line)
             if not nm or k in taken:
@@ -413,7 +414,7 @@ def collect():
             notes = code_note(lines, k)
             text = unesc_rust(nm.group(1))
             if notes and any(ch.isalpha() for ch in text):
-                out.add(("", text), "text", f.name, notes)
+                out.add(("", text), "text", source_name, notes)
     for u in UNITS:
         out.add(("unit", u), "unit after a number", "model.rs")
     for m in json.loads(EXTENSION.read_text(encoding="utf-8")).values():

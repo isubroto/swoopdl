@@ -192,6 +192,13 @@ pub(crate) fn discover_bounded(
                 return;
             }
             known.borrow_mut().insert(key);
+            let kind = if kind == ResourceKind::Page
+                && crate::classify::link_role(&url) == crate::LinkRole::File
+            {
+                ResourceKind::Asset
+            } else {
+                kind
+            };
             links.borrow_mut().push(DiscoveredLink {
                 url,
                 kind,

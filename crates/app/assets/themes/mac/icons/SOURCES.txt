@@ -10,3 +10,5 @@ The 16 px versions use a slightly heavier optical stroke than the 24 px versions
 SVGs scale to higher display densities without raster variants.
 
 Regenerate with: python tools/icon/build_mac.py
+
+Added 32/48 px variants derived from original 24 px vectors with size-specific optical stroke adjustment (1.50/1.35 in 24-unit viewBox). No Apple assets used. Individual manual redesign not performed.

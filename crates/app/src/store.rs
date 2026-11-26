@@ -38,6 +38,7 @@ struct ListFile {
 const VERSION: u32 = 2;
 
 pub struct Loaded {
+    pub guarded_error: Option<String>,
     pub next_id: u64,
     pub items: Vec<Item>,
     pub columns: Option<Layout>,
@@ -52,6 +53,7 @@ pub fn path() -> Option<PathBuf> {
 /// Load the list; a missing file gives an empty list, a damaged one is kept aside.
 pub fn load() -> Loaded {
     let empty = Loaded {
+        guarded_error: None,
         next_id: 1,
         items: Vec::new(),
         columns: None,
@@ -59,7 +61,24 @@ pub fn load() -> Loaded {
         queues: Vec::new(),
     };
     let Some(p) = path() else { return empty };
-    load_from(&p, empty)
+    let mut loaded = load_from(&p, empty);
+    match crate::site_grabber_jobs::next_id() {
+        Ok(next) => loaded.next_id = loaded.next_id.max(next),
+        Err(e) => loaded.guarded_error = Some(e.to_string()),
+    }
+    match crate::site_grabber_jobs::load() {
+        Ok(jobs) => {
+            for item in jobs {
+                if loaded.items.iter().any(|i| i.id == item.id) {
+                    continue;
+                }
+                loaded.next_id = loaded.next_id.max(item.id.saturating_add(1));
+                loaded.items.push(item);
+            }
+        }
+        Err(e) => loaded.guarded_error = Some(e.to_string()),
+    }
+    loaded
 }
 
 /// Only the settings, read without touching anything (the command line's debrid accounts,
@@ -156,6 +175,7 @@ fn load_from(p: &Path, empty: Loaded) -> Loaded {
                 settings.auto_types = types.into();
             }
             Loaded {
+                guarded_error: None,
                 next_id: f.next_id.max(1),
                 items: f.items,
                 columns: f.columns,
@@ -232,6 +252,7 @@ pub fn save(
     queues: &[Queue],
 ) -> std::io::Result<()> {
     let Some(p) = path() else { return Ok(()) };
+    crate::site_grabber_jobs::save_items(items)?;
     save_to(&p, next_id, items, columns, settings, queues)
 }
 
@@ -277,7 +298,10 @@ fn encode(
             version: VERSION,
             next_id,
             // A private window's downloads live in memory only, as the browser keeps them.
-            items: items.iter().filter(|i| !i.context.private).collect(),
+            items: items
+                .iter()
+                .filter(|i| !i.context.private && i.site.is_none())
+                .collect(),
             columns,
             settings,
             queues,
@@ -312,7 +336,7 @@ pub struct Saver {
 
 #[derive(Default)]
 struct SaverState {
-    waiting: Option<(std::path::PathBuf, Vec<u8>)>,
+    waiting: Option<(std::path::PathBuf, Vec<u8>, Option<Vec<u8>>)>,
     writing: bool,
     /// The last write's outcome, not yet taken.
     outcome: Option<Result<(), String>>,
@@ -337,7 +361,7 @@ impl Saver {
             .spawn(move || {
                 let (lock, cv) = &*worker;
                 loop {
-                    let (p, json) = {
+                    let (p, json, guarded) = {
                         let mut s = lock.lock().unwrap_or_else(|e| e.into_inner());
                         while s.waiting.is_none() {
                             s = cv.wait(s).unwrap_or_else(|e| e.into_inner());
@@ -345,7 +369,11 @@ impl Saver {
                         s.writing = true;
                         s.waiting.take().expect("checked")
                     };
-                    let r = write(&p, &json).map_err(|e| e.to_string());
+                    let r = guarded
+                        .as_deref()
+                        .map_or(Ok(()), crate::site_grabber_jobs::save_encoded)
+                        .and_then(|()| write(&p, &json))
+                        .map_err(|e| e.to_string());
                     let mut s = lock.lock().unwrap_or_else(|e| e.into_inner());
                     s.writing = false;
                     s.outcome = Some(r);
@@ -366,14 +394,17 @@ impl Saver {
     ) -> std::io::Result<()> {
         let Some(p) = path() else { return Ok(()) };
         let json = encode(&p, next_id, items, columns, settings, queues)?;
-        self.queue(p, json);
+        let guarded = crate::site_grabber_jobs::encode_items(items)?;
+        let (lock, cv) = &*self.shared;
+        lock.lock().unwrap_or_else(|e| e.into_inner()).waiting = Some((p, json, Some(guarded)));
+        cv.notify_all();
         Ok(())
     }
 
     /// Hand `json` to the saver thread, to be written as `p`.
     pub fn queue(&self, p: std::path::PathBuf, json: Vec<u8>) {
         let (lock, cv) = &*self.shared;
-        lock.lock().unwrap_or_else(|e| e.into_inner()).waiting = Some((p, json));
+        lock.lock().unwrap_or_else(|e| e.into_inner()).waiting = Some((p, json, None));
         cv.notify_all();
     }
 
@@ -403,12 +434,73 @@ mod tests {
 
     fn empty() -> Loaded {
         Loaded {
+            guarded_error: None,
             next_id: 1,
             items: Vec::new(),
             columns: None,
             settings: Settings::default(),
             queues: Vec::new(),
         }
+    }
+
+    #[test]
+    fn site_grabber_jobs_are_invisible_to_legacy_download_list_readers() {
+        use sdl_grabber::{
+            ProjectConfig, ProjectId, UrlKey,
+            catalog::FileProject,
+            jobs::{CapturePolicy, SiteDownloadRequest},
+        };
+        let dir = tempfile::tempdir().unwrap();
+        let file = dir.path().join("downloads.json");
+        let normal = Item::new(
+            1,
+            "https://example.test/ordinary.zip".parse().unwrap(),
+            dir.path().join("ordinary.zip"),
+            crate::model::Category::General,
+        );
+        let url: url::Url = "https://example.test/guarded.mkv?token=private-token"
+            .parse()
+            .unwrap();
+        let mut guarded = Item::new(
+            2,
+            url.clone(),
+            dir.path().join("guarded.mkv"),
+            crate::model::Category::Video,
+        );
+        let project = FileProject::new(ProjectConfig::new(
+            "Files",
+            "https://example.test/".parse().unwrap(),
+            dir.path().to_owned(),
+        ));
+        let project_id = ProjectId::parse("downgrade-test").unwrap();
+        let candidate_id = UrlKey::of(&url);
+        guarded.site = Some(SiteDownloadRequest {
+            dispatch_id: SiteDownloadRequest::identity(&project_id, &candidate_id),
+            project_id,
+            candidate_id,
+            scan_revision: 1,
+            url,
+            name: "guarded.mkv".into(),
+            destination: guarded.dest.clone(),
+            expected_bytes: None,
+            source_page: project.config.seed.clone(),
+            policy: CapturePolicy::snapshot(&project, &Default::default()).unwrap(),
+            item_id: 2,
+        });
+        let bytes = encode(
+            &file,
+            3,
+            &[normal, guarded],
+            &crate::list::ListState::default().layout(),
+            &Settings::default(),
+            &[],
+        )
+        .unwrap();
+        let parsed: ListFile = serde_json::from_slice(&bytes).unwrap();
+        assert_eq!(parsed.items.len(), 1);
+        assert_eq!(parsed.items[0].id, 1);
+        assert_eq!(parsed.next_id, 3);
+        assert!(!String::from_utf8(bytes).unwrap().contains("private-token"));
     }
 
     #[test]

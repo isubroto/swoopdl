@@ -310,5 +310,9 @@
   "popup_media_title_name": {
     "message": "Prefix media file names with the page title",
     "description": "Option in the browser extension media list: put the page title before the original file name when downloading a detected media file"
+  },
+  "menu_site_grabber": {
+    "message": "Explore page links with Site Grabber",
+    "description": "Context menu: import links already rendered in the current browser page into a new Site Grabber project."
   }
 }

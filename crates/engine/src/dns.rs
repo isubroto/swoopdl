@@ -91,7 +91,7 @@ impl RuntimeProvider for Through {
 }
 
 /// Which DNS answers SDL's own lookups (Options → Connection → DNS).
-#[derive(Clone, Debug, Default, PartialEq, Eq, Hash)]
+#[derive(Clone, Debug, Default, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize)]
 pub enum Dns {
     /// The system's resolver (getaddrinfo: its cache, the hosts file, Windows' own encrypted DNS
     /// if it is set up there).
@@ -111,7 +111,7 @@ pub enum Dns {
 }
 
 /// The DNS chosen, how strict it is, and its name for messages.
-#[derive(Clone, Debug, Default, PartialEq, Eq, Hash)]
+#[derive(Clone, Debug, Default, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize)]
 pub struct DnsChoice {
     pub dns: Dns,
     /// When the chosen DNS can't be reached (no answer, refused, a TLS failure), ask the

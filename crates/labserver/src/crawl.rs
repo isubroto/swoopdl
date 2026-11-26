@@ -7,7 +7,56 @@ use axum::{
 pub async fn robots() -> &'static str {
     "User-agent: SwoopdlGrabber\nDisallow: /capture/private\n"
 }
-pub async fn page(Path(name): Path<String>, headers: HeaderMap) -> Response {
+pub async fn page(
+    Path(name): Path<String>,
+    headers: HeaderMap,
+    method: axum::http::Method,
+) -> Response {
+    if name == "probe-no-head.mkv" || name == "probe-large.mkv" {
+        if method == axum::http::Method::HEAD && name == "probe-no-head.mkv" {
+            return StatusCode::METHOD_NOT_ALLOWED.into_response();
+        }
+        let chunks = futures::stream::iter(
+            (0..128).map(|_| Ok::<_, std::io::Error>(bytes::Bytes::from(vec![b'z'; 4096]))),
+        );
+        return (
+            [(header::CONTENT_TYPE, "video/x-matroska")],
+            axum::body::Body::from_stream(chunks),
+        )
+            .into_response();
+    }
+    if name == "workflow/" {
+        return (
+            [(header::CONTENT_TYPE, "text/html")],
+            "<a href='season/'>Season</a>",
+        )
+            .into_response();
+    }
+    if name == "workflow/season/" {
+        return ([(header::CONTENT_TYPE,"text/html")],"<a href='/files/episode.mkv'>MKV</a><a href='/files/episode.mp4'>MP4</a><a href='/files/unchecked.mkv'>Unchecked</a>").into_response();
+    }
+    if name.starts_with("flash/") {
+        let (mime, body) = match name.as_str() {
+            "flash/" => (
+                "text/html",
+                "<a href='../parent'>Parent</a><a href='season/'>Season</a>",
+            ),
+            "flash/season/" => (
+                "text/html",
+                "<a href='episode.mkv'>MKV</a><a href='episode.mp4'>MP4</a><a href='notes.pdf'>Notes</a><a href='login.mkv'>Login</a>",
+            ),
+            "flash/season/episode.mkv" => ("video/x-matroska", "tiny-mkv-fixture"),
+            "flash/season/episode.mp4" => ("video/mp4", "tiny-mp4-fixture"),
+            "flash/season/notes.pdf" => ("application/pdf", "tiny-pdf-fixture"),
+            "flash/season/login.mkv" => (
+                "video/x-matroska",
+                "<!doctype html><html><form>Log in</form></html>",
+            ),
+            _ => return StatusCode::NOT_FOUND.into_response(),
+        };
+        // Deliberately ignore Range. Scan clients must stop after their prefix cap.
+        return ([(header::CONTENT_TYPE, mime)], body).into_response();
+    }
     if name == "padded-mime" || name == "uppercase-mime" {
         let mime = if name == "padded-mime" {
             "text/html ; charset=utf-8"

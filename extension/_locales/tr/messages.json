@@ -241,5 +241,8 @@
   },
   "popup_media_title_name": {
     "message": "Medya dosyası adlarının önüne sayfa başlığını ekle"
+  },
+  "menu_site_grabber": {
+    "message": "Site Grabber ile sayfa bağlantılarını keşfet"
   }
 }

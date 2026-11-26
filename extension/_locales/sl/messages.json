@@ -241,5 +241,8 @@
   },
   "popup_media_title_name": {
     "message": "Dodaj naslov strani pred imena predstavnostnih datotek"
+  },
+  "menu_site_grabber": {
+    "message": "Razišči povezave strani s Site Grabber"
   }
 }

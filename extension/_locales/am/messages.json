@@ -241,5 +241,8 @@
   },
   "popup_media_title_name": {
     "message": "የገጹን ርዕስ ከሚዲያ ፋይል ስሞች በፊት አክል"
+  },
+  "menu_site_grabber": {
+    "message": "በSite Grabber የገጽ አገናኞችን ያስሱ"
   }
 }

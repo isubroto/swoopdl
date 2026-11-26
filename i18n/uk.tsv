@@ -6610,3 +6610,5 @@ unit	{n} MB	{n} МБ
 #. {n} = a number (keep the braces as they are)
 #, machine
 unit	{n} MB/sec	{n} МБ/с
+#. Browser context menu: bounded discovery, no automatic download.
+extension	Explore page links with Site Grabber	Дослідити посилання сторінки за допомогою Site Grabber

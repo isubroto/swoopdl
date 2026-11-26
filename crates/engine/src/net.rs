@@ -205,6 +205,283 @@ pub fn system_proxy(url: &url::Url) -> Option<String> {
         .map(|i| i.uri().to_string())
 }
 
+/// Crawl-only, fallible counterpart to `system_proxy`. The ordinary download
+/// contract stays unchanged. A missing interception is DIRECT only after checking
+/// configuration that the matcher would otherwise silently ignore.
+pub(crate) fn crawl_system_direct(url: &url::Url) -> Result<bool, String> {
+    let uri: http::Uri = url
+        .as_str()
+        .parse()
+        .map_err(|_| "System routing could not parse the destination")?;
+    if std::env::var_os("REQUEST_METHOD").is_some() {
+        return Err("System routing cannot verify proxy settings in a CGI environment".into());
+    }
+    let mut settings = CrawlProxySettings {
+        all: proxy_setting(&["ALL_PROXY", "all_proxy"])?,
+        http: proxy_setting(&["HTTP_PROXY", "http_proxy"])?,
+        https: proxy_setting(&["HTTPS_PROXY", "https_proxy"])?,
+        no: proxy_setting(&["NO_PROXY", "no_proxy"])?,
+    };
+    settings.read_platform(url)?;
+    settings.direct(&uri)
+}
+
+fn proxy_setting(names: &[&str]) -> Result<String, String> {
+    for name in names {
+        match std::env::var(name) {
+            Ok(value) => return Ok(value),
+            Err(std::env::VarError::NotPresent) => {}
+            Err(_) => return Err("System routing has an unreadable proxy setting".into()),
+        }
+    }
+    Ok(String::new())
+}
+
+#[derive(Default)]
+struct CrawlProxySettings {
+    all: String,
+    http: String,
+    https: String,
+    no: String,
+}
+impl CrawlProxySettings {
+    fn direct(&self, uri: &http::Uri) -> Result<bool, String> {
+        use hyper_util::client::proxy::matcher::Matcher;
+        for value in [&self.all, &self.http, &self.https] {
+            if !value.is_empty()
+                && Matcher::builder()
+                    .all(value.as_str())
+                    .build()
+                    .intercept(uri)
+                    .is_none()
+            {
+                return Err("System routing has an invalid or unsupported proxy setting".into());
+            }
+        }
+        Ok(Matcher::builder()
+            .all(self.all.as_str())
+            .http(self.http.as_str())
+            .https(self.https.as_str())
+            .no(self.no.as_str())
+            .build()
+            .intercept(uri)
+            .is_none())
+    }
+    fn read_platform(&mut self, _url: &url::Url) -> Result<(), String> {
+        // The pinned matcher does not expose macOS PAC/discovery settings.
+        #[cfg(target_os = "macos")]
+        {
+            Err("System routing cannot verify automatic proxy settings on macOS; select explicit direct routing".into())
+        }
+        #[cfg(not(target_os = "macos"))]
+        {
+            #[cfg(windows)]
+            read_windows_crawl_proxy(self, _url)?;
+            Ok(())
+        }
+    }
+}
+
+#[cfg(windows)]
+#[allow(unsafe_code)] // WinHTTP allocates three strings; this function reads and frees them.
+fn read_windows_crawl_proxy(
+    settings: &mut CrawlProxySettings,
+    url: &url::Url,
+) -> Result<(), String> {
+    use windows_sys::Win32::{
+        Foundation::GlobalFree,
+        Networking::WinHttp::{
+            WINHTTP_CURRENT_USER_IE_PROXY_CONFIG, WinHttpGetIEProxyConfigForCurrentUser,
+        },
+    };
+    let mut config = WINHTTP_CURRENT_USER_IE_PROXY_CONFIG::default();
+    fn copy_wide(pointer: *const u16) -> Result<String, String> {
+        if pointer.is_null() {
+            return Ok(String::new());
+        }
+        let mut len = 0;
+        // Successful WinHTTP calls guarantee valid NUL-terminated strings.
+        while unsafe { *pointer.add(len) } != 0 {
+            len += 1;
+        }
+        String::from_utf16(unsafe { std::slice::from_raw_parts(pointer, len) })
+            .map_err(|_| "System routing has an unreadable Windows proxy setting".into())
+    }
+    // WinHTTP returns three strings that the caller must release with GlobalFree.
+    let loaded = unsafe { WinHttpGetIEProxyConfigForCurrentUser(&mut config) } != 0;
+    let result: Result<(bool, String, String, String), String> = (|| {
+        if !loaded {
+            return Err("System routing could not read Windows proxy settings".into());
+        }
+        Ok((
+            config.fAutoDetect != 0,
+            copy_wide(config.lpszAutoConfigUrl)?,
+            copy_wide(config.lpszProxy)?,
+            copy_wide(config.lpszProxyBypass)?,
+        ))
+    })();
+    for pointer in [
+        config.lpszAutoConfigUrl,
+        config.lpszProxy,
+        config.lpszProxyBypass,
+    ] {
+        if !pointer.is_null() {
+            unsafe {
+                GlobalFree(pointer.cast());
+            }
+        }
+    }
+    let (auto_detect, pac, proxy, bypass) = result?;
+    if !pac.is_empty() {
+        return Err(
+            "System routing uses an explicit PAC script; select direct routing for Site Grabber"
+                .into(),
+        );
+    }
+    if auto_detect && !windows_auto_proxy_direct(url)? {
+        return Err("System routing selected a proxy for this URL; Site Grabber requires a verified direct route".into());
+    }
+    if proxy.is_empty() {
+        return Ok(());
+    }
+    // Match the pinned matcher's precedence: platform values fill empty specific
+    // environment settings. Build from this verified snapshot, never a second
+    // registry lookup that could silently fail and look like DIRECT.
+    if settings.http.is_empty() {
+        settings.http = proxy.clone();
+    }
+    if settings.https.is_empty() {
+        settings.https = proxy;
+    }
+    if settings.no.is_empty() {
+        settings.no = windows_proxy_bypass(&bypass);
+    }
+    Ok(())
+}
+
+#[cfg(windows)]
+fn windows_auto_direct_result(result: Result<u32, u32>) -> Result<bool, String> {
+    use windows_sys::Win32::Networking::WinHttp::{
+        ERROR_WINHTTP_AUTODETECTION_FAILED, WINHTTP_ACCESS_TYPE_NAMED_PROXY,
+        WINHTTP_ACCESS_TYPE_NO_PROXY,
+    };
+    match result {
+        Ok(WINHTTP_ACCESS_TYPE_NO_PROXY) => Ok(true),
+        Ok(WINHTTP_ACCESS_TYPE_NAMED_PROXY) => Ok(false),
+        // Microsoft documents this specific outcome as no WPAD configuration
+        // found. Apply the existing static/environment fallback; never clear it.
+        Err(ERROR_WINHTTP_AUTODETECTION_FAILED) => Ok(true),
+        Err(code) => Err(format!(
+            "System routing automatic discovery failed (Windows error {code})"
+        )),
+        Ok(_) => Err("System routing returned an unsupported automatic proxy configuration".into()),
+    }
+}
+
+#[cfg(windows)]
+#[allow(unsafe_code)] // WinHTTP session and proxy strings are owned by the guards below.
+fn windows_auto_proxy_direct(url: &url::Url) -> Result<bool, String> {
+    use windows_sys::Win32::{
+        Foundation::{GetLastError, GlobalFree},
+        Networking::WinHttp::{
+            WINHTTP_ACCESS_TYPE_NO_PROXY, WINHTTP_AUTO_DETECT_TYPE_DHCP,
+            WINHTTP_AUTO_DETECT_TYPE_DNS_A, WINHTTP_AUTOPROXY_AUTO_DETECT,
+            WINHTTP_AUTOPROXY_OPTIONS, WINHTTP_PROXY_INFO, WinHttpCloseHandle,
+            WinHttpGetProxyForUrl, WinHttpOpen, WinHttpSetTimeouts,
+        },
+    };
+    struct Session(*mut std::ffi::c_void);
+    impl Drop for Session {
+        fn drop(&mut self) {
+            unsafe {
+                WinHttpCloseHandle(self.0);
+            }
+        }
+    }
+    struct ProxyInfo(WINHTTP_PROXY_INFO);
+    impl Drop for ProxyInfo {
+        fn drop(&mut self) {
+            for pointer in [self.0.lpszProxy, self.0.lpszProxyBypass] {
+                if !pointer.is_null() {
+                    unsafe {
+                        GlobalFree(pointer.cast());
+                    }
+                }
+            }
+        }
+    }
+    let agent: Vec<u16> = "SwoopdlGrabber/0.1".encode_utf16().chain(Some(0)).collect();
+    let handle = unsafe {
+        WinHttpOpen(
+            agent.as_ptr(),
+            WINHTTP_ACCESS_TYPE_NO_PROXY,
+            std::ptr::null(),
+            std::ptr::null(),
+            0,
+        )
+    };
+    if handle.is_null() {
+        return Err("System routing could not start automatic discovery".into());
+    }
+    let session = Session(handle);
+    if unsafe { WinHttpSetTimeouts(session.0, 5000, 5000, 5000, 5000) } == 0 {
+        return Err("System routing could not apply automatic discovery timeouts".into());
+    }
+    let destination: Vec<u16> = url.as_str().encode_utf16().chain(Some(0)).collect();
+    let mut options = WINHTTP_AUTOPROXY_OPTIONS {
+        dwFlags: WINHTTP_AUTOPROXY_AUTO_DETECT,
+        dwAutoDetectFlags: WINHTTP_AUTO_DETECT_TYPE_DHCP | WINHTTP_AUTO_DETECT_TYPE_DNS_A,
+        // Never send the user's integrated Windows credentials to a discovered server.
+        fAutoLogonIfChallenged: 0,
+        ..Default::default()
+    };
+    let mut info = ProxyInfo(WINHTTP_PROXY_INFO::default());
+    let resolved = unsafe {
+        WinHttpGetProxyForUrl(session.0, destination.as_ptr(), &mut options, &mut info.0)
+    } != 0;
+    let result = if resolved {
+        Ok(info.0.dwAccessType)
+    } else {
+        Err(unsafe { GetLastError() })
+    };
+    windows_auto_direct_result(result)
+}
+
+#[cfg(windows)]
+fn windows_proxy_bypass(value: &str) -> String {
+    // Keep hyper-util 0.1.21's Windows override semantics, including IPv4 wildcards.
+    value
+        .split(';')
+        .map(|entry| {
+            let entry = entry.trim();
+            let parts: Vec<_> = entry.split('.').collect();
+            if let Some(prefix) = parts.iter().position(|part| *part == "*")
+                && (1..=3).contains(&prefix)
+                && parts[prefix..].iter().all(|part| *part == "*")
+            {
+                let mut octets = [0u8; 4];
+                let valid = parts[..prefix]
+                    .iter()
+                    .zip(octets.iter_mut())
+                    .all(|(part, octet)| part.parse::<u8>().map(|v| *octet = v).is_ok());
+                if valid {
+                    return format!(
+                        "{}.{}.{}.{}/{}",
+                        octets[0],
+                        octets[1],
+                        octets[2],
+                        octets[3],
+                        prefix * 8
+                    );
+                }
+            }
+            entry.to_owned()
+        })
+        .collect::<Vec<_>>()
+        .join(",")
+        .replace("*.", "")
+}
+
 /// `builder` with its connections held to `route`: a reqwest client anywhere in SDL goes through
 /// this. `Route::Down` refuses to build one. `to_this_computer`: every connection the client
 /// makes goes to this computer (a local server, or a proxy on it), which isn't bound. On a
@@ -493,6 +770,87 @@ pub(crate) const CONNECT: Duration = Duration::from_secs(10);
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn crawl_system_snapshot_checks_scheme_and_per_host_bypass() {
+        let settings = CrawlProxySettings {
+            http: "http://user:secret@proxy.test:8080".into(),
+            no: "direct.test,192.168.0.0/16".into(),
+            ..Default::default()
+        };
+        for (url, direct) in [
+            ("http://direct.test/a", true),
+            ("http://sub.direct.test/a", true),
+            ("http://notdirect.test/a", false),
+            ("http://192.168.2.3/a", true),
+            ("https://proxied.test/a", true),
+            ("http://proxied.test/a", false),
+        ] {
+            assert_eq!(
+                settings.direct(&url.parse().unwrap()).unwrap(),
+                direct,
+                "{url}"
+            );
+        }
+        let invalid = CrawlProxySettings {
+            all: "http://user:secret@[".into(),
+            ..Default::default()
+        };
+        let reason = invalid
+            .direct(&"http://direct.test/".parse().unwrap())
+            .unwrap_err();
+        assert!(reason.contains("routing"));
+        assert!(!reason.contains("secret") && !reason.contains("user"));
+        assert!(
+            CrawlProxySettings::default()
+                .direct(&"http://direct.test/".parse().unwrap())
+                .unwrap()
+        );
+    }
+
+    #[cfg(windows)]
+    #[test]
+    fn crawl_windows_auto_discovery_distinguishes_no_wpad_from_failure_and_proxy() {
+        use windows_sys::Win32::Networking::WinHttp::{
+            ERROR_WINHTTP_AUTODETECTION_FAILED, ERROR_WINHTTP_TIMEOUT,
+            ERROR_WINHTTP_UNABLE_TO_DOWNLOAD_SCRIPT, WINHTTP_ACCESS_TYPE_NAMED_PROXY,
+            WINHTTP_ACCESS_TYPE_NO_PROXY,
+        };
+        assert!(windows_auto_direct_result(Ok(WINHTTP_ACCESS_TYPE_NO_PROXY)).unwrap());
+        assert!(!windows_auto_direct_result(Ok(WINHTTP_ACCESS_TYPE_NAMED_PROXY)).unwrap());
+        assert!(windows_auto_direct_result(Err(ERROR_WINHTTP_AUTODETECTION_FAILED)).unwrap());
+        assert!(windows_auto_direct_result(Err(ERROR_WINHTTP_TIMEOUT)).is_err());
+        assert!(windows_auto_direct_result(Err(ERROR_WINHTTP_UNABLE_TO_DOWNLOAD_SCRIPT)).is_err());
+        assert!(windows_auto_direct_result(Ok(0)).is_err());
+        let fallback = CrawlProxySettings {
+            http: "http://user:secret@proxy.test:8080".into(),
+            ..Default::default()
+        };
+        // No WPAD does not authorize bypassing a separately configured fallback proxy.
+        let direct = windows_auto_direct_result(Err(ERROR_WINHTTP_AUTODETECTION_FAILED)).unwrap()
+            && fallback
+                .direct(&"http://public.test/".parse().unwrap())
+                .unwrap();
+        assert!(!direct);
+    }
+
+    #[cfg(windows)]
+    #[test]
+    fn crawl_windows_bypass_keeps_pinned_matcher_semantics() {
+        let settings = CrawlProxySettings {
+            all: "http://proxy.test:8080".into(),
+            no: windows_proxy_bypass(" *.example.test ;10.*;192.168.*.*"),
+            ..Default::default()
+        };
+        for (url, direct) in [
+            ("http://example.test/", true),
+            ("http://10.3.4.5/", true),
+            ("http://192.168.2.3/", true),
+            ("http://192.169.2.3/", false),
+        ] {
+            assert_eq!(settings.direct(&url.parse().unwrap()).unwrap(), direct);
+        }
+    }
 
     fn nic(name: &str, v4: &[&str], v6: &[&str], local: &[&str]) -> Adapter {
         Adapter {

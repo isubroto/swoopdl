@@ -1,5 +1,0 @@
-   Compiling sdl-engine v0.1.6 (D:\Swoopdl\SwoopdlSource\crates\engine)
-   Compiling sdl-grabber v0.1.6 (D:\Swoopdl\SwoopdlSource\crates\grabber)
-    Finished `dev` profile [unoptimized + debuginfo] target(s) in 13.36s
-     Running `target\debug\examples\offline_fixture.exe .superpowers/sdd/2026-11-24-full-site-grabber/browser-fixture`
-status=Completed; resources=7; decoded_bytes=177049; requests=9; entry=.superpowers/sdd/2026-11-24-full-site-grabber/browser-fixture\output\index.html

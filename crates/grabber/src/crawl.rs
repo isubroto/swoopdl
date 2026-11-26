@@ -115,6 +115,9 @@ impl CrawlAccess for ScopedAccess {
     fn check_ip(&self, url: &Url, ip: IpAddr) -> Result<(), String> {
         self.network.check_ip(url, ip)
     }
+    fn system_direct(&self, url: &Url) -> Result<bool, String> {
+        self.network.system_direct(url)
+    }
 }
 fn request_path(url: &Url) -> String {
     match url.query() {
@@ -227,6 +230,135 @@ async fn request(
     store.checkpoint(state)?;
     Ok(result)
 }
+
+enum RobotsLookupError {
+    Failed(String),
+    Limited,
+    Cancelled,
+}
+
+/// Keep transport failures separate from parsed rules. These messages deliberately
+/// omit error sources, which may contain URLs, headers, or proxy credentials.
+pub(crate) fn fetch_failure(error: &CrawlFetchError) -> String {
+    match error {
+        CrawlFetchError::Access(reason) => reason.clone(),
+        CrawlFetchError::Http(error) if error.is_timeout() => "Network request timed out".into(),
+        CrawlFetchError::Http(error) if error.is_connect() => {
+            "DNS lookup or connection failed".into()
+        }
+        CrawlFetchError::Http(_) => "Network request failed".into(),
+        CrawlFetchError::Body(error)
+            if error.kind() == io::ErrorKind::TimedOut
+                || error
+                    .get_ref()
+                    .and_then(|source| source.downcast_ref::<reqwest::Error>())
+                    .is_some_and(reqwest::Error::is_timeout) =>
+        {
+            "Network request timed out".into()
+        }
+        CrawlFetchError::Body(_) => "Response body could not be decoded or read".into(),
+        CrawlFetchError::Io(_) => "Capture file could not be read or written".into(),
+        CrawlFetchError::Setup(_) => "Network settings could not be applied".into(),
+        CrawlFetchError::Budget | CrawlFetchError::ResourceLimit => {
+            "Body-byte or robots size limit reached".into()
+        }
+        CrawlFetchError::Cancelled => "Request paused".into(),
+    }
+}
+
+async fn lookup_robots(
+    state: &mut ProjectSnapshot,
+    store: &ProjectStore,
+    transport: &CrawlTransport,
+    url: Url,
+    budget: Arc<BodyBudget>,
+    cancel: &CancellationToken,
+) -> io::Result<Result<Robots, RobotsLookupError>> {
+    let mut failure = "Robots lookup failed".to_owned();
+    for attempt in 0..state.config.limits.attempts {
+        let result = match request(
+            state,
+            store,
+            transport,
+            FetchSpec {
+                url: url.clone(),
+                headers: HeaderMap::new(),
+                cap: state.config.limits.robots_bytes,
+                access: transport.access.clone(),
+            },
+            budget.clone(),
+            cancel,
+        )
+        .await
+        {
+            Ok(result) => result,
+            Err(_) => {
+                return Ok(Err(RobotsLookupError::Failed(
+                    "Robots lookup failed: capture files or checkpoint could not be written".into(),
+                )));
+            }
+        };
+        let delay = match result {
+            Ok(response) => {
+                let status = response.status.as_u16();
+                if (200..300).contains(&status) {
+                    let policy = if let Some(path) = response.body {
+                        let bytes = match fs::read(&path) {
+                            Ok(bytes) => bytes,
+                            Err(_) => {
+                                return Ok(Err(RobotsLookupError::Failed(
+                                    "Robots lookup failed: capture file could not be read".into(),
+                                )));
+                            }
+                        };
+                        if fs::remove_file(path).is_err() {
+                            return Ok(Err(RobotsLookupError::Failed(
+                                "Robots lookup failed: capture file could not be removed".into(),
+                            )));
+                        }
+                        Robots::parse(&String::from_utf8_lossy(&bytes))
+                    } else {
+                        Robots::default()
+                    };
+                    return Ok(Ok(policy));
+                }
+                if (400..500).contains(&status) && !matches!(status, 401 | 403 | 408 | 429) {
+                    return Ok(Ok(Robots::default()));
+                }
+                failure = format!("Robots lookup failed: HTTP {status}");
+                if matches!(status, 401 | 403) {
+                    break;
+                }
+                response.retry_after.unwrap_or_default()
+            }
+            Err(CrawlFetchError::Cancelled) => return Ok(Err(RobotsLookupError::Cancelled)),
+            Err(CrawlFetchError::Budget | CrawlFetchError::ResourceLimit) => {
+                return Ok(Err(RobotsLookupError::Limited));
+            }
+            Err(error) => {
+                failure = format!("Robots lookup failed: {}", fetch_failure(&error));
+                if !matches!(error, CrawlFetchError::Http(_) | CrawlFetchError::Body(_)) {
+                    break;
+                }
+                Duration::ZERO
+            }
+        };
+        if attempt + 1 < state.config.limits.attempts
+            && !sleep(delay.max(Duration::from_secs(1 << attempt)), cancel).await
+        {
+            return Ok(Err(RobotsLookupError::Cancelled));
+        }
+    }
+    Ok(Err(RobotsLookupError::Failed(failure)))
+}
+
+/// A terminal cause must remain visible even when earlier skip reports filled the cap.
+fn terminal_report(state: &mut ProjectSnapshot, url: &Url, reason: &str) {
+    if state.reports.len() >= state.config.limits.urls {
+        state.reports.pop();
+    }
+    report(state, url, reason);
+}
 pub async fn run(
     config: ProjectConfig,
     mut state: ProjectSnapshot,
@@ -285,6 +417,7 @@ async fn run_inner(
     ));
     let seen = Arc::new(Mutex::new(state.seen.clone()));
     let mut robots: BTreeMap<String, Robots> = BTreeMap::new();
+    let mut lookup_failed = false;
     while let Some(pending) = state.pending.front().cloned() {
         if cancel.is_cancelled() {
             break;
@@ -297,65 +430,26 @@ async fn run_inner(
         let origin = pending.url.origin().ascii_serialization();
         if !robots.contains_key(&origin) {
             let url = Url::parse(&format!("{origin}/robots.txt")).map_err(io::Error::other)?;
-            let mut policy = Robots::blocked();
-            for attempt in 0..state.config.limits.attempts {
-                let result = request(
-                    state,
-                    store,
-                    transport,
-                    FetchSpec {
-                        url: url.clone(),
-                        headers: HeaderMap::new(),
-                        cap: state.config.limits.robots_bytes,
-                        access: transport.access.clone(),
-                    },
-                    budget.clone(),
-                    cancel,
-                )
-                .await?;
-                match result {
-                    Ok(response) => {
-                        let status = response.status.as_u16();
-                        if (200..300).contains(&status) {
-                            if let Some(path) = response.body {
-                                let bytes = fs::read(&path)?;
-                                policy = Robots::parse(&String::from_utf8_lossy(&bytes));
-                                fs::remove_file(path)?;
-                            }
-                            break;
-                        }
-                        if (400..500).contains(&status) && !matches!(status, 401 | 403 | 408 | 429)
-                        {
-                            policy = Robots::default();
-                            break;
-                        }
-                        if matches!(status, 401 | 403) {
-                            break;
-                        }
-                        if attempt + 1 < state.config.limits.attempts
-                            && !sleep(
-                                response
-                                    .retry_after
-                                    .unwrap_or_default()
-                                    .max(Duration::from_secs(1 << attempt)),
-                                cancel,
-                            )
-                            .await
-                        {
-                            break;
-                        }
-                    }
-                    Err(CrawlFetchError::Cancelled) => break,
-                    Err(_) => {
-                        if attempt + 1 < state.config.limits.attempts
-                            && !sleep(Duration::from_secs(1 << attempt), cancel).await
-                        {
-                            break;
-                        }
-                    }
+            match lookup_robots(state, store, transport, url, budget.clone(), cancel).await? {
+                Ok(policy) => {
+                    robots.insert(origin.clone(), policy);
                 }
+                Err(RobotsLookupError::Failed(reason)) => {
+                    terminal_report(state, &pending.url, &reason);
+                    lookup_failed = true;
+                    break;
+                }
+                Err(RobotsLookupError::Limited) => {
+                    terminal_report(
+                        state,
+                        &pending.url,
+                        "Robots lookup stopped: body-byte or robots size limit reached",
+                    );
+                    limited = true;
+                    break;
+                }
+                Err(RobotsLookupError::Cancelled) => break,
             }
-            robots.insert(origin.clone(), policy);
         }
         if cancel.is_cancelled() {
             break;
@@ -635,6 +729,8 @@ async fn run_inner(
     state.limit_reached = limited;
     state.status = if cancel.is_cancelled() {
         ProjectStatus::Paused
+    } else if lookup_failed {
+        ProjectStatus::Failed
     } else if limited {
         ProjectStatus::Limited
     } else if state
@@ -645,6 +741,9 @@ async fn run_inner(
     } else {
         ProjectStatus::Failed
     };
+    if state.status == ProjectStatus::Failed {
+        state.next_run = None;
+    }
     if matches!(
         state.status,
         ProjectStatus::Completed | ProjectStatus::Limited
@@ -703,6 +802,11 @@ async fn run_inner(
     } else {
         store.checkpoint(state)?;
     }
-    emit(state, events, None);
+    let reason = if matches!(state.status, ProjectStatus::Failed | ProjectStatus::Limited) {
+        state.reports.last().map(|entry| entry.reason.clone())
+    } else {
+        None
+    };
+    emit(state, events, reason);
     Ok(())
 }

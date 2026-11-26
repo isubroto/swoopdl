@@ -241,5 +241,8 @@
   },
   "popup_media_title_name": {
     "message": "મીડિયા ફાઇલોનાં નામો પહેલાં પૃષ્ઠનું શીર્ષક ઉમેરો"
+  },
+  "menu_site_grabber": {
+    "message": "Site Grabber વડે પૃષ્ઠની લિંક્સ શોધો"
   }
 }

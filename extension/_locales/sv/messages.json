@@ -241,5 +241,8 @@
   },
   "popup_media_title_name": {
     "message": "Lägg till sidtiteln framför mediefilernas namn"
+  },
+  "menu_site_grabber": {
+    "message": "Utforska sidans länkar med Site Grabber"
   }
 }

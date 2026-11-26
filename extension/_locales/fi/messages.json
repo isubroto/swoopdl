@@ -241,5 +241,8 @@
   },
   "popup_media_title_name": {
     "message": "Lisää sivun otsikko mediatiedostojen nimien eteen"
+  },
+  "menu_site_grabber": {
+    "message": "Tutki sivun linkkejä Site Grabberilla"
   }
 }

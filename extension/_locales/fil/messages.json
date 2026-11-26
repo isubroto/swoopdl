@@ -241,5 +241,8 @@
   },
   "popup_media_title_name": {
     "message": "Idagdag ang pamagat ng page bago ang mga pangalan ng media file"
+  },
+  "menu_site_grabber": {
+    "message": "Tuklasin ang mga link ng pahina gamit ang Site Grabber"
   }
 }

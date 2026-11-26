@@ -51,6 +51,7 @@ mod secrets;
 mod selection;
 mod settings;
 mod site_grabber;
+mod site_grabber_jobs;
 mod store;
 mod theme;
 mod themefile;

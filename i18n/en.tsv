@@ -156,6 +156,8 @@
 #. a torrent through a debrid service: one of its files has a name that would be written outside its folder; nothing was written. {name} the file's name as the service gave it
 #. {name} = a file name (keep the braces as they are)
 	A file of this torrent can't be saved safely: {name}	A file of this torrent can't be saved safely: {name}
+#. message or event log entry in the main window
+	A guarded job cannot change its URL or reserved destination	A guarded job cannot change its URL or reserved destination
 #. text in the settings
 #. Options → DNS: the NextDNS configuration ID typed isn't one
 	A NextDNS configuration ID is six letters and digits (0-9, a-f).	A NextDNS configuration ID is six letters and digits (0-9, a-f).
@@ -244,7 +246,7 @@
 #. text in rssdlg.rs
 #. RSS feeds window, Download rules: add the torrents to the list without starting them
 	Add them without starting them	Add them without starting them
-#. message or event log entry in the main window; text in the Link grabber window
+#. message or event log entry in the main window; text in the Link grabber window; text in site_grabber/results.rs
 #. Link grabber button: add the ticked links to the download queue without starting them (IDM's OK)
 	Add to queue	Add to queue
 #. text in a dialog box
@@ -273,6 +275,10 @@
 #. text in remote.rs
 #. remote control page (on a phone): a magnet link or .torrent file was added; SDL reads the torrent's files first
 	Added. SDL is reading the torrent: it joins the list in a moment.	Added. SDL is reading the torrent: it joins the list in a moment.
+#. text in site_grabber/view.rs
+	Additional asset origins (space separated)	Additional asset origins (space separated)
+#. text in site_grabber/view.rs
+	Additional page origins (space separated)	Additional page origins (space separated)
 #. text in the Batch download window; text in a dialog box; text in the Options window; label in the Options window; text in a download's progress window
 #. noun: the web address (URL)
 #. column title: the web address (URL)
@@ -298,6 +304,10 @@
 #. text in extension.rs
 #. a check of Test browser integration (Options → General)
 	Advanced browser integration is on	Advanced browser integration is on
+#. text in site_grabber/view.rs
+	Advanced exploration rules	Advanced exploration rules
+#. text in site_grabber/view.rs
+	Advanced file filters	Advanced file filters
 #. text in countries.rs
 #. a country's name (where a download's server is)
 	Afghanistan	Afghanistan
@@ -321,6 +331,8 @@
 	All files	All files
 #. text in helpers.rs
 	All set: on a page with a video, use Tasks → Download video from a page.	All set: on a page with a video, use Tasks → Download video from a page.
+#. text in site_grabber/results.rs
+	All source folders	All source folders
 #. text in the Download video window
 #. in the Subtitles list of Download video: every language the video's uploader gave
 	All the uploader's	All the uploader's
@@ -328,6 +340,8 @@
 #. checkbox under the number of connections per download; {n} is 32
 #. {n} = a number (keep the braces as they are)
 	Allow more than {n} connections	Allow more than {n} connections
+#. text in site_grabber/view.rs
+	Allow private addresses for the exact seed origin	Allow private addresses for the exact seed origin
 #. text in errors.rs
 	already being downloaded: {path}	already being downloaded: {path}
 #. text in the Link grabber window
@@ -427,6 +441,12 @@
 #. Options → DNS settings: the test is running
 #. the trailing ... means it is still going on: keep it
 	Asking...	Asking...
+#. text in site_grabber/view.rs
+	Asset MIME types (blank allows all)	Asset MIME types (blank allows all)
+#. text in site_grabber/view.rs
+	Asset origins allow files, not navigation to other websites.	Asset origins allow files, not navigation to other websites.
+#. text in site_grabber/wizard.rs
+	Audio files	Audio files
 #. text in the Download video window
 #. a choice in the Download video window: only the sound; {type} is MP3, M4A…
 	Audio only {type}	Audio only {type}
@@ -444,19 +464,29 @@
 #. text in countries.rs
 #. a country's name (where a download's server is)
 	Austria	Austria
+#. text in site_grabber/view.rs
+	Authorization (optional)	Authorization (optional)
+#. text in site_grabber/view.rs
+	Authorization header	Authorization header
 #. text in remote.rs
 #. remote control page (on a phone): category choice: the category follows the file's type
 	Automatic (by file type)	Automatic (by file type)
 #. text in the Options window
 	Automatic configuration script	Automatic configuration script
+#. text in site_grabber/view.rs
+	Automatically download newly matched files	Automatically download newly matched files
 #. text in the Options window
 #. {category} = a category name such as "Music" (keep the braces as they are)
 	Automatically put in "{category}" category the following file types:	Automatically put in "{category}" category the following file types:
 #. text in the Options window
 	Automatically start downloading the following file types:	Automatically start downloading the following file types:
+#. text in site_grabber/results.rs
+	Available	Available
 #. text in countries.rs
 #. a country's name (where a download's server is)
 	Azerbaijan	Azerbaijan
+#. text in site_grabber/results.rs; text in site_grabber/view.rs
+	Back	Back
 #. text in countries.rs
 #. a country's name (where a download's server is)
 	Bahamas	Bahamas
@@ -469,6 +499,8 @@
 #. text in countries.rs
 #. a country's name (where a download's server is)
 	Barbados	Barbados
+#. text in site_grabber/view.rs
+	Base folder	Base folder
 #. window title in the Batch download window; text in the Batch download window
 	Batch download	Batch download
 #. text in countries.rs
@@ -528,10 +560,14 @@
 	Browse...	Browse...
 #. text in the Options window
 	Browser download controls	Browser download controls
+#. text in site_grabber/results.rs
+	Browser import requires a valid source page	Browser import requires a valid source page
 #. text in extension.rs
 	Browser integration isn't set up on this computer, so no browser can reach Swoopdl yet.	Browser integration isn't set up on this computer, so no browser can reach Swoopdl yet.
 #. text in the Options window
 	Browser proxy and system settings	Browser proxy and system settings
+#. text in site_grabber/view.rs
+	Browse…	Browse…
 #. text in countries.rs
 #. a country's name (where a download's server is)
 	Brunei	Brunei
@@ -563,11 +599,13 @@
 #. text in countries.rs
 #. a country's name (where a download's server is)
 	Canada	Canada
-#. button in the Batch download window; button in categories.rs; text in the Checksum window; button in a dialog box; button in extracting archives (a download's log, the Archive password window); button in the Find window; button in gallerydlg.rs; text in the Link grabber window; text in the Help menu's windows (About, updates, shortcuts, Tell a friend); button in langpick.rs; button in the Options window; button in a download's progress window; text in remote.rs; button in the Scheduler window; button in the Add torrent window; button in the Download video window
+#. button in the Batch download window; button in categories.rs; text in the Checksum window; button in a dialog box; button in extracting archives (a download's log, the Archive password window); button in the Find window; button in gallerydlg.rs; text in the Link grabber window; text in the Help menu's windows (About, updates, shortcuts, Tell a friend); button in langpick.rs; button in the Options window; button in a download's progress window; text in remote.rs; button in the Scheduler window; text in site_grabber/view.rs; button in the Add torrent window; button in the Download video window
 #. button: stop downloading the update
 	Cancel	Cancel
 #. text in errors.rs
 	cancelled	cancelled
+#. text in site_grabber/results.rs
+	Candidates	Candidates
 #. text in errors.rs
 	cannot connect to the server	cannot connect to the server
 #. message or event log entry in the main window
@@ -580,6 +618,8 @@
 	cannot resume: {detail}	cannot resume: {detail}
 #. group box title in the Options window; text in the Options window
 	Capture downloads from the following browsers:	Capture downloads from the following browsers:
+#. text in site_grabber/view.rs
+	Capture files from websites. Keep an offline copy. Resume anytime.	Capture files from websites. Keep an offline copy. Resume anytime.
 #. text in extension.rs
 #. the headline of the window that offers the browser extension
 	Catch downloads from your browser	Catch downloads from your browser
@@ -594,6 +634,8 @@
 #. text in categories.rs
 #. title of the folder picker of the category dialog
 	Category folder	Category folder
+#. text in site_grabber/view.rs
+	Category folders	Category folders
 #. text in categories.rs
 	Category properties	Category properties
 #. text in countries.rs
@@ -614,11 +656,15 @@
 #. text in the Scheduler window
 #. link after "Windows' power options don't allow wake timers": opens Power Options' advanced settings, where it can be changed
 	Change	Change
+#. text in site_grabber/view.rs
+	Change destination	Change destination
 #. text in the Options window
 #. {category} = a category name such as "Music" (keep the braces as they are)
 	Change folder for "{category}" category on last selected	Change folder for "{category}" category on last selected
 #. text in the Options window
 	Changes are saved when you select OK	Changes are saved when you select OK
+#. text in site_grabber/results.rs
+	Check All	Check All
 #. text in the Link grabber window
 #. Link grabber button (IDM's): tick every link
 	Check all	Check all
@@ -632,6 +678,8 @@
 	Check for updates at every start	Check for updates at every start
 #. text in helpers.rs
 	Check your connection, then try again, or get them later from the video window.	Check your connection, then try again, or get them later from the video window.
+#. text in site_grabber/results.rs
+	Checked	Checked
 #. text in the Options window
 #. tooltip of the close-setting: checked keeps SDL running when the window closes, in the notification area when available or else the taskbar; downloads continue; unchecked closing quits
 	Checked, closing the window keeps SDL running: it hides in the notification area when available, or minimizes to the taskbar otherwise, and downloads continue; unchecked, closing quits SDL	Checked, closing the window keeps SDL running: it hides in the notification area when available, or minimizes to the taskbar otherwise, and downloads continue; unchecked, closing quits SDL
@@ -641,6 +689,8 @@
 #. message or event log entry in the main window
 #. event log entry: a torrent's files are being read and checked again (Recheck)
 	Checking every piece again	Checking every piece again
+#. text in site_grabber/view.rs
+	Checking folder…	Checking folder…
 #. text in the Help menu's windows (About, updates, shortcuts, Tell a friend)
 #. the trailing ... means it is still going on: keep it
 	Checking for updates...	Checking for updates...
@@ -678,12 +728,20 @@
 	Choose a .torrent file	Choose a .torrent file
 #. text in site_grabber.rs
 	Choose a base folder for this project	Choose a base folder for this project
+#. text in site_grabber/wizard.rs
+	Choose a destination folder	Choose a destination folder
+#. text in site_grabber/wizard.rs
+	Choose a folder for this capture and its offline copy.	Choose a folder for this capture and its offline copy.
 #. text in langpick.rs
 	Choose a language	Choose a language
 #. text in site_grabber.rs
 	Choose a valid schedule time and day	Choose a valid schedule time and day
 #. text in site_grabber.rs
 	Choose capture folder	Choose capture folder
+#. text in site_grabber/wizard.rs
+	Choose file types and review your capture limits.	Choose file types and review your capture limits.
+#. text in site_grabber/wizard.rs
+	Choose how far to follow links and where to stay.	Choose how far to follow links and where to stay.
 #. text in langpick.rs
 	Choose the language Swoopdl shows its windows in:	Choose the language Swoopdl shows its windows in:
 #. text in the Options window
@@ -692,6 +750,8 @@
 #. text in helpers.rs
 #. {name} = a file name (keep the braces as they are)
 	Choose {name}	Choose {name}
+#. text in site_grabber/view.rs
+	Choosing folder…	Choosing folder…
 #. text in countries.rs
 #. a country's name (where a download's server is)
 	Christmas Island	Christmas Island
@@ -703,7 +763,7 @@
 	Client	Client
 #. text in the Options window
 	Clock:	Clock:
-#. text in the Checksum window; text in the main window (menus, toolbar, Categories pane); button in crashui.rs; button in a dialog box; button in extension.rs; button in the Help menu's windows (About, updates, shortcuts, Tell a friend); button in helpers.rs; button in the download list; button in the Options window; button in rssdlg.rs; button in torrentfiles.rs; text in standard windows
+#. text in the Checksum window; text in the main window (menus, toolbar, Categories pane); button in crashui.rs; button in a dialog box; button in extension.rs; button in the Help menu's windows (About, updates, shortcuts, Tell a friend); button in helpers.rs; button in the download list; button in the Options window; button in rssdlg.rs; text in site_grabber/results.rs; text in site_grabber/view.rs; button in torrentfiles.rs; text in standard windows
 #. both verbs: Verify = check the file now; Close = close the window
 #. tooltip of the × that closes the Categories pane
 #. verb: closes this window
@@ -734,6 +794,8 @@
 #. a download's status (state it is in, not a command)
 #. a download's status (state it is in, not a command): finished
 	Complete	Complete
+#. text in site_grabber/results.rs; text in site_grabber/view.rs
+	Completed	Completed
 #. text in the download list (sizes, speeds, status)
 #. category name: compressed archives (zip, rar, 7z)
 	Compressed	Compressed
@@ -789,6 +851,10 @@
 #. in a download's log: {name} is the archive's file name, {why} the reason
 #. {name} = a file name (keep the braces as they are)
 	Couldn't extract {name}: {why}	Couldn't extract {name}: {why}
+#. text in site_grabber/view.rs
+	Create a project subfolder (recommended)	Create a project subfolder (recommended)
+#. text in site_grabber/view.rs
+	Create a project to get started, or select a saved project on the left.	Create a project to get started, or select a saved project on the left.
 #. window title in a dialog box
 	Create folder	Create folder
 #. text in countries.rs
@@ -800,6 +866,8 @@
 #. text in countries.rs
 #. a country's name (where a download's server is)
 	Curaçao	Curaçao
+#. text in site_grabber/wizard.rs
+	Custom settings	Custom settings
 #. text in the Options window
 	Customize "Download progress" dialog	Customize "Download progress" dialog
 #. text in the Options window
@@ -853,6 +921,8 @@
 	Delete archives after extracting	Delete archives after extracting
 #. window title in a dialog box
 	Delete category	Delete category
+#. text in site_grabber/view.rs
+	Delete metadata (keep captured files)	Delete metadata (keep captured files)
 #. message or event log entry in the main window; text in the Scheduler window
 	Delete queue	Delete queue
 #. text in a dialog box
@@ -878,6 +948,8 @@
 	Description or part of the description	Description or part of the description
 #. text in a download's Properties window
 	Description:	Description:
+#. text in site_grabber/wizard.rs
+	Destination changed. Check the folder again.	Destination changed. Check the folder again.
 #. text in the Options window
 #. column title: a paired phone's or computer's name
 	Device	Device
@@ -907,7 +979,7 @@
 	Do not start downloading, only add files to the queue	Do not start downloading, only add files to the queue
 #. text in a dialog box
 	Do you want to create it?	Do you want to create it?
-#. text in the download list (sizes, speeds, status)
+#. text in the download list (sizes, speeds, status); text in site_grabber/wizard.rs
 #. category name: documents (pdf, doc…)
 	Documents	Documents
 #. text in countries.rs
@@ -941,6 +1013,10 @@
 #. window title in gallerydlg.rs
 #. window title: download an image gallery's files (gallery-dl)
 	Download a gallery	Download a gallery
+#. text in site_grabber/results.rs
+	Download checked	Download checked
+#. text in site_grabber/view.rs
+	Download checked files	Download checked files
 #. window title in a dialog box; text in a dialog box; text in the Options window
 	Download complete	Download complete
 #. text in the Options window
@@ -996,7 +1072,7 @@
 #. RSS feeds window: add the selected article's torrent (opens Add torrent)
 #. the trailing ... means it opens a window: keep it
 	Download...	Download...
-#. text in a download's progress window
+#. text in a download's progress window; text in site_grabber/view.rs
 #. label before the amount received so far
 #. column title: bytes this connection received
 	Downloaded	Downloaded
@@ -1005,7 +1081,7 @@
 #. text in a dialog box
 #. {size} = a file size such as "4.2 MB"; {bytes} = a number of bytes (keep the braces as they are)
 	Downloaded {size} ({bytes} Bytes)	Downloaded {size} ({bytes} Bytes)
-#. item in the Categories tree in the download list; value in a column's filter list in the download list; text in remote.rs
+#. item in the Categories tree in the download list; value in a column's filter list in the download list; text in remote.rs; text in site_grabber/results.rs
 #. a download's status (state it is in, not a command)
 	Downloading	Downloading
 #. message or event log entry in the main window
@@ -1042,6 +1118,8 @@
 #. text in countries.rs
 #. a country's name (where a download's server is)
 	DR Congo	DR Congo
+#. text in site_grabber/view.rs
+	Draft	Draft
 #. text in droptarget.rs
 #. the drop target's tooltip on macOS and Linux (they hand over files only)
 	Drag .torrent files or lists of addresses here	Drag .torrent files or lists of addresses here
@@ -1074,6 +1152,8 @@
 	Edit list ...	Edit list ...
 #. text in the Options window
 	Edit login	Edit login
+#. text in site_grabber/results.rs
+	Edit project	Edit project
 #. button in the Options window
 #. verb: edit the item
 #. the trailing ... means it opens a window: keep it
@@ -1098,18 +1178,18 @@
 	Enter a magnet link or choose a .torrent file	Enter a magnet link or choose a .torrent file
 #. text in the Scheduler window
 	Enter a name for the new queue that will be	Enter a name for the new queue that will be
-#. text in site_grabber.rs
+#. text in site_grabber/results.rs; text in site_grabber.rs
 	Enter a replacement memory-only session before resuming	Enter a replacement memory-only session before resuming
 #. text in the Add torrent window
 #. Add trackers: OK with an empty box
 	Enter a tracker's address, one a line	Enter a tracker's address, one a line
-#. text in site_grabber.rs
+#. text in site_grabber/wizard.rs; text in site_grabber.rs
 	Enter a valid HTTP(S) start URL	Enter a valid HTTP(S) start URL
 #. window title in a dialog box
 	Enter new address to download	Enter new address to download
 #. window title in the Scheduler window; text in the Scheduler window
 	Enter queue name	Enter queue name
-#. text in site_grabber.rs
+#. text in site_grabber/wizard.rs; text in site_grabber.rs
 	Enter session credentials	Enter session credentials
 #. text in rssdlg.rs
 #. RSS feeds window, Download rules: which episodes to take (season x episode)
@@ -1154,8 +1234,20 @@
 #. text in the Options window
 #. label before an example date and time written the chosen way
 	Example:	Example:
+#. text in site_grabber/wizard.rs
+	Example: jpg jpeg png gif webp. HTML pages are kept for navigation.	Example: jpg jpeg png gif webp. HTML pages are kept for navigation.
+#. text in site_grabber/wizard.rs
+	Example: mp3 m4a aac flac ogg opus wav. HTML pages are kept for navigation.	Example: mp3 m4a aac flac ogg opus wav. HTML pages are kept for navigation.
+#. text in site_grabber/wizard.rs
+	Example: pdf docx xlsx pptx epub. HTML pages are kept for navigation.	Example: pdf docx xlsx pptx epub. HTML pages are kept for navigation.
 #. text in the Options window
 	Exceptions:	Exceptions:
+#. text in site_grabber/view.rs
+	Exclude file patterns (space separated)	Exclude file patterns (space separated)
+#. text in site_grabber/view.rs
+	Exclude URL prefixes	Exclude URL prefixes
+#. text in site_grabber/view.rs
+	Existing folders are supported. Name collisions receive numbered names.	Existing folders are supported. Name collisions receive numbered names.
 #. text in the tray icon's menu
 #. verb: quit the app
 	Exit	Exit
@@ -1170,8 +1262,24 @@
 #. text in the Options window
 #. Options → Accounts: a note that the debrid services' support (Real-Debrid, AllDebrid, Premiumize) is new and not yet tried with real paid accounts
 	Experimental: built from the services' public API documentation, not yet confirmed with real accounts.	Experimental: built from the services' public API documentation, not yet confirmed with real accounts.
+#. text in site_grabber/view.rs
+	Exploration reads pages and bounded metadata. Downloads require checked files.	Exploration reads pages and bounded metadata. Downloads require checked files.
+#. text in site_grabber/results.rs
+	Explore a website, review matching files, then download checked files.	Explore a website, review matching files, then download checked files.
+#. text in site_grabber/view.rs
+	Explore and download	Explore and download
+#. text in site_grabber/view.rs
+	Explore only	Explore only
+#. text in site_grabber/wizard.rs
+	Explore rules	Explore rules
+#. text in site_grabber/view.rs
+	Explore the whole website on this origin	Explore the whole website on this origin
+#. text in site_grabber/results.rs
+	Exploring	Exploring
 #. message or event log entry in the main window; text in the Options window
 	Export	Export
+#. text in site_grabber/view.rs
+	Export report	Export report
 #. button in the Options window
 #. the trailing ... means it opens a window: keep it
 	Export...	Export...
@@ -1195,6 +1303,8 @@
 #. a download's status: its archive is being extracted (#37)
 #. the trailing ... means it is still going on: keep it
 	Extracting...	Extracting...
+#. text in site_grabber/results.rs; text in site_grabber/view.rs
+	Failed	Failed
 #. text in countries.rs
 #. a country's name (where a download's server is)
 	Falkland Islands	Falkland Islands
@@ -1227,6 +1337,10 @@
 #. text in a download's progress window; text in a download's Properties window
 #. noun: a file of no known type
 	File	File
+#. text in site_grabber/view.rs
+	File extensions (space separated, blank allows all)	File extensions (space separated, blank allows all)
+#. text in site_grabber/wizard.rs
+	File filters	File filters
 #. text in the Scheduler window
 	File Name	File Name
 #. text in the Download video window
@@ -1242,7 +1356,7 @@
 	File types	File types
 #. text in categories.rs
 	File types:	File types:
-#. text in a download's progress window; text in the Add torrent window
+#. text in a download's progress window; text in site_grabber/results.rs; text in site_grabber/view.rs; text in the Add torrent window
 #. tab title: the torrent's files
 	Files	Files
 #. window title in a dialog box
@@ -1255,10 +1369,14 @@
 	Files go to: {folder}	Files go to: {folder}
 #. text in the Scheduler window; tab in the Scheduler window
 	Files in the queue	Files in the queue
+#. text in site_grabber/view.rs
+	Files will be saved to	Files will be saved to
 #. button in a download's Properties window
 #. File Properties button that opens the selected torrent's file list
 #. the trailing ... means it opens a window: keep it
 	Files...	Files...
+#. text in site_grabber/results.rs
+	Filter results	Filter results
 #. button in the Find window
 #. verb: button that starts the search
 	Find	Find
@@ -1334,6 +1452,8 @@
 #. text in countries.rs
 #. a country's name (where a download's server is)
 	French Southern Territories	French Southern Territories
+#. text in site_grabber/view.rs
+	Fri	Fri
 #. text in the Scheduler window
 	Friday	Friday
 #. message or event log entry in the main window
@@ -1524,8 +1644,14 @@
 	If it can't be reached, use the system's DNS	If it can't be reached, use the system's DNS
 #. checkbox in the Options window
 	Ignore file modification time changes when resuming a download	Ignore file modification time changes when resuming a download
+#. text in site_grabber/wizard.rs
+	Images from a website	Images from a website
 #. message or event log entry in the main window; text in the Options window
 	Import	Import
+#. text in site_grabber/results.rs
+	Import browser links	Import browser links
+#. text in site_grabber/results.rs
+	Import links	Import links
 #. button in the Options window
 #. the trailing ... means it opens a window: keep it
 	Import...	Import...
@@ -1536,6 +1662,10 @@
 #. text in the Options window
 #. Options → Accounts: the account's sign-in is in the system's keyring (Linux), which is locked now; SDL never unlocks it
 	in the locked keyring	in the locked keyring
+#. text in site_grabber/view.rs
+	Include file patterns (space separated)	Include file patterns (space separated)
+#. text in site_grabber/view.rs
+	Include URL prefixes	Include URL prefixes
 #. text in standard windows
 #. a spin box's arrow, for screen readers: one more
 	Increase	Increase
@@ -1580,10 +1710,12 @@
 	Into a folder named after it, when it holds several things	Into a folder named after it, when it holds several things
 #. text in a dialog box
 	Invalid address	Invalid address
-#. text in site_grabber.rs
+#. message or event log entry in the main window; text in site_grabber/results.rs; text in site_grabber/wizard.rs; text in site_grabber.rs
 	Invalid authorization header	Invalid authorization header
 #. text in site_grabber.rs
 	Invalid body budget	Invalid body budget
+#. text in site_grabber/results.rs
+	Invalid file size	Invalid file size
 #. text in site_grabber.rs
 	Invalid maximum file size	Invalid maximum file size
 #. text in the Options window
@@ -1728,6 +1860,8 @@
 	Latvia	Latvia
 #. text in the Options window
 	Launch Swoopdl on startup	Launch Swoopdl on startup
+#. text in site_grabber/wizard.rs
+	Leave extensions blank to allow all file types. HTML pages are kept for navigation.	Leave extensions blank to allow all file types. HTML pages are kept for navigation.
 #. text in countries.rs
 #. a country's name (where a download's server is)
 	Lebanon	Lebanon
@@ -1740,6 +1874,8 @@
 #. option (radio button) in the Batch download window
 #. the * in the address runs through letters
 	Letters	Letters
+#. text in site_grabber/view.rs
+	Level 0 captures the start page and its assets. Each next level follows another page link.	Level 0 captures the start page and its assets. Each next level follows another page link.
 #. text in countries.rs
 #. a country's name (where a download's server is)
 	Liberia	Liberia
@@ -1759,9 +1895,13 @@
 #. text in the Add torrent window
 #. Torrent settings: an upload speed limit for all torrents together, followed by a box with the speed and "KBytes/sec"
 	Limit uploading for all torrents to	Limit uploading for all torrents to
+#. text in site_grabber/results.rs; text in site_grabber/view.rs
+	Limited	Limited
 #. window title in the Link grabber window; text in the Link grabber window; text in the Options window; group box title in the Options window
 #. Options → Archives: group box title
 	Link grabber	Link grabber
+#. text in site_grabber/view.rs
+	Link levels to explore	Link levels to explore
 #. text in the Link grabber window
 #. what a screen reader calls Link grabber's list
 	Links	Links
@@ -1799,6 +1939,8 @@
 #. text in the Add torrent window
 #. where a magnet's peers came from: computers on your own network; {peers} = "3 peers"
 	Local network: {peers}	Local network: {peers}
+#. text in site_grabber/view.rs
+	Local time	Local time
 #. text in the Batch download window; text in a dialog box; text in a download's Properties window
 #. noun: the user name for the server (an input box follows)
 #. noun: the user name and password section
@@ -1891,6 +2033,12 @@
 	Maximum download speed for one file {kb} KBytes/sec	Maximum download speed for one file {kb} KBytes/sec
 #. text in a download's progress window
 	Maximum download speed:	Maximum download speed:
+#. text in site_grabber/view.rs
+	Maximum file size (MiB)	Maximum file size (MiB)
+#. text in site_grabber/view.rs
+	Maximum size (MiB, blank allows any)	Maximum size (MiB, blank allows any)
+#. text in site_grabber/view.rs
+	Maximum unique URLs	Maximum unique URLs
 #. text in a download's progress window
 #. a torrent's progress window, Speed Limiter tab: label above the upload speed box
 	Maximum upload speed:	Maximum upload speed:
@@ -1915,6 +2063,8 @@
 #. text in the Options window
 #. checkbox: the Minimize button hides SDL's windows to the notification area (system tray) instead of the taskbar
 	Minimize to the notification area	Minimize to the notification area
+#. text in site_grabber/view.rs
+	Minimum size (MiB, blank allows any)	Minimum size (MiB, blank allows any)
 #. text in rssdlg.rs; text in the Add torrent window
 #. RSS feeds window: the unit after the minutes box
 #. Torrent settings: the unit after the minutes box
@@ -1928,6 +2078,8 @@
 #. text in countries.rs
 #. a country's name (where a download's server is)
 	Moldova	Moldova
+#. text in site_grabber/view.rs
+	Mon	Mon
 #. text in countries.rs
 #. a country's name (where a download's server is)
 	Monaco	Monaco
@@ -2003,6 +2155,8 @@
 #. text in the Link grabber window; text in the Add torrent window
 #. column title: file name
 	Name	Name
+#. text in site_grabber/wizard.rs
+	Name your project and choose what to capture.	Name your project and choose what to capture.
 #. text in categories.rs; text in the Link grabber window; text in rssdlg.rs
 #. Link grabber: the package's name (a label before its box)
 #. RSS feeds window, Download rules: the rule's name
@@ -2042,6 +2196,8 @@
 #. text in countries.rs
 #. a country's name (where a download's server is)
 	New Caledonia	New Caledonia
+#. text in site_grabber/view.rs
+	New capture project	New capture project
 #. button in the Options window
 #. Options → Remote → Pair a device: button: show a new code
 	New code	New code
@@ -2049,6 +2205,8 @@
 	New exception	New exception
 #. text in the Options window
 	New login	New login
+#. text in site_grabber/results.rs; text in site_grabber/view.rs
+	New project	New project
 #. text in rssdlg.rs
 #. RSS feeds window: the name a new download rule starts with
 #. RSS feeds window, Download rules: make a new rule
@@ -2056,6 +2214,8 @@
 #. text in countries.rs
 #. a country's name (where a download's server is)
 	New Zealand	New Zealand
+#. text in site_grabber/results.rs; text in site_grabber/view.rs
+	Next	Next
 #. text in countries.rs
 #. a country's name (where a download's server is)
 	Nicaragua	Nicaragua
@@ -2124,6 +2284,8 @@
 #. text in the Add torrent window
 #. a magnet link's lookup, after 30 seconds without a peer
 	No peers yet. Few people may share this torrent, or a firewall, a VPN or the network may be blocking BitTorrent.	No peers yet. Few people may share this torrent, or a firewall, a VPN or the network may be blocking BitTorrent.
+#. text in site_grabber/view.rs
+	No projects yet	No projects yet
 #. text in the Options window
 	No proxy/socks	No proxy/socks
 #. text in the Options window
@@ -2209,6 +2371,8 @@
 	November	November
 #. text in the Options window
 	Number	Number
+#. text in site_grabber/view.rs
+	Number duplicate names	Number duplicate names
 #. checkbox in the Scheduler window
 	Number of retries for each file if downloading failed :	Number of retries for each file if downloading failed :
 #. option (radio button) in the Batch download window
@@ -2229,6 +2393,8 @@
 #. text in the Link grabber window
 #. Link grabber, a link's status: the server hasn't the file; {status} is the HTTP code (404)
 	Offline ({status})	Offline ({status})
+#. text in site_grabber/results.rs
+	Offline website	Offline website
 #. button in the Batch download window; button in categories.rs; text in the Checksum window; button in a dialog box; text in extracting archives (a download's log, the Archive password window); text in the Help menu's windows (About, updates, shortcuts, Tell a friend); button in the Help menu's windows (About, updates, shortcuts, Tell a friend); button in langpick.rs; button in the Options window; button in a download's Properties window; button in the Scheduler window; button in the Add torrent window
 	OK	OK
 #. text in countries.rs
@@ -2260,6 +2426,10 @@
 	Once it is added, this window says so. Chrome may also ask by itself at its next start.	Once it is added, this window says so. Chrome may also ask by itself at its next start.
 #. text in the Options window
 	One address per line; * stands for any text: example.com/private/*	One address per line; * stands for any text: example.com/private/*
+#. text in site_grabber/view.rs
+	One folder	One folder
+#. text in site_grabber/view.rs
+	One-time date (YYYY-MM-DD, blank repeats)	One-time date (YYYY-MM-DD, blank repeats)
 #. option (radio button) in the Scheduler window
 	One-time downloading	One-time downloading
 #. text in the Link grabber window
@@ -2298,6 +2468,10 @@
 	Open folder	Open folder
 #. checkbox in the Add torrent window
 	Open magnet links and .torrent files with Swoopdl	Open magnet links and .torrent files with Swoopdl
+#. text in site_grabber/results.rs
+	Open media tools	Open media tools
+#. text in site_grabber/view.rs
+	Open offline copy	Open offline copy
 #. text in extension.rs
 #. step 2 of turning on the Safari extension; Cmd is the Command key
 	Open Safari's settings (Cmd+,).	Open Safari's settings (Cmd+,).
@@ -2334,11 +2508,19 @@
 #. text in the Options window
 #. Options → Add an account: label before the field for the service's API token (the other way to sign in)
 	Or paste your API token:	Or paste your API token:
+#. text in site_grabber/view.rs
+	Original subfolders	Original subfolders
+#. text in site_grabber/view.rs
+	Other page origins are blocked unless you explicitly add them below.	Other page origins are blocked unless you explicitly add them below.
 #. text in the Link grabber window
 #. Link grabber: the box that edits the selected package
 	Package	Package
 #. text in gallerydlg.rs; text in the Download video window
 	Page address	Page address
+#. text in site_grabber/view.rs
+	Page boundaries	Page boundaries
+#. text in site_grabber/view.rs
+	Page directory scope (blank uses selection above)	Page directory scope (blank uses selection above)
 #. text in remote.rs
 #. remote control page (on a phone): button: pair this phone with SDL
 	Pair	Pair
@@ -2383,6 +2565,8 @@
 	Password:	Password:
 #. text in the Add torrent window
 	Paste a magnet link or choose a .torrent file, then Look up.	Paste a magnet link or choose a .torrent file, then Look up.
+#. text in site_grabber/results.rs
+	Paste links exported from your browser. Imported links keep their source page and are checked before use.	Paste links exported from your browser. Imported links keep their source page and are checked before use.
 #. text in the Link grabber window
 #. Link grabber, while it is empty
 	Paste links here (Ctrl+V), or send a page's links from the browser.	Paste links here (Ctrl+V), or send a page's links from the browser.
@@ -2395,7 +2579,7 @@
 #. text in the Link grabber window
 #. Link grabber: where links came from: the clipboard (pasted with Ctrl+V)
 	Pasted	Pasted
-#. text in a download's progress window; text in remote.rs
+#. text in a download's progress window; text in remote.rs; text in site_grabber/view.rs
 #. remote control page (on a phone): button: pause a download
 	Pause	Pause
 #. text in site_grabber.rs
@@ -2403,15 +2587,21 @@
 #. text in a download's Properties window
 #. tooltip of the greyed Move button in File Properties
 	Pause the download first	Pause the download first
-#. text in a download's progress window
+#. text in a download's progress window; text in site_grabber/view.rs
 #. a download's status (state it is in, not a command): stopped for now
 	Paused	Paused
+#. text in site_grabber/view.rs
+	Pausing	Pausing
+#. text in site_grabber/view.rs
+	Pausing: waiting for durable checkpoint	Pausing: waiting for durable checkpoint
 #. text in a download's progress window
 #. tab title: the other computers sharing the torrent
 	Peers	Peers
 #. text in the Add torrent window
 #. a magnet link's lookup, after 30 seconds: peers are known but none answered
 	Peers were found, but none answered yet. A firewall or a VPN may be blocking the connections.	Peers were found, but none answered yet. A firewall or a VPN may be blocking the connections.
+#. text in site_grabber/view.rs
+	Pending URLs	Pending URLs
 #. option (radio button) in the Scheduler window
 	Periodic synchronization	Periodic synchronization
 #. text in countries.rs
@@ -2467,6 +2657,16 @@
 #. text in the download list (sizes, speeds, status)
 #. category name: programs and installers (exe, msi)
 	Programs	Programs
+#. text in site_grabber/wizard.rs
+	Project & start page	Project & start page
+#. text in site_grabber/view.rs
+	Project name	Project name
+#. text in site_grabber/view.rs
+	Project options	Project options
+#. text in site_grabber/view.rs
+	Project subfolder	Project subfolder
+#. text in site_grabber/view.rs
+	Project template	Project template
 #. what a keyboard shortcut does in the Help menu's windows (About, updates, shortcuts, Tell a friend)
 	Properties of the selected download	Properties of the selected download
 #. text in a download's progress window
@@ -2507,7 +2707,7 @@
 	Queue processing started	Queue processing started
 #. text in the Options window
 	Queue processing stopped/finished	Queue processing stopped/finished
-#. text in remote.rs
+#. text in remote.rs; text in site_grabber/results.rs
 #. remote control page (on a phone): a download's state: added, waiting to start
 	Queued	Queued
 #. item in the Categories tree in the main window; text in the Scheduler window
@@ -2527,6 +2727,10 @@
 	Reading the torrent...	Reading the torrent...
 #. text in helpers.rs
 	Reads a page and lists every quality the site offers, up to 4K, from YouTube, Vimeo and over a thousand other sites.	Reads a page and lists every quality the site offers, up to 4K, from YouTube, Vimeo and over a thousand other sites.
+#. text in site_grabber/results.rs
+	Ready	Ready
+#. text in site_grabber/view.rs
+	Ready to save	Ready to save
 #. text in helpers.rs
 #. the helpers are downloaded, checked and ready; {list} = names and versions, e.g. "yt-dlp 2026.10.26, ffmpeg 9.0"
 	Ready: {list}	Ready: {list}
@@ -2588,6 +2792,10 @@
 #. text in the Batch download window
 #. group box title: what the * in the address is replaced with (numbers or letters)
 	Replace asterisk to	Replace asterisk to
+#. text in site_grabber/results.rs
+	Replacement session	Replacement session
+#. text in site_grabber/view.rs
+	Replacement session (optional, memory only)	Replacement session (optional, memory only)
 #. text in crashui.rs
 #. crash report window button: start SDL again
 	Restart SDL	Restart SDL
@@ -2608,6 +2816,8 @@
 #. button in the Help menu's windows (About, updates, shortcuts, Tell a friend)
 #. button: check for updates again
 	Retry	Retry
+#. text in site_grabber/view.rs
+	Retry capture	Retry capture
 #. text in a download's progress window
 #. a connection's state: it failed and tries again, with the reason
 #. {error} = an error message (keep the braces as they are)
@@ -2617,6 +2827,14 @@
 	Romania	Romania
 #. window title in rssdlg.rs; text in rssdlg.rs
 	RSS feeds	RSS feeds
+#. text in site_grabber/view.rs
+	Run again	Run again
+#. text in site_grabber/view.rs
+	Run body budget (MiB)	Run body budget (MiB)
+#. text in site_grabber/view.rs
+	Run budget used	Run budget used
+#. text in site_grabber/view.rs
+	Running	Running
 #. text in countries.rs
 #. a country's name (where a download's server is)
 	Russia	Russia
@@ -2665,6 +2883,8 @@
 #. text in countries.rs
 #. a country's name (where a download's server is)
 	Sao Tome and Principe	Sao Tome and Principe
+#. text in site_grabber/view.rs
+	Sat	Sat
 #. text in the Options window; text in the Scheduler window
 	Saturday	Saturday
 #. text in countries.rs
@@ -2672,6 +2892,18 @@
 	Saudi Arabia	Saudi Arabia
 #. text in a dialog box
 	Save As	Save As
+#. text in site_grabber/view.rs
+	Save in system credential vault (otherwise memory only)	Save in system credential vault (otherwise memory only)
+#. text in site_grabber/view.rs
+	Save layout	Save layout
+#. text in site_grabber/wizard.rs
+	Save location	Save location
+#. text in site_grabber/results.rs; text in site_grabber/view.rs
+	Save project	Save project
+#. text in site_grabber/view.rs
+	Save the project, then choose Start capture. Robots rules apply. Static HTML/CSS only; scripts and forms stay disabled.	Save the project, then choose Start capture. Robots rules apply. Static HTML/CSS only; scripts and forms stay disabled.
+#. text in site_grabber/view.rs
+	Save the project, then choose Start Exploring. Robots rules apply. Static HTML/CSS only; scripts and forms stay disabled.	Save the project, then choose Start Exploring. Robots rules apply. Static HTML/CSS only; scripts and forms stay disabled.
 #. text in gallerydlg.rs; text in the Options window; text in the Add torrent window; text in the Download video window
 #. tab title: where downloads are saved
 	Save to	Save to
@@ -2684,14 +2916,26 @@
 #. Link grabber: the folder the package's files go to (a label before its box)
 #. RSS feeds window, Download rules: the folder the rule's torrents go to
 	Save to:	Save to:
+#. text in site_grabber/view.rs
+	Saved files	Saved files
 #. text in a download's progress window
 #. label before the folder the torrent is saved in
 	Saved in	Saved in
+#. text in site_grabber/results.rs; text in site_grabber/view.rs
+	Saved projects	Saved projects
 #. text in the Options window
 	Saved site logins	Saved site logins
+#. text in site_grabber/view.rs
+	Saving project…	Saving project…
+#. text in site_grabber/results.rs
+	Scan bytes	Scan bytes
 #. tab in the Scheduler window
 #. noun: tab title; when the queue starts and stops
 	Schedule	Schedule
+#. text in site_grabber/view.rs
+	Schedule synchronization while the app is open	Schedule synchronization while the app is open
+#. text in site_grabber/view.rs
+	Scheduled action	Scheduled action
 #. window title in the Scheduler window; text in the Scheduler window; text in the tray icon's menu
 #. noun: the tool that starts and stops queues on time
 #. noun: opens the Scheduler (the tool that starts queues on time)
@@ -2788,7 +3032,7 @@
 	Service	Service
 #. text in the Options window
 	Service:	Service:
-#. text in site_grabber.rs
+#. text in site_grabber/results.rs; text in site_grabber.rs
 	Session origin does not match the project	Session origin does not match the project
 #. text in the Add torrent window
 #. why "Use the proxy" is greyed in Torrent settings
@@ -2805,6 +3049,8 @@
 #. message or event log entry in the main window
 #. event log: File Properties: the download goes through the debrid account again
 	Set to download through the debrid account	Set to download through the debrid account
+#. text in site_grabber/view.rs
+	Set up a website capture in four simple steps.	Set up a website capture in four simple steps.
 #. text in extension.rs
 #. a check of Test browser integration: setting it up failed; {error} is the system's own message, in English
 #. {error} = an error message (keep the braces as they are)
@@ -2893,6 +3139,10 @@
 #. text in countries.rs
 #. a country's name (where a download's server is)
 	Sint Maarten	Sint Maarten
+#. window title in site_grabber/results.rs; text in site_grabber/results.rs; window title in site_grabber/view.rs; text in site_grabber/view.rs
+	Site Grabber	Site Grabber
+#. text in site_grabber/results.rs
+	Site Grabber cannot verify the browser's proxy route. Use the browser download or media tools.	Site Grabber cannot verify the browser's proxy route. Use the browser download or media tools.
 #. checkbox in the Find window
 	Site name/Download link/Parent web page/Referer	Site name/Download link/Parent web page/Referer
 #. text in the Options window
@@ -2915,10 +3165,14 @@
 	size unknown	size unknown
 #. text in a download's Properties window
 	Size:	Size:
+#. text in site_grabber/view.rs
+	Skip existing files	Skip existing files
 #. text in a download's progress window; text in torrentfiles.rs
 #. a torrent file the user chose not to download
 #. status of a torrent file the user chose not to download
 	Skipped	Skipped
+#. text in site_grabber/results.rs
+	Skipped URLs and limitations	Skipped URLs and limitations
 #. text in the queues
 #. what the computer does when the queue is done (verb: put it to sleep)
 	Sleep	Sleep
@@ -2941,6 +3195,8 @@
 	Some of the torrent's files are already in this folder:	Some of the torrent's files are already in this folder:
 #. text in site_grabber.rs
 	Some projects could not be loaded	Some projects could not be loaded
+#. text in site_grabber/results.rs
+	Sort by size	Sort by size
 #. text in the Options window
 	Sound file	Sound file
 #. page title in the Options window
@@ -2984,6 +3240,10 @@
 #. Link grabber button: download the ticked links now
 #. remote control page (on a phone): button: start a download or a queue
 	Start	Start
+#. text in site_grabber/view.rs
+	Start / Resume	Start / Resume
+#. text in site_grabber/view.rs
+	Start capture	Start capture
 #. button in a dialog box
 	Start Download	Start Download
 #. text in the Scheduler window; checkbox in the Scheduler window
@@ -2992,15 +3252,21 @@
 	Start download on Swoopdl startup	Start download on Swoopdl startup
 #. checkbox in the Options window
 	Start downloading immediately while displaying "Download File Info" dialog	Start downloading immediately while displaying "Download File Info" dialog
+#. text in site_grabber/results.rs
+	Start Exploring	Start Exploring
 #. text in the tray icon's menu
 	Start main download queue	Start main download queue
 #. text in remote.rs
 #. remote control page (on a phone): "When" choice: start the download at once
 	Start now	Start now
+#. text in site_grabber/view.rs
+	Start page address	Start page address
 #. text in a download's progress window
 	Start positions and download progress by connections	Start positions and download progress by connections
 #. checkbox in a dialog box
 	Start the queue now	Start the queue now
+#. text in site_grabber/view.rs
+	Start with a page address. Choose images, documents, media, or a complete offline website.	Start with a page address. Choose images, documents, media, or a complete offline website.
 #. message or event log entry in the main window
 #. {queue} = a queue name such as "Main queue" (keep the braces as they are)
 	Start {queue}	Start {queue}
@@ -3026,6 +3292,8 @@
 #. text in the Options window
 #. column title: the account's state (premium, days left)
 	State	State
+#. text in site_grabber/results.rs
+	Static HTTP(S) discovery only. Dynamic pages need browser link import. HLS/DASH uses media tools. DRM, FTP traversal, proxy-side DNS and app-closed schedules are unsupported.	Static HTTP(S) discovery only. Dynamic pages need browser link import. HLS/DASH uses media tools. DRM, FTP traversal, proxy-side DNS and app-closed schedules are unsupported.
 #. text in the Link grabber window; text in the Options window; group box title in the Options window; text in a download's progress window; text in the Scheduler window
 #. noun: label before the download's state
 #. column title: the download's state
@@ -3033,11 +3301,19 @@
 #. text in a download's Properties window
 #. label before the download's state
 	Status:	Status:
+#. text in site_grabber/view.rs
+	Stay in the starting page's folder	Stay in the starting page's folder
+#. text in site_grabber/view.rs
+	Step {step} of 4	Step {step} of 4
 #. text in remote.rs; text in the Add torrent window
 #. remote control page (on a phone): button: stop a queue
 	Stop	Stop
 #. text in the Scheduler window; checkbox in the Scheduler window
 	Stop download at	Stop download at
+#. text in site_grabber/results.rs
+	Stop exploration before adding checked files to the queue	Stop exploration before adding checked files to the queue
+#. text in site_grabber/results.rs
+	Stop Exploring	Stop Exploring
 #. text in playlistdlg.rs
 #. button in Download video: stop listing a playlist's videos (those listed stay)
 	Stop listing	Stop listing
@@ -3055,7 +3331,7 @@
 #. message or event log entry in the main window
 #. {queue} = a queue name such as "Main queue" (keep the braces as they are)
 	Stop {queue}	Stop {queue}
-#. value in a column's filter list in the download list; text in the download list (sizes, speeds, status); text in remote.rs
+#. value in a column's filter list in the download list; text in the download list (sizes, speeds, status); text in remote.rs; text in site_grabber/results.rs
 #. a download's status (state it is in, not a command)
 #. a download's status (state it is in, not a command): stopped by the user
 	Stopped	Stopped
@@ -3089,6 +3365,8 @@
 #. text in countries.rs
 #. a country's name (where a download's server is)
 	Sudan	Sudan
+#. text in site_grabber/view.rs
+	Sun	Sun
 #. text in the Options window; text in the Scheduler window
 	Sunday	Sunday
 #. link (opens a web page) in the Help menu's windows (About, updates, shortcuts, Tell a friend)
@@ -3153,6 +3431,10 @@
 	Swoopdl's X11 window needs {libraries}, which this system lacks: it opens on Wayland instead, where its menus may open away from their titles.	Swoopdl's X11 window needs {libraries}, which this system lacks: it opens on Wayland instead, where its menus may open away from their titles.
 #. message or event log entry in the main window
 	Synchronization queue	Synchronization queue
+#. text in site_grabber/view.rs
+	Synchronization schedule (optional)	Synchronization schedule (optional)
+#. text in site_grabber/view.rs
+	Synchronize	Synchronize
 #. text in countries.rs
 #. a country's name (where a download's server is)
 	Syria	Syria
@@ -3170,6 +3452,8 @@
 	Tasks → Link grabber, or the browser's "Download all links": a split\narchive's volumes are one package, the other links of a page another.	Tasks → Link grabber, or the browser's "Download all links": a split\narchive's volumes are one package, the other links of a page another.
 #. window title in the Help menu's windows (About, updates, shortcuts, Tell a friend)
 	Tell a friend	Tell a friend
+#. text in site_grabber/view.rs
+	Templates set file filters for you. You can change them in the last step.	Templates set file filters for you. You can change them in the last step.
 #. group box title in the Options window; text in the Options window
 	Temporary directory	Temporary directory
 #. button in the Options window
@@ -3212,6 +3496,8 @@
 #. text in the Download video window
 #. in Download video, on macOS and Linux (no button: the system installs it)
 	The best qualities, MP3, Opus and FLAC need ffmpeg: install it with your system's package manager (or Homebrew).	The best qualities, MP3, Opus and FLAC need ffmpeg: install it with your system's package manager (or Homebrew).
+#. text in site_grabber/results.rs
+	The browser session belongs to another origin. Import again or supply a new session.	The browser session belongs to another origin. Import again or supply a new session.
 #. text in the settings
 #. an error: the browser's VPN or proxy extension logs in to its proxy itself, and SDL can't; Options → Proxy / Socks → Network adapter is where an adapter can be chosen
 	the browser's proxy (a VPN or proxy extension) asks for a login only that extension has: use the VPN's own app, or choose its network adapter in Options → Proxy / Socks	the browser's proxy (a VPN or proxy extension) asks for a login only that extension has: use the VPN's own app, or choose its network adapter in Options → Proxy / Socks
@@ -3311,6 +3597,8 @@
 #. message or event log entry in the main window
 #. {error} = an error message (keep the braces as they are)
 	The files could not be chosen: {error}	The files could not be chosen: {error}
+#. text in site_grabber/view.rs
+	The final project folder must be empty. Other files in the base folder are left untouched.	The final project folder must be empty. Other files in the base folder are left untouched.
 #. text in a dialog box
 #. {error} = an error message (keep the braces as they are)
 	The folder could not be created: {error}	The folder could not be created: {error}
@@ -3354,6 +3642,8 @@
 	The report is on your clipboard.	The report is on your clipboard.
 #. text in crashui.rs
 	The report is on your clipboard: paste it in a comment on the issue.	The report is on your clipboard: paste it in a comment on the issue.
+#. message or event log entry in the main window
+	The reserved destination is occupied. Choose another filename.	The reserved destination is occupied. Choose another filename.
 #. text in errors.rs
 #. an FTPS (or other TLS) connection could not be secured
 	the secure connection failed	the secure connection failed
@@ -3543,6 +3833,8 @@
 #. message or event log entry in the main window
 #. event log: a torrent goes through the user's debrid account, not to peers; {service} its name ("Real-Debrid")
 	Through {service}: the service downloads the torrent, then SDL its files	Through {service}: the service downloads the torrent, then SDL its files
+#. text in site_grabber/view.rs
+	Thu	Thu
 #. text in the Scheduler window
 	Thursday	Thursday
 #. text in the Scheduler window
@@ -3604,6 +3896,8 @@
 #. Add trackers: above the box; {name} is the torrent's name
 #. {name} = a file name (keep the braces as they are)
 	Trackers to add to {name}, one address a line:	Trackers to add to {name}, one address a line:
+#. text in site_grabber/results.rs
+	Transfer bytes	Transfer bytes
 #. text in a download's progress window
 	Transfer rate	Transfer rate
 #. text in countries.rs
@@ -3614,6 +3908,8 @@
 #. text in the Scheduler window
 #. Tuesday, as short as a calendar's column head (two letters in English)
 	Tu	Tu
+#. text in site_grabber/view.rs
+	Tue	Tue
 #. text in the Scheduler window
 	Tuesday	Tuesday
 #. text in countries.rs
@@ -3700,6 +3996,8 @@
 #. text in countries.rs
 #. a country's name (where a download's server is)
 	Ukraine	Ukraine
+#. text in site_grabber/results.rs
+	Uncheck All	Uncheck All
 #. text in the Link grabber window
 #. Link grabber button (IDM's): untick every link
 	Uncheck all	Uncheck all
@@ -3719,14 +4017,16 @@
 #. text in countries.rs
 #. a country's name (where a download's server is)
 	United States Minor Outlying Islands	United States Minor Outlying Islands
-#. text in a download's Properties window
+#. text in a download's Properties window; text in site_grabber/results.rs
 	Unknown	Unknown
 #. text in a dialog box; text in a download's progress window; text in whereis.rs
 #. the reason a download failed is not known
 #. where a download's server is: not known (no address seen)
 #. where a download's server is: an address the location table doesn't place
 	unknown	unknown
-#. text in site_grabber.rs
+#. text in site_grabber/results.rs
+	Unknown sizes	Unknown sizes
+#. text in site_grabber/results.rs; text in site_grabber.rs
 	Unlock the credential vault or enter a replacement session	Unlock the credential vault or enter a replacement session
 #. text in site_grabber.rs
 	Unlock the system credential vault or choose memory-only credentials	Unlock the system credential vault or choose memory-only credentials
@@ -3749,6 +4049,8 @@
 	Uruguay	Uruguay
 #. text in the Options window
 	Use advanced browser integration	Use advanced browser integration
+#. text in site_grabber/view.rs
+	Use an origin-scoped authorization header	Use an origin-scoped authorization header
 #. button in helpers.rs
 #. Video helpers: button: pick a program (yt-dlp or ffmpeg) already on the computer
 #. the trailing ... means it opens a window: keep it
@@ -3762,12 +4064,16 @@
 #. text in the Batch download window
 #. why Batch download's OK is greyed
 	Use one * only	Use one * only
+#. text in site_grabber/wizard.rs
+	Use one valid subfolder name without slashes, reserved names, or trailing dots.	Use one valid subfolder name without slashes, reserved names, or trailing dots.
 #. text in the Options window
 #. \\n starts a new line: break lines where they fit the translation
 	Use proxy/socks from a browser's request if there are download errors /\nfor the downloads intercepted from the browser	Use proxy/socks from a browser's request if there are download errors /\nfor the downloads intercepted from the browser
 #. button in helpers.rs
 #. Video helpers: button: go back to the copy SDL downloads and checks itself
 	Use SDL's own copy	Use SDL's own copy
+#. text in site_grabber/results.rs
+	Use session	Use session
 #. checkbox in a download's progress window
 	Use Speed Limiter	Use Speed Limiter
 #. text in the Options window
@@ -3831,6 +4137,10 @@
 #. text in the download list (sizes, speeds, status)
 #. category name: video files
 	Video	Video
+#. text in site_grabber/wizard.rs
+	Video files	Video files
+#. text in site_grabber/wizard.rs
+	Video files can exceed these limits. Review the per-file cap and total budget before starting.	Video files can exceed these limits. Review the per-file cap and total budget before starting.
 #. text in the Download video window
 	Video lookups use yt-dlp (about 23 MB, checked against its signature).	Video lookups use yt-dlp (about 23 MB, checked against its signature).
 #. text in playlistdlg.rs
@@ -3886,6 +4196,12 @@
 #. value in a column's filter list in the download list
 #. where a download comes from: Web (web or FTP server) or Torrent (BitTorrent)
 	Web	Web
+#. text in site_grabber/wizard.rs
+	Website for offline browsing	Website for offline browsing
+#. text in site_grabber/view.rs
+	Website images	Website images
+#. text in site_grabber/view.rs
+	Wed	Wed
 #. text in the Scheduler window
 	Wednesday	Wednesday
 #. text in countries.rs
@@ -3902,6 +4218,8 @@
 #. text in remote.rs
 #. remote control page (on a phone): label of the choice: start the new download now, or let it wait in a queue
 	When	When
+#. text in site_grabber/view.rs
+	When a filename already exists	When a filename already exists
 #. text in the Batch download window
 	Wildcard size	Wildcard size
 #. text in the Scheduler window
@@ -3973,6 +4291,8 @@
 #. text in errors.rs
 #. a download's error: the signed-in Google account may not download this Drive file
 	your Google account has no access to this file, or its owner turned off downloading	your Google account has no access to this file, or its owner turned off downloading
+#. text in site_grabber/view.rs
+	Your next website, saved locally	Your next website, saved locally
 #. text in helpers.rs
 #. Video helpers: the person's own gallery-dl is too old and not used; {version} = its version, {oldest} = the oldest SDL can use
 #. {version} = a version number (keep the braces as they are)
@@ -3981,6 +4301,8 @@
 #. Video helpers: {path} = the program the person chose, {version} = its version
 #. {version} = a version number (keep the braces as they are)
 	Your own program: {path} ({version})	Your own program: {path} ({version})
+#. text in site_grabber/view.rs
+	Your settings stay with you when you go back.	Your settings stay with you when you go back.
 #. text in helpers.rs
 #. Video helpers (macOS, Linux): {path} = the system's ffmpeg
 	Your system's: {path}	Your system's: {path}
@@ -4299,6 +4621,9 @@ extension	Drag to move it along the video's edge	Drag to move it along the video
 #. text in the browser extension
 #. the address typed isn't an https:// address
 extension	Enter its https:// address.	Enter its https:// address.
+#. text in the browser extension
+#. Context menu: import links already rendered in the current browser page into a new Site Grabber project.
+extension	Explore page links with Site Grabber	Explore page links with Site Grabber
 #. text in the browser extension
 #. the extension's description in the browser's list of extensions; keep the name Swoopdl as it is
 extension	Hands downloads from the browser to Swoopdl.	Hands downloads from the browser to Swoopdl.

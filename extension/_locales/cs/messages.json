@@ -241,5 +241,8 @@
   },
   "popup_media_title_name": {
     "message": "Přidat název stránky před názvy mediálních souborů"
+  },
+  "menu_site_grabber": {
+    "message": "Prozkoumat odkazy na stránce pomocí Site Grabber"
   }
 }

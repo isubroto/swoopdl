@@ -241,5 +241,8 @@
   },
   "popup_media_title_name": {
     "message": "Az oldal címének hozzáadása a médiafájlok neve elé"
+  },
+  "menu_site_grabber": {
+    "message": "Az oldal hivatkozásainak felderítése a Site Grabberrel"
   }
 }

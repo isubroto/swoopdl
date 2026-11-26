@@ -241,5 +241,8 @@
   },
   "popup_media_title_name": {
     "message": "மீடியா கோப்புப் பெயர்களுக்கு முன் பக்கத்தின் தலைப்பைச் சேர்"
+  },
+  "menu_site_grabber": {
+    "message": "Site Grabber மூலம் பக்க இணைப்புகளை ஆராயுங்கள்"
   }
 }

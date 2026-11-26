@@ -241,5 +241,8 @@
   },
   "popup_media_title_name": {
     "message": "मीडिया फायलींच्या नावांपुढे पृष्ठाचे शीर्षक जोडा"
+  },
+  "menu_site_grabber": {
+    "message": "Site Grabber वापरून पानावरील दुवे शोधा"
   }
 }

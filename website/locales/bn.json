@@ -631,6 +631,16 @@
     "Choose an available format and quality.": "উপলব্ধ ফরম্যাট ও মান বেছে নিন।",
     "Video + audio": "ভিডিও + অডিও",
     "Supported links, with yt-dlp integration.": "yt-dlp সংযোগের মাধ্যমে সমর্থিত লিংক।",
-    "Read the README and this guide in your local source checkout for implementation details. Source documentation stays with the checkout.": "বাস্তবায়নের বিস্তারিত জানতে আপনার স্থানীয় সোর্স চেকআউটের README এবং এই নির্দেশিকা পড়ুন। সোর্সের নথি চেকআউটের সঙ্গেই থাকে।"
+    "Read the README and this guide in your local source checkout for implementation details. Source documentation stays with the checkout.": "বাস্তবায়নের বিস্তারিত জানতে আপনার স্থানীয় সোর্স চেকআউটের README এবং এই নির্দেশিকা পড়ুন। সোর্সের নথি চেকআউটের সঙ্গেই থাকে।",
+    "Feature Gaps": "সুবিধার ঘাটতি",
+    "Feature Gaps — Swoopdl": "সুবিধার ঘাটতি — Swoopdl",
+    "Site Grabber": "সাইট গ্র্যাবার",
+    "Site Grabber — Swoopdl": "সাইট গ্র্যাবার — Swoopdl",
+    "Site Grabber Verification": "সাইট গ্র্যাবার যাচাই",
+    "Site Grabber Verification — Swoopdl": "সাইট গ্র্যাবার যাচাই — Swoopdl",
+    "Source development version 0.1.6. This is not a published release.": "উন্নয়নাধীন সোর্স সংস্করণ 0.1.6। এটি প্রকাশিত কোনো রিলিজ নয়।",
+    "The source checkout is at development version 0.1.6. This is a source version, not a promise of a published package.": "সোর্স চেকআউটের উন্নয়নাধীন সংস্করণ 0.1.6। এটি সোর্সের সংস্করণ, প্রকাশিত প্যাকেজের কোনো প্রতিশ্রুতি নয়।",
+    "Source development version 0.1.7. This is not a published release.": "উন্নয়নাধীন সোর্স সংস্করণ 0.1.7। এটি প্রকাশিত কোনো রিলিজ নয়।",
+    "The source checkout is at development version 0.1.7. This is a source version, not a promise of a published package.": "সোর্স চেকআউটের উন্নয়নাধীন সংস্করণ 0.1.7। এটি সোর্সের সংস্করণ, প্রকাশিত প্যাকেজের কোনো প্রতিশ্রুতি নয়।"
   }
 }

@@ -241,5 +241,8 @@
   },
   "popup_media_title_name": {
     "message": "Adicionar o título da página antes dos nomes dos ficheiros multimédia"
+  },
+  "menu_site_grabber": {
+    "message": "Explorar as ligações da página com o Site Grabber"
   }
 }

@@ -241,5 +241,8 @@
   },
   "popup_media_title_name": {
     "message": "Lisa meediafailide nimede ette lehe pealkiri"
+  },
+  "menu_site_grabber": {
+    "message": "Uuri lehe linke Site Grabberiga"
   }
 }

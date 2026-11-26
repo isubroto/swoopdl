@@ -241,5 +241,8 @@
   },
   "popup_media_title_name": {
     "message": "మీడియా ఫైల్ పేర్ల ముందు పేజీ శీర్షికను జోడించు"
+  },
+  "menu_site_grabber": {
+    "message": "Site Grabberతో పేజీ లింక్‌లను అన్వేషించండి"
   }
 }

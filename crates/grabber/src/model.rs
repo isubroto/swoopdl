@@ -184,6 +184,28 @@ pub enum ResourceKind {
     Asset,
 }
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Serialize, Deserialize)]
+pub enum LinkRole {
+    Navigation,
+    File,
+    Unresolved,
+}
+#[derive(Clone, Copy, Debug, Default, PartialEq, Eq, Serialize, Deserialize)]
+pub enum ProjectMode {
+    Files,
+    #[default]
+    OfflineSite,
+}
+
+#[derive(Clone, Debug, Serialize, Deserialize)]
+pub struct CandidateMetadata {
+    pub url: Url,
+    pub final_url: Url,
+    pub name: String,
+    pub mime: Option<String>,
+    pub size: Option<u64>,
+    pub source_page: Url,
+}
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Serialize, Deserialize)]
 pub enum ProjectStatus {
     Draft,
     Running,

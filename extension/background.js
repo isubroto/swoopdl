@@ -1724,6 +1724,7 @@ function createMenus() {
     add("sdl-link", ["link", "video", "audio", "image"], "menu");
     add("sdl-selected", ["selection"], "menu_selected");
     add("sdl-all", ["page"], "menu_all");
+    add("sdl-site-links", ["page"], "menu_site_grabber");
   });
 }
 
@@ -1800,7 +1801,7 @@ ext.contextMenus.onClicked.addListener(async (info, tab) => {
     if (!reply.ok) explain(reply.why);
     return;
   }
-  if ((info.menuItemId === "sdl-selected" || info.menuItemId === "sdl-all") && tab) {
+  if ((info.menuItemId === "sdl-selected" || info.menuItemId === "sdl-all" || info.menuItemId === "sdl-site-links") && tab) {
     let links = [];
     try {
       const [res] = await ext.scripting.executeScript({
@@ -1813,7 +1814,7 @@ ext.contextMenus.onClicked.addListener(async (info, tab) => {
       // A page extensions may not read (the browser's own, a store).
     }
     if (!links.length) return;
-    const reply = await native({ links, referrer: info.pageUrl, cookies: await cookieHeader(info.pageUrl, { incognito, storeId }), private: incognito });
+    const reply = await native({ links, ...(info.menuItemId === "sdl-site-links" ? { site_grabber: true, ...(await browserProxy(info.pageUrl, incognito)) } : {}), referrer: info.pageUrl, cookies: await cookieHeader(info.pageUrl, { incognito, storeId }), private: incognito });
     if (!reply.ok) explain(reply.why);
   }
 });

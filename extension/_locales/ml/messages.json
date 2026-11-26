@@ -241,5 +241,8 @@
   },
   "popup_media_title_name": {
     "message": "മീഡിയ ഫയലുകളുടെ പേരുകൾക്ക് മുന്നിൽ പേജിന്റെ ശീർഷകം ചേർക്കുക"
+  },
+  "menu_site_grabber": {
+    "message": "Site Grabber ഉപയോഗിച്ച് പേജിലെ ലിങ്കുകൾ കണ്ടെത്തുക"
   }
 }

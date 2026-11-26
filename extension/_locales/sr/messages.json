@@ -241,5 +241,8 @@
   },
   "popup_media_title_name": {
     "message": "Додај наслов странице испред назива медијских датотека"
+  },
+  "menu_site_grabber": {
+    "message": "Истражи везе странице помоћу Site Grabber"
   }
 }

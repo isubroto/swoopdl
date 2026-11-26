@@ -241,5 +241,8 @@
   },
   "popup_media_title_name": {
     "message": "Tambahkan judul halaman di depan nama file media"
+  },
+  "menu_site_grabber": {
+    "message": "Jelajahi tautan halaman dengan Site Grabber"
   }
 }
